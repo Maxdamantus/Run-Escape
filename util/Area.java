@@ -6,6 +6,10 @@ public class Area implements Iterable<Position> {
 	private final Position pos;
 	private final int wd, ht;
 
+	public Area(int x, int y, int w, int h){
+		pos = new Position(x, y); wd = w; ht = h;
+	}
+	
 	public Area(Position p, int w, int h){
 		pos = p; wd = w; ht = h;
 	}
@@ -20,6 +24,14 @@ public class Area implements Iterable<Position> {
 
 	public int height(){
 		return ht;
+	}
+	
+	public int x() {
+		return pos.x();
+	}
+	
+	public int y() {
+		return pos.y();
 	}
 
 	public boolean equals(Object o){

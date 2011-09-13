@@ -51,4 +51,14 @@ public class IsoTestDataSource implements IsoDataSource {
 		
 		return s;
 	}
+
+	@Override
+	public void setViewableRect(int x, int y, int w, int h) {
+		// Don't need this info atm
+	}
+
+	@Override
+	public void update() {
+		// Don't need to do anything
+	}
 }
