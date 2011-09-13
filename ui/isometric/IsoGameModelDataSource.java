@@ -64,8 +64,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 			if(square == null) {
 				square = new IsoSquare();
 			}
-			square.addImageForLevel(rendererLibrary.imageForRendererName(thing.renderer()), rendererLibrary.levelFromArguments(thing.userArguments())); // TODO: get level somehow
-																								// TODO: floor? a bit like above, talk to Max z
+			square.addImageForLevel(rendererLibrary.imageForRendererName(thing.renderer()), rendererLibrary.levelFromArguments(thing.userArguments())); // TODO: floor? a bit like above, talk to Max z
 		}
 		cacheChange.writeLock().unlock();
 	}
