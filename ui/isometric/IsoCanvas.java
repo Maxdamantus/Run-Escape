@@ -4,6 +4,13 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 
 
+/**
+ * 
+ * This canvas will render a section of the world, using the given datasource.
+ * 
+ * @author melby
+ *
+ */
 public class IsoCanvas extends Canvas {
 	private static final long serialVersionUID = 1L;
 	
@@ -12,10 +19,15 @@ public class IsoCanvas extends Canvas {
 	
 	private IsoDataSource dataSource;
 	
+	/**
+	 * Create a new IsoCanvas with a given datasource
+	 * @param dataSource
+	 */
 	public IsoCanvas(IsoDataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 	
+	@Override
 	public void paint(Graphics g) {
 		int rowY = tileY/2;
 		int tileCountY = this.getHeight()/rowY+3;
