@@ -54,6 +54,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		cacheChange.writeLock().unlock();
 	}
 	
+	@Override
 	public void update() {
 		cacheChange.writeLock().lock();
 		Iterable<GameThing> things = gameModel.thingsInRect(viewArea);
