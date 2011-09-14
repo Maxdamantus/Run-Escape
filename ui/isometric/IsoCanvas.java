@@ -1,6 +1,7 @@
 package ui.isometric;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 
 
@@ -29,6 +30,9 @@ public class IsoCanvas extends Canvas {
 	
 	@Override
 	public void paint(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		
 		int rowY = tileY/2;
 		int tileCountY = this.getHeight()/rowY+3;
 		int tileCountX = this.getWidth()/tileX+2;
