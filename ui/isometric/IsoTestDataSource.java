@@ -1,5 +1,12 @@
 package ui.isometric;
 
+/**
+ * 
+ * A test implementation of IsoDataSource so that IsoCanvas can be tested
+ * 
+ * @author melby
+ *
+ */
 public class IsoTestDataSource implements IsoDataSource {
 	private IsoImage floor = new IsoImage("/resources/isotiles/floor.png");
 	private IsoImage floorpool = new IsoImage("/resources/isotiles/floorpool.png");
@@ -10,6 +17,7 @@ public class IsoTestDataSource implements IsoDataSource {
 	private IsoImage wallx = new IsoImage("/resources/isotiles/wallx.png");
 	private IsoImage wallcross = new IsoImage("/resources/isotiles/wallcross.png");
 	
+	@Override
 	public IsoSquare squareAt(int x, int y) {
 		IsoSquare s = new IsoSquare();
 		

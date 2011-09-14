@@ -3,10 +3,6 @@ import javax.swing.JFrame;
 
 
 public class UITestMain {
-
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("IsoTest");
 		IsoDataSource d = new IsoTestDataSource();

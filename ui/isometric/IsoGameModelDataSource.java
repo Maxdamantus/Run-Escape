@@ -8,6 +8,13 @@ import util.Position;
 import clientinterface.GameModel;
 import clientinterface.GameThing;
 
+/**
+ * 
+ * A class that provides data from a GameModel to an IsoCanvas
+ * 
+ * @author melby
+ *
+ */
 public class IsoGameModelDataSource implements IsoDataSource {
 	private GameModel gameModel;
 	private Area viewArea;
@@ -16,6 +23,10 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	private IsoRendererLibrary rendererLibrary = new IsoRendererLibrary();
 	private IsoSquare emptySquare = new IsoSquare();
 	
+	/**
+	 * Create a IsoGameModelDataSource with a given GameModel
+	 * @param model
+	 */
 	public IsoGameModelDataSource(GameModel model) {
 		gameModel = model;
 	}

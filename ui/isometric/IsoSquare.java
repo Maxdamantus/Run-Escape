@@ -2,6 +2,13 @@ package ui.isometric;
 
 import java.util.*;
 
+/**
+ * 
+ * This class represents a single square for an isometric renderer, each square can contain many images
+ * 
+ * @author melby
+ *
+ */
 public class IsoSquare implements Iterable<IsoImage> {
 
 	public static final int FLOOR = 0;
@@ -45,7 +52,11 @@ public class IsoSquare implements Iterable<IsoImage> {
 		}
 	}
 	
-	
+	/**
+	 * Add a given IsoImage to at a given level on this square
+	 * @param image
+	 * @param level
+	 */
 	public void addImageForLevel(IsoImage image, int level) {
 		images.add(new ImageLevel(image, level));
 		Collections.sort(images, new ImageLevelComparator());
