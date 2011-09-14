@@ -1,9 +1,10 @@
 package ui.isometric;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import util.Resources;
+import util.*;
 
 /**
  * 
@@ -17,10 +18,12 @@ public class IsoImage {
 	
 	/**
 	 * Create an IsoImage with a given resource path/name
+	 * Converts the color white into alpha
 	 * @param path
 	 */
 	public IsoImage(String path) {
 		image = Resources.readImageResourceUnfliped(path);
+		image = ImageEdit.colorToAlpha(image, Color.WHITE);
 	}
 
 	/**
