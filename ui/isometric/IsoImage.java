@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import clientinterface.GameThing;
+
 import util.*;
 
 /**
@@ -15,6 +17,7 @@ import util.*;
  */
 public class IsoImage {
 	private BufferedImage image;
+	private GameThing gameThing = null;
 	
 	/**
 	 * Create an IsoImage with a given resource path/name
@@ -24,6 +27,14 @@ public class IsoImage {
 	public IsoImage(String path) {
 		image = Resources.readImageResourceUnfliped(path);
 		image = ImageEdit.colorToAlpha(image, Color.WHITE);
+	}
+
+	/**
+	 * Create an IsoImage with an existing image
+	 * @param image
+	 */
+	public IsoImage(BufferedImage image) {
+		this.image = image;
 	}
 
 	/**
@@ -48,5 +59,21 @@ public class IsoImage {
 	 */
 	public int height() {
 		return image.getHeight();
+	}
+
+	/**
+	 * Get the GameThing that this IsoImage represents
+	 * @return
+	 */
+	public GameThing gameThing() {
+		return gameThing;
+	}
+	
+	/**
+	 * Set the GameThing that this IsoImage represents
+	 * @param thing
+	 */
+	public void setGameThing(GameThing thing) {
+		gameThing = thing;
 	}
 }

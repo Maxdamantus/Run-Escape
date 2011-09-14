@@ -1,6 +1,9 @@
 package ui.isometric;
 
+import java.awt.image.BufferedImage;
 import java.util.Map;
+
+import clientinterface.GameThing;
 
 /**
  * 
@@ -15,11 +18,11 @@ public class IsoRendererLibrary {
 	public static final String RENDERER_ISOMETRIC_LEVEL = "level";
 	
 	/**
-	 * Get the appropriate IsoImage for a given renderer name
+	 * Get the appropriate image for a given renderer name
 	 * @param renderer
 	 * @return
 	 */
-	public IsoImage imageForRendererName(String renderer) {
+	public BufferedImage imageForRendererName(String renderer) {
 		return null; // TODO: implement
 	}
 
@@ -43,5 +46,16 @@ public class IsoRendererLibrary {
 		}
 		
 		return 0; // TODO: Default level?
+	}
+
+	/**
+	 * Get a new IsoImage representing the given GameThing
+	 * @param thing
+	 * @return
+	 */
+	public IsoImage newImageFromGameThing(GameThing thing) {
+		IsoImage tmp = new IsoImage(this.imageForRendererName(thing.renderer()));
+		tmp.setGameThing(thing);
+		return tmp;
 	}
 }
