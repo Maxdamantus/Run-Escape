@@ -14,6 +14,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	private IsoSquare[][] squares = new IsoSquare[0][0];
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
 	private IsoRendererLibrary rendererLibrary = new IsoRendererLibrary();
+	private IsoSquare emptySquare = new IsoSquare();
 	
 	public IsoGameModelDataSource(GameModel model) {
 		gameModel = model;
@@ -25,7 +26,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		IsoSquare tmp = squares[x][y];
 		cacheChange.readLock().unlock();
 		if(tmp == null) {
-			tmp = null; // TODO: Talk to Max z
+			tmp = emptySquare;
 		}
 		return tmp;
 	}
@@ -64,7 +65,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 			if(square == null) {
 				square = new IsoSquare();
 			}
-			square.addImageForLevel(rendererLibrary.imageForRendererName(thing.renderer()), rendererLibrary.levelFromArguments(thing.userArguments())); // TODO: floor? a bit like above, talk to Max z
+			square.addImageForLevel(rendererLibrary.imageForRendererName(thing.renderer()), rendererLibrary.levelFromArguments(thing.userArguments()));
 		}
 		cacheChange.writeLock().unlock();
 	}
