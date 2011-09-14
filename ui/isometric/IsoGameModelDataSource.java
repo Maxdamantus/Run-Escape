@@ -33,6 +33,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 
 	@Override
 	public void setViewableRect(int xOrigin, int yOrigin, int width, int height) {
+		cacheChange.writeLock().lock();
 		viewArea = new Area(xOrigin, yOrigin, width, height);
 		
 		this.resizeCache();
