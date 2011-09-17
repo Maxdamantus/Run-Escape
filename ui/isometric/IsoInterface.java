@@ -19,7 +19,7 @@ public class IsoInterface implements PlayerMessage {
 	 */
 	public IsoInterface(String name, GameModel model) {
 		frame = new JFrame(name);
-		IsoDataSource d = new IsoTestDataSource(); // todo, change
+		IsoDataSource d = new IsoGameModelDataSource(model);
 		IsoCanvas canvas = new IsoCanvas(d);
 		canvas.setSize(300, 300);
 		canvas.repaint();

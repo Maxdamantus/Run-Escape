@@ -33,6 +33,7 @@ public class IsoCanvas extends Canvas {
 	@Override
 	public void paint(Graphics g) {
 		dataSource.setViewableRect(0, 0, 1000, 1000, Direction.NORTH); // TODO: implement calculations
+		dataSource.update();
 		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -44,13 +45,13 @@ public class IsoCanvas extends Canvas {
 		
 		int y = rowY;
 		for(;y<tileCountY*rowY;y+=rowY) {
-			int xg = (row%2 == 0)?row/2-1:row/2;
-			int yg = (row%2 == 0)?row/2:(row-1)/2;
+			int yg = -((row%2 == 0)?row/2-1:row/2);
+			int xg = (row%2 == 0)?row/2:(row-1)/2;
 			int x = (row%2 == 0)?tileX/2:0;
 			for(;x<tileCountX*tileX;x+=tileX) {
 				this.drawSquareAt(g, x, y, xg, yg);
-				xg--;
 				yg++;
+				xg++;
 			}
 			row++;
 		}
@@ -62,5 +63,8 @@ public class IsoCanvas extends Canvas {
 		for(IsoImage i : square) {
 			g.drawImage(i.image(), dx-i.width()/2, dy-i.height(), i.width(), i.height(), null, this);
 		}
+		
+		g.setColor(Color.WHITE);
+		g.drawString(sx + "x" + sy, dx, dy);
 	}
 }

@@ -19,7 +19,7 @@ import clientinterface.GameThing;
 public class IsoGameModelDataSource implements IsoDataSource {
 	private GameModel gameModel;
 	private Area viewArea;
-	private IsoSquare[][] squares = new IsoSquare[0][0];
+	private IsoSquare[][] squares = null;
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
 	private IsoRendererLibrary rendererLibrary = new IsoRendererLibrary();
 	private IsoSquare emptySquare = new IsoSquare();
@@ -36,7 +36,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	@Override
 	public IsoSquare squareAt(int x, int y) {
 		cacheChange.readLock().lock();
-		IsoSquare tmp = squares[x][y];
+		IsoSquare tmp = squares[x+100][y+100];
 		cacheChange.readLock().unlock();
 		if(tmp == null) {
 			tmp = emptySquare;
@@ -51,25 +51,31 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		viewArea = new Area(xOrigin, yOrigin, width, height);
 		viewDirection = direction;
 		
-		if(!oldArea.equals(viewArea)) {
+		if(oldArea == null || !oldArea.equals(viewArea)) {
 			this.resizeCache();
 		}
 		cacheChange.writeLock().unlock();
 	}
 	
 	private void resizeCache() {
-		IsoSquare[][] tmp = new IsoSquare[viewArea.width()][viewArea.height()];
+		IsoSquare[][] tmp = new IsoSquare[viewArea.width()+200][viewArea.height()+200];
 		
 		cacheChange.writeLock().lock();
-		for(int x = 0; x < tmp.length; x++) {
-			if(x < viewArea.width()) {
-				for(int y = 0; y < tmp[x].length; y++) {
-					if(y < viewArea.height()) {
-						tmp[x][y] = squares[x][y];
+		
+		if(squares != null) {
+			for(int x = 0; x < tmp.length; x++) {
+				if(x < viewArea.width()) {
+					for(int y = 0; y < tmp[x].length; y++) {
+						if(y < viewArea.height()) {
+							tmp[x][y] = squares[x][y];
+						}
 					}
 				}
 			}
 		}
+		
+		squares = tmp;
+		
 		cacheChange.writeLock().unlock();
 	}
 	
@@ -79,18 +85,19 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		Iterable<GameThing> things = gameModel.thingsInRect(viewArea);
 		for(GameThing thing : things) {
 			Position pos = this.transform(thing);
-			IsoSquare square = squares[pos.x()][pos.y()];
+			IsoSquare square = squares[pos.x()+100][pos.y()+100];
 			if(square == null) {
 				square = new IsoSquare();
 			}
 			square.addImageForLevel(rendererLibrary.newImageFromGameThing(thing, viewDirection), rendererLibrary.levelFromArguments(thing.userArguments()));
+			squares[pos.x()+100][pos.y()+100] = square;
 		}
 		cacheChange.writeLock().unlock();
 	}
 
 	private Position transform(GameThing thing) {
-		int x = thing.area().x() - viewArea.x();
-		int y = thing.area().y() - viewArea.y();
+		int x = thing.position().x() - viewArea.x();
+		int y = thing.position().y() - viewArea.y();
 		int w = thing.area().width();
 		int h = thing.area().height();
 		
