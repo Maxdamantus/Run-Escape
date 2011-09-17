@@ -9,8 +9,9 @@ public abstract class AbstractGameThing implements GameThing {
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
 
-	public AbstractGameThing(GameModel model, Position p){
-		pos = p;
+	public AbstractGameThing(GameModel model){
+		pos = new Position(0, 0);
+		dir = Direction.NORTH;
 		gid = model.introduce(this);
 	}
 

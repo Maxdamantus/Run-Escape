@@ -4,8 +4,8 @@ import game.*;
 import util.*;
 
 public class GroundTile extends AbstractGameThing {
-	public GroundTile(GameModel model, Position p){
-		super(model, p);
+	public GroundTile(GameModel model){
+		super(model);
 	}
 
 	public String renderer(){
