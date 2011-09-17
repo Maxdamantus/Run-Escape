@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import util.Direction;
+
 
 /**
  * 
@@ -30,6 +32,8 @@ public class IsoCanvas extends Canvas {
 	
 	@Override
 	public void paint(Graphics g) {
+		dataSource.setViewableRect(0, 0, 1000, 1000, Direction.NORTH); // TODO: implement calculations
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
