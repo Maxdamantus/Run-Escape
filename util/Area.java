@@ -61,6 +61,6 @@ public class Area implements Iterable<Position> {
 	}
 
 	public String toString(){
-		return "[" + pos + ", (" + width + ", " + height + ")]";
+		return "[" + pos + ", (" + wd + ", " + ht + ")]";
 	}
 }

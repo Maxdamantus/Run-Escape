@@ -32,7 +32,7 @@ public class Conversions {
 			}
 
 			public Map<String, Map<String, Object>> userArguments(){
-				return null;
+				return new HashMap<String, Map<String, Object>>();
 			}
 		};
 	}
@@ -43,6 +43,7 @@ public class Conversions {
 				Set<GameThing> out = new HashSet<GameThing>();
 				for(game.GameThing ggt : src.level(0).portion(a))
 					out.add(fromServerGameThing(ggt));
+				System.out.println("thingsInRect -> " + out);
 				return out;
 			}
 

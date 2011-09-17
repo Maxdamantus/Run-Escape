@@ -56,4 +56,8 @@ public abstract class AbstractGameThing implements GameThing {
 	public boolean didWalkInto(Position p, Direction d, GamePlayer who){
 		return true;
 	}
+
+	public String toString(){
+		return "(" + renderer() + ")";
+	}
 }
