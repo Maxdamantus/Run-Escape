@@ -47,10 +47,13 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	@Override
 	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) {
 		cacheChange.writeLock().lock();
+		Area oldArea = viewArea;
 		viewArea = new Area(xOrigin, yOrigin, width, height);
 		viewDirection = direction;
 		
-		this.resizeCache();
+		if(!oldArea.equals(viewArea)) {
+			this.resizeCache();
+		}
 		cacheChange.writeLock().unlock();
 	}
 	
