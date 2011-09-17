@@ -10,14 +10,14 @@ import util.Direction;
  *
  */
 public class IsoTestDataSource implements IsoDataSource {
-	private IsoImage floor = new IsoImage("/resources/isotiles/floor.png");
-	private IsoImage floorpool = new IsoImage("/resources/isotiles/floorpool.png");
-	private IsoImage floorpost = new IsoImage("/resources/isotiles/floorpost.png");
-	private IsoImage floorstone = new IsoImage("/resources/isotiles/floorstone.png");
-	private IsoImage floortree = new IsoImage("/resources/isotiles/floortree.png");
-	private IsoImage wally = new IsoImage("/resources/isotiles/wally.png");
-	private IsoImage wallx = new IsoImage("/resources/isotiles/wallx.png");
-	private IsoImage wallcross = new IsoImage("/resources/isotiles/wallcross.png");
+	private IsoImage floor = new IsoImage("/resources/isotiles/test/floor.png");
+	private IsoImage floorpool = new IsoImage("/resources/isotiles/test/floorpool.png");
+	private IsoImage floorpost = new IsoImage("/resources/isotiles/test/floorpost.png");
+	private IsoImage floorstone = new IsoImage("/resources/isotiles/test/floorstone.png");
+	private IsoImage floortree = new IsoImage("/resources/isotiles/test/floortree.png");
+	private IsoImage wally = new IsoImage("/resources/isotiles/test/wally.png");
+	private IsoImage wallx = new IsoImage("/resources/isotiles/test/wallx.png");
+	private IsoImage wallcross = new IsoImage("/resources/isotiles/test/wallcross.png");
 	
 	@Override
 	public IsoSquare squareAt(int x, int y) {

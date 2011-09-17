@@ -26,7 +26,6 @@ public class IsoImage {
 	 */
 	public IsoImage(String path) {
 		image = Resources.readImageResourceUnfliped(path);
-		image = ImageEdit.colorToAlpha(image, Color.WHITE);
 	}
 
 	/**
