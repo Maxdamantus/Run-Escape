@@ -78,7 +78,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		cacheChange.writeLock().lock();
 		Iterable<GameThing> things = gameModel.thingsInRect(viewArea);
 		for(GameThing thing : things) {
-			Position pos = this.translate(thing);
+			Position pos = this.transform(thing);
 			IsoSquare square = squares[pos.x()][pos.y()];
 			if(square == null) {
 				square = new IsoSquare();
@@ -88,7 +88,23 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		cacheChange.writeLock().unlock();
 	}
 
-	private Position translate(GameThing thing) {
-		return new Position(thing.area().x() - viewArea.x(), thing.area().y() - viewArea.y()); // TODO: rotation etc
+	private Position transform(GameThing thing) {
+		int x = thing.area().x() - viewArea.x();
+		int y = thing.area().y() - viewArea.y();
+		int w = thing.area().width();
+		int h = thing.area().height();
+		
+		switch(viewDirection) {
+			case NORTH:
+				return new Position(x, y);
+			case EAST:
+				return new Position(w-y, x);
+			case SOUTH:
+				return new Position(w-x, h-y);
+			case WEST:
+				return new Position(y, w-x);
+		}
+		
+		return null;
 	}
 }
