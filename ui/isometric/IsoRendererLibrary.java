@@ -23,6 +23,9 @@ public class IsoRendererLibrary {
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
 	
+	/**
+	 * Load all the images from disk into our internal data structures
+	 */
 	private static void loadImages() { // TODO: load from XML
 		synchronized(IsoRendererLibrary.class) {
 			renderers = new HashMap<String, Map<Direction, BufferedImage>>();
@@ -77,6 +80,12 @@ public class IsoRendererLibrary {
 		}
 	}
 	
+	/**
+	 * Create the data structure needed for an image by having the same image for all 4 directions.
+	 * Note, assumes images are png and adds the extension automatically
+	 * @param resourceName
+	 * @return
+	 */
 	private static Map<Direction, BufferedImage> loadImageAll(String resourceName) {
 		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
 		
@@ -89,6 +98,12 @@ public class IsoRendererLibrary {
 		return map;
 	}
 	
+	/**
+	 * Create the data structure for an image by loading the images suffixed _n _e _s _w into the appropriate places
+	 * Note, assumes images are png and adds the extension automatically
+	 * @param resourceName
+	 * @return
+	 */
 	private static Map<Direction, BufferedImage> loadImage4(String resourceName) {
 		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
 		

@@ -9,6 +9,13 @@ import javax.swing.JFrame;
 import clientinterface.GameModel;
 import clientinterface.GameThing;
 
+/**
+ * 
+ * The overall class that manages the entire user interface
+ * 
+ * @author melby
+ *
+ */
 public class IsoInterface implements PlayerMessage {
 	private JFrame frame;
 	
