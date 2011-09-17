@@ -17,13 +17,18 @@ public class Main {
 			Socket skt = new Socket("caprera", 32768);
 			if (debug) System.out.println("connected to caprera on 32768");
 			InputStreamReader in = new InputStreamReader(skt.getInputStream());
-			BufferedReader rd = new BufferedReader(in);
+			BufferedReader reader = new BufferedReader(in);
 			OutputStreamWriter out = new OutputStreamWriter(skt.getOutputStream());
+			BufferedWriter writer = new BufferedWriter(out);
 			
 			//test code
-			out.write("Hello World\n");
-			out.flush();
-			while (true){System.out.println(rd.readLine());}
+			writer.write("Handshake1\n");
+			System.out.print(reader.readLine());
+			writer.write("Handshake2\n");
+			
+			UpdateThread network = new UpdateThread(reader, writer);
+			
+			writer.write("still works here");
 		
 		
 		
