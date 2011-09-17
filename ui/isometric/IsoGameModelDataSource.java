@@ -59,7 +59,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	}
 
 	@Override
-	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) {
+	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) { // TODO: translation for e, w, s
 		cacheChange.writeLock().lock();
 		int minyy = -height/IsoCanvas.TILE_Y;
 		int maxyy = width/IsoCanvas.TILE_X + 1;
@@ -71,14 +71,16 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		bottomRight = new Position(maxxx, maxxy);
 		topRight = new Position(maxyx, maxyy);
 		bottomLeft = new Position(minyx, minyy);
-				
+		
+		System.out.println(xOrigin + " " + yOrigin);
+		
 		Area oldArea = querryArea;
-		viewOrigin = new Position(xOrigin/IsoCanvas.TILE_X, xOrigin/IsoCanvas.TILE_Y);
-		querryArea = new Area(xOrigin/IsoCanvas.TILE_X, xOrigin/IsoCanvas.TILE_Y, maxxx, maxyy-minyy);
+		viewOrigin = new Position(xOrigin/IsoCanvas.TILE_X-yOrigin/IsoCanvas.TILE_Y, yOrigin/IsoCanvas.TILE_Y+xOrigin/IsoCanvas.TILE_X);
+		querryArea = new Area(xOrigin/IsoCanvas.TILE_X, minyy, maxxx, maxyy-minyy);
 		viewDirection = direction;
 		
 		if(oldArea == null || !oldArea.equals(querryArea)) {
-			this.resizeCache();
+			this.clearAndRebuildCache();
 		}
 		cacheChange.writeLock().unlock();
 	}
@@ -86,31 +88,19 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	/**
 	 * Resize the internal cache to the size in querryArea at least
 	 */
-	private void resizeCache() {
+	private void clearAndRebuildCache() {
 		IsoSquare[][] tmp = new IsoSquare[querryArea.width()+arrayPaddingX*2][querryArea.height()+arrayPaddingY*2];
 		
 		cacheChange.writeLock().lock();
-		
-		if(squares != null) {
-			for(int x = 0; x < tmp.length; x++) {
-				if(x < querryArea.width()) {
-					for(int y = 0; y < tmp[x].length; y++) { // TODO: negative?
-						if(y < querryArea.height()) {
-							tmp[x][y] = squares[x][y];
-						}
-					}
-				}
-			}
-		}
-		
 		squares = tmp;
-		
 		cacheChange.writeLock().unlock();
 	}
 	
 	@Override
 	public void update() {
 		cacheChange.writeLock().lock();
+		this.clearAndRebuildCache();
+		
 		Iterable<GameThing> things = gameModel.thingsInRect(querryArea);
 		for(GameThing thing : things) {
 			Position pos = this.transform(thing);

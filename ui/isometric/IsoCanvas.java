@@ -3,8 +3,12 @@ package ui.isometric;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import util.Direction;
 
@@ -16,7 +20,7 @@ import util.Direction;
  * @author melby
  *
  */
-public class IsoCanvas extends Canvas implements KeyListener {
+public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 	
 	public static final int TILE_X = 64;
@@ -26,6 +30,9 @@ public class IsoCanvas extends Canvas implements KeyListener {
 	
 	private Direction viewDirection = Direction.NORTH;
 	
+	private Point mouse;
+	private Point origin = new Point(0, 0);
+	
 	/**
 	 * Create a new IsoCanvas with a given datasource
 	 * @param dataSource
@@ -33,15 +40,17 @@ public class IsoCanvas extends Canvas implements KeyListener {
 	public IsoCanvas(IsoDataSource dataSource) {
 		this.dataSource = dataSource;
 		this.addKeyListener(this);
+		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-		dataSource.setViewableRect(0, 0, this.getWidth(), this.getHeight(), viewDirection);
+		dataSource.setViewableRect((int)origin.getX(), (int)origin.getY(), this.getWidth(), this.getHeight(), viewDirection);
 		dataSource.update();
 		
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight()); // TODO: doesn't work?????
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		int rowY = TILE_Y/2;
 		int tileCountY = this.getHeight()/rowY+3;
@@ -54,7 +63,7 @@ public class IsoCanvas extends Canvas implements KeyListener {
 			int xg = (row%2 == 0)?row/2:(row-1)/2;
 			int x = (row%2 == 0)?TILE_X/2:0;
 			for(;x<tileCountX*TILE_X;x+=TILE_X) {
-				this.drawSquareAt(g, x, y, xg, yg);
+				this.drawSquareAt(g, (int)(x-origin.getX()%TILE_X), (int)(y+origin.getY()%TILE_Y), xg, yg);
 				yg++;
 				xg++;
 			}
@@ -77,8 +86,8 @@ public class IsoCanvas extends Canvas implements KeyListener {
 			g.drawImage(i.image(), dx-i.width()/2, dy-i.height(), i.width(), i.height(), null, this);
 		}
 		
-		g.setColor(Color.WHITE);
-		g.drawString(sx + "x" + sy, dx, dy);
+//		g.setColor(Color.WHITE);
+//		g.drawString(sx + "x" + sy, dx, dy);
 	}
 
 	@Override
@@ -97,5 +106,44 @@ public class IsoCanvas extends Canvas implements KeyListener {
 			viewDirection = viewDirection.compose(Direction.EAST);
 			this.repaint();
 		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		double deltaX = arg0.getPoint().x-mouse.x;
+		double deltaY = arg0.getPoint().y-mouse.y;
+		mouse = arg0.getPoint();
+		origin.setLocation(origin.getX()-deltaX, origin.getY()+deltaY);
+		this.repaint();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		mouse = arg0.getPoint();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 	}
 }
