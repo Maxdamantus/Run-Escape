@@ -41,4 +41,8 @@ public class Level {
 			res.add(kv.getValue());
 		return res;
 	}
+
+	public Iterable<GameThing> portion(Area a){
+		return portion(a.position(), new Position(a.position().x() + a.width(), a.position().y() + a.height()));
+	}
 }

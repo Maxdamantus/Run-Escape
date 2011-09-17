@@ -36,5 +36,20 @@ public class Conversions {
 			}
 		};
 	}
+
+	public static GameModel fromServerGameModel(final game.GameModel src){
+		return new GameModel(){
+			public Iterable<GameThing> thingsInRect(Area a){
+				Set<GameThing> out = new HashSet<GameThing>();
+				for(game.GameThing ggt : src.level(0).portion(a))
+					out.add(fromServerGameThing(ggt));
+				return out;
+			}
+
+			public GameThing thingWithGID(int gid){
+				return fromServerGameThing(src.thingWithGID(gid));
+			}
+		};
+	}
 }
 
