@@ -2,11 +2,12 @@
 
 package control;
 
+import game.GameModel;
+
 import java.util.*;
 import java.io.*;
 import java.net.*;
 
-import Game.game.*;
 
 
 /**
@@ -15,33 +16,32 @@ import Game.game.*;
  * responsible for transmitting information to the slave about the current board
  * state.
  */
-public final class Master extends Thread {
-	private final World world;
-	private final int broadcastClock;
+public final class Server extends Thread {
+	private final GameModel model;
 	private final int uid;
 	private final Socket socket;
 
-	public Master(Socket socket, int uid, int broadcastClock, Board board) {
-		this.world = board;	
-		this.broadcastClock = broadcastClock;
+	public Server(Socket socket, int uid, GameModel model) {
+		this.model = model;	
 		this.socket = socket;
 		this.uid = uid;
 	}
 	
 	public void run() {		
 		try {
-			DataInputStream input = new DataInputStream(socket.getInputStream());
-			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			InputStreamReader input = new InputStreamReader(socket.getInputStream());
+			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());
 			// First, write the period to the stream				
-			output.writeInt(uid);
-			output.writeInt(board.width());			
-			output.writeInt(board.height());
-			output.write(board.wallsToByteArray());
+			output.write(uid);
+//			output.writeInt(board.width());			
+//			output.writeInt(board.height());
+//			output.write(board.wallsToByteArray());
 			boolean exit=false;
 			while(!exit) {
 				try {
-					
-					if(input.available() != 0) {
+					BufferedReader rd = new BufferedReader(input);
+					String temp;
+					if((temp = rd.readLine()) != null) {
 						
 						// read event and update Game
 						/**
@@ -51,17 +51,17 @@ public final class Master extends Thread {
 					
 					// Now, broadcast the state of the board to client
 					//Update to game array 
-					output.writeInt(update.length);
+					String update = "Your gay";
 					output.write(update);
 					output.flush();
-					Thread.sleep(broadcastClock);
+					Thread.sleep(100);
 				} catch(InterruptedException e) {					
 				}
 			}
 			socket.close(); // release socket ... v.important!
 		} catch(IOException e) {
 			System.err.println("PLAYER " + uid + " DISCONNECTED");
-			board.disconnectPlayer(uid);
+//			board.disconnectPlayer(uid);
 		}		
 	}
 }
