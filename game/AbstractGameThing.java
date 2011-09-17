@@ -5,6 +5,7 @@ import java.util.*;
 
 public abstract class AbstractGameThing implements GameThing {
 	private Position pos;
+	private Direction dir;
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
 
@@ -19,6 +20,14 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public Position position(Position s){
 		return pos = s;
+	}
+
+	public Direction direction(){
+		return dir;
+	}
+
+	public Direction direction(Direction s){
+		return dir = s;
 	}
 
 	public Area area(){
