@@ -58,7 +58,7 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	public IsoImage newImageFromGameThing(GameThing thing, Direction viewDirection) {
-		IsoImage tmp = new IsoImage(this.imageForRendererName(thing.renderer(), thing.rotation().compose(viewDirection)));
+		IsoImage tmp = new IsoImage(this.imageForRendererName(thing.renderer(), thing.direction().compose(viewDirection)));
 		tmp.setGameThing(thing);
 		return tmp;
 	}
