@@ -22,13 +22,21 @@ public class Main {
 			BufferedWriter writer = new BufferedWriter(out);
 			
 			//test code
+			//UpdateThread network = new UpdateThread(reader, out);
+			//network.start();
 			writer.write("Handshake1\n");
-			System.out.print(reader.readLine());
+			writer.write("Handshake3\n");
 			writer.write("Handshake2\n");
+
 			
-			UpdateThread network = new UpdateThread(reader, writer);
+
+			writer.flush();
+			while (true) {}
+			//out.write("still works here\n");
+			//out.flush();
+			//System.out.print(reader.readLine());
+			//while(true)System.out.println(reader.readLine());
 			
-			writer.write("still works here");
 		
 		
 		
