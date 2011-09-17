@@ -58,24 +58,37 @@ public class Main {
 	
 
 	private static void runServer(int port, GameModel game) {		
-		int nclients = 0;
+		int uid = 0;
+		boolean started = false;
 		// Listen for connections
 		System.out.println("GAME SERVER LISTENING ON PORT " + port);
 		try {
-			Server[] connections = new Server[10];
+			ArrayList<Server> connections = new ArrayList<Server>(10);
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
 			while (1 == 1) {
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				int uid = 1; //this will add players unique identifier in future.
-				nclients++;
-				connections[nclients-1] = new Server(s,uid,game);
-				connections[nclients-1].start();				
-				if(nclients == 0) {
-					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
-					
+				
+				connections.add(uid, new Server(s,uid,game));
+				connections.get(uid).start();
+				uid++;; //this will add players unique identifier in future.
+				started = true;
+				System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
+				ArrayList<Server> remove = new ArrayList<Server>();
+				//check for dead clients
+				for(Server ser : connections){
+					if(ser.getExit() == true){
+						remove.add(ser);
+					}
+				}
+				//remove dead clients
+				for(Server ser : remove){
+					connections.remove(ser);
+				}
+				if(connections.isEmpty() && started) {
+					System.out.println("ALL CLIENTS DISCONNECTED --- GAME ENDS");
 					return; // done
 				}
 			}
