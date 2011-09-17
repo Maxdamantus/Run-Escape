@@ -31,15 +31,12 @@ public final class Server extends Thread {
 	public void run() {		
 		try {
 			InputStreamReader input = new InputStreamReader(socket.getInputStream());
-			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());
-			// First, write the period to the stream				
-//			output.write(uid);
-//			output.writeInt(board.width());			
-//			output.writeInt(board.height());
-//			output.write(board.wallsToByteArray());
+			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());			
+			BufferedReader rd = new BufferedReader(input);
+			BufferedWriter bw = new BufferedWriter(output);
 			while(!exit) {
 				try {
-					BufferedReader rd = new BufferedReader(input);
+					
 					String temp;
 					if((temp = rd.readLine()) != null) {
 						
@@ -48,7 +45,7 @@ public final class Server extends Thread {
 						 * Insert game altering here
 						 */
 					} 
-					BufferedWriter bw = new BufferedWriter(output);
+					
 					// Now, broadcast the state of the board to client
 					//Update to game array 
 					String update = "You're gay\n";
@@ -58,7 +55,7 @@ public final class Server extends Thread {
 				} catch(InterruptedException e) {					
 				}
 			}
-			socket.close(); // release socket ... v.important!
+			socket.close(); // release socket
 		} catch(IOException e) {
 			System.err.println("PLAYER " + uid + " DISCONNECTED");
 			this.exit = true;

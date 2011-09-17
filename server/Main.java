@@ -70,12 +70,14 @@ public class Main {
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				
-				connections.add(uid, new Server(s,uid,game));
-				connections.get(uid).start();
+				Server newSer = new Server(s,uid,game);
+				connections.add(newSer);
+				newSer.start();
+				if(uid == 0){
+					started = true;
+					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
+				}
 				uid++;; //this will add players unique identifier in future.
-				started = true;
-				System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
 				ArrayList<Server> remove = new ArrayList<Server>();
 				//check for dead clients
 				for(Server ser : connections){
