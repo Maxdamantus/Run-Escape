@@ -1,5 +1,7 @@
 package ui.isometric;
 
+import util.Direction;
+
 /**
  * 
  * A test implementation of IsoDataSource so that IsoCanvas can be tested
@@ -61,7 +63,7 @@ public class IsoTestDataSource implements IsoDataSource {
 	}
 
 	@Override
-	public void setViewableRect(int x, int y, int w, int h) {
+	public void setViewableRect(int x, int y, int w, int h, Direction viewDirection) {
 		// Don't need this info atm
 	}
 

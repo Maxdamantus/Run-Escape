@@ -3,6 +3,8 @@ package ui.isometric;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+import util.Direction;
+
 import clientinterface.GameThing;
 
 /**
@@ -20,9 +22,10 @@ public class IsoRendererLibrary {
 	/**
 	 * Get the appropriate image for a given renderer name
 	 * @param renderer
+	 * @param viewDirection
 	 * @return
 	 */
-	public BufferedImage imageForRendererName(String renderer) {
+	public BufferedImage imageForRendererName(String renderer, Direction viewDirection) {
 		return null; // TODO: implement
 	}
 
@@ -51,10 +54,11 @@ public class IsoRendererLibrary {
 	/**
 	 * Get a new IsoImage representing the given GameThing
 	 * @param thing
+	 * @param viewDirection
 	 * @return
 	 */
-	public IsoImage newImageFromGameThing(GameThing thing) {
-		IsoImage tmp = new IsoImage(this.imageForRendererName(thing.renderer()));
+	public IsoImage newImageFromGameThing(GameThing thing, Direction viewDirection) {
+		IsoImage tmp = new IsoImage(this.imageForRendererName(thing.renderer(), viewDirection));
 		tmp.setGameThing(thing);
 		return tmp;
 	}

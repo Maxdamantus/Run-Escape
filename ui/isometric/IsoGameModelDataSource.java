@@ -3,6 +3,7 @@ package ui.isometric;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import util.Area;
+import util.Direction;
 import util.Position;
 
 import clientinterface.GameModel;
@@ -22,6 +23,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
 	private IsoRendererLibrary rendererLibrary = new IsoRendererLibrary();
 	private IsoSquare emptySquare = new IsoSquare();
+	private Direction viewDirection;
 	
 	/**
 	 * Create a IsoGameModelDataSource with a given GameModel
@@ -43,9 +45,10 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	}
 
 	@Override
-	public void setViewableRect(int xOrigin, int yOrigin, int width, int height) {
+	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) {
 		cacheChange.writeLock().lock();
 		viewArea = new Area(xOrigin, yOrigin, width, height);
+		viewDirection = direction;
 		
 		this.resizeCache();
 		cacheChange.writeLock().unlock();
@@ -77,7 +80,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 			if(square == null) {
 				square = new IsoSquare();
 			}
-			square.addImageForLevel(rendererLibrary.newImageFromGameThing(thing), rendererLibrary.levelFromArguments(thing.userArguments()));
+			square.addImageForLevel(rendererLibrary.newImageFromGameThing(thing, viewDirection), rendererLibrary.levelFromArguments(thing.userArguments()));
 		}
 		cacheChange.writeLock().unlock();
 	}

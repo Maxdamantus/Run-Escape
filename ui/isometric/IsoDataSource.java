@@ -1,5 +1,7 @@
 package ui.isometric;
 
+import util.Direction;
+
 
 /**
  * 
@@ -25,8 +27,9 @@ public interface IsoDataSource {
 	 * @param y - origin y
 	 * @param w - width
 	 * @param h - height
+	 * @param viewDirection - the direction the view is viewing from
 	 */
-	public void setViewableRect(int x, int y, int w, int h);
+	public void setViewableRect(int x, int y, int w, int h, Direction viewDirection);
 	
 	/**
 	 * Tell the datasource to update, ie next frame or the world has changed in some way
