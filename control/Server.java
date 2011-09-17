@@ -32,7 +32,7 @@ public final class Server extends Thread {
 			InputStreamReader input = new InputStreamReader(socket.getInputStream());
 			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());
 			// First, write the period to the stream				
-			output.write(uid);
+//			output.write(uid);
 //			output.writeInt(board.width());			
 //			output.writeInt(board.height());
 //			output.write(board.wallsToByteArray());
@@ -43,17 +43,17 @@ public final class Server extends Thread {
 					String temp;
 					if((temp = rd.readLine()) != null) {
 						
-						// read event and update Game
+						System.out.println(temp);
 						/**
 						 * Insert game altering here
 						 */
 					} 
-					
+					BufferedWriter bw = new BufferedWriter(output);
 					// Now, broadcast the state of the board to client
 					//Update to game array 
-					String update = "Your gay";
-					output.write(update);
-					output.flush();
+					String update = "You're gay\n";
+					bw.write(update);
+					bw.flush();
 					Thread.sleep(100);
 				} catch(InterruptedException e) {					
 				}

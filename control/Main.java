@@ -28,7 +28,7 @@ public class Main {
 		int port = 32768; // default
 		String savefile;
 		String choice = "null";
-		while(!choice.toLowerCase().equals("NewGame") || !choice.toLowerCase().equals("LoadGame")){
+		while(!(choice.equals("NewGame") || choice.equals("LoadGame"))){
 			Object[] possibilities = {"NewGame", "LoadGame"};
 			choice = (String)JOptionPane.showInputDialog(
 			                    null,
@@ -61,7 +61,7 @@ public class Main {
 		// Listen for connections
 		System.out.println("GAME SERVER LISTENING ON PORT " + port);
 		try {
-			Server[] connections = new Server[nclients];
+			Server[] connections = new Server[10];
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
 			while (1 == 1) {
@@ -70,8 +70,8 @@ public class Main {
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
 				int uid = 1; //this will add players unique identifier in future.
 				nclients++;
-				connections[nclients] = new Server(s,uid,game);
-				connections[nclients].start();				
+				connections[nclients-1] = new Server(s,uid,game);
+				connections[nclients-1].start();				
 				if(nclients == 0) {
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
 					
