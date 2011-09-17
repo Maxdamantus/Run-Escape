@@ -4,11 +4,18 @@ import game.*;
 import util.*;
 
 public class GroundTile extends AbstractGameThing {
-	public GroundTile(GameModel model){
+	private final String renderer;
+
+	public GroundTile(GameModel model, String name){
 		super(model);
+		renderer = name;
+	}
+
+	public GroundTile(GameModel model){
+		this(model, "ground_grey_1");
 	}
 
 	public String renderer(){
-		return "ground_grey_1";
+		return renderer;
 	}
 }
