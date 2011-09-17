@@ -1,6 +1,7 @@
 package clientinterface;
 
 import util.*;
+
 import java.util.*;
 
 public interface GameThing {
@@ -11,4 +12,5 @@ public interface GameThing {
 	public int gid();
 	public List<String> interactions();
 	public Map<String, Map<String, Object>> userArguments();
+	public Direction rotation();
 }
