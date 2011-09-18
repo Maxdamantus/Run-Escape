@@ -45,7 +45,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	}
 	
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g) { // TODO: smooth when resizing and not NORTH
 		dataSource.setViewableRect((int)origin.getX(), (int)origin.getY(), this.getWidth(), this.getHeight(), viewDirection);
 		dataSource.update();
 		

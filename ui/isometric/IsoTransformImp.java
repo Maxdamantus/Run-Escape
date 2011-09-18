@@ -55,7 +55,7 @@ public class IsoTransformImp implements IsoTransform {
 		}
 		viewOrigin = new Position(xOrigin/xDivide-yOrigin/yDivide, yOrigin/yDivide+xOrigin/xDivide);
 		
-		querryArea = new Area(xOrigin/IsoCanvas.TILE_X, minyy, maxxx, maxyy-minyy);
+		querryArea = new Area(xOrigin/IsoCanvas.TILE_X, minyy, maxxx, maxyy-minyy); // TODO: rotation of width/height
 		viewDirection = direction;
 	}
 
