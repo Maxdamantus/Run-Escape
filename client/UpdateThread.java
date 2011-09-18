@@ -12,10 +12,10 @@ import java.io.OutputStreamWriter;
  */
 public class UpdateThread extends Thread{
 	private BufferedReader reader;
-	private OutputStreamWriter writer;
+	private BufferedWriter writer;
 	
 	
-	public UpdateThread(BufferedReader reader, OutputStreamWriter writer) {
+	public UpdateThread(BufferedReader reader, BufferedWriter writer) {
 		this.reader = reader;
 		this.writer = writer;
 	}
@@ -23,12 +23,15 @@ public class UpdateThread extends Thread{
 	public void run() {
 		System.out.println("now using thread");
 		try {
-			//writer.write("now on thread\n");
-			//writer.flush();
-			//while (true) System.out.println(reader.readLine());
-			throw new IOException();
+			writer.write("now on thread\n");
+			writer.write("again\n");
+			Thread.sleep(3000);
+			writer.write("yet again\n");
+			writer.flush();
+			while (true) System.out.println(reader.readLine());
+			//throw new IOException();
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

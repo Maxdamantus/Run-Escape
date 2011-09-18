@@ -1,6 +1,7 @@
 package client;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -10,11 +11,12 @@ import java.net.UnknownHostException;
  *
  */
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		boolean debug = true;
 		try {
 			//creating socket and readers/writers
-			Socket skt = new Socket("caprera", 32768);
+			
+			Socket skt = new Socket("macbook",32768);
 			if (debug) System.out.println("connected to caprera on 32768");
 			InputStreamReader in = new InputStreamReader(skt.getInputStream());
 			BufferedReader reader = new BufferedReader(in);
@@ -22,20 +24,15 @@ public class Main {
 			BufferedWriter writer = new BufferedWriter(out);
 			
 			//test code
-			//UpdateThread network = new UpdateThread(reader, out);
-			//network.start();
+			UpdateThread network = new UpdateThread(reader, writer);
+			
 			writer.write("Handshake1\n");
 			writer.write("Handshake3\n");
 			writer.write("Handshake2\n");
-
-			
-
+			network.start();
+			writer.write("still works here\n");
 			writer.flush();
-			while (true) {}
-			//out.write("still works here\n");
-			//out.flush();
-			//System.out.print(reader.readLine());
-			//while(true)System.out.println(reader.readLine());
+
 			
 		
 		
