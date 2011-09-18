@@ -18,17 +18,14 @@ import clientinterface.GameThing;
  */
 public class IsoGameModelDataSource implements IsoDataSource {
 	private GameModel gameModel;
-	private Area querryArea;
-	private Position viewOrigin;
 	private IsoSquare[][] squares = null;
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
 	private IsoRendererLibrary rendererLibrary = new IsoRendererLibrary();
 	private IsoSquare emptySquare = new IsoSquare();
-	private Direction viewDirection;
 	
-	private Position bottomRight;
-	private Position topRight;
-	private Position bottomLeft;
+	private Direction viewDirection;
+	private Area querryArea;
+	private IsoTransformImp transform;
 	
 	private int arrayPaddingY = 100; // TODO: calculate
 	private int arrayPaddingX = 100; // TODO: calculate
@@ -59,36 +56,24 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	}
 
 	@Override
-	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) { // TODO: translation for e, w, s
+	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) {
 		cacheChange.writeLock().lock();
-		int minyy = -height/IsoCanvas.TILE_Y;
-		int maxyy = width/IsoCanvas.TILE_X + 1;
-		int maxxx = width/IsoCanvas.TILE_X + height/IsoCanvas.TILE_Y;
-		int maxxy = width/IsoCanvas.TILE_X - height/IsoCanvas.TILE_Y;
-		int maxyx = width/IsoCanvas.TILE_X;
-		int minyx = height/IsoCanvas.TILE_Y;
 		
-		bottomRight = new Position(maxxx, maxxy);
-		topRight = new Position(maxyx, maxyy);
-		bottomLeft = new Position(minyx, minyy);
-		
-		System.out.println(xOrigin + " " + yOrigin);
-		
-		Area oldArea = querryArea;
-		viewOrigin = new Position(xOrigin/IsoCanvas.TILE_X-yOrigin/IsoCanvas.TILE_Y, yOrigin/IsoCanvas.TILE_Y+xOrigin/IsoCanvas.TILE_X);
-		querryArea = new Area(xOrigin/IsoCanvas.TILE_X, minyy, maxxx, maxyy-minyy);
+		transform = new IsoTransformImp(xOrigin, yOrigin, width, height, direction);
 		viewDirection = direction;
+		Area oldArea = querryArea;
+		querryArea = transform.querryArea();
 		
 		if(oldArea == null || !oldArea.equals(querryArea)) {
-			this.clearAndRebuildCache();
+			this.clearCache();
 		}
 		cacheChange.writeLock().unlock();
 	}
 	
 	/**
-	 * Resize the internal cache to the size in querryArea at least
+	 * Clear and resize the internal cache to the size in querryArea at least
 	 */
-	private void clearAndRebuildCache() {
+	private void clearCache() {
 		IsoSquare[][] tmp = new IsoSquare[querryArea.width()+arrayPaddingX*2][querryArea.height()+arrayPaddingY*2];
 		
 		cacheChange.writeLock().lock();
@@ -99,11 +84,11 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	@Override
 	public void update() {
 		cacheChange.writeLock().lock();
-		this.clearAndRebuildCache();
+		this.clearCache();
 		
 		Iterable<GameThing> things = gameModel.thingsInRect(querryArea);
 		for(GameThing thing : things) {
-			Position pos = this.transform(thing);
+			Position pos = transform.transformMapPosition(thing.position());
 			IsoSquare square = squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY];
 			if(square == null) {
 				square = new IsoSquare();
@@ -113,27 +98,9 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		}
 		cacheChange.writeLock().unlock();
 	}
-
-	/**
-	 * Translate/Rotate the coordinates of a given GameThing to the coordinates for the renderer
-	 * @param thing
-	 * @return
-	 */
-	private Position transform(GameThing thing) {
-		int x = thing.position().x() - viewOrigin.x();
-		int y = thing.position().y() - viewOrigin.y();
-		
-		switch(viewDirection) {
-			case NORTH:
-				return new Position(x, y);
-			case EAST:
-				return new Position(bottomLeft.x()-y, bottomLeft.y()+x);
-			case SOUTH:
-				return new Position(bottomRight.x()-x, bottomRight.y()-y);
-			case WEST:
-				return new Position(topRight.x()+y, topRight.y()-x);
-		}
-		
-		return null;
+	
+	@Override
+	public IsoTransform transform() {
+		return transform;
 	}
 }

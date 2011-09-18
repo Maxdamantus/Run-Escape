@@ -1,6 +1,10 @@
 package ui.isometric;
 
+import java.awt.Point;
+
+import util.Area;
 import util.Direction;
+import util.Position;
 
 /**
  * 
@@ -18,6 +22,33 @@ public class IsoTestDataSource implements IsoDataSource {
 	private IsoImage wally = new IsoImage("/resources/isotiles/test/wally.png");
 	private IsoImage wallx = new IsoImage("/resources/isotiles/test/wallx.png");
 	private IsoImage wallcross = new IsoImage("/resources/isotiles/test/wallcross.png");
+	
+	/**
+	 * Dummy transform class that doesn't do anything
+	 * @author melby
+	 *
+	 */
+	private class IsoTransformDummy implements IsoTransform {
+		@Override
+		public Area querryArea() {
+			return new Area(0, 0, 100, 100);
+		}
+
+		@Override
+		public Position transformMapPosition(Position pos) {
+			return pos;
+		}
+
+		@Override
+		public Point transformRelitivePoint(Point p) {
+			return p;
+		}
+
+		@Override
+		public Point smoothOrigin(Point origin) {
+			return new Point(0, 0);
+		}
+	}
 	
 	@Override
 	public IsoSquare squareAt(int x, int y) {
@@ -70,5 +101,10 @@ public class IsoTestDataSource implements IsoDataSource {
 	@Override
 	public void update() {
 		// Don't need to do anything
+	}
+
+	@Override
+	public IsoTransform transform() {
+		return new IsoTransformDummy();
 	}
 }

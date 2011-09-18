@@ -16,6 +16,11 @@ public class IsoSquare implements Iterable<IsoImage> {
 	
 	private ArrayList<ImageLevel> images = new ArrayList<ImageLevel>();
 	
+	/**
+	 * Represents an image level on a square, used for sorting etc
+	 * @author melby
+	 *
+	 */
 	private class ImageLevel {
 		private IsoImage image;
 		private int level;
@@ -26,6 +31,11 @@ public class IsoSquare implements Iterable<IsoImage> {
 		}
 	}
 	
+	/**
+	 * Compares ImageLevels
+	 * @author melby
+	 *
+	 */
 	private class ImageLevelComparator implements Comparator<ImageLevel> {
 		@Override
 		public int compare(ImageLevel arg0, ImageLevel arg1) {
@@ -33,6 +43,11 @@ public class IsoSquare implements Iterable<IsoImage> {
 		}
 	}
 	
+	/**
+	 * An iterator that through the images on a square in level order from bottom to top
+	 * @author melby
+	 *
+	 */
 	private class ImageIterator implements Iterator<IsoImage> {
 		Iterator<ImageLevel> iterator = images.iterator();
 		
@@ -62,6 +77,9 @@ public class IsoSquare implements Iterable<IsoImage> {
 		Collections.sort(images, new ImageLevelComparator());
 	}
 	
+	/**
+	 * Iterate through the images on a square in level order from bottom to top
+	 */
 	@Override
 	public Iterator<IsoImage> iterator() {
 		return new ImageIterator();

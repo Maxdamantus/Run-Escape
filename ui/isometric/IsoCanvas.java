@@ -49,6 +49,8 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 		dataSource.setViewableRect((int)origin.getX(), (int)origin.getY(), this.getWidth(), this.getHeight(), viewDirection);
 		dataSource.update();
 		
+		Point smoothing = dataSource.transform().smoothOrigin(origin);
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
@@ -63,7 +65,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 			int xg = (row%2 == 0)?row/2:(row-1)/2;
 			int x = (row%2 == 0)?TILE_X/2:0;
 			for(;x<tileCountX*TILE_X;x+=TILE_X) {
-				this.drawSquareAt(g, (int)(x-origin.getX()%TILE_X), (int)(y+origin.getY()%TILE_Y), xg, yg);
+				this.drawSquareAt(g, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
 				yg++;
 				xg++;
 			}
@@ -110,10 +112,11 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		double deltaX = arg0.getPoint().x-mouse.x;
-		double deltaY = arg0.getPoint().y-mouse.y;
+		Point delta = new Point(arg0.getPoint().x-mouse.x, arg0.getPoint().y-mouse.y);
+		delta = dataSource.transform().transformRelitivePoint(delta);
 		mouse = arg0.getPoint();
-		origin.setLocation(origin.getX()-deltaX, origin.getY()+deltaY);
+		
+		origin.setLocation(origin.getX()-delta.getX(), origin.getY()+delta.getY());
 		this.repaint();
 	}
 
