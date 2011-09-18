@@ -28,55 +28,57 @@ public class IsoRendererLibrary {
 	 */
 	private static void loadImages() { // TODO: load from XML
 		synchronized(IsoRendererLibrary.class) {
-			renderers = new HashMap<String, Map<Direction, BufferedImage>>();
-			
-			renderers.put("ground_grey_1", loadImageAll("ground_grey_1"));
-			renderers.put("ground_grey_2", loadImageAll("ground_grey_2"));
-			
-			renderers.put("ground_grey_dark_circle_1", loadImageAll("ground_grey_dark_circle_1"));
-			
-			renderers.put("ground_grey_dark_dots_1", loadImageAll("ground_grey_dark_dots_1"));
-			renderers.put("ground_grey_green_dots_1", loadImageAll("ground_grey_green_dots_1"));
-			renderers.put("ground_grey_red_dots_1", loadImageAll("ground_grey_red_dots_1"));
-			
-			renderers.put("ground_grey_greenish_1", loadImageAll("ground_grey_greenish_1"));
-			renderers.put("ground_grey_greenish_2", loadImageAll("ground_grey_greenish_2"));
-			
-			renderers.put("ground_grey_mushrooms_1", loadImageAll("ground_grey_mushrooms_1"));
-			renderers.put("ground_grey_mushrooms_2", loadImageAll("ground_grey_mushrooms_2"));
-			renderers.put("ground_grey_mushrooms_3", loadImageAll("ground_grey_mushrooms_3"));
-			renderers.put("ground_grey_mushrooms_4", loadImageAll("ground_grey_mushrooms_4"));
-			renderers.put("ground_grey_mushrooms_5", loadImageAll("ground_grey_mushrooms_5"));
-			renderers.put("ground_grey_mushrooms_6", loadImageAll("ground_grey_mushrooms_6"));
-			renderers.put("ground_grey_mushrooms_7", loadImageAll("ground_grey_mushrooms_7"));
-			renderers.put("ground_grey_mushrooms_8", loadImageAll("ground_grey_mushrooms_8"));
-			
-			renderers.put("ground_grey_patch_1", loadImageAll("ground_grey_patch_1"));
-			
-			renderers.put("ground_grey_pool_1", loadImageAll("ground_grey_pool_1"));
-			renderers.put("ground_grey_pools_1", loadImageAll("ground_grey_pools_1"));
-			renderers.put("ground_grey_pools_2", loadImageAll("ground_grey_pools_2"));
-			
-			renderers.put("ground_grey_rock_1", loadImageAll("ground_grey_rock_1"));
-			renderers.put("ground_grey_rock_2", loadImageAll("ground_grey_rock_2"));
-			renderers.put("ground_grey_rock_3", loadImageAll("ground_grey_rock_3"));
-			
-			renderers.put("ground_grey_spikes_1", loadImageAll("ground_grey_spikes_1"));
-			renderers.put("ground_grey_spikes_2", loadImageAll("ground_grey_spikes_2"));
-			renderers.put("ground_grey_spikes_3", loadImageAll("ground_grey_spikes_3"));
-			
-			renderers.put("ground_grey_stones_1", loadImageAll("ground_grey_stones_1"));
-			
-			renderers.put("ground_grey_trash_1", loadImageAll("ground_grey_trash_1"));
-			
-			renderers.put("ground_grey_water_island_1", loadImageAll("ground_grey_water_island_1"));
-			renderers.put("ground_grey_water_rock_1", loadImageAll("ground_grey_water_rock_1"));
-			
-			renderers.put("ground_grey_water_corner", loadImage4("ground_grey_water_corner"));
-			renderers.put("ground_grey_water_one_side", loadImage4("ground_grey_water_one_side"));
-			renderers.put("ground_grey_water_two_sides", loadImage4("ground_grey_water_two_sides"));
-			
-			renderers.put("water_1", loadImageAll("water_1"));
+			if(renderers == null) {
+				renderers = new HashMap<String, Map<Direction, BufferedImage>>();
+				
+				renderers.put("ground_grey_1", loadImageAll("ground_grey_1"));
+				renderers.put("ground_grey_2", loadImageAll("ground_grey_2"));
+				
+				renderers.put("ground_grey_dark_circle_1", loadImageAll("ground_grey_dark_circle_1"));
+				
+				renderers.put("ground_grey_dark_dots_1", loadImageAll("ground_grey_dark_dots_1"));
+				renderers.put("ground_grey_green_dots_1", loadImageAll("ground_grey_green_dots_1"));
+				renderers.put("ground_grey_red_dots_1", loadImageAll("ground_grey_red_dots_1"));
+				
+				renderers.put("ground_grey_greenish_1", loadImageAll("ground_grey_greenish_1"));
+				renderers.put("ground_grey_greenish_2", loadImageAll("ground_grey_greenish_2"));
+				
+				renderers.put("ground_grey_mushrooms_1", loadImageAll("ground_grey_mushrooms_1"));
+				renderers.put("ground_grey_mushrooms_2", loadImageAll("ground_grey_mushrooms_2"));
+				renderers.put("ground_grey_mushrooms_3", loadImageAll("ground_grey_mushrooms_3"));
+				renderers.put("ground_grey_mushrooms_4", loadImageAll("ground_grey_mushrooms_4"));
+				renderers.put("ground_grey_mushrooms_5", loadImageAll("ground_grey_mushrooms_5"));
+				renderers.put("ground_grey_mushrooms_6", loadImageAll("ground_grey_mushrooms_6"));
+				renderers.put("ground_grey_mushrooms_7", loadImageAll("ground_grey_mushrooms_7"));
+				renderers.put("ground_grey_mushrooms_8", loadImageAll("ground_grey_mushrooms_8"));
+				
+				renderers.put("ground_grey_patch_1", loadImageAll("ground_grey_patch_1"));
+				
+				renderers.put("ground_grey_pool_1", loadImageAll("ground_grey_pool_1"));
+				renderers.put("ground_grey_pools_1", loadImageAll("ground_grey_pools_1"));
+				renderers.put("ground_grey_pools_2", loadImageAll("ground_grey_pools_2"));
+				
+				renderers.put("ground_grey_rock_1", loadImageAll("ground_grey_rock_1"));
+				renderers.put("ground_grey_rock_2", loadImageAll("ground_grey_rock_2"));
+				renderers.put("ground_grey_rock_3", loadImageAll("ground_grey_rock_3"));
+				
+				renderers.put("ground_grey_spikes_1", loadImageAll("ground_grey_spikes_1"));
+				renderers.put("ground_grey_spikes_2", loadImageAll("ground_grey_spikes_2"));
+				renderers.put("ground_grey_spikes_3", loadImageAll("ground_grey_spikes_3"));
+				
+				renderers.put("ground_grey_stones_1", loadImageAll("ground_grey_stones_1"));
+				
+				renderers.put("ground_grey_trash_1", loadImageAll("ground_grey_trash_1"));
+				
+				renderers.put("ground_grey_water_island_1", loadImageAll("ground_grey_water_island_1"));
+				renderers.put("ground_grey_water_rock_1", loadImageAll("ground_grey_water_rock_1"));
+				
+				renderers.put("ground_grey_water_corner", loadImage4("ground_grey_water_corner"));
+				renderers.put("ground_grey_water_one_side", loadImage4("ground_grey_water_one_side"));
+				renderers.put("ground_grey_water_two_sides", loadImage4("ground_grey_water_two_sides"));
+				
+				renderers.put("water_1", loadImageAll("water_1"));
+			}
 		}
 	}
 	
