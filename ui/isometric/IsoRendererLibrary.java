@@ -78,6 +78,24 @@ public class IsoRendererLibrary {
 				renderers.put("ground_grey_water_two_sides", loadImage4("ground_grey_water_two_sides"));
 				
 				renderers.put("water_1", loadImageAll("water_1"));
+				
+				
+				
+				renderers.put("ground_grey_road_corner_1", loadImage4("ground_grey_road_corner_1"));
+				renderers.put("ground_grey_road_end_1", loadImage4("ground_grey_road_end_1"));
+				
+				renderers.put("ground_grey_road_straight_1", loadImage2("ground_grey_road_straight_1"));
+				
+				renderers.put("ground_grey_road_t_1", loadImage4("ground_grey_road_t_1"));
+				
+				renderers.put("ground_grey_road_x_1", loadImageAll("ground_grey_road_x_1"));
+				
+				renderers.put("ground_grey_tile_1_corner_1", loadImage4("ground_grey_tile_1_corner_1"));
+				renderers.put("ground_grey_tile_1_one_side_1", loadImage4("ground_grey_tile_1_one_side_1"));
+				renderers.put("ground_grey_tile_1_two_sides_1", loadImage4("ground_grey_tile_1_two_sides_1"));
+				
+				renderers.put("ground_tile_1_greenish_1", loadImageAll("ground_tile_1_greenish_1"));
+				renderers.put("ground_tile_1", loadImageAll("ground_tile_1"));
 			}
 		}
 	}
@@ -113,6 +131,26 @@ public class IsoRendererLibrary {
 		map.put(Direction.EAST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png"));
 		map.put(Direction.WEST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png"));
 		map.put(Direction.SOUTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png"));
+		
+		return map;
+	}
+	
+	/**
+	 * Create the data structure for an image by loading the images suffixed _ns _ew into the appropriate places
+	 * Note, assumes images are png and adds the extension automatically
+	 * @param resourceName
+	 * @return
+	 */
+	private static Map<Direction, BufferedImage> loadImage2(String resourceName) {
+		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
+		
+		BufferedImage ns = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png");
+		BufferedImage ew = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png");
+		
+		map.put(Direction.NORTH, ns);
+		map.put(Direction.EAST, ew);
+		map.put(Direction.WEST, ns);
+		map.put(Direction.SOUTH, ew);
 		
 		return map;
 	}
