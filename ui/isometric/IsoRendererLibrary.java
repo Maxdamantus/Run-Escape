@@ -96,6 +96,8 @@ public class IsoRendererLibrary {
 				
 				renderers.put("ground_tile_1_greenish_1", loadImageAll("ground_tile_1_greenish_1"));
 				renderers.put("ground_tile_1", loadImageAll("ground_tile_1"));
+				
+				renderers.put("character_cordi_empty", loadImage4("character_cordi_empty"));
 			}
 		}
 	}
