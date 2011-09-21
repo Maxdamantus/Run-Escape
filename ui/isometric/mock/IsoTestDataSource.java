@@ -1,7 +1,11 @@
-package ui.isometric;
+package ui.isometric.mock;
 
 import java.awt.Point;
 
+import ui.isometric.IsoDataSource;
+import ui.isometric.IsoImage;
+import ui.isometric.IsoSquare;
+import ui.isometric.IsoTransform;
 import util.Area;
 import util.Direction;
 import util.Position;

@@ -1,5 +1,6 @@
-package ui.isometric;
+package ui.isometric.mock;
 
+import ui.isometric.IsoInterface;
 import util.*;
 import clientinterface.*;
 
@@ -10,7 +11,7 @@ public class UITestMain {
 		game.GameThing tile = new game.things.GroundTile(sgm);
 		sgm.level(0).put(new Position(5, 0), tile);
 		sgm.level(0).put(new Position(5, 1), new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
-		IsoInterface view = new IsoInterface("IsoTest", Conversions.fromServerGameModel(sgm));
+		IsoInterface view = new IsoInterface("IsoTest", Conversions.fromServerGameModel(sgm), new IsoGameLogicMock());
 		view.show();
 	}
 }

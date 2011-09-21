@@ -13,4 +13,5 @@ public interface GameThing {
 	public int gid();
 	public List<String> interactions();
 	public Map<String, Map<String, Object>> userArguments();
+	public String defaultInteraction();
 }

@@ -34,6 +34,10 @@ public class Conversions {
 			public Map<String, Map<String, Object>> userArguments(){
 				return new HashMap<String, Map<String, Object>>();
 			}
+
+			public String defaultInteraction() {
+				return null; // TODO: max implement
+			}
 		};
 	}
 

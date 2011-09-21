@@ -4,16 +4,21 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.List;
 
-import util.Area;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
+import clientinterface.GameThing;
+
 import util.Direction;
-import util.Position;
-import util.QuadTree;
 
 
 /**
@@ -40,12 +45,16 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	private IsoImage selectedImage = null;
 	private Point selectionPoint = new Point(0, 0);
 	
+	private IsoInterface isoInterface = null;
+	
 	/**
-	 * Create a new IsoCanvas with a given datasource
+	 * Create a new IsoCanvas with a given interface and datasource
+	 * @param inter
 	 * @param dataSource
 	 */
-	public IsoCanvas(IsoDataSource dataSource) {
+	public IsoCanvas(IsoInterface inter, IsoDataSource dataSource) {
 		this.dataSource = dataSource;
+		this.isoInterface = inter;
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -152,15 +161,45 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		IsoImage t = this.getImageAtPoint(arg0.getPoint());
-		if(t != null) {
-			System.out.println(t.gameThing().renderer());
+		final IsoImage i = this.getImageAtPoint(arg0.getPoint());
+		if(i != null) {			
+			if(arg0.getButton() == MouseEvent.BUTTON3 || arg0.isControlDown()) { // Right click
+				List<String> interactions = i.gameThing().interactions();
+				
+				JPopupMenu popup = new JPopupMenu();
+				for(String intr : interactions) {
+					JMenuItem item = new JMenuItem(intr);
+					item.addActionListener(new ActionListener() {
+						private GameThing thing = i.gameThing();
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Object s = e.getSource();
+							
+							if(s instanceof JMenuItem) {
+								JMenuItem m = (JMenuItem)s;
+								isoInterface.gameLogic().performActionOn(m.getText(), thing, isoInterface);
+							}
+						}
+					});
+					popup.add(item);
+				}
+				popup.show(this, arg0.getPoint().x, arg0.getPoint().y);
+			}
+			else {
+				isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing(), isoInterface);
+			}
 		}
 		else {
-			System.out.println("nothing");
+			// TODO: will this ever happen when we don't want it to? Ask Max
 		}
 	}
 
+	/**
+	 * Search for the image at a given point in the canvas
+	 * @param point
+	 * @return
+	 */
 	private IsoImage getImageAtPoint(Point point) {
 		selectedImage = null;
 		
