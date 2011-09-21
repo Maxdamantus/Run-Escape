@@ -1,13 +1,35 @@
 package data;
 
+import java.io.StringWriter;
 import serialization.Tree;
 import xml.XML;
 
-public interface Database { // Call this something different and make it a class
-	public XML treeToXML(Tree tree); // Make this static
-	public Tree treeFromXML(XML xml); // Make this static
-	public String treeToString(Tree tree); // Make this static
-	public Tree treeFromString(String str); // Make this static
-	public void writeTreeToXMLFile(Tree tree, String path); // Make this static
-	public Tree readTreeFromXMLFile(String path); // Make this static
+public class Database { // Call this something different and make it a class
+	
+	public static XML treeToXML(Tree tree){
+		StringWriter sw = new StringWriter();
+		
+		for(Tree.Entry t: tree.children()){
+			sw.append("<" + t.name() + ">");
+		}
+		return null;
+	}
+	public static Tree treeFromXML(XML xml){
+		return null;
+	}
+	public String treeToString(Tree tree){
+		return null;
+		
+	}
+	public Tree treeFromString(String str){
+		return null;
+		
+	}
+	public void writeTreeToXMLFile(Tree tree, String path){
+		
+	}
+	public Tree readTreeFromXMLFile(String path){
+		return null;
+		
+	}
 }

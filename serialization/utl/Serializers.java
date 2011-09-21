@@ -117,6 +117,16 @@ public class Serializers {
 			return new Tree(in);
 		}
 	};
+	
+	public static final Serializer<Integer> integer = new Serializer<Integer>(){
+		public Integer read(Tree in){
+			return Integer.parseInt(in.value());
+		}
+
+		public Tree write(Integer in){
+			return new Tree(in.toString());
+		}
+	};
 
 	public static class Nullable<T> implements Serializer<T> {
 		private final Serializer<T> elemSerializer;
@@ -134,7 +144,7 @@ public class Serializers {
 		}
 
 		public Tree write(T in){
-			Tree out = new TreeImpl();
+			Tree out = new Tree();
 			if(in != null)
 				out.add(new Tree.Entry("just", elemSerializer.write(in)));
 			return out;
