@@ -70,7 +70,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 		
 		int y = rowY;
 		for(;y<tileCountY*rowY;y+=rowY) {
-			if(!selectionRender || selectionPoint.y < y) {
+			if(!selectionRender || selectionPoint.y < y+smoothing.getY()) {
 				int yg = -((row%2 == 0)?row/2-1:row/2);
 				int xg = (row%2 == 0)?row/2:(row-1)/2;
 				int x = (row%2 == 0)?TILE_X/2:0;
