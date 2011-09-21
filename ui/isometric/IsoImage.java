@@ -39,7 +39,7 @@ public class IsoImage {
 	 * Get the image that this IsoImage wraps
 	 * @return
 	 */
-	public Image image() {
+	public BufferedImage image() {
 		return image;
 	}
 	
