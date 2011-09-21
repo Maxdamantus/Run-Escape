@@ -61,7 +61,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	}
 	
 	@Override
-	public void paint(Graphics g) { // TODO: smooth when resizing and not NORTH
+	public void paint(Graphics g) {
 		dataSource.setViewableRect((int)origin.getX(), (int)origin.getY(), this.getWidth(), this.getHeight(), viewDirection);
 		dataSource.update();
 		
@@ -128,12 +128,10 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -156,7 +154,6 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -213,12 +210,10 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -228,6 +223,5 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 }

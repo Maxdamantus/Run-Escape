@@ -52,13 +52,11 @@ public class IsoInterface implements PlayerMessage {
 	@Override
 	public void logMessage(String message) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void showContainer(String name, List<GameThing> contents) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	/**

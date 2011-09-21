@@ -32,7 +32,7 @@ public interface IsoDataSource {
 	 * @param h - height
 	 * @param viewDirection - the direction the view is viewing from
 	 */
-	public void setViewableRect(int x, int y, int w, int h, Direction viewDirection); // TODO: doc, needs to be followed by update?
+	public void setViewableRect(int x, int y, int w, int h, Direction viewDirection);
 	
 	/**
 	 * Tell the datasource to update, ie next frame or the world has changed in some way
