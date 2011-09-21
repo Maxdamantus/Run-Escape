@@ -28,7 +28,7 @@ public class Serializers {
 		}
 
 		public Tree write(java.util.Collection<T> in){
-			Tree out = new TreeImpl();
+			Tree out = new Tree();
 			for(T c : in)
 				out.add(new Tree.Entry("i", elemSerializer.write(c)));
 			return out;
@@ -80,7 +80,7 @@ public class Serializers {
 		}
 
 		public Tree write(java.util.Map.Entry<K, V> in){
-			Tree out = new TreeImpl();
+			Tree out = new Tree();
 			out.add(new Tree.Entry("k", keySerializer.write(in.getKey())));
 			out.add(new Tree.Entry("v", elemSerializer.write(in.getValue())));
 			return out;
@@ -114,7 +114,7 @@ public class Serializers {
 		}
 
 		public Tree write(String in){
-			return new TreeImpl(in);
+			return new Tree(in);
 		}
 	};
 
