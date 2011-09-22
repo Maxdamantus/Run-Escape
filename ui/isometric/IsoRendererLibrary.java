@@ -18,8 +18,7 @@ import clientinterface.GameThing;
  *
  */
 public class IsoRendererLibrary {
-	public static final String RENDERER = "renderer";
-	public static final String RENDERER_ISOMETRIC = "isometric";
+	public static final String RENDERER_ISOMETRIC = "renderer.isometric";
 	public static final String RENDERER_ISOMETRIC_LEVEL = "level";
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
@@ -192,20 +191,16 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static int levelFromArguments(Map<String, Map<String, Object>> userArguments) {		
-		Map<String, Object> map = userArguments.get(RENDERER);
+	public static int levelFromArguments(Map<String, Object> userArguments) {				
+		Object tmp = userArguments.get(RENDERER_ISOMETRIC);;
 		
-		if(map != null) {
-			Object tmp = map.get(RENDERER_ISOMETRIC);
+		if(tmp != null && tmp instanceof Map) {
+			Map<String, Object> iso = (Map<String, Object>)tmp;
+			tmp = iso.get(RENDERER_ISOMETRIC_LEVEL);
 			
-			if(tmp != null && tmp instanceof Map) {
-				Map<String, Object> iso = (Map<String, Object>)tmp;
-				tmp = iso.get(RENDERER_ISOMETRIC_LEVEL);
-				
-				if(tmp instanceof Number) {
-					Number i = (Number)tmp;
-					return i.intValue();
-				}
+			if(tmp instanceof Number) {
+				Number i = (Number)tmp;
+				return i.intValue();
 			}
 		}
 		

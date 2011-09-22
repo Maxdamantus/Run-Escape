@@ -31,8 +31,8 @@ public class Conversions {
 				return src.interactions();
 			}
 
-			public Map<String, Map<String, Object>> userArguments(){
-				return new HashMap<String, Map<String, Object>>();
+			public Map<String, Object> userArguments(){
+				return new HashMap<String, Object>();
 			}
 
 			public String defaultInteraction() {
