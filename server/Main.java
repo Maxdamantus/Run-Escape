@@ -59,6 +59,7 @@ public class Main {
 
 	private static void runServer(int port, GameModel game) {		
 		int uid = 0;
+		int nclients = 2;
 		boolean started = false;
 		// Listen for connections
 		System.out.println("GAME SERVER LISTENING ON PORT " + port);
@@ -73,23 +74,13 @@ public class Main {
 				Server newSer = new Server(s,uid,game);
 				connections.add(newSer);
 				newSer.start();
-				if(uid == 0){
-					started = true;
-					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
-				}
 				uid++;; //this will add players unique identifier in future.
 				ArrayList<Server> remove = new ArrayList<Server>();
 				//check for dead clients
-				for(Server ser : connections){
-					if(ser.getExit() == true){
-						remove.add(ser);
-					}
-				}
-				//remove dead clients
-				for(Server ser : remove){
-					connections.remove(ser);
-				}
-				if(connections.isEmpty() && started) {
+				if(connections.size() == nclients){
+					started = true;
+					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
+					runGame(connections, game);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME ENDS");
 					return; // done
 				}
@@ -107,13 +98,21 @@ public class Main {
 	 * @param connections
 	 * @return
 	 */
-	private static boolean atleastOneConnection(Server... connections) {
+	private static boolean atleastOneConnection(ArrayList<Server> connections) {
 		for (Server m : connections) {
 			if (m.isAlive()) {
 				return true;
 			}			
 		}
 		return false;
+	}
+	
+	private static void runGame(ArrayList<Server> connections, GameModel game){
+		while(atleastOneConnection(connections)){
+	//		while(game.state() != "Won") {
+	//			Thread.yield();
+	//		}
+		}
 	}
 	
 	private static void pause(int delay) {
