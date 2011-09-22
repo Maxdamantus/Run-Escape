@@ -40,7 +40,7 @@ public abstract class AbstractGameThing implements GameThing {
 	}
 
 	public int gid(){
-		return 0;
+		return gid;
 	}
 
 	public List<String> interactions(){
