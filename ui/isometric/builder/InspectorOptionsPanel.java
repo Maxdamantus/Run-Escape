@@ -7,15 +7,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ui.isometric.IsoSquare;
+import clientinterface.GameThing;
 
 public class InspectorOptionsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private IsoSquare square;
+	private GameThing square;
 	
-	public InspectorOptionsPanel(IsoSquare sq) {
-		square = sq;
+	public InspectorOptionsPanel(GameThing g) {
+		square = g;
 		this.setPreferredSize(new Dimension(10000, 40));
 		
 		JButton add = new JButton("Add");
@@ -26,6 +26,7 @@ public class InspectorOptionsPanel extends JPanel {
 			}
 		});
 		this.add(add);
+		add.setEnabled(g != null);
 		
 		this.validate();
 	}

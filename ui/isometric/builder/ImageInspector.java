@@ -23,7 +23,7 @@ public class ImageInspector extends JPanel {
 		this.setPreferredSize(new Dimension(200000, 50));
 		
 		image = new ImagePanel(im);
-		image.setSize(50, 50);
+		image.setSize(im.width(), im.height());
 		this.add(image);
 		
 		JButton rotateCW = new JButton("Rotate CW");

@@ -56,6 +56,8 @@ public class IsoInterfaceWorldBuilder {
 		inspector = new JFrame();
 		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
 		inspector.setSize(200, 400);
+		inspector.getContentPane().add(Box.createVerticalGlue());
+		inspector.getContentPane().add(new InspectorOptionsPanel(null)); // TODO: Why doesn't this go away after being removed
 		inspector.validate();
 	}
 	
@@ -87,8 +89,9 @@ public class IsoInterfaceWorldBuilder {
 			}
 			
 			inspector.getContentPane().add(Box.createVerticalGlue());
-			inspector.getContentPane().add(new InspectorOptionsPanel(s));
-			inspector.validate();
+			inspector.getContentPane().add(new InspectorOptionsPanel(i.gameThing()));
 		}
+		
+		inspector.validate();
 	}
 }
