@@ -35,6 +35,13 @@ public class Level {
 		put(gt.position(), to, gt);
 	}
 
+	public boolean contains(GameThing gt){
+		for(GameThing g : portion(gt.position(), gt.position()))
+			if(gt == g)
+				return true;
+		return false;
+	}
+
 	public Iterable<GameThing> portion(Position min, Position max){
 		Set<GameThing> res = new HashSet<GameThing>();
 		for(Map.Entry<Position, GameThing> kv : map.portion(min, max))

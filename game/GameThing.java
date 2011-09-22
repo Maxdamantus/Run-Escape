@@ -10,6 +10,8 @@ public interface GameThing {
 	public Direction direction(Direction set);
 	public Area area();
 	public String renderer();
+	// TODO: not this!
+	public Level getLevel();
 	public int gid();
 	public List<String> interactions();
 	public void interact(String inter, GamePlayer who);

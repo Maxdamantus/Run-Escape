@@ -8,6 +8,7 @@ public abstract class AbstractGameThing implements GameThing {
 	private Direction dir;
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
+	private GameModel modelblah;
 
 	public AbstractGameThing(GameModel model){
 		pos = new Position(0, 0);
@@ -55,6 +56,10 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public boolean didWalkInto(Position p, Direction d, GamePlayer who){
 		return true;
+	}
+
+	public Level getLevel(){
+		return modelblah.getLevelFor(this);
 	}
 
 	public String toString(){

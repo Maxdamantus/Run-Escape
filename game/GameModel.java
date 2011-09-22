@@ -10,6 +10,13 @@ public class GameModel {
 		return allThings.get(gid);
 	}
 
+	public Level getLevelFor(GameThing gt){
+		for(Map.Entry<Integer, Level> l : levels.entrySet())
+			if(l.getValue().contains(gt))
+				return l.getValue();
+		return null;
+	}
+
 	public int introduce(GameThing gt){
 		int r;
 		// slow, probably, should use PRNG
