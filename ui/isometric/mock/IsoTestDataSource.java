@@ -18,14 +18,14 @@ import util.Position;
  *
  */
 public class IsoTestDataSource implements IsoDataSource {
-	private IsoImage floor = new IsoImage("/resources/isotiles/test/floor.png");
-	private IsoImage floorpool = new IsoImage("/resources/isotiles/test/floorpool.png");
-	private IsoImage floorpost = new IsoImage("/resources/isotiles/test/floorpost.png");
-	private IsoImage floorstone = new IsoImage("/resources/isotiles/test/floorstone.png");
-	private IsoImage floortree = new IsoImage("/resources/isotiles/test/floortree.png");
-	private IsoImage wally = new IsoImage("/resources/isotiles/test/wally.png");
-	private IsoImage wallx = new IsoImage("/resources/isotiles/test/wallx.png");
-	private IsoImage wallcross = new IsoImage("/resources/isotiles/test/wallcross.png");
+	private IsoImage floor = new IsoImage("/resources/isotiles/test/floor.png", null);
+	private IsoImage floorpool = new IsoImage("/resources/isotiles/test/floorpool.png", null);
+	private IsoImage floorpost = new IsoImage("/resources/isotiles/test/floorpost.png", null);
+	private IsoImage floorstone = new IsoImage("/resources/isotiles/test/floorstone.png", null);
+	private IsoImage floortree = new IsoImage("/resources/isotiles/test/floortree.png", null);
+	private IsoImage wally = new IsoImage("/resources/isotiles/test/wally.png", null);
+	private IsoImage wallx = new IsoImage("/resources/isotiles/test/wallx.png", null);
+	private IsoImage wallcross = new IsoImage("/resources/isotiles/test/wallcross.png", null);
 	
 	/**
 	 * Dummy transform class that doesn't do anything

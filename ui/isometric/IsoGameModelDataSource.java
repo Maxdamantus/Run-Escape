@@ -20,7 +20,6 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	private GameModel gameModel;
 	private IsoSquare[][] squares = null;
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
-	private IsoRendererLibrary rendererLibrary = new IsoRendererLibrary();
 	private IsoSquare emptySquare = new IsoSquare();
 	
 	private Direction viewDirection;
@@ -93,7 +92,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 			if(square == null) {
 				square = new IsoSquare();
 			}
-			square.addImageForLevel(rendererLibrary.newImageFromGameThing(thing, viewDirection), rendererLibrary.levelFromArguments(thing.userArguments()));
+			square.addImageForLevel(IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection), IsoRendererLibrary.levelFromArguments(thing.userArguments()));
 			squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY] = square;
 		}
 		cacheChange.writeLock().unlock();

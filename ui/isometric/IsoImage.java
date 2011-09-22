@@ -16,21 +16,26 @@ import util.*;
 public class IsoImage {
 	private BufferedImage image;
 	private GameThing gameThing = null;
+	private IsoSquare square;
 	
 	/**
-	 * Create an IsoImage with a given resource path/name
-	 * Converts the color white into alpha
+	 * Create an IsoImage with a given resource path and square that it is on
 	 * @param path
+	 * @param square
+	 * @param name
 	 */
-	public IsoImage(String path) {
-		image = Resources.readImageResourceUnfliped(path);
+	public IsoImage(String path, IsoSquare square) {
+		this.square = square;
+		this.image = Resources.readImageResourceUnfliped(path);
 	}
 
 	/**
-	 * Create an IsoImage with an existing image
+	 * Create an IsoImage with an existing image and square it is on
 	 * @param image
+	 * @param square
 	 */
-	public IsoImage(BufferedImage image) {
+	public IsoImage(BufferedImage image, IsoSquare square) {
+		this.square = square;
 		this.image = image;
 	}
 
@@ -72,5 +77,13 @@ public class IsoImage {
 	 */
 	public void setGameThing(GameThing thing) {
 		gameThing = thing;
+	}
+
+	/**
+	 * Get the IsoSquare that this image is on
+	 * @return
+	 */
+	public IsoSquare square() {
+		return square;
 	}
 }

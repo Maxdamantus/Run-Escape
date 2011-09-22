@@ -163,7 +163,7 @@ public class IsoRendererLibrary {
 	 * @param viewDirection
 	 * @return
 	 */
-	public BufferedImage imageForRendererName(String rendererName, Direction viewDirection) {
+	public static BufferedImage imageForRendererName(String rendererName, Direction viewDirection) {
 		if(renderers == null) {
 			IsoRendererLibrary.loadImages();
 		}
@@ -183,7 +183,7 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public int levelFromArguments(Map<String, Map<String, Object>> userArguments) {		
+	public static int levelFromArguments(Map<String, Map<String, Object>> userArguments) {		
 		Map<String, Object> map = userArguments.get(RENDERER);
 		
 		if(map != null) {
@@ -204,13 +204,14 @@ public class IsoRendererLibrary {
 	}
 
 	/**
-	 * Get a new IsoImage representing the given GameThing
+	 * Get a new IsoImage representing the given GameThing on a given square
+	 * @param square
 	 * @param thing
 	 * @param viewDirection
 	 * @return
 	 */
-	public IsoImage newImageFromGameThing(GameThing thing, Direction viewDirection) {
-		IsoImage tmp = new IsoImage(this.imageForRendererName(thing.renderer(), thing.direction().compose(viewDirection)));
+	public static IsoImage newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection) {
+		IsoImage tmp = new IsoImage(imageForRendererName(thing.renderer(), thing.direction().compose(viewDirection)), square);
 		tmp.setGameThing(thing);
 		return tmp;
 	}
