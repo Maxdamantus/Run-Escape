@@ -31,31 +31,4 @@ public class Wall extends AbstractGameThing {
 	public String renderer(){
 		return renderer;
 	}
-
-	public int gid(){
-		return gid;
-	}
-
-	//To be done
-	public List<String> interactions(){
-		return Collections.emptyList();
-	}
-
-	//To be done
-	public void interact(String inter, GamePlayer who){}
-
-	//To be done
-	public boolean canWalkInto(Position p, Direction d, GamePlayer who){
-		return true;
-	}
-
-	//To be done
-	public boolean didWalkInto(Position p, Direction d, GamePlayer who){
-		return true;
-	}
-
-	//To be done
-	public String toString(){
-		return "(" + renderer() + ")";
-	}
 }
