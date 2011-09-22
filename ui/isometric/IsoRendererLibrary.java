@@ -3,6 +3,7 @@ package ui.isometric;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import util.Direction;
 import util.Resources;
@@ -23,6 +24,18 @@ public class IsoRendererLibrary {
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
 	
+	/**
+	 * Get the renderers, if null create them
+	 * @return
+	 */
+	private static Map<String, Map<Direction, BufferedImage>> renderers() {
+		if(renderers == null) {
+			loadImages();
+		}
+		
+		return renderers;
+	}
+
 	/**
 	 * Load all the images from disk into our internal data structures
 	 */
@@ -164,11 +177,7 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	public static BufferedImage imageForRendererName(String rendererName, Direction viewDirection) {
-		if(renderers == null) {
-			IsoRendererLibrary.loadImages();
-		}
-		
-		Map<Direction, BufferedImage> renderer = renderers.get(rendererName);
+		Map<Direction, BufferedImage> renderer = renderers().get(rendererName);
 		if(renderer != null) {
 			return renderer.get(viewDirection);
 		}
@@ -214,5 +223,13 @@ public class IsoRendererLibrary {
 		IsoImage tmp = new IsoImage(imageForRendererName(thing.renderer(), thing.direction().compose(viewDirection)), square);
 		tmp.setGameThing(thing);
 		return tmp;
+	}
+
+	/**
+	 * Get all the renderers supported
+	 * @return
+	 */
+	public static Set<String> allRendererNames() {
+		return renderers().keySet();
 	}
 }

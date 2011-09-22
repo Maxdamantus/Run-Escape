@@ -25,6 +25,8 @@ import clientinterface.GameThing;
 public class IsoInterfaceWorldBuilder {
 	private JFrame frame;
 	private JFrame inspector;
+	private LibraryFrame library;
+	
 	private IsoCanvas canvas;
 	
 	private GameModel model;
@@ -60,6 +62,8 @@ public class IsoInterfaceWorldBuilder {
 		inspector.getContentPane().add(Box.createVerticalGlue());
 		inspector.getContentPane().add(new InspectorOptionsPanel(null)); // TODO: Why doesn't this go away after being removed
 		inspector.validate();
+		
+		library = new LibraryFrame();
 	}
 	
 	/**
@@ -68,6 +72,7 @@ public class IsoInterfaceWorldBuilder {
 	public void show() {
 		frame.setVisible(true);
 		inspector.setVisible(true);
+		library.setVisible(true);
 	}
 	
 	/**

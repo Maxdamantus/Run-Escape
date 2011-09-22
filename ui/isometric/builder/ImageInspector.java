@@ -22,7 +22,7 @@ public class ImageInspector extends JPanel {
 		this.setSize(0, 50);
 		this.setPreferredSize(new Dimension(200000, 50));
 		
-		image = new ImagePanel(im);
+		image = new ImagePanel(im.image());
 		image.setSize(im.width(), im.height());
 		this.add(image);
 		

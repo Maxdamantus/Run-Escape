@@ -2,16 +2,15 @@ package ui.isometric.builder;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
-
-import ui.isometric.IsoImage;
+import java.awt.image.BufferedImage;
 
 public class ImagePanel extends Canvas {
 	private static final long serialVersionUID = 1L;
 	
-	private IsoImage image;
+	private BufferedImage image;
 	
-	public ImagePanel(IsoImage im) {
-		this.image = im;
+	public ImagePanel(BufferedImage bufferedImage) {
+		this.image = bufferedImage;
 	}
 
 	@Override
@@ -20,8 +19,8 @@ public class ImagePanel extends Canvas {
 		double vheight = this.getHeight();
 		double vaspect = vwidth/vheight;
 		
-		double iwidth = image.width();
-		double iheight = image.height();
+		double iwidth = image.getWidth();
+		double iheight = image.getHeight();
 		double iaspect = iwidth/iheight;
 		
 		if(iaspect < vaspect) {
@@ -31,6 +30,6 @@ public class ImagePanel extends Canvas {
 			vheight = vwidth / iaspect;
 		}
 				
-		g.drawImage(image.image(), (this.getWidth() - (int)vwidth)/2, (this.getHeight() - (int)vheight)/2, (int)vwidth, (int)vheight, this);
+		g.drawImage(image, (this.getWidth() - (int)vwidth)/2, (this.getHeight() - (int)vheight)/2, (int)vwidth, (int)vheight, this);
 	}
 }
