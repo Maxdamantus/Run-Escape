@@ -1,6 +1,5 @@
 package ui.isometric.mock;
 
-import game.PlayerMessage;
 import clientinterface.GameLogic;
 import clientinterface.GameThing;
 
@@ -14,8 +13,8 @@ import clientinterface.GameThing;
 public class IsoGameLogicMock implements GameLogic {
 
 	@Override
-	public void performActionOn(String action, GameThing object, PlayerMessage who) {
-		System.out.println("Perform " + action + " on " + object + " by " + who);
+	public void performActionOn(String action, GameThing object) {
+		System.out.println("Perform " + action + " on " + object);
 	}
 
 }
