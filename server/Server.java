@@ -49,7 +49,7 @@ public final class Server extends Thread {
 			//		model.update();
 					// Now, broadcast the state of the board to client
 					//Update to game array 
-					String update = "You're gay\n";
+					String update = "Update\n";
 					bw.write(update);
 					bw.flush();
 					Thread.sleep(100);
