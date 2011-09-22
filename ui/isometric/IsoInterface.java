@@ -62,7 +62,7 @@ public class IsoInterface implements PlayerMessage {
 									
 									if(s instanceof JMenuItem) {
 										JMenuItem m = (JMenuItem)s;
-										isoInterface.gameLogic().performActionOn(m.getText(), thing, isoInterface);
+										isoInterface.gameLogic().performActionOn(m.getText(), thing);
 									}
 								}
 							});
@@ -71,7 +71,7 @@ public class IsoInterface implements PlayerMessage {
 						popup.show(canvas, event.getPoint().x, event.getPoint().y);
 					}
 					else {
-						isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing(), isoInterface);
+						isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
 					}
 				}
 			}
