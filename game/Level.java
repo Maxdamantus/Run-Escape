@@ -33,6 +33,7 @@ public class Level {
 
 	public void direct(Direction to, GameThing gt){
 		put(gt.position(), to, gt);
+		gt.direction(to);
 	}
 
 	public boolean contains(GameThing gt){
