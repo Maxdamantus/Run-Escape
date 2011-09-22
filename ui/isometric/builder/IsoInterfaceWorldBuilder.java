@@ -83,6 +83,8 @@ public class IsoInterfaceWorldBuilder {
 				ImageInspector ins = new ImageInspector(im);
 				inspector.getContentPane().add(ins);
 			}
+			
+			inspector.validate();
 		}
 	}
 }

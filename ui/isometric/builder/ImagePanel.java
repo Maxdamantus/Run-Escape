@@ -16,6 +16,21 @@ public class ImagePanel extends Canvas {
 
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(image.image(), 0, 0, this.getWidth(), this.getHeight(), this);
+		double vwidth = this.getWidth();
+		double vheight = this.getHeight();
+		double vaspect = vwidth/vheight;
+		
+		double iwidth = image.width();
+		double iheight = image.height();
+		double iaspect = iwidth/iheight;
+		
+		if(iaspect < vaspect) {
+			vwidth = iaspect * vheight;
+		}
+		else {
+			vheight = vwidth / iaspect;
+		}
+				
+		g.drawImage(image.image(), (this.getWidth() - (int)vwidth)/2, (this.getHeight() - (int)vheight)/2, (int)vwidth, (int)vheight, this);
 	}
 }
