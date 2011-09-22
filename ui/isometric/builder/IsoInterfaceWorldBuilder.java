@@ -2,6 +2,7 @@ package ui.isometric.builder;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import ui.isometric.IsoCanvas;
@@ -53,8 +54,9 @@ public class IsoInterfaceWorldBuilder {
 		frame.pack();
 		
 		inspector = new JFrame();
-		new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS);
+		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
 		inspector.setSize(200, 400);
+		inspector.validate();
 	}
 	
 	/**
@@ -84,6 +86,8 @@ public class IsoInterfaceWorldBuilder {
 				inspector.getContentPane().add(ins);
 			}
 			
+			inspector.getContentPane().add(Box.createVerticalGlue());
+			inspector.getContentPane().add(new InspectorOptionsPanel(s));
 			inspector.validate();
 		}
 	}

@@ -43,6 +43,17 @@ public class ImageInspector extends JPanel {
 			}
 		});
 		this.add(rotateCCW);
+		
+		JButton remove = new JButton("Remove");
+		remove.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remove();
+			}
+		});
+		this.add(remove);
+		
+		this.validate();
 	}
 	
 	private void rotateCW() {
@@ -51,5 +62,9 @@ public class ImageInspector extends JPanel {
 	
 	private void rotateCCW() {
 		System.out.println("Set image " + isoImage.gameThing().renderer() + " from direction " + isoImage.gameThing().direction() + " to " + isoImage.gameThing().direction().compose(Direction.EAST));
+	}
+	
+	private void remove() {
+		System.out.println("Remove image " + isoImage.gameThing().renderer());
 	}
 }
