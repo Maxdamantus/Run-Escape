@@ -8,6 +8,7 @@ public abstract class AbstractGameThing implements GameThing {
 	private Direction dir;
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
+	private final Map<String, Object> userArguments = new HashMap<String, Object>();
 	private GameModel modelblah;
 
 	public AbstractGameThing(GameModel model){
@@ -61,6 +62,10 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public Level getLevel(){
 		return modelblah.getLevelFor(this);
+	}
+
+	public Map<String, Object> userArguments(){
+		return userArguments;
 	}
 
 	public String toString(){
