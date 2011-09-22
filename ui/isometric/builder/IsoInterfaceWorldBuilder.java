@@ -11,6 +11,7 @@ import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
 import ui.isometric.IsoSquare;
 
+import clientinterface.Conversions;
 import clientinterface.GameLogic;
 import clientinterface.GameModel;
 import clientinterface.GameThing;
@@ -31,15 +32,17 @@ public class IsoInterfaceWorldBuilder {
 	
 	private GameModel model;
 	private GameLogic logic;
+	private game.GameModel serverGameModel;
 	
 	/**
 	 * Create a world builder interface with a given GameModel and GameLogic
 	 * @param name
-	 * @param model
+	 * @param serverModel
 	 * @param logic
 	 */
-	public IsoInterfaceWorldBuilder(String name, GameModel model, GameLogic logic) {
-		this.model = model;
+	public IsoInterfaceWorldBuilder(String name, game.GameModel serverModel, GameLogic logic) {
+		this.serverGameModel = serverModel;
+		this.model = Conversions.fromServerGameModel(serverModel);
 		this.logic = logic;
 		
 		frame = new JFrame(name);
@@ -92,7 +95,7 @@ public class IsoInterfaceWorldBuilder {
 			g = i.gameThing();
 			
 			for(IsoImage im : s) {
-				ImageInspector ins = new ImageInspector(im);
+				ImageInspector ins = new ImageInspector(im, this);
 				inspector.getContentPane().add(ins);
 			}
 		}
@@ -100,5 +103,9 @@ public class IsoInterfaceWorldBuilder {
 		inspector.getContentPane().add(Box.createVerticalGlue());
 		inspector.getContentPane().add(new InspectorOptionsPanel(g));
 		inspector.validate();
+	}
+
+	public game.GameModel serverGameModel() {
+		return serverGameModel;
 	}
 }

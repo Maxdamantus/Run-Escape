@@ -16,8 +16,11 @@ public class ImageInspector extends JPanel {
 	private ImagePanel image;
 	private IsoImage isoImage;
 
-	public ImageInspector(IsoImage im) {
+	private IsoInterfaceWorldBuilder builder;
+
+	public ImageInspector(IsoImage im, IsoInterfaceWorldBuilder b) {
 		isoImage = im;
+		builder = b;
 		
 		this.setSize(0, 50);
 		this.setPreferredSize(new Dimension(200000, 50));
@@ -57,11 +60,19 @@ public class ImageInspector extends JPanel {
 	}
 	
 	private void rotateCW() {
-		System.out.println("Set image " + isoImage.gameThing().renderer() + " from direction " + isoImage.gameThing().direction() + " to " + isoImage.gameThing().direction().compose(Direction.WEST));
+		game.GameThing thing = builder.serverGameModel().thingWithGID(isoImage.gameThing().gid());
+		thing.getLevel().rotate(Direction.WEST, thing);
+		this.refresh();
 	}
 	
+	private void refresh() {
+		// TODO: refresh inspector
+	}
+
 	private void rotateCCW() {
-		System.out.println("Set image " + isoImage.gameThing().renderer() + " from direction " + isoImage.gameThing().direction() + " to " + isoImage.gameThing().direction().compose(Direction.EAST));
+		game.GameThing thing = builder.serverGameModel().thingWithGID(isoImage.gameThing().gid());
+		thing.getLevel().rotate(Direction.EAST, thing);
+		this.refresh();
 	}
 	
 	private void remove() {
