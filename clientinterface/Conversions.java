@@ -36,7 +36,7 @@ public class Conversions {
 			}
 
 			public String defaultInteraction() {
-				return null; // TODO: max implement
+				return "nothing"; // TODO: max implement
 			}
 		};
 	}
