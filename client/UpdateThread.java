@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+import ui.isometric.IsoInterface;
+
 /**
  * Handles all game state updates 
  * @author greenwthom
@@ -13,22 +15,25 @@ import java.io.OutputStreamWriter;
 public class UpdateThread extends Thread{
 	private BufferedReader reader;
 	private BufferedWriter writer;
+	private IsoInterface view;
 	
 	
-	public UpdateThread(BufferedReader reader, BufferedWriter writer) {
+	public UpdateThread(BufferedReader reader, IsoInterface view) {
 		this.reader = reader;
-		this.writer = writer;
+		this.view = view;
 	}
 	
 	public void run() {
 		System.out.println("now using thread");
 		try {
-			writer.write("now on thread\n");
-			writer.write("again\n");
-			Thread.sleep(3000);
-			writer.write("yet again\n");
-			writer.flush();
-			while (true) System.out.println(reader.readLine());
+			while (true) {
+				String incoming = reader.readLine();
+				if (incoming.startsWith("msg")) {
+					String message = incoming.substring(3);
+					view.logMessage(message);
+					System.out.println("Message: "+message);
+				}
+			}
 			//throw new IOException();
 			
 		} catch (Exception e) {

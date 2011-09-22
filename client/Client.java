@@ -64,11 +64,9 @@ public class Client implements GameLogic{
 			writer = new BufferedWriter(out);
 			
 			//test code
-			UpdateThread network = new UpdateThread(reader, writer);
+			UpdateThread network = new UpdateThread(reader, this.getUI());
 			
-			writer.write("Handshake1\n");
-			writer.write("Handshake3\n");
-			writer.write("Handshake2\n");
+			writer.write("uid Bob\n");
 			network.start();
 			writer.write("still works here\n");
 			writer.flush();
@@ -93,10 +91,17 @@ public class Client implements GameLogic{
 	@Override
 	public void performActionOn(String action, GameThing object) {
 		try {
-			writer.write(action+"\n"+object.gid()+"\n");
+			String send = action+"\n"+object.gid()+"\n";
+			System.out.print(send);
+			writer.write(send);
+			writer.flush();
 		} catch (IOException e) {
 			System.out.println("Bother, the BufferedWriter broke");
 		}
 		
+	}
+	
+	public IsoInterface getUI() {
+		return view;
 	}
 }
