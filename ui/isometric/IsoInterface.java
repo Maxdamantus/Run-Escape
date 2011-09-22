@@ -1,10 +1,15 @@
 package ui.isometric;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import game.PlayerMessage;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import clientinterface.GameLogic;
 import clientinterface.GameModel;
@@ -19,6 +24,8 @@ import clientinterface.GameThing;
  */
 public class IsoInterface implements PlayerMessage {
 	private JFrame frame;
+	private IsoCanvas canvas;
+	private IsoInterface isoInterface = this;
 	
 	private GameModel model;
 	private GameLogic logic;
@@ -35,7 +42,43 @@ public class IsoInterface implements PlayerMessage {
 		
 		frame = new JFrame(name);
 		IsoDataSource d = new IsoGameModelDataSource(this.model);
-		IsoCanvas canvas = new IsoCanvas(this, d);
+		canvas = new IsoCanvas(d);
+		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
+			@Override
+			public void imageSelected(final IsoImage i, MouseEvent event) {
+				if(i != null) {			
+					if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
+						List<String> interactions = i.gameThing().interactions();
+						
+						JPopupMenu popup = new JPopupMenu();
+						for(String intr : interactions) {
+							JMenuItem item = new JMenuItem(intr);
+							item.addActionListener(new ActionListener() {
+								private GameThing thing = i.gameThing();
+								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									Object s = e.getSource();
+									
+									if(s instanceof JMenuItem) {
+										JMenuItem m = (JMenuItem)s;
+										isoInterface.gameLogic().performActionOn(m.getText(), thing, isoInterface);
+									}
+								}
+							});
+							popup.add(item);
+						}
+						popup.show(canvas, event.getPoint().x, event.getPoint().y);
+					}
+					else {
+						isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing(), isoInterface);
+					}
+				}
+				else {
+					// TODO: will this ever happen when we don't want it to? Ask Max
+				}
+			}
+		});
 		canvas.setSize(300, 300);
 		canvas.repaint();
 		frame.add(canvas);
