@@ -74,9 +74,6 @@ public class IsoInterface implements PlayerMessage {
 						isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing(), isoInterface);
 					}
 				}
-				else {
-					// TODO: will this ever happen when we don't want it to? Ask Max
-				}
 			}
 		});
 		canvas.setSize(300, 300);
