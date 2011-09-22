@@ -3,6 +3,8 @@ import java.util.*;
 import java.io.StringWriter;
 import java.text.*;
 
+import data.Database;
+
 //import data.Database;
 
 import serialization.Serializer;
@@ -44,7 +46,8 @@ class SerializersTest {
 		integerList.add(1);
 		integerList.add(2);
 		Tree listInt = serLI.write(integerList);
-		listInt.print();
+		System.out.println(Database.test(listInt));
+//		listInt.print();
 		
 		
 		
