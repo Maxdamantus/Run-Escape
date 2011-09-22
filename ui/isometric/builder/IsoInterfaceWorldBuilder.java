@@ -13,6 +13,7 @@ import ui.isometric.IsoSquare;
 
 import clientinterface.GameLogic;
 import clientinterface.GameModel;
+import clientinterface.GameThing;
 
 /**
  * 
@@ -79,19 +80,20 @@ public class IsoInterfaceWorldBuilder {
 	
 	private void inspect(IsoImage i) {
 		inspector.getContentPane().removeAll();
+		GameThing g = null;
 		
 		if(i != null) {
 			IsoSquare s = i.square();
+			g = i.gameThing();
 			
 			for(IsoImage im : s) {
 				ImageInspector ins = new ImageInspector(im);
 				inspector.getContentPane().add(ins);
 			}
-			
-			inspector.getContentPane().add(Box.createVerticalGlue());
-			inspector.getContentPane().add(new InspectorOptionsPanel(i.gameThing()));
 		}
 		
+		inspector.getContentPane().add(Box.createVerticalGlue());
+		inspector.getContentPane().add(new InspectorOptionsPanel(g));
 		inspector.validate();
 	}
 }
