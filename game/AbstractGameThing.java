@@ -14,6 +14,7 @@ public abstract class AbstractGameThing implements GameThing {
 		pos = new Position(0, 0);
 		dir = Direction.NORTH;
 		gid = model.introduce(this);
+		modelblah = model;
 	}
 
 	public Position position(){
