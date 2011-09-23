@@ -46,6 +46,8 @@ class SerializersTest {
 		integerList.add(1);
 		integerList.add(2);
 		Tree listInt = serLI.write(integerList);
+//		System.out.println(Database.treeToXML(listInt));
+//		Database.treeFromXML((Database.treeToXML(listInt))).print();
 		System.out.println(Database.test(listInt));
 //		listInt.print();
 		

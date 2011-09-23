@@ -1,5 +1,6 @@
 package data;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -15,10 +16,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import serialization.Tree;
-import xml.XML;
 
 public class Database { // Call this something different and make it a class
 	
@@ -35,6 +37,7 @@ public class Database { // Call this something different and make it a class
 	//Should return XML instead of String, but for meantime use String
 	public static String treeToXML(Tree tree){
 		StringWriter sw = new StringWriter();
+		sw.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 		treeToXML(tree, sw);
 		return sw.toString();
 	}
@@ -67,8 +70,12 @@ public class Database { // Call this something different and make it a class
 		}else{
 			for(Tree.Entry t : tree.children()){
 				Node n = doc.createElement(t.name());
-				node.appendChild(n);
+				System.out.println("t.name(): " + t.name());
+				System.out.println("t.tree(): " + t.tree());
+				System.out.println("node: "+ n);
 				treeToDOC(t.tree(), doc, n);
+				node.appendChild(n);
+				System.out.println("node.appendChild(n): "+ n);
 			}
 		}
 	}
@@ -87,13 +94,50 @@ public class Database { // Call this something different and make it a class
 		return sw.toString();
 	}
 	
+	public static Tree treeFromXML(String XML){
+		//set up the factory
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		Document d = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		//provide the XML input
+		InputSource is = new InputSource( new StringReader( XML ) );
+		//this will fail without valid XML, it must have "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
+		try {
+			d = builder.parse( is );
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Node node = d.getChildNodes().item(0);
+		return treeFromXML(node);
+	}
+	
+
 	//Should take XML instead of String, but for meantime use String
-//	public static Tree treeFromXML(String xml){
-//		InputSource is = new InputSource( new StringReader( xml ) );
-//		//this will fail without valid XML, it must have "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
-//		Document d = newDocument().parse( is );
-//		return null;
-//	}
+	public static Tree treeFromXML(Node node){
+		if (node.hasChildNodes()){
+			//if it does, get them into a node list
+			NodeList nl = node.getChildNodes();
+			for (int i = 0; i < nl.getLength(); i++){
+				//looping over the second level of XML provided, aka the children of the root class
+				treeFromXML(nl.item(0));
+			}
+		}
+		else{
+			if (node.getNodeName().toLowerCase().startsWith("*")){
+				//if the node name equals one of these predefined values, set the string to be the nodes content
+				return new Tree(node.getTextContent().substring(1));
+			}
+		}
+		return null;
+	}
+	
 	public String treeToString(Tree tree){
 		return null;
 		
