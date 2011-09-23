@@ -68,7 +68,6 @@ public class Client implements GameLogic{
 			
 			writer.write("uid Bob\n");
 			network.start();
-			writer.write("still works here\n");
 			writer.flush();
 
 			

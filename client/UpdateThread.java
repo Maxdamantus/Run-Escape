@@ -24,7 +24,6 @@ public class UpdateThread extends Thread{
 	}
 	
 	public void run() {
-		System.out.println("now using thread");
 		try {
 			while (true) {
 				String incoming = reader.readLine();
@@ -33,8 +32,11 @@ public class UpdateThread extends Thread{
 					view.logMessage(message);
 					System.out.println("Message: "+message);
 				}
+				else if (incoming.startsWith("upd")) {
+					String update= incoming.substring(3);
+					System.out.println("updated: "+update);				
+				}
 			}
-			//throw new IOException();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
