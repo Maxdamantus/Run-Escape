@@ -32,7 +32,7 @@ public class Conversions {
 			}
 
 			public Map<String, Object> userArguments(){
-				return new HashMap<String, Object>();
+				return src.userArguments();
 			}
 
 			public String defaultInteraction() {

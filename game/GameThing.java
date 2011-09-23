@@ -15,7 +15,6 @@ public interface GameThing {
 	public int gid();
 	public List<String> interactions();
 	public void interact(String inter, GamePlayer who);
-	// wtf
 	public Map<String, Object> userArguments();
 	public boolean canWalkInto(Position p, Direction d, GamePlayer who);
 	public boolean didWalkInto(Position p, Direction d, GamePlayer who);
