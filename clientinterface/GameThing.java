@@ -12,8 +12,8 @@ public class GameThing {
 	private Location location;
 	private Map<String, Object> userArguments;
 
-	public GameThing(int g, Location l, Area a, String r, List<String> i, Map<String, Object> userArguments){
-		gid = g; location = l; area = a; renderer = r; interactions = i;
+	public GameThing(int g, Location l, Area a, String r, List<String> i, Map<String, Object> u){
+		gid = g; location = l; area = a; renderer = r; interactions = i; userArguments = u;
 	}
 
 /*

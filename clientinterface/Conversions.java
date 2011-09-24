@@ -5,6 +5,16 @@ import util.*;
 import java.util.*;
 
 public class Conversions {
+	public static GameThing fromServerGameThing(game.GameThing src){
+		return new GameThing(src.gid(), fromServerLocation(src.location()), src.area(), src.renderer(), src.interactions(), new HashMap<String, Object>());
+	}
+
+	public static Location fromServerLocation(game.Location src){
+		if(src instanceof game.LevelLocation)
+			return new LevelLocation(((game.LevelLocation)src).position(), ((game.LevelLocation)src).direction());
+		throw new RuntimeException("wtf");
+	}
+/*
 	public static GameThing fromServerGameThing(final game.GameThing src){
 		return new GameThing(){
 			private Location location = src.location();
@@ -46,6 +56,7 @@ public class Conversions {
 			}
 		};
 	}
+	*/
 
 	public static GameModel fromServerGameModel(final game.GameModel src){
 		return new GameModel(){

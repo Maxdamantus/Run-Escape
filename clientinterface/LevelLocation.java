@@ -1,5 +1,7 @@
 package clientinterface;
 
+import util.*;
+
 public class LevelLocation implements Location {
 	private final Position position;
 	private final Direction direction;

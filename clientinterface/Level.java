@@ -9,7 +9,7 @@ public class Level implements Location {
 	public void put(Position p, Direction d, GameThing gt){
 		for(Position bit : gt.area().translated(p))
 			map.put(bit, gt);
-		gt.position(p);
+		gt.location(new LevelLocation(p, d));
 	}
 
 	public void put(Position p, GameThing gt){
@@ -17,20 +17,46 @@ public class Level implements Location {
 	}
 
 	public void remove(GameThing gt){
-		for(Position bit : gt.area().translated(gt.position()))
-			map.remove(bit, gt);
+		Location l = gt.location();
+		if(l instanceof LevelLocation)
+			for(Position bit : gt.area().translated(((LevelLocation)l).position()))
+				map.remove(bit, gt);
+		else
+			throw new RuntimeException("wtf");
+	}
+
+	// convenience, maybe
+	public void move(Position to, GameThing gt){
+		remove(gt);
+		put(to, gt);
+	}
+
+	public void rotate(Direction to, GameThing gt){
+		Location l = gt.location();
+		if(l instanceof LevelLocation){
+			direct(((LevelLocation)l).direction().compose(to), gt);
+		}else
+			throw new RuntimeException("wtf");
 	}
 
 	public void direct(Direction to, GameThing gt){
-		put(gt.position(), to, gt);
-		gt.direction(to);
+		Location l = gt.location();
+		if(l instanceof LevelLocation){
+			put(((LevelLocation)l).position(), to, gt);
+			gt.location(new LevelLocation(((LevelLocation)l).position(), to));
+		}else
+			throw new RuntimeException("wtf");
 	}
 
 	public boolean contains(GameThing gt){
-		for(GameThing g : portion(gt.position(), gt.position()))
-			if(gt == g)
-				return true;
-		return false;
+		Location l = gt.location();
+		if(l instanceof LevelLocation){
+			for(GameThing g : portion(((LevelLocation)l).position(), ((LevelLocation)l).position()))
+				if(gt == g)
+					return true;
+			return false;
+		}
+		throw new RuntimeException("wtf");
 	}
 
 	public Iterable<GameThing> portion(Position min, Position max){
@@ -41,6 +67,6 @@ public class Level implements Location {
 	}
 
 	public Iterable<GameThing> portion(Area a){
-		return portion(a.position(), new Position(a.position().x() + a.width(), a.position().y() + a.height()));
+		return portion(a.position(), new Position(a.position().x() + a.width() - 1, a.position().y() + a.height() - 1));
 	}
 }
