@@ -4,34 +4,24 @@ import util.*;
 import java.util.*;
 
 public abstract class AbstractGameThing implements GameThing {
-	private Position pos;
-	private Direction dir;
+	private Location location;
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
 	private final Map<String, Object> userArguments = new HashMap<String, Object>();
 	private GameModel modelblah;
 
 	public AbstractGameThing(GameModel model){
-		pos = new Position(0, 0);
-		dir = Direction.NORTH;
+		location = null; //= new Location(new Position(0, 0), Direction.NORTH);
 		gid = model.introduce(this);
 		modelblah = model;
 	}
 
-	public Position position(){
-		return pos;
+	public Location location(){
+		return location;
 	}
 
-	public Position position(Position s){
-		return pos = s;
-	}
-
-	public Direction direction(){
-		return dir;
-	}
-
-	public Direction direction(Direction s){
-		return dir = s;
+	public Location location(Location s){
+		return location = s;
 	}
 
 	public Area area(){
