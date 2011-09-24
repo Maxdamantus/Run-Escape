@@ -38,6 +38,8 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	private boolean selectionRender = false;
 	private IsoImage selectedImage = null;
 	private Point selectionPoint = new Point(0, 0);
+	
+	private static final double fps = 10;
 		
 	public interface SelectionCallback {
 		public void imageSelected(IsoImage image, MouseEvent event);
@@ -55,6 +57,18 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+					repaint();
+					try {
+						Thread.sleep((long) (1000/fps));
+					} catch (InterruptedException e) { }
+				}
+			}
+		}).start();
 	}
 	
 	@Override

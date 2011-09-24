@@ -28,8 +28,10 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	private static Map<String, Map<Direction, BufferedImage>> renderers() {
-		if(renderers == null) {
-			loadImages();
+		synchronized(IsoRendererLibrary.class) {
+			if(renderers == null) {
+				loadImages();
+			}
 		}
 		
 		return renderers;
