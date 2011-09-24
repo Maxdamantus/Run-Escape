@@ -78,6 +78,7 @@ public class Main{
 	private static void runServer(int port, GameModel game) {		
 		int uid = 0;
 		int nclients = 2;
+		Clock timer = new Clock(0);
 		// Listen for connections
 		System.out.println("GAME SERVER LISTENING ON PORT " + port);
 		try {
@@ -88,7 +89,7 @@ public class Main{
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				Server newSer = new Server(s,uid,game);
+				Server newSer = new Server(s,uid,game, timer);
 				connections.add(newSer);
 				newSer.start();
 				uid++;; //this will add players unique identifier in future.
@@ -96,6 +97,7 @@ public class Main{
 				//check for dead clients
 				if(connections.size() == nclients){
 					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
+					timer.start();
 					runGame(connections, game);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME ENDS");
 					return; // done
