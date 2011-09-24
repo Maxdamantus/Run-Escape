@@ -7,27 +7,18 @@ import java.util.*;
 public class Conversions {
 	public static GameThing fromServerGameThing(final game.GameThing src){
 		return new GameThing(){
-			private Position position = src.position();
-			private Direction direction = src.direction();
+			private Location location = src.location();
 			private Area area = src.area();
 			private String renderer = src.renderer();
 			private final int gid = src.gid();
 			private List<String> interactions = new ArrayList<String>(src.interactions());
 
-			public Position position(){
-				return position;
+			public Location location(){
+				return location;
 			}
 
-			public Position position(Position s){
-				return position = s;
-			}
-
-			public Direction direction(){
-				return direction;
-			}
-
-			public Direction direction(Direction s){
-				return direction = s;
+			public Location location(Location s){
+				return location = s;
 			}
 
 			public Area area(){

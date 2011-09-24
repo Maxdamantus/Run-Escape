@@ -4,10 +4,8 @@ import util.*;
 import java.util.*;
 
 public interface GameThing {
-	public Position position();
-	public Position position(Position set);
-	public Direction direction();
-	public Direction direction(Direction set);
+	public Location location();
+	public Location location(Location l);
 	public Area area();
 	public String renderer();
 	// TODO: not this!

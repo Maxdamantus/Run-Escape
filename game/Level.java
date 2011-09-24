@@ -3,7 +3,7 @@ package game;
 import util.*;
 import java.util.*;
 
-public class Level {
+public class Level implements Location {
 	QuadTree<GameThing> map = new QuadTree<GameThing>();
 
 	public void put(Position p, Direction d, GameThing gt){
