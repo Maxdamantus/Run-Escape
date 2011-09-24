@@ -51,6 +51,8 @@ class SerializersTest {
 		listInt.add(new Tree.Entry("rrr", new Tree("")));
 		listInt.add(new Tree.Entry("rrr", new Tree("*")));
 		listInt.add(new Tree.Entry("rrr", new Tree("#")));
+		listInt.add(new Tree.Entry("rrr", new Tree(" ")));
+		listInt.add(new Tree.Entry("rrr", new Tree("<>")));
 		listInt.add(new Tree.Entry("bbb", new Tree()));
 		System.out.println(listInt);
 		String xml = Database.treeToXML(listInt);

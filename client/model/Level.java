@@ -3,28 +3,33 @@ package client.model;
 import util.*;
 import java.util.*;
 
-public class Level implements Location {
-	QuadTree<GameThing> map = new QuadTree<GameThing>();
+public class Level {
+	private final GameModel world;
+	private final int level;
+	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
+
+	public Level(GameModel w, int l){
+		world = w; level = l;
+	}
 
 	public void put(Position p, Direction d, GameThing gt){
+		// TODO: rotate area!!!
 		for(Position bit : gt.area().translated(p))
 			map.put(bit, gt);
-		gt.location(new LevelLocation(p, d));
+		gt.location(new LevelLocation(world, level, p, d));
 	}
 
 	public void put(Position p, GameThing gt){
 		put(p, Direction.NORTH, gt);
 	}
 
-	public void remove(GameThing gt){
-		Location l = gt.location();
-		if(l instanceof LevelLocation)
-			for(Position bit : gt.area().translated(((LevelLocation)l).position()))
-				map.remove(bit, gt);
-		else
-			throw new RuntimeException("wtf");
+	public void remove(GameThing gt, Position pos){
+		// TODO: rotate area!!!
+		for(Position bit : gt.area().translated(pos))
+			map.remove(bit, gt);
+		gt.location(null);
 	}
-
+/*
 	// convenience, maybe
 	public void move(Position to, GameThing gt){
 		remove(gt);
@@ -43,20 +48,18 @@ public class Level implements Location {
 		Location l = gt.location();
 		if(l instanceof LevelLocation){
 			put(((LevelLocation)l).position(), to, gt);
-			gt.location(new LevelLocation(((LevelLocation)l).position(), to));
+			gt.location(new LevelLocation(world, level, ((LevelLocation)l).position(), to));
 		}else
 			throw new RuntimeException("wtf");
 	}
-
+*/
 	public boolean contains(GameThing gt){
 		Location l = gt.location();
-		if(l instanceof LevelLocation){
+		if(l instanceof LevelLocation && ((LevelLocation)l).level() == this)
 			for(GameThing g : portion(((LevelLocation)l).position(), ((LevelLocation)l).position()))
 				if(gt == g)
 					return true;
-			return false;
-		}
-		throw new RuntimeException("wtf");
+		return false;
 	}
 
 	public Iterable<GameThing> portion(Position min, Position max){

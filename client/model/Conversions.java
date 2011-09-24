@@ -4,9 +4,15 @@ import util.*;
 
 import java.util.*;
 
+/**
+ * A temporary set of conversions for server objects to client ones; somewhat mimics the functionality that the network should offer in the future.
+ *
+ * @author maz
+ */
+
 public class Conversions {
-	public static GameThing fromServerGameThing(game.GameThing src){
-		return new GameThing(src.gid(), fromServerLocation(src.location()), src.area(), src.renderer(), src.interactions(), new HashMap<String, Object>());
+	public static GameThing fromServerGameThing(GameWorld world, game.GameThing src){
+		return GameThing.make(world, src.gid(), fromServerLocation(src.location()), src.area(), src.renderer(), src.interactions(), new HashMap<String, Object>());
 	}
 
 	public static Location fromServerLocation(game.Location src){

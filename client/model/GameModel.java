@@ -1,14 +1,39 @@
 package client.model;
 
-import util.*;
+import java.util.*;
 
-public interface GameModel {
-	public Iterable<GameThing> thingsInRect(Area a);
-	public GameThing thingWithGID(int gid);
+public class GameModel {
+	private final Map<Integer, GameThing> allThings = new HashMap<Integer, GameThing>();
+	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
+
+	public GameThing thingWithGID(int gid){
+		return allThings.get(gid);
+	}
+
+	public Level getLevelFor(GameThing gt){
+		for(Map.Entry<Integer, Level> l : levels.entrySet())
+			if(l.getValue().contains(gt))
+				return l.getValue();
+		return null;
+	}
+
+	public int register(GameThing gt){
+		allThings.put(gt.gid(), gt);
+		return r;
+	}
+
+	// if a requested level doesn't exist, I'll just create it.
+	public Level level(int n){
+		if(!levels.containsKey(n))
+			levels.put(n, new Level(this, n));
+		return levels.get(n);
+	}
+
+	public Set<Integer> levels(){
+		return levels.keySet();
+	}
 	
-	//please put these in, thanks, tom
-	
-	//public void updateModel (serialization.Tree tree);
-	
-	//in the class, please put a constructor that takes an update tree as a parameter 
+	public serialization.Tree serialize(){
+		return new serialization.Tree();
+	}
 }

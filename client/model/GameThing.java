@@ -16,7 +16,6 @@ public class GameThing {
 		gid = g; location = l; area = a; renderer = r; interactions = i; userArguments = u;
 	}
 
-
 	public void update(GameThing from){
 		if(from.gid() != gid)
 			throw new RuntimeException("wtf");
