@@ -16,11 +16,14 @@ public class GameThing {
 		gid = g; location = l; area = a; renderer = r; interactions = i; userArguments = u;
 	}
 
-/*
-	public void update(GameThing from){
-		update(from.gid(), from.position(), from.direction(), from.area(), from.renderer(), from.interactions());
-	}
 
+	public void update(GameThing from){
+		if(from.gid() != gid)
+			throw new RuntimeException("wtf");
+		location = from.location(); area = from.area(); renderer = from.renderer(); from.interactions(); from.userArguments();
+//		update(from.gid(), from.position(), from.direction(), from.area(), from.renderer(), from.interactions());
+	}
+/*
 	private void update(int g, Position p, Direction d, Area a, String r, List<String> i){
 		if(g != gid)
 			throw new RuntimeException("wtf");
