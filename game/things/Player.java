@@ -8,14 +8,13 @@ import ui.isometric.IsoRendererLibrary;
 import util.Area;
 import util.Direction;
 import util.Position;
-import game.AbstractGameThing;
-import game.GameModel;
-import game.GamePlayer;
+
+import game.*;
 
 public class Player extends AbstractGameThing {
 	private String renderer;
 
-	public Player(GameModel model, Position pos, Direction dir, String renderer){
+	public Player(GameModel model, Location loc, Direction dir, String renderer){
 		super(model);
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put(IsoRendererLibrary.RENDERER_ISOMETRIC_LEVEL, 1);
