@@ -16,6 +16,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -85,7 +89,11 @@ public class Database { // Call this something different and make it a class
 	public static String documentToString(Node doc, boolean indent){
 		StringWriter sw = new StringWriter();
 		try {
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			if(indent) {
+				tFactory.setAttribute("indent-number", 2);
+			}
+			Transformer transformer = tFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, indent?"yes":"no");
 			transformer.transform(new DOMSource(doc), new StreamResult(sw));
 		} catch (TransformerConfigurationException e) {
@@ -118,10 +126,33 @@ public class Database { // Call this something different and make it a class
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		Node node = d.getChildNodes().item(0);
+		
+		stripEmptyNodes(node);
+		
 		return xmlToTree(node);
 	}
 	
+
+	private static void stripEmptyNodes(Node node) {
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+		// XPath to find empty text nodes.
+		XPathExpression xpathExp;
+		NodeList emptyTextNodes = null;
+		try {
+			xpathExp = xpathFactory.newXPath().compile("//text()[normalize-space(.) = '']");
+			emptyTextNodes = (NodeList)xpathExp.evaluate(node, XPathConstants.NODESET);
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+
+		// Remove each empty text node from document.
+		for (int i = 0; i < emptyTextNodes.getLength(); i++) {
+		    Node emptyTextNode = emptyTextNodes.item(i);
+		    emptyTextNode.getParentNode().removeChild(emptyTextNode);
+		}
+	}
 
 	//Should take XML instead of String, but for meantime use String
 	private static Tree xmlToTree(Node node){
