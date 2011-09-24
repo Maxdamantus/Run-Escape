@@ -86,6 +86,7 @@ public class Main{
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
 			while (1 == 1) {
+				timer.start();
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
@@ -97,7 +98,7 @@ public class Main{
 				//check for dead clients
 				if(connections.size() == nclients){
 					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
-					timer.start();
+					
 					runGame(connections, game);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME ENDS");
 					return; // done
