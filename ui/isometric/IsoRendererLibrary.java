@@ -47,6 +47,8 @@ public class IsoRendererLibrary {
 			if(renderers == null) {
 				renderers = new HashMap<String, Map<Direction, BufferedImage>>();
 				
+				
+				
 				renderers.put("ground_grey_1", loadImage1("ground_grey_1"));
 				renderers.put("ground_grey_2", loadImage1("ground_grey_2"));
 				

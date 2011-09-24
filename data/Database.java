@@ -8,6 +8,8 @@ import java.text.ParseException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -59,7 +61,7 @@ public class Database { // Call this something different and make it a class
 //	}
 	
 	public static String treeToXML(Tree tree){
-		return documentToString(treeToDOC(tree));
+		return documentToString(treeToDOC(tree), true);
 	}
 	
 	public static Document treeToDOC(Tree tree){
@@ -80,10 +82,12 @@ public class Database { // Call this something different and make it a class
 		}
 	}
 	
-	public static String documentToString(Node doc){
+	public static String documentToString(Node doc, boolean indent){
 		StringWriter sw = new StringWriter();
 		try {
-			TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(sw));
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, indent?"yes":"no");
+			transformer.transform(new DOMSource(doc), new StreamResult(sw));
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerException e) {
