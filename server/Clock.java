@@ -16,9 +16,9 @@ public class Clock extends Thread {
 	public void run() {
 		curstatus = status.GO;
 		try {
-			this.sleep(1000);
+			Thread.sleep(1000);
 			curstatus = status.STOP;
-			this.sleep(50);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
