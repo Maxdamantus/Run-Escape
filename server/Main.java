@@ -14,7 +14,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import clientinterface.Conversions;
+
 import server.*;
+import ui.isometric.IsoInterface;
+import ui.isometric.mock.IsoGameLogicMock;
+import util.Direction;
+import util.Position;
 
 
 
@@ -62,7 +68,7 @@ public class Main{
 			runServer(port, model);
 		}
 		else{
-			GameModel model = null;
+			GameModel model = defaultworld();
 			runServer(port,model);
 		}		
 		System.exit(0);
@@ -132,6 +138,16 @@ public class Main{
 		} 
 		catch(InterruptedException e){			
 		}
-	}		
+	}
+	
+	public static GameModel defaultworld(){
+		game.GameModel sgm = new GameModel();
+		game.GameThing tile = new game.things.GroundTile(sgm);
+		sgm.level(0).put(new Position(5, 0), tile);
+		sgm.level(0).put(new Position(5, 1), new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
+		Position pos51 = new Position(5,1);
+		sgm.level(0).put(pos51, new game.things.Player(sgm, pos51, Direction.SOUTH, "character_cordi_empty"));
+		return sgm;
+	}
 		
 }

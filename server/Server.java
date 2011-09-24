@@ -8,6 +8,8 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
+import data.Database;
+
 
 
 /**
@@ -34,27 +36,45 @@ public final class Server extends Thread {
 			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());			
 			BufferedReader rd = new BufferedReader(input);
 			BufferedWriter bw = new BufferedWriter(output);
+			int i = 0;
 			while(!exit) {
-				try {
-					String xmlupdate = "";
-					String temp;
+				String xmlupdate = "";
+				String temp;
+				if(rd.ready()){
 					if(( temp = rd.readLine()) != null) {
-						xmlupdate+= temp;		
-					} 
-					System.out.println(xmlupdate);
-					/**
-					 * Insert game altering here
-					 */
-			//		xmlDecrypt(xmlupdate);
-			//		model.update();
-					// Now, broadcast the state of the board to client
-					//Update to game array 
-					String update = "Update\n";
-					bw.write(update);
-					bw.flush();
-					Thread.sleep(100);
-				} catch(InterruptedException e) {					
+						xmlupdate+= temp;
+					}			
+				} 
+				System.out.println(xmlupdate);
+				/**
+				 * Insert game altering here
+				 */
+				
+//		xmlDecrypt(xmlupdate);
+//		model.update();
+				// Now, broadcast the state of the board to client
+				//Update to game array 
+				
+//			To Client	
+//			msg [message]\n	messages to send to the client
+//			upd [update]\n	updates to the game model
+					
+
+//			To Server	
+//			uid [username]\n	HANDSHAKE STAGE. sets the user id, for returning after quitting
+//			[action]\n[object gid]\n	sends an interaction to the game model
+				
+				String update = Database.treeToString(model.serialize()) + " " + i;
+				System.out.println(Database.treeToString(model.serialize()) + " " + i);
+				bw.write(update);
+				bw.flush();
+				try {
+					this.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				i++;
 			}
 			socket.close(); // release socket
 		} catch(IOException e) {
