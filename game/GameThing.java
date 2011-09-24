@@ -12,8 +12,8 @@ public interface GameThing {
 	public Level getLevel();
 	public int gid();
 	public List<String> interactions();
-	public void interact(String inter, GamePlayer who);
+	public void interact(String inter, game.things.Player who);
 	public Map<String, Object> userArguments();
-	public boolean canWalkInto(Position p, Direction d, GamePlayer who);
-	public boolean didWalkInto(Position p, Direction d, GamePlayer who);
+	public boolean canWalkInto(Position p, Direction d, game.things.Player who);
+	public boolean didWalkInto(Position p, Direction d, game.things.Player who);
 }
