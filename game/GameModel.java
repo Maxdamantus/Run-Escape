@@ -37,4 +37,8 @@ public class GameModel {
 	public Set<Integer> levels(){
 		return levels.keySet();
 	}
+	
+	public serialization.Tree serialize(){
+		return new serialization.Tree();
+	}
 }
