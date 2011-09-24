@@ -34,6 +34,9 @@ public class Database { // Call this something different and make it a class
 	
 	private static final String XML_ROOT = "tree";
 	
+	private static final char STRING_ESCAPE = '*';
+	private static final char TREE_ESCAPE = '#';
+	
 	public static Document newDocument(){
 		//set up the factory
 		try {
@@ -76,12 +79,21 @@ public class Database { // Call this something different and make it a class
 	
 	private static void treeToDOC(Tree tree, Document doc, Node node){
 		if(tree.isLeaf()){
-			node.appendChild(doc.createTextNode("*"+tree.value()));
+			String value = tree.value();
+			if(value.length() == 0 || value.charAt(0) == STRING_ESCAPE || value.charAt(0) == TREE_ESCAPE) {
+				value = STRING_ESCAPE + value;
+			}
+			node.appendChild(doc.createTextNode(value));
 		}else{
-			for(Tree.Entry t : tree.children()){
-				Node n = doc.createElement(t.name());
-				treeToDOC(t.tree(), doc, n);
-				node.appendChild(n);
+			if(tree.size() > 0) {
+				for(Tree.Entry t : tree.children()){
+					Node n = doc.createElement(t.name());
+					treeToDOC(t.tree(), doc, n);
+					node.appendChild(n);
+				}
+			}
+			else {
+				node.appendChild(doc.createTextNode(""+TREE_ESCAPE));
 			}
 		}
 	}
@@ -159,7 +171,16 @@ public class Database { // Call this something different and make it a class
 		NodeList nl = node.getChildNodes();
 		Node firstChild = nl.item(0);
 		if(nl.getLength() > 0 && firstChild instanceof Text){
-				return new Tree(((Text)firstChild).getWholeText().substring(1));
+			String text = ((Text)firstChild).getWholeText();
+			if(text.charAt(0) == STRING_ESCAPE) {
+				return new Tree(text.substring(1));
+			}
+			else if(text.charAt(0) == TREE_ESCAPE) {
+				return new Tree();
+			}
+			else {
+				return new Tree(text);
+			}
 		}
 		Tree t = new Tree();
 		for(int i = 0; i < nl.getLength(); i++)

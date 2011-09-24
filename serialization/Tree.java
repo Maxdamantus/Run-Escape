@@ -149,4 +149,13 @@ public class Tree{
 			}
 		}
 	}
+	
+	public int size() {
+		if(children != null) {
+			return children.size();
+		}
+		else {
+			return 0;
+		}
+	}
 }
