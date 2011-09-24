@@ -8,6 +8,8 @@ import util.Position;
 
 import clientinterface.GameModel;
 import clientinterface.GameThing;
+import clientinterface.LevelLocation;
+import clientinterface.Location;
 
 /**
  * 
@@ -87,13 +89,16 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		
 		Iterable<GameThing> things = gameModel.thingsInRect(querryArea);
 		for(GameThing thing : things) {
-			Position pos = transform.transformMapPosition(thing.position());
-			IsoSquare square = squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY];
-			if(square == null) {
-				square = new IsoSquare();
+			Location l = thing.location();
+			if(l instanceof LevelLocation) {
+				Position pos = transform.transformMapPosition(((LevelLocation)l).position());
+				IsoSquare square = squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY];
+				if(square == null) {
+					square = new IsoSquare();
+				}
+				square.addImageForLevel(IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection), IsoRendererLibrary.levelFromArguments(thing.userArguments()));
+				squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY] = square;
 			}
-			square.addImageForLevel(IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection), IsoRendererLibrary.levelFromArguments(thing.userArguments()));
-			squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY] = square;
 		}
 		cacheChange.writeLock().unlock();
 	}

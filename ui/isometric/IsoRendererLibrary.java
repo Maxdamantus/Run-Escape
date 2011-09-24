@@ -9,6 +9,8 @@ import util.Direction;
 import util.Resources;
 
 import clientinterface.GameThing;
+import clientinterface.LevelLocation;
+import clientinterface.Location;
 
 /**
  * 
@@ -217,8 +219,14 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	public static IsoImage newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection) {
-		IsoImage tmp = new IsoImage(imageForRendererName(thing.renderer(), thing.direction().compose(viewDirection)), square);
-		tmp.setGameThing(thing);
+		IsoImage tmp = null;
+		
+		Location l = thing.location();
+		if(l instanceof LevelLocation) {
+			tmp = new IsoImage(imageForRendererName(thing.renderer(), ((LevelLocation)l).direction().compose(viewDirection)), square);
+			tmp.setGameThing(thing);
+		}
+		
 		return tmp;
 	}
 

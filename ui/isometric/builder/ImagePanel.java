@@ -32,4 +32,8 @@ public class ImagePanel extends Canvas {
 				
 		g.drawImage(image, (this.getWidth() - (int)vwidth)/2, (this.getHeight() - (int)vheight)/2, (int)vwidth, (int)vheight, this);
 	}
+	
+	public void setImage(BufferedImage i) {
+		image = i;
+	}
 }

@@ -9,12 +9,10 @@ import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
-import ui.isometric.IsoSquare;
 
 import clientinterface.Conversions;
 import clientinterface.GameLogic;
 import clientinterface.GameModel;
-import clientinterface.GameThing;
 
 /**
  * 
@@ -25,7 +23,7 @@ import clientinterface.GameThing;
  */
 public class IsoInterfaceWorldBuilder {
 	private JFrame frame;
-	private JFrame inspector;
+	private InspectorPanel inspector;
 	private LibraryFrame library;
 	
 	private IsoCanvas canvas;
@@ -59,7 +57,7 @@ public class IsoInterfaceWorldBuilder {
 		frame.add(canvas);
 		frame.pack();
 		
-		inspector = new JFrame();
+		inspector = new InspectorPanel(this);
 		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
 		inspector.setSize(200, 400);
 		inspector.getContentPane().add(Box.createVerticalGlue());
@@ -87,22 +85,12 @@ public class IsoInterfaceWorldBuilder {
 	}
 	
 	private void inspect(IsoImage i) {
-		inspector.getContentPane().removeAll();
-		GameThing g = null;
-		
-		if(i != null) {
-			IsoSquare s = i.square();
-			g = i.gameThing();
-			
-			for(IsoImage im : s) {
-				ImageInspector ins = new ImageInspector(im, this);
-				inspector.getContentPane().add(ins);
-			}
+		if(i == null) {
+			inspector.inspect(null);
 		}
-		
-		inspector.getContentPane().add(Box.createVerticalGlue());
-		inspector.getContentPane().add(new InspectorOptionsPanel(g));
-		inspector.validate();
+		else {
+			inspector.inspect(i.gameThing());
+		}
 	}
 
 	public game.GameModel serverGameModel() {
