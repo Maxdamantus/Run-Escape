@@ -23,6 +23,7 @@ public final class Server extends Thread {
 	private final int uid;
 	private final Socket socket;
 	private final Clock timer;
+	private int timerint;
 	boolean exit=false;
 
 	public Server(Socket socket, int uid, GameModel model, Clock timer) {
@@ -30,17 +31,18 @@ public final class Server extends Thread {
 		this.socket = socket;
 		this.uid = uid;
 		this.timer = timer;
+		this.timerint = timer.getCounter();
 	}
 	
 	public void run() {		
 		try {
+			
 			InputStreamReader input = new InputStreamReader(socket.getInputStream());
 			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());			
 			BufferedReader rd = new BufferedReader(input);
 			BufferedWriter bw = new BufferedWriter(output);
-			int i = 0;
 			while(!exit) {
-				if(timer.getStatus().equals(Clock.status.GO)){
+				if(timerint != timer.getCounter()){
 					String xmlupdate = "";
 					String temp;
 					if(rd.ready()){
@@ -48,6 +50,7 @@ public final class Server extends Thread {
 							xmlupdate+= temp;
 						}			
 					} 
+					System.out.println(timer.getCounter());
 					System.out.println(xmlupdate);
 					/**
 					 * Insert game altering here
@@ -66,11 +69,11 @@ public final class Server extends Thread {
 //			To Server	
 //			uid [username]\n	HANDSHAKE STAGE. sets the user id, for returning after quitting
 //			[action]\n[object gid]\n	sends an interaction to the game model
-					
-					String update = Database.treeToString(model.serialize()) + " " + i + "\n";
-					System.out.print(Database.treeToString(model.serialize()) + " " + i + "\n");
+					String update = Database.treeToString(model.serialize()) + " " + timer.getCounter() + "\n";
+					System.out.print(Database.treeToString(model.serialize()) + " " + timer.getCounter()  + "\n");
 					bw.write(update);
 					bw.flush();
+					timerint++;
 				}
 			}
 			socket.close(); // release socket

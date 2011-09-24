@@ -4,8 +4,10 @@ import server.Clock.status;
 
 public class Clock extends Thread {
 	
-	int counter;
-	status curstatus;
+	private int counter;
+	private status curstatus;
+	private int recieved;
+	private int clients;
 	
 	public Clock(int i){
 		counter = i;
@@ -14,23 +16,25 @@ public class Clock extends Thread {
 	enum status{GO,STOP};
 	
 	public void run() {
-		curstatus = status.GO;
-		try {
-			Thread.sleep(1000);
-			curstatus = status.STOP;
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		while(1 == 1){
+			try {
+				curstatus = status.GO;
+				Thread.sleep(100);
+				curstatus = status.STOP;
+				Thread.sleep(1000);
+				counter++;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
 	}
 	
-	public int getCounter(){
+	synchronized public int getCounter(){
 		return counter;
 	}
 	
-	public status getStatus(){
+	synchronized public status getStatus(){
 		return curstatus;
 	}
 }

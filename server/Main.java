@@ -14,7 +14,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import client.model.Conversions;
 
 import server.*;
 import ui.isometric.IsoInterface;
@@ -87,7 +86,6 @@ public class Main{
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
 			while (1 == 1) {
-				
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
@@ -128,9 +126,7 @@ public class Main{
 	
 	private static void runGame(ArrayList<Server> connections, GameModel game){
 		while(atleastOneConnection(connections)){
-	//		while(game.state() != "Won") {
-	//			Thread.yield();
-	//		}
+			Thread.yield();		
 		}
 	}
 	
