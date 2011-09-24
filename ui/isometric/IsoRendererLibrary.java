@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import serialization.Serializer;
+import serialization.Tree;
+import serialization.utl.Serializers;
 import util.Direction;
 import util.Resources;
 
 import client.model.GameThing;
 import client.model.LevelLocation;
 import client.model.Location;
+import data.Database;
 
 /**
  * 
@@ -25,6 +29,59 @@ public class IsoRendererLibrary {
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
 	
+	private static class ImageType {
+		private Type type;
+		private String imageName;
+		
+		private static final String NAME = "name";
+		private static final String TYPE = "type";
+		
+		protected enum Type {
+			IMAGE1,
+			IMAGE2,
+			IMAGE4;
+		}
+		
+		protected static class Serializer implements serialization.Serializer<ImageType> {
+			@Override
+			public ImageType read(Tree in) {
+				serialization.Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.string, Serializers.string);
+				Map<String, String> store = deserializer.read(in);
+				
+				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)));
+			}
+
+			@Override
+			public Tree write(ImageType in) {
+				HashMap<String, String> store = new HashMap<String, String>();
+				store.put(NAME, in.imageName);
+				store.put(TYPE, in.type.name());
+				
+				serialization.Serializer<Map<String, String>> serializer = new Serializers.Map<String, String>(Serializers.string, Serializers.string);
+				
+				return serializer.write(store);
+			}
+		}
+		
+		public ImageType(String image, Type type) {
+			this.imageName = image;
+			this.type = type;
+		}
+		
+		public Map<Direction, BufferedImage> load() {
+			switch(type) {
+				case IMAGE1:
+					return loadImage1(imageName);
+				case IMAGE2:
+					return loadImage2(imageName);
+				case IMAGE4:
+					return loadImage4(imageName);
+				default:
+					throw new RuntimeException("Unknown ImageType.Type encountered: " + type);
+			}
+		}
+	}
+
 	/**
 	 * Get the renderers, if null create them
 	 * @return
@@ -42,80 +99,18 @@ public class IsoRendererLibrary {
 	/**
 	 * Load all the images from disk into our internal data structures
 	 */
-	private static void loadImages() { // TODO: load from XML
+	private static void loadImages() {
 		synchronized(IsoRendererLibrary.class) {
 			if(renderers == null) {
 				renderers = new HashMap<String, Map<Direction, BufferedImage>>();
 				
 				
+				Serializer<Map<String, ImageType>> deserializer = new Serializers.Map<String, ImageType>(Serializers.string, new ImageType.Serializer());
+				Map<String, ImageType> types = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/isotiles/resources.xml")));
 				
-				renderers.put("ground_grey_1", loadImage1("ground_grey_1"));
-				renderers.put("ground_grey_2", loadImage1("ground_grey_2"));
-				
-				renderers.put("ground_grey_dark_circle_1", loadImage1("ground_grey_dark_circle_1"));
-				
-				renderers.put("ground_grey_dark_dots_1", loadImage1("ground_grey_dark_dots_1"));
-				renderers.put("ground_grey_green_dots_1", loadImage1("ground_grey_green_dots_1"));
-				renderers.put("ground_grey_red_dots_1", loadImage1("ground_grey_red_dots_1"));
-				
-				renderers.put("ground_grey_greenish_1", loadImage1("ground_grey_greenish_1"));
-				renderers.put("ground_grey_greenish_2", loadImage1("ground_grey_greenish_2"));
-				
-				renderers.put("ground_grey_mushrooms_1", loadImage1("ground_grey_mushrooms_1"));
-				renderers.put("ground_grey_mushrooms_2", loadImage1("ground_grey_mushrooms_2"));
-				renderers.put("ground_grey_mushrooms_3", loadImage1("ground_grey_mushrooms_3"));
-				renderers.put("ground_grey_mushrooms_4", loadImage1("ground_grey_mushrooms_4"));
-				renderers.put("ground_grey_mushrooms_5", loadImage1("ground_grey_mushrooms_5"));
-				renderers.put("ground_grey_mushrooms_6", loadImage1("ground_grey_mushrooms_6"));
-				renderers.put("ground_grey_mushrooms_7", loadImage1("ground_grey_mushrooms_7"));
-				renderers.put("ground_grey_mushrooms_8", loadImage1("ground_grey_mushrooms_8"));
-				
-				renderers.put("ground_grey_patch_1", loadImage1("ground_grey_patch_1"));
-				
-				renderers.put("ground_grey_pool_1", loadImage1("ground_grey_pool_1"));
-				renderers.put("ground_grey_pools_1", loadImage1("ground_grey_pools_1"));
-				renderers.put("ground_grey_pools_2", loadImage1("ground_grey_pools_2"));
-				
-				renderers.put("ground_grey_rock_1", loadImage1("ground_grey_rock_1"));
-				renderers.put("ground_grey_rock_2", loadImage1("ground_grey_rock_2"));
-				renderers.put("ground_grey_rock_3", loadImage1("ground_grey_rock_3"));
-				
-				renderers.put("ground_grey_spikes_1", loadImage1("ground_grey_spikes_1"));
-				renderers.put("ground_grey_spikes_2", loadImage1("ground_grey_spikes_2"));
-				renderers.put("ground_grey_spikes_3", loadImage1("ground_grey_spikes_3"));
-				
-				renderers.put("ground_grey_stones_1", loadImage1("ground_grey_stones_1"));
-				
-				renderers.put("ground_grey_trash_1", loadImage1("ground_grey_trash_1"));
-				
-				renderers.put("ground_grey_water_island_1", loadImage1("ground_grey_water_island_1"));
-				renderers.put("ground_grey_water_rock_1", loadImage1("ground_grey_water_rock_1"));
-				
-				renderers.put("ground_grey_water_corner", loadImage4("ground_grey_water_corner"));
-				renderers.put("ground_grey_water_one_side", loadImage4("ground_grey_water_one_side"));
-				renderers.put("ground_grey_water_two_sides", loadImage4("ground_grey_water_two_sides"));
-				
-				renderers.put("water_1", loadImage1("water_1"));
-				
-				
-				
-				renderers.put("ground_grey_road_corner_1", loadImage4("ground_grey_road_corner_1"));
-				renderers.put("ground_grey_road_end_1", loadImage4("ground_grey_road_end_1"));
-				
-				renderers.put("ground_grey_road_straight_1", loadImage2("ground_grey_road_straight_1"));
-				
-				renderers.put("ground_grey_road_t_1", loadImage4("ground_grey_road_t_1"));
-				
-				renderers.put("ground_grey_road_x_1", loadImage1("ground_grey_road_x_1"));
-				
-				renderers.put("ground_grey_tile_1_corner_1", loadImage4("ground_grey_tile_1_corner_1"));
-				renderers.put("ground_grey_tile_1_one_side_1", loadImage4("ground_grey_tile_1_one_side_1"));
-				renderers.put("ground_grey_tile_1_two_sides_1", loadImage4("ground_grey_tile_1_two_sides_1"));
-				
-				renderers.put("ground_tile_1_greenish_1", loadImage1("ground_tile_1_greenish_1"));
-				renderers.put("ground_tile_1", loadImage1("ground_tile_1"));
-				
-				renderers.put("character_cordi_empty", loadImage4("character_cordi_empty"));
+				for(String key : types.keySet()) {
+					renderers.put(key, types.get(key).load());
+				}
 			}
 		}
 	}
