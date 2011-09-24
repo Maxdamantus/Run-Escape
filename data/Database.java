@@ -216,11 +216,4 @@ public class Database { // Call this something different and make it a class
 			throw new RuntimeException("Parse exception: " + e.getMessage()); // TODO: wtf
 		}
 	}
-	public void writeTreeToXMLFile(Tree tree, String path){
-		
-	}
-	public Tree readTreeFromXMLFile(String path){
-		return null;
-		
-	}
 }
