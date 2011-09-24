@@ -5,13 +5,14 @@ import util.*;
 import java.util.*;
 
 public class GameThing {
-	private Area area = src.area();
-	private String renderer = src.renderer();
-	private final int gid = src.gid();
-	private List<String> interactions = new ArrayList<String>(src.interactions());
+	private Area area;
+	private String renderer;
+	private final int gid;
+	private List<String> interactions = new ArrayList<String>();
 	private Location location;
+	private Map<String, Object> userArguments;
 
-	public GameThing(int g, Location l, Area a, String r, List<String> i){
+	public GameThing(int g, Location l, Area a, String r, List<String> i, Map<String, Object> userArguments){
 		gid = g; location = l; area = a; renderer = r; interactions = i;
 	}
 
@@ -35,14 +36,6 @@ public class GameThing {
 		return location = s;
 	}
 
-	public Direction direction(){
-		return direction;
-	}
-
-	public Direction direction(Direction s){
-		return direction = s;
-	}
-
 	public Area area(){
 		return area;
 	}
@@ -60,7 +53,7 @@ public class GameThing {
 	}
 
 	public Map<String, Object> userArguments(){
-		return src.userArguments();
+		return userArguments;
 	}
 
 	public String defaultInteraction() {
