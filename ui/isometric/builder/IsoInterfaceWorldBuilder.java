@@ -10,9 +10,9 @@ import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
 
-import clientinterface.Conversions;
-import clientinterface.GameLogic;
-import clientinterface.GameModel;
+import client.model.Conversions;
+import client.model.GameLogic;
+import client.model.GameModel;
 
 /**
  * 

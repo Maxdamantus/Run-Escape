@@ -1,4 +1,4 @@
-package clientinterface;
+package client.model;
 
 import util.*;
 

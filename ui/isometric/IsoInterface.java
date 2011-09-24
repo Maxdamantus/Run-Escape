@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import clientinterface.GameLogic;
-import clientinterface.GameModel;
-import clientinterface.GameThing;
+import client.model.GameLogic;
+import client.model.GameModel;
+import client.model.GameThing;
 
 /**
  * 

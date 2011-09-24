@@ -2,7 +2,7 @@ package ui.isometric.mock;
 
 import ui.isometric.IsoInterface;
 import util.*;
-import clientinterface.*;
+import client.model.*;
 
 public class UITestMain {
 	private static game.GameModel sgm = new game.GameModel();

@@ -6,9 +6,9 @@ import java.util.Set;
 import javax.swing.Box;
 import javax.swing.JFrame;
 
-import clientinterface.GameThing;
-import clientinterface.LevelLocation;
-import clientinterface.Location;
+import client.model.GameThing;
+import client.model.LevelLocation;
+import client.model.Location;
 
 public class InspectorPanel extends JFrame {
 	private static final long serialVersionUID = 1L;

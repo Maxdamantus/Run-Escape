@@ -14,7 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import clientinterface.Conversions;
+import client.model.Conversions;
 
 import server.*;
 import ui.isometric.IsoInterface;

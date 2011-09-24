@@ -11,9 +11,9 @@ import ui.isometric.IsoInterface;
 import ui.isometric.mock.IsoGameLogicMock;
 import util.Position;
 
-import clientinterface.Conversions;
-import clientinterface.GameLogic;
-import clientinterface.GameThing;
+import client.model.Conversions;
+import client.model.GameLogic;
+import client.model.GameThing;
 
 /**
  * Main class for the client.

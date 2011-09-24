@@ -6,10 +6,10 @@ import util.Area;
 import util.Direction;
 import util.Position;
 
-import clientinterface.GameModel;
-import clientinterface.GameThing;
-import clientinterface.LevelLocation;
-import clientinterface.Location;
+import client.model.GameModel;
+import client.model.GameThing;
+import client.model.LevelLocation;
+import client.model.Location;
 
 /**
  * 

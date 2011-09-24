@@ -1,3 +1,3 @@
-package clientinterface;
+package client.model;
 
 public interface Location {}

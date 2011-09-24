@@ -1,7 +1,7 @@
 package ui.isometric.mock;
 
-import clientinterface.GameLogic;
-import clientinterface.GameThing;
+import client.model.GameLogic;
+import client.model.GameThing;
 
 /**
  * 

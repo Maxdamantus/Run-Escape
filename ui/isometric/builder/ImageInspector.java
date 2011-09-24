@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import clientinterface.Conversions;
+import client.model.Conversions;
 
 import ui.isometric.IsoImage;
 import ui.isometric.IsoRendererLibrary;

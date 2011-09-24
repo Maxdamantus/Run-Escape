@@ -8,9 +8,9 @@ import java.util.Set;
 import util.Direction;
 import util.Resources;
 
-import clientinterface.GameThing;
-import clientinterface.LevelLocation;
-import clientinterface.Location;
+import client.model.GameThing;
+import client.model.LevelLocation;
+import client.model.Location;
 
 /**
  * 

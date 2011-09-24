@@ -2,7 +2,7 @@ package ui.isometric;
 
 import java.awt.image.BufferedImage;
 
-import clientinterface.GameThing;
+import client.model.GameThing;
 
 import util.*;
 

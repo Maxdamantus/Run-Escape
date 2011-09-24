@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import clientinterface.GameThing;
+import client.model.GameThing;
 
 public class InspectorOptionsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
