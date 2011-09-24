@@ -13,11 +13,11 @@ import serialization.Tree;
 
 class SerializersTest {
 	public static void main(String[] argv) throws ParseException {
-		Serializer<List<String>> serL = new Serializers.List<String>(Serializers.string);
-		Serializer<Map<String, List<String>>> serM = new Serializers.Map<String, List<String>>(Serializers.string, serL);
+		Serializer<List<String>> serL = new Serializers.List<String>(Serializers.Serializer_String);
+		Serializer<Map<String, List<String>>> serM = new Serializers.Map<String, List<String>>(Serializers.Serializer_String, serL);
 		
 		//List<Integer>
-		Serializer<List<Integer>> serLI = new Serializers.List<Integer>(Serializers.integer);
+		Serializer<List<Integer>> serLI = new Serializers.List<Integer>(Serializers.Serializer_Integer);
 //		Serializer<Map<String, List<String>>> serM = new Serializers.Map<String, List<>>(Serializers.integer, serLI);
 		
 		//A Serializer for Map<String, List<String>>

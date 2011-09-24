@@ -108,7 +108,7 @@ public class Serializers {
 		}
 	}
 
-	public static final Serializer<String> string = new Serializer<String>(){
+	public static final Serializer<String> Serializer_String = new Serializer<String>(){
 		public String read(Tree in){
 			return in.value();
 		}
@@ -118,12 +118,33 @@ public class Serializers {
 		}
 	};
 	
-	public static final Serializer<Integer> integer = new Serializer<Integer>(){
+	public static final Serializer<Tree> Serializer_Tree = new Serializer<Tree>(){
+
+		public Tree read(Tree in) {
+			return in;
+		}
+
+		public Tree write(Tree in) {
+			return in;
+		}
+	};
+	
+	public static final Serializer<Integer> Serializer_Integer = new Serializer<Integer>(){
 		public Integer read(Tree in){
 			return Integer.parseInt(in.value());
 		}
 
 		public Tree write(Integer in){
+			return new Tree(in.toString());
+		}
+	};
+	
+	public static final Serializer<Double> Serializer_Double = new Serializer<Double>(){
+		public Double read(Tree in){
+			return Double.parseDouble(in.value());
+		}
+
+		public Tree write(Double in){
 			return new Tree(in.toString());
 		}
 	};
