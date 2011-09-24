@@ -8,7 +8,7 @@ public interface GameModel {
 	
 	//please put these in, thanks, tom
 	
-	public void updateModel (serialization.Tree tree);
+	//public void updateModel (serialization.Tree tree);
 	
 	//in the class, please put a constructor that takes an update tree as a parameter 
 }
