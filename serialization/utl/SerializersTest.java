@@ -48,7 +48,10 @@ class SerializersTest {
 		Tree listInt = serLI.write(integerList);
 //		System.out.println(Database.treeToXML(listInt));
 //		Database.treeFromXML((Database.treeToXML(listInt))).print();
-		System.out.println(Database.test(listInt));
+		System.out.println(listInt);
+		String xml = Database.treeToXML(listInt);
+		System.out.println(xml);
+		System.out.println(Database.xmlToTree(xml));
 //		listInt.print();
 		
 		

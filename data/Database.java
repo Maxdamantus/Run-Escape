@@ -3,6 +3,7 @@ package data;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.ParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,12 +18,15 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import serialization.Tree;
 
 public class Database { // Call this something different and make it a class
+	
+	private static final String XML_ROOT = "tree";
 	
 	public static Document newDocument(){
 		//set up the factory
@@ -34,53 +38,49 @@ public class Database { // Call this something different and make it a class
 		return null;
 	}
 	
-	//Should return XML instead of String, but for meantime use String
+//	//Should return XML instead of String, but for meantime use String
+//	public static String treeToXML(Tree tree){
+//		StringWriter sw = new StringWriter();
+//		sw.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
+//		treeToXML(tree, sw);
+//		return sw.toString();
+//	}
+//	
+//	public static void treeToXML(Tree tree, StringWriter sw){
+//		if(tree.isLeaf()){
+//			sw.append("*"+tree.value());
+//		}else{
+//			for(Tree.Entry t: tree.children()){
+//				sw.append("<" + t.name() + ">");
+//				treeToXML(t.tree(), sw);
+//				sw.append("</" + t.name() + ">");
+//			}
+//		}
+//	}
+	
 	public static String treeToXML(Tree tree){
-		StringWriter sw = new StringWriter();
-		sw.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-		treeToXML(tree, sw);
-		return sw.toString();
-	}
-	
-	public static void treeToXML(Tree tree, StringWriter sw){
-		if(tree.isLeaf()){
-			sw.append("*"+tree.value());
-		}else{
-			for(Tree.Entry t: tree.children()){
-				sw.append("<" + t.name() + ">");
-				treeToXML(t.tree(), sw);
-				sw.append("</" + t.name() + ">");
-			}
-		}
-	}
-	
-	public static String test(Tree tree){
 		return documentToString(treeToDOC(tree));
 	}
 	
 	public static Document treeToDOC(Tree tree){
 		Document doc = newDocument();
-		treeToDOC(tree,doc,doc);
+		treeToDOC(tree,doc,doc.appendChild(doc.createElement(XML_ROOT)));
 		return doc;
 	}
 	
-	public static void treeToDOC(Tree tree, Document doc, Node node){
+	private static void treeToDOC(Tree tree, Document doc, Node node){
 		if(tree.isLeaf()){
 			node.appendChild(doc.createTextNode("*"+tree.value()));
 		}else{
 			for(Tree.Entry t : tree.children()){
 				Node n = doc.createElement(t.name());
-				System.out.println("t.name(): " + t.name());
-				System.out.println("t.tree(): " + t.tree());
-				System.out.println("node: "+ n);
 				treeToDOC(t.tree(), doc, n);
 				node.appendChild(n);
-				System.out.println("node.appendChild(n): "+ n);
 			}
 		}
 	}
 	
-	public static String documentToString(Document doc){
+	public static String documentToString(Node doc){
 		StringWriter sw = new StringWriter();
 		try {
 			TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(sw));
@@ -94,7 +94,7 @@ public class Database { // Call this something different and make it a class
 		return sw.toString();
 	}
 	
-	public static Tree treeFromXML(String XML){
+	public static Tree xmlToTree(String XML){
 		//set up the factory
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -115,36 +115,50 @@ public class Database { // Call this something different and make it a class
 			e.printStackTrace();
 		}
 		Node node = d.getChildNodes().item(0);
-		return treeFromXML(node);
+		return xmlToTree(node);
 	}
 	
 
 	//Should take XML instead of String, but for meantime use String
-	public static Tree treeFromXML(Node node){
+	private static Tree xmlToTree(Node node){
+		NodeList nl = node.getChildNodes();
+		Node firstChild = nl.item(0);
+		if(nl.getLength() > 0 && firstChild instanceof Text){
+				return new Tree(((Text)firstChild).getWholeText().substring(1));
+		}
+		Tree t = new Tree();
+		for(int i = 0; i < nl.getLength(); i++)
+			t.add(new Tree.Entry(nl.item(i).getNodeName(), xmlToTree(nl.item(i))));
+		return t;
+		/*
 		if (node.hasChildNodes()){
 			//if it does, get them into a node list
 			NodeList nl = node.getChildNodes();
+			Tree tree = new Tree();
 			for (int i = 0; i < nl.getLength(); i++){
 				//looping over the second level of XML provided, aka the children of the root class
-				treeFromXML(nl.item(0));
+				xmlToTree(nl.item(0));
 			}
+			return tree;
 		}
 		else{
-			if (node.getNodeName().toLowerCase().startsWith("*")){
+			if(node.getNodeName().toLowerCase().startsWith("*")){
 				//if the node name equals one of these predefined values, set the string to be the nodes content
 				return new Tree(node.getTextContent().substring(1));
 			}
 		}
-		return null;
+		return null;*/
 	}
 	
 	public static String treeToString(Tree tree){
-		return "testing";
-		
+		return tree.toString();
 	}
 	public Tree treeFromString(String str){
-		return null;
-		
+		try {
+			return Tree.fromString(str);
+		} catch (ParseException e) {
+			throw new RuntimeException("Parse exception: " + e.getMessage()); // TODO: wtf
+		}
 	}
 	public void writeTreeToXMLFile(Tree tree, String path){
 		
