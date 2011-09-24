@@ -36,6 +36,10 @@ public class UpdateThread extends Thread{
 					String update= incoming.substring(3);
 					System.out.println("updated: "+update);				
 				}
+				else{
+					String other = incoming;
+					System.out.println(other);
+				}
 			}
 			
 		} catch (Exception e) {
