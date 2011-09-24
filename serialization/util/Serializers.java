@@ -1,4 +1,4 @@
-package serialization.utl;
+package serialization.util;
 
 import java.util.*;
 
