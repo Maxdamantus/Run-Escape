@@ -45,7 +45,7 @@ public class IsoRendererLibrary {
 		protected static class Serializer implements serialization.Serializer<ImageType> {
 			@Override
 			public ImageType read(Tree in) {
-				serialization.Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.string, Serializers.string);
+				serialization.Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				Map<String, String> store = deserializer.read(in);
 				
 				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)));
@@ -57,7 +57,7 @@ public class IsoRendererLibrary {
 				store.put(NAME, in.imageName);
 				store.put(TYPE, in.type.name());
 				
-				serialization.Serializer<Map<String, String>> serializer = new Serializers.Map<String, String>(Serializers.string, Serializers.string);
+				serialization.Serializer<Map<String, String>> serializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				
 				return serializer.write(store);
 			}
@@ -105,7 +105,7 @@ public class IsoRendererLibrary {
 				renderers = new HashMap<String, Map<Direction, BufferedImage>>();
 				
 				
-				Serializer<Map<String, ImageType>> deserializer = new Serializers.Map<String, ImageType>(Serializers.string, new ImageType.Serializer());
+				Serializer<Map<String, ImageType>> deserializer = new Serializers.Map<String, ImageType>(Serializers.Serializer_String, new ImageType.Serializer());
 				Map<String, ImageType> types = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/isotiles/resources.xml")));
 				
 				for(String key : types.keySet()) {
