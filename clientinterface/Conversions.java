@@ -7,28 +7,43 @@ import java.util.*;
 public class Conversions {
 	public static GameThing fromServerGameThing(final game.GameThing src){
 		return new GameThing(){
+			private Position position = src.position();
+			private Direction direction = src.direction();
+			private Area area = src.area();
+			private String renderer = src.renderer();
+			private final int gid = src.gid();
+			private List<String> interactions = new ArrayList<String>(src.interactions());
+
 			public Position position(){
-				return src.position();
+				return position;
+			}
+
+			public Position position(Position s){
+				return position = s;
 			}
 
 			public Direction direction(){
-				return src.direction();
+				return direction;
+			}
+
+			public Direction direction(Direction s){
+				return direction = s;
 			}
 
 			public Area area(){
-				return src.area();
+				return area;
 			}
 
 			public String renderer(){
-				return src.renderer();
+				return renderer;
 			}
 
 			public int gid(){
-				return src.gid();
+				return gid;
 			}
 
 			public List<String> interactions(){
-				return src.interactions();
+				return interactions;
 			}
 
 			public Map<String, Object> userArguments(){
@@ -47,7 +62,7 @@ public class Conversions {
 				Set<GameThing> out = new HashSet<GameThing>();
 				for(game.GameThing ggt : src.level(0).portion(a))
 					out.add(fromServerGameThing(ggt));
-				System.out.println("thingsInRect -> " + out);
+		//		System.out.println("thingsInRect -> " + out);
 				return out;
 			}
 
