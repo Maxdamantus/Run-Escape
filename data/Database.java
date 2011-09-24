@@ -138,8 +138,8 @@ public class Database { // Call this something different and make it a class
 		return null;
 	}
 	
-	public String treeToString(Tree tree){
-		return null;
+	public static String treeToString(Tree tree){
+		return "testing";
 		
 	}
 	public Tree treeFromString(String str){
