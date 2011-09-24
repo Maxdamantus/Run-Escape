@@ -64,8 +64,8 @@ public final class Server extends Thread {
 //			uid [username]\n	HANDSHAKE STAGE. sets the user id, for returning after quitting
 //			[action]\n[object gid]\n	sends an interaction to the game model
 				
-				String update = Database.treeToString(model.serialize()) + " " + i;
-				System.out.println(Database.treeToString(model.serialize()) + " " + i);
+				String update = Database.treeToString(model.serialize()) + " " + i + "\n";
+				System.out.print(Database.treeToString(model.serialize()) + " " + i + "\n");
 				bw.write(update);
 				bw.flush();
 				try {
