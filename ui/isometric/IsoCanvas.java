@@ -41,7 +41,13 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	
 	private static final double fps = 10;
 		
-	public interface SelectionCallback {
+	/**
+	 * An interface for objects that wish to be added to the set of objects to be notified when a selection is made
+	 * 
+	 * @author melby
+	 *
+	 */
+	public interface SelectionCallback { // TODO: add squareSelected
 		public void imageSelected(IsoImage image, MouseEvent event);
 	}
 	
@@ -209,10 +215,18 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	public void mouseReleased(MouseEvent arg0) {
 	}
 	
+	/**
+	 * Add a SelectionCallback that will be called when an image/square is selected
+	 * @param s
+	 */
 	public void addSelectionCallback(SelectionCallback s) {
 		selectionCallback.add(s);
 	}
 	
+	/**
+	 * Remove a given SelectionCallback
+	 * @param s
+	 */
 	public void removeSelectionCallback(SelectionCallback s) {
 		selectionCallback.remove(s);
 	}

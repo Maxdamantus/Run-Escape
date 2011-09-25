@@ -29,6 +29,12 @@ public class IsoRendererLibrary {
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
 	
+	/**
+	 * A class used for reading and writing image info to disk
+	 * 
+	 * @author melby
+	 *
+	 */
 	private static class ImageType {
 		private Type type;
 		private String imageName;
@@ -36,12 +42,37 @@ public class IsoRendererLibrary {
 		private static final String NAME = "name";
 		private static final String TYPE = "type";
 		
+		/**
+		 * The different types of images
+		 * When loaded they will be assumed that they are .png
+		 * The name of the file that will be loaded is dependent on
+		 * the image NAME tag and TYPE as defined in enum Type
+		 * @author melby
+		 *
+		 */
 		protected enum Type {
+			/**
+			 * An image that looks the same from every direction/symmetrical around z axis
+			 * One images represents all 4 directions
+			 */
 			IMAGE1,
+			/**
+			 * An image that is symmetrical around vertical/horizontal
+			 * So 2 images represent all 4 directions and should be suffixed _ns or _ew respectively
+			 */
 			IMAGE2,
+			/**
+			 * An image that is made of 4 different images
+			 * So images that represent each direction should be prefixed _n, _e, _s, _w respectively
+			 */
 			IMAGE4;
 		}
 		
+		/**
+		 * A serializer for ImageType
+		 * @author melby
+		 *
+		 */
 		protected static class Serializer implements serialization.Serializer<ImageType> {
 			@Override
 			public ImageType read(Tree in) {
@@ -63,11 +94,21 @@ public class IsoRendererLibrary {
 			}
 		}
 		
+		/**
+		 * Create an ImageType with a image name and type
+		 * @param image
+		 * @param type
+		 */
 		public ImageType(String image, Type type) {
 			this.imageName = image;
 			this.type = type;
 		}
 		
+		/**
+		 * Load the data structure that will be added to the list of all renderers depending on
+		 * the image name and type
+		 * @return
+		 */
 		public Map<Direction, BufferedImage> load() {
 			switch(type) {
 				case IMAGE1:
