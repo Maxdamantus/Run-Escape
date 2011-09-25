@@ -87,7 +87,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		cacheChange.writeLock().lock();
 		this.clearCache();
 		
-		Iterable<GameThing> things = gameModel.thingsInRect(querryArea);
+		Iterable<GameThing> things = gameModel.level(0).portion(querryArea); // TODO: multi levels
 		for(GameThing thing : things) {
 			Location l = thing.location();
 			if(l instanceof LevelLocation) {
