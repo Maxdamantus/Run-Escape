@@ -1,3 +1,3 @@
 package game;
 
-public interface Location {}
+public interface Location extends common.Location<GameThing> {}
