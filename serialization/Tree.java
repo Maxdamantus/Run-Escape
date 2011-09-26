@@ -63,6 +63,13 @@ public class Tree{
 		return children.get(i);
 	}
 
+	public Tree find(String s){
+		for(Entry e : children)
+			if(e.name().equals(s))
+				return e.tree();
+		throw new RuntimeException("wtf");
+	}
+
 	/* Leaf representation:
 	 * List of characters, preceded by %
 	 * Character representation:
