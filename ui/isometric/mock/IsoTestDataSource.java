@@ -64,11 +64,11 @@ public class IsoTestDataSource implements IsoDataSource {
 		}
 		else if(x % 6 == 0) {
 			s.addImageForLevel(floor, IsoSquare.FLOOR);
-			s.addImageForLevel(wallx, IsoSquare.WALL);
+			s.addImageForLevel(wally, IsoSquare.WALL);
 		}
 		else if(y % 6 == 0) {
 			s.addImageForLevel(floor, IsoSquare.FLOOR);
-			s.addImageForLevel(wally, IsoSquare.WALL);
+			s.addImageForLevel(wallx, IsoSquare.WALL);
 		}
 		else {
 			int n = (int) (Math.random() * 5);
