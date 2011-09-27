@@ -17,8 +17,8 @@ public class GameWorld {
 		return null;
 	}
 
-	public int register(GameThing gt){
-		return allThings.put(gt.gid(), gt);
+	public void register(GameThing gt){
+		allThings.put(gt.gid(), gt);
 	}
 
 	// if a requested level doesn't exist, I'll just create it.

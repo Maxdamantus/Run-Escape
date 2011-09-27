@@ -3,32 +3,101 @@ package game;
 import util.*;
 import java.util.*;
 
+import serialization.*;
+import serialization.util.Serializers;
+
 public class Level {
+	private final GameWorld world;
+	private final int level;
 	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
 
-	public void put(Position p, Direction d, GameThing gt){
+	public static class Location implements game.Location {
+		private final Level level;
+		private final Position position;
+		private final Direction direction;
+
+		public static Serializer<Location> serializer(final GameWorld w){
+			return new Serializer<Location>(){
+				public Tree write(Location in){
+					Tree out = new Tree();
+					out.add(new Tree.Entry("level", Serializers.Serializer_Integer.write(in.level.level)));
+					out.add(new Tree.Entry("position", Position.SERIALIZER.write(in.position)));
+					out.add(new Tree.Entry("direction", Direction.SERIALIZER.write(in.direction)));
+					return out;
+				}
+
+				public Location read(Tree in){
+					return new Location(
+						w.level(Serializers.Serializer_Integer.read(in.find("level"))),
+						Position.SERIALIZER.read(in.find("position")),
+						Direction.SERIALIZER.read(in.find("direction")));
+				}
+			};
+		}
+
+		public Location(Level l, Position p, Direction d){
+			level = l; position = p; direction = d;
+		}
+
+		public Position position(){
+			return position;
+		}
+
+		public Direction direction(){
+			return direction;
+		}
+
+		public Level level(){
+			return level;
+		}
+
+		public void put(GameThing gt){
+			game.Location old = gt.location();
+			if(old != null)
+				old.remove(gt);
+			level.put(position, direction, gt);
+			gt.location(this);
+		}
+
+		public void remove(GameThing gt){
+			level.remove(gt, position);
+			gt.location(null);
+		}
+	}
+
+	public Level(GameWorld w, int l){
+		world = w; level = l;
+	}
+
+	public Location location(Position p, Direction d){
+		return new Location(this, p, d);
+	}
+
+	private void put(Position p, Direction d, GameThing gt){
 		// TODO: rotate area!!!
 		for(Position bit : gt.area().translated(p))
 			map.put(bit, gt);
 	}
 
-	public void put(Position p, GameThing gt){
+	private void put(Position p, GameThing gt){
 		put(p, Direction.NORTH, gt);
 	}
 
-	public void remove(GameThing gt, Position pos){
+	private void remove(GameThing gt, Position pos){
 		// TODO: rotate area!!!
 		for(Position bit : gt.area().translated(pos))
 			map.remove(bit, gt);
 	}
 
+/*
 	// convenience, maybe
-	public void move(Position to, GameThing gt){
-		remove(gt);
+	private void move(Position to, GameThing gt){
+		gt.location().remove(gt);
 		put(to, gt);
 	}
-
-	public void rotate(Direction to, GameThing gt){
+	*/
+/*
+	private void rotate(Direction to, GameThing gt){
 		Location l = gt.location();
 		if(l instanceof LevelLocation){
 			direct(((LevelLocation)l).direction().compose(to), gt);
@@ -36,7 +105,7 @@ public class Level {
 			throw new RuntimeException("wtf");
 	}
 
-	public void direct(Direction to, GameThing gt){
+	private void direct(Direction to, GameThing gt){
 		Location l = gt.location();
 		if(l instanceof LevelLocation){
 			put(((LevelLocation)l).position(), to, gt);
@@ -44,11 +113,12 @@ public class Level {
 		}else
 			throw new RuntimeException("wtf");
 	}
+	*/
 
 	public boolean contains(GameThing gt){
-		Location l = gt.location();
-		if(l instanceof LevelLocation && ((LevelLocation)l).level() == this)
-			for(GameThing g : portion(((LevelLocation)l).position(), ((LevelLocation)l).position()))
+		game.Location l = gt.location();
+		if(l instanceof Location && ((Location)l).level() == this)
+			for(GameThing g : portion(((Location)l).position(), ((Location)l).position()))
 				if(gt == g)
 					return true;
 		return false;

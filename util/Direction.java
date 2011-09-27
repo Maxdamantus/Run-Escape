@@ -1,5 +1,7 @@
 package util;
 
+import serialization.*;
+
 public enum Direction {
 	NORTH, EAST, SOUTH, WEST;
 
@@ -13,4 +15,14 @@ public enum Direction {
 	public Direction compose(Direction d){
 		return values()[(ordinal() + d.ordinal())%4];
 	}
+
+	public static Serializer<Direction> SERIALIZER = new Serializer<Direction>(){
+		public Tree write(Direction in){
+			return new Tree(in.toString());
+		}
+
+		public Direction read(Tree in){
+			return valueOf(in.value());
+		}
+	};
 }
