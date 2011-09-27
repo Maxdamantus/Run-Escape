@@ -9,11 +9,10 @@ import java.net.UnknownHostException;
 
 import ui.isometric.IsoInterface;
 import ui.isometric.mock.IsoGameLogicMock;
-import util.Position;
+import util.*;
 
-import client.model.Conversions;
-import client.model.GameLogic;
-import client.model.GameThing;
+import game.GameLogic;
+import game.GameThing;
 
 /**
  * Main class for the client.
@@ -29,7 +28,7 @@ public class Client implements GameLogic{
 	private OutputStreamWriter out;
 	private BufferedWriter writer;
 	private IsoInterface view;
-	private game.GameModel sgm = new game.GameModel();
+	private game.GameWorld sgm = new game.GameWorld();
 	
 	public static void main(String[] args) {
 		String host = "localhost";
@@ -49,9 +48,9 @@ public class Client implements GameLogic{
 		try {
 			//creating GUI
 			game.GameThing tile = new game.things.GroundTile(sgm);
-			sgm.level(0).put(new Position(5, 0), tile);
-			sgm.level(0).put(new Position(5, 1), new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
-			view = new IsoInterface("IsoTest", Conversions.fromServerGameModel(sgm), this);
+			sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
+			sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
+			view = new IsoInterface("IsoTest", sgm, this);
 			view.show();
 							
 			
