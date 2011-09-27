@@ -6,10 +6,7 @@ import util.Area;
 import util.Direction;
 import util.Position;
 
-import client.model.GameWorld;
-import client.model.GameThing;
-import client.model.LevelLocation;
-import client.model.Location;
+import game.*;
 
 /**
  * 
@@ -90,8 +87,8 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		Iterable<GameThing> things = gameModel.level(0).portion(querryArea); // TODO: multi levels
 		for(GameThing thing : things) {
 			Location l = thing.location();
-			if(l instanceof LevelLocation) {
-				Position pos = transform.transformMapPosition(((LevelLocation)l).position());
+			if(l instanceof Level.Location) {
+				Position pos = transform.transformMapPosition(((Level.Location)l).position());
 				IsoSquare square = squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY];
 				if(square == null) {
 					square = new IsoSquare();

@@ -6,9 +6,7 @@ import java.util.Set;
 import javax.swing.Box;
 import javax.swing.JFrame;
 
-import client.model.GameThing;
-import client.model.LevelLocation;
-import client.model.Location;
+import game.*;
 
 public class InspectorPanel extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -36,8 +34,8 @@ public class InspectorPanel extends JFrame {
 		
 		if(g != null) {
 			Location l = g.location();
-			if(l instanceof LevelLocation) {
-				Iterable<game.GameThing> things = builder.serverGameModel().level(0).portion(g.area().translated(((LevelLocation)l).position()));
+			if(l instanceof Level.Location) {
+				Iterable<game.GameThing> things = builder.gameModel().level(0).portion(g.area().translated(((Level.Location)l).position()));
 				
 				for(game.GameThing t : things) {
 					ImageInspector ins = new ImageInspector(t, this);

@@ -1,13 +1,13 @@
 package ui.isometric.builder;
 
+import game.*;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import client.model.Conversions;
 
 import ui.isometric.IsoImage;
 import ui.isometric.IsoRendererLibrary;
@@ -17,14 +17,14 @@ public class ImageInspector extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private ImagePanel image;
-	private game.GameThing thing;
+	private GameThing thing;
 	private IsoImage isoImage;
 
 	private InspectorPanel panel;
 
-	public ImageInspector(game.GameThing t, InspectorPanel inspectorPanel) {
+	public ImageInspector(GameThing t, InspectorPanel inspectorPanel) {
 		this.thing = t;
-		this.isoImage = IsoRendererLibrary.newImageFromGameThing(null, Conversions.fromServerGameThing(t), Direction.NORTH);
+		this.isoImage = IsoRendererLibrary.newImageFromGameThing(null, t, Direction.NORTH);
 		panel = inspectorPanel;
 		
 		this.setSize(0, 50);
@@ -65,21 +65,33 @@ public class ImageInspector extends JPanel {
 	}
 	
 	private void rotateCW() {
-		game.GameThing thing = panel.builder().serverGameModel().thingWithGID(isoImage.gameThing().gid());
-		thing.getLevel().rotate(Direction.WEST, thing);
+		game.GameThing thing = panel.builder().gameModel().thingWithGID(isoImage.gameThing().gid());
+		Location l = thing.location();
+		if(l instanceof Level.Location) {
+			((Level.Location)l).rotate(Direction.WEST);
+		}
+		else {
+			System.out.println("Trying to rotate something weird"); // TODO: fix
+		}
 		this.refresh();
 	}
 	
 	private void refresh() {
 		InspectorPanel.signalUpdate();
-		isoImage = IsoRendererLibrary.newImageFromGameThing(null, Conversions.fromServerGameThing(thing), Direction.NORTH);
+		isoImage = IsoRendererLibrary.newImageFromGameThing(null, thing, Direction.NORTH);
 		image.setImage(isoImage.image());
 		image.repaint();
 	}
 
 	private void rotateCCW() {
-		game.GameThing thing = panel.builder().serverGameModel().thingWithGID(isoImage.gameThing().gid());
-		thing.getLevel().rotate(Direction.EAST, thing);
+		game.GameThing thing = panel.builder().gameModel().thingWithGID(isoImage.gameThing().gid());
+		Location l = thing.location();
+		if(l instanceof Level.Location) {
+			((Level.Location)l).rotate(Direction.EAST);
+		}
+		else {
+			System.out.println("Trying to rotate something weird"); // TODO: fix
+		}
 		this.refresh();
 	}
 	

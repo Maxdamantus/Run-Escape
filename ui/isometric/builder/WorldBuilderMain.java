@@ -1,10 +1,11 @@
 package ui.isometric.builder;
 
+import game.GameWorld;
 import ui.isometric.mock.IsoGameLogicMock;
 import util.*;
 
 public class WorldBuilderMain {
-	private static game.GameModel sgm = new game.GameModel();
+	private static GameWorld sgm = new GameWorld();
 
 	public static void main(String[] args) {
 		game.GameThing tile = new game.things.GroundTile(sgm);

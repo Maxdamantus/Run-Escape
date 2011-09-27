@@ -10,9 +10,7 @@ import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
 
-import client.model.Conversions;
-import client.model.GameLogic;
-import client.model.GameWorld;
+import game.*;
 
 /**
  * 
@@ -30,17 +28,15 @@ public class IsoInterfaceWorldBuilder {
 	
 	private GameWorld model;
 	private GameLogic logic;
-	private game.GameModel serverGameModel;
 	
 	/**
 	 * Create a world builder interface with a given GameModel and GameLogic
 	 * @param name
-	 * @param serverModel
+	 * @param model
 	 * @param logic
 	 */
-	public IsoInterfaceWorldBuilder(String name, game.GameModel serverModel, GameLogic logic) {
-		this.serverGameModel = serverModel;
-		this.model = Conversions.fromServerGameModel(serverModel);
+	public IsoInterfaceWorldBuilder(String name, GameWorld model, GameLogic logic) {
+		this.model = model;
 		this.logic = logic;
 		
 		frame = new JFrame(name);
@@ -93,7 +89,7 @@ public class IsoInterfaceWorldBuilder {
 		}
 	}
 
-	public game.GameModel serverGameModel() {
-		return serverGameModel;
+	public GameWorld gameModel() {
+		return model;
 	}
 }

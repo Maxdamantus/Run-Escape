@@ -11,9 +11,7 @@ import serialization.util.Serializers;
 import util.Direction;
 import util.Resources;
 
-import client.model.GameThing;
-import client.model.LevelLocation;
-import client.model.Location;
+import game.*;
 import data.Database;
 
 /**
@@ -260,8 +258,8 @@ public class IsoRendererLibrary {
 		IsoImage tmp = null;
 		
 		Location l = thing.location();
-		if(l instanceof LevelLocation) {
-			tmp = new IsoImage(imageForRendererName(thing.renderer(), ((LevelLocation)l).direction().compose(viewDirection)), square);
+		if(l instanceof Level.Location) {
+			tmp = new IsoImage(imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection)), square);
 			tmp.setGameThing(thing);
 		}
 		
