@@ -1,7 +1,7 @@
 
 package server;
 
-import game.GameModel;
+import game.GameWorld;
 
 import java.util.*;
 import java.awt.event.ActionEvent;
@@ -62,19 +62,19 @@ public class Main{
 			}
 		}
 		if(fromSave){
-			GameModel model = null;
+			GameWorld model = null;
 			//will eventually do from File -> XML to world
 			runServer(port, model);
 		}
 		else{
-			GameModel model = defaultworld();
+			GameWorld model = defaultworld();
 			runServer(port,model);
 		}		
 		System.exit(0);
 	}
 	
 
-	private static void runServer(int port, GameModel game) {		
+	private static void runServer(int port, GameWorld game) {		
 		int uid = 0;
 		int nclients = 2;
 		Clock timer = new Clock(0);
@@ -124,7 +124,7 @@ public class Main{
 		return false;
 	}
 	
-	private static void runGame(ArrayList<Server> connections, GameModel game){
+	private static void runGame(ArrayList<Server> connections, GameWorld game){
 		while(atleastOneConnection(connections)){
 			Thread.yield();		
 		}
@@ -139,8 +139,8 @@ public class Main{
 		}
 	}
 	
-	public static GameModel defaultworld(){
-		game.GameModel sgm = new GameModel();
+	public static GameWorld defaultworld(){
+		game.GameWorld sgm = new GameWorld();
 		game.GameThing tile = new game.things.GroundTile(sgm);
 		sgm.level(0).put(new Position(5, 0), tile);
 		sgm.level(0).put(new Position(5, 1), new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));

@@ -2,7 +2,7 @@
 
 package server;
 
-import game.GameModel;
+import game.GameWorld;
 
 import java.util.*;
 import java.io.*;
@@ -19,14 +19,14 @@ import data.Database;
  * state.
  */
 public final class Server extends Thread {
-	private final GameModel model;
+	private final GameWorld model;
 	private final int uid;
 	private final Socket socket;
 	private final Clock timer;
 	private int timerint;
 	boolean exit=false;
 
-	public Server(Socket socket, int uid, GameModel model, Clock timer) {
+	public Server(Socket socket, int uid, GameWorld model, Clock timer) {
 		this.model = model;	
 		this.socket = socket;
 		this.uid = uid;
