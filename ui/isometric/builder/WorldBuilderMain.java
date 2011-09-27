@@ -9,8 +9,8 @@ public class WorldBuilderMain {
 
 	public static void main(String[] args) {
 		game.GameThing tile = new game.things.GroundTile(sgm);
-		sgm.level(0).put(new Position(5, 0), tile);
-		sgm.level(0).put(new Position(5, 1), new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
+		sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
+		sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
 		IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("IsoTest", sgm, new IsoGameLogicMock());
 		view.show();
 	}
