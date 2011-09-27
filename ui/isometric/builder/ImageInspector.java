@@ -68,7 +68,7 @@ public class ImageInspector extends JPanel {
 		game.GameThing thing = panel.builder().gameModel().thingWithGID(isoImage.gameThing().gid());
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			((Level.Location)l).rotate(Direction.WEST);
+			((Level.Location)l).rotate(Direction.WEST).put(thing);
 		}
 		else {
 			System.out.println("Trying to rotate something weird"); // TODO: fix
@@ -87,7 +87,7 @@ public class ImageInspector extends JPanel {
 		game.GameThing thing = panel.builder().gameModel().thingWithGID(isoImage.gameThing().gid());
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			((Level.Location)l).rotate(Direction.EAST);
+			((Level.Location)l).rotate(Direction.EAST).put(thing);
 		}
 		else {
 			System.out.println("Trying to rotate something weird"); // TODO: fix
