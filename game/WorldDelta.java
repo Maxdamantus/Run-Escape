@@ -48,6 +48,86 @@ public class WorldDelta {
 		}
 	}
 
+	// I don't like this duplication -_-
+	// Meh .. Java's repetitive enough anyway
+	// $ grep -r 'public' $(find . -name \*.java) | wc -l
+	// 369
+	public static class Introduce implements Action {
+		private final int gid;
+
+		public Introduce(int g){
+			gid = g;
+		}
+
+		public int gid(){
+			return gid;
+		}
+
+		public void apply(GameWorld world){
+			new DumbGameThing(world, gid());
+		}
+
+		public static Serializer<Introduce> serializer(final GameWorld w){
+			return new Serializer<Introduce>(){
+				public Tree write(Introduce in){
+					Tree out = new Tree();
+					out.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(in.gid)));
+					return out;
+				}
+
+				public Introduce read(Tree in){
+					return new Introduce(Serializers.Serializer_Integer.read(in.find("gid")));
+				}
+			};
+		}
+
+		public Tree toTree(GameWorld w){
+			return serializer(w).write(this);
+		}
+
+		public String type(){
+			return "introduce";
+		}
+	}
+
+	public static class Forget implements Action {
+		private final int gid;
+
+		public Forget(int g){
+			gid = g;
+		}
+
+		public int gid(){
+			return gid;
+		}
+
+		public void apply(GameWorld world){
+			new DumbGameThing(world, gid());
+		}
+
+		public static Serializer<Forget> serializer(final GameWorld w){
+			return new Serializer<Forget>(){
+				public Tree write(Forget in){
+					Tree out = new Tree();
+					out.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(in.gid)));
+					return out;
+				}
+
+				public Forget read(Tree in){
+					return new Forget(Serializers.Serializer_Integer.read(in.find("gid")));
+				}
+			};
+		}
+
+		public Tree toTree(GameWorld w){
+			return serializer(w).write(this);
+		}
+
+		public String type(){
+			return "forget";
+		}
+	}
+
 	private final Action action;
 
 	public WorldDelta(Action a){
@@ -65,13 +145,14 @@ public class WorldDelta {
 
 			public WorldDelta read(Tree in){
 				Reader<? extends Action> as = null;
-				for(Tree.Entry te : in.children())
-					if(te.name().equals("type")){
-						if(te.tree().value().equals("put"))
-							as = Put.serializer(w);
-					}else if(te.name().equals("action"))
-						return new WorldDelta(as.read(te.tree()));
-				throw new RuntimeException("wtf");
+				String type = in.find("type").value();
+				if(type.equals("put"))
+					as = Put.serializer(w);
+				else if(type.equals("introduce"))
+					as = Introduce.serializer(w);
+				else if(type.equals("forget"))
+					as = Forget.serializer(w);
+				return new WorldDelta(as.read(in.find("action")));
 			}
 		};
 	}

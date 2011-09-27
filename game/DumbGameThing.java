@@ -19,6 +19,10 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 		w.introduce(this, gid());
 	}
 
+	public DumbGameThing(GameWorld w, int g){
+		this(w, g, null, null, null);
+	}
+
 	public void update(DumbGameThing o){
 		if(o.interactions != null)
 			interactions = o.interactions;
