@@ -17,7 +17,12 @@ public class GameWorld {
 		return null;
 	}
 
-	public void register(GameThing gt){
+	public int introduce(GameThing gt){
+		return introduce(gt, (int)(Math.random()*(1 << 31)));
+	}
+
+	// only use on the client
+	public int introduce(GameThing gt, int gid){
 		allThings.put(gt.gid(), gt);
 	}
 
