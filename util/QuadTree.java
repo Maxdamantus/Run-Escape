@@ -57,6 +57,7 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 			return offer != null;
 		}
 
+		@SuppressWarnings("unchecked")
 		public Map.Entry<Position, T> next(){
 			if(!hasNext())
 				throw new NoSuchElementException();
@@ -157,6 +158,7 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 	}
 
 	// until I can figure out proper deletion
+	@SuppressWarnings("unchecked")
 	private void tmpIterateAdd(Node n){
 		for(Node m : n.children)
 			if(m != null){

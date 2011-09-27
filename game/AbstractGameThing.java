@@ -8,13 +8,24 @@ public abstract class AbstractGameThing implements GameThing {
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
 	private final Map<String, Object> userArguments = new HashMap<String, Object>();
-	private final GameWorld modelblah;
+	//private final GameWorld modelblah;
 
 	public AbstractGameThing(GameWorld world){
 		location = null; //= new Location(new Position(0, 0), Direction.NORTH);
 		gid = world.introduce(this);
 		// hacks
-		modelblah = world;
+	//	modelblah = world;
+	}
+
+	private AbstractGameThing(int g){
+		gid = g;
+	}
+
+	// so normal extenders of AbstractGameThing don't have access to the special non-introductive constructor
+	public static abstract class AbstractDumbGameThing extends AbstractGameThing {
+		public AbstractDumbGameThing(int g){
+			super(g);
+		}
 	}
 
 	public Location location(){
@@ -51,10 +62,11 @@ public abstract class AbstractGameThing implements GameThing {
 		return true;
 	}
 
+/*
 	public Level getLevel(){
 		return modelblah.getLevelFor(this);
 	}
-
+*/
 	public Map<String, Object> userArguments(){
 		return userArguments;
 	}
