@@ -8,5 +8,6 @@ public interface GameThing {
 	public Location location();
 	public Location location(Location set);
 	public Area area();
+	public String renderer();
 	public Map<String, Object> userArguments();
 }
