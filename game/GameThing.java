@@ -10,5 +10,6 @@ public interface GameThing {
 	public Area area();
 	public String renderer();
 	public String defaultInteraction();
+	public List<String> interactions();
 	public Map<String, Object> userArguments();
 }
