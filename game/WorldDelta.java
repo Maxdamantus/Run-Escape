@@ -59,12 +59,8 @@ public class WorldDelta {
 			gid = g;
 		}
 
-		public int gid(){
-			return gid;
-		}
-
 		public void apply(GameWorld world){
-			new DumbGameThing(world, gid());
+			new DumbGameThing(world, gid);
 		}
 
 		public static Serializer<Introduce> serializer(final GameWorld w){
@@ -97,17 +93,13 @@ public class WorldDelta {
 			gid = g;
 		}
 
-		public int gid(){
-			return gid;
-		}
-
 		public void apply(GameWorld world){
-			new DumbGameThing(world, gid());
+			new DumbGameThing(world, gid);
 		}
 
 		public static Serializer<Forget> serializer(final GameWorld w){
 			return new Serializer<Forget>(){
-				public Tree write(Forget in){
+				public Tree write(Forget in /* what you saw */){
 					Tree out = new Tree();
 					out.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(in.gid)));
 					return out;
@@ -125,6 +117,39 @@ public class WorldDelta {
 
 		public String type(){
 			return "forget";
+		}
+	}
+
+	public static class Update implements Action {
+		private final DumbGameThing dgt;
+
+		public Update(DumbGameThing d){
+			dgt = d;
+		}
+
+		public void apply(GameWorld world){
+			// assumptions ..
+			((DumbGameThing)world.thingWithGID(dgt.gid())).update(dgt);
+		}
+
+		public static Serializer<Update> serializer(final GameWorld w){
+			return new Serializer<Update>(){
+				public Tree write(Update in){
+					return DumbGameThing.serializer(w).write(in.dgt);
+				}
+
+				public Update read(Tree in){
+					return new Update(DumbGameThing.serializer(w).read(in));
+				}
+			};
+		}
+
+		public Tree toTree(GameWorld w){
+			return serializer(w).write(this);
+		}
+
+		public String type(){
+			return "update";
 		}
 	}
 

@@ -21,6 +21,11 @@ public class GameWorld {
 		return introduce(gt, (int)(Math.random()*(1 << 31)));
 	}
 
+	public void forget(GameThing gt){
+		gt.forget();
+		allThings.remove(gt.gid());
+	}
+
 	// only use on the client
 	public int introduce(GameThing gt, int gid){
 		allThings.put(gid, gt);

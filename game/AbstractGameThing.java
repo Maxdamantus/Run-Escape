@@ -8,6 +8,7 @@ public abstract class AbstractGameThing implements GameThing {
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
 	private final Map<String, Object> userArguments = new HashMap<String, Object>();
+	private boolean forgotten = false;
 	//private final GameWorld modelblah;
 
 	public AbstractGameThing(GameWorld world){
@@ -73,6 +74,15 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public String defaultInteraction(){
 		return null; // no interactions
+	}
+
+	public boolean forgotten(){
+		return forgotten;
+	}
+
+	public void forget(){
+		// will assume the world is removing its association from this' gid to this
+		forgotten = true;
 	}
 
 	public String toString(){

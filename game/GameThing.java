@@ -12,4 +12,6 @@ public interface GameThing {
 	public String defaultInteraction();
 	public List<String> interactions();
 	public Map<String, Object> userArguments();
+	public boolean forgotten();
+	public void forget();
 }
