@@ -59,6 +59,11 @@ public class Level {
 			return direct(direction.compose(d));
 		}
 
+		public Location nextTo(Location where){
+			/* A* */
+			return null;
+		}
+
 		public void put(GameThing gt){
 			game.Location old = gt.location();
 			if(old != null)

@@ -24,4 +24,9 @@ public class Player extends AbstractGameThing {
 	public String renderer(){
 		return this.renderer;
 	}
+
+	public boolean moveTo(Level.Location where, Runnable ondone){
+		/* call ((Level.Location)location()).nextTo(where).put(this) every so often, ensure only one moveTo at a time .. */
+		return false; // can't move
+	}
 }
