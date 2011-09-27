@@ -51,6 +51,14 @@ public class Level {
 			return level;
 		}
 
+		public Location direct(Direction d){
+			return new Location(level, position, d);
+		}
+
+		public Location rotate(Direction d){
+			return direct(direction.compose(d));
+		}
+
 		public void put(GameThing gt){
 			game.Location old = gt.location();
 			if(old != null)

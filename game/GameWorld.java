@@ -23,7 +23,8 @@ public class GameWorld {
 
 	// only use on the client
 	public int introduce(GameThing gt, int gid){
-		allThings.put(gt.gid(), gt);
+		allThings.put(gid, gt);
+		return gid;
 	}
 
 	// if a requested level doesn't exist, I'll just create it.
