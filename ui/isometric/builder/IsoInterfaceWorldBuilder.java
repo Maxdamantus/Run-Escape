@@ -12,7 +12,7 @@ import ui.isometric.IsoImage;
 
 import client.model.Conversions;
 import client.model.GameLogic;
-import client.model.GameModel;
+import client.model.GameWorld;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class IsoInterfaceWorldBuilder {
 	
 	private IsoCanvas canvas;
 	
-	private GameModel model;
+	private GameWorld model;
 	private GameLogic logic;
 	private game.GameModel serverGameModel;
 	

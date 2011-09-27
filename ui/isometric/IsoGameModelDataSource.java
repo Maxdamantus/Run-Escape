@@ -6,7 +6,7 @@ import util.Area;
 import util.Direction;
 import util.Position;
 
-import client.model.GameModel;
+import client.model.GameWorld;
 import client.model.GameThing;
 import client.model.LevelLocation;
 import client.model.Location;
@@ -19,7 +19,7 @@ import client.model.Location;
  *
  */
 public class IsoGameModelDataSource implements IsoDataSource {
-	private GameModel gameModel;
+	private GameWorld gameModel;
 	private IsoSquare[][] squares = null;
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
 	private IsoSquare emptySquare = new IsoSquare();
@@ -35,7 +35,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	 * Create a IsoGameModelDataSource with a given GameModel
 	 * @param model
 	 */
-	public IsoGameModelDataSource(GameModel model) {
+	public IsoGameModelDataSource(GameWorld model) {
 		gameModel = model;
 	}
 	

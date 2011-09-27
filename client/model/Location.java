@@ -16,7 +16,7 @@ public interface Location extends common.Location<GameThing> {
 
 			for(Tree.Entry te : in.children())
 				if(te.name().equals("type")){
-					String t = te.name().tree().value();
+					String t = te.tree().value();
 					if(t.equals("level"))
 						sub = LevelLocation.READER;
 					throw new RuntimeException("wtf");

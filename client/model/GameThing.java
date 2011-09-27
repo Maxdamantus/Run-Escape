@@ -4,7 +4,7 @@ import util.*;
 
 import java.util.*;
 
-public class GameThing {
+public class GameThing implements common.GameThing {
 	private Area area;
 	private String renderer;
 	private final int gid;

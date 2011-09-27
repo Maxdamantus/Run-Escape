@@ -12,7 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import client.model.GameLogic;
-import client.model.GameModel;
+import client.model.GameWorld;
 import client.model.GameThing;
 
 /**
@@ -27,7 +27,7 @@ public class IsoInterface implements PlayerMessage {
 	private IsoCanvas canvas;
 	private IsoInterface isoInterface = this;
 	
-	private GameModel model;
+	private GameWorld model;
 	private GameLogic logic;
 	
 	/**
@@ -36,7 +36,7 @@ public class IsoInterface implements PlayerMessage {
 	 * @param model
 	 * @param logic
 	 */
-	public IsoInterface(String name, GameModel model, GameLogic logic) {
+	public IsoInterface(String name, GameWorld model, GameLogic logic) {
 		this.model = model;
 		this.logic = logic;
 		

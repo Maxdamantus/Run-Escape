@@ -64,8 +64,8 @@ public class Conversions {
 	}
 	*/
 
-	public static GameModel fromServerGameModel(final game.GameModel src){
-		return new GameModel(){
+	public static GameWorld fromServerGameModel(final game.GameModel src){
+		return new GameWorld(){
 			public Iterable<GameThing> thingsInRect(Area a){
 				Set<GameThing> out = new HashSet<GameThing>();
 				for(game.GameThing ggt : src.level(0).portion(a))

@@ -2,7 +2,7 @@ package client.model;
 
 import java.util.*;
 
-public class GameModel {
+public class GameWorld {
 	private final Map<Integer, GameThing> allThings = new HashMap<Integer, GameThing>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 

@@ -5,7 +5,7 @@ import serialization.util.Serializers;
 
 public class WorldDelta {
 	public static interface Action {
-		public void apply(client.model.GameModel world);
+		public void apply(client.model.GameWorld world);
 		public Tree toTree();
 		public String type();
 	}
@@ -18,7 +18,7 @@ public class WorldDelta {
 			gid = g; loc = l;
 		}
 
-		public void apply(client.model.GameModel world){
+		public void apply(client.model.GameWorld world){
 			loc.put(world.thingWithGID(gid));
 		}
 

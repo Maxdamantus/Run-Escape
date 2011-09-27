@@ -4,11 +4,11 @@ import util.*;
 import java.util.*;
 
 public class Level {
-	private final GameModel world;
+	private final GameWorld world;
 	private final int level;
 	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
 
-	public Level(GameModel w, int l){
+	public Level(GameWorld w, int l){
 		world = w; level = l;
 	}
 
