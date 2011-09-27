@@ -1,12 +1,12 @@
-package common;
+package game;
 
 import util.*;
 import java.util.*;
 
-public interface GameThing<L extends Location> {
+public interface GameThing {
 	public int gid();
-	public L location();
-	public L location(L set);
+	public Location location();
+	public Location location(Location set);
 	public Area area();
 	public Map<String, Object> userArguments();
 }

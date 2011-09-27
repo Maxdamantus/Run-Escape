@@ -1,9 +1,9 @@
-package common;
+package game;
 
 import util.*;
 import serialization.*;
 
-public interface LevelLocation<T extends GameThing> extends Location<T> {
+public interface LevelLocation extends Location {
 	public static final Writer<LevelLocation> WRITER = new Writer<LevelLocation>(){
 		public Tree write(LevelLocation in){
 			Tree out = new Tree();

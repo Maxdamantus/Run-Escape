@@ -1,34 +1,34 @@
-package common;
+package game;
 
 import util.*;
 import java.util.*;
 
-public class Level<T extends GameThing> {
-	private final QuadTree<T> map = new QuadTree<T>();
+public class Level {
+	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
 
-	public void put(Position p, Direction d, T gt){
+	public void put(Position p, Direction d, GameThing gt){
 		// TODO: rotate area!!!
 		for(Position bit : gt.area().translated(p))
 			map.put(bit, gt);
 	}
 
-	public void put(Position p, T gt){
+	public void put(Position p, GameThing gt){
 		put(p, Direction.NORTH, gt);
 	}
 
-	public void remove(T gt, Position pos){
+	public void remove(GameThing gt, Position pos){
 		// TODO: rotate area!!!
 		for(Position bit : gt.area().translated(pos))
 			map.remove(bit, gt);
 	}
-/*
+
 	// convenience, maybe
 	public void move(Position to, GameThing gt){
 		remove(gt);
 		put(to, gt);
 	}
 
-	public void rotate(Direction to, gameThing gt){
+	public void rotate(Direction to, GameThing gt){
 		Location l = gt.location();
 		if(l instanceof LevelLocation){
 			direct(((LevelLocation)l).direction().compose(to), gt);
@@ -44,26 +44,24 @@ public class Level<T extends GameThing> {
 		}else
 			throw new RuntimeException("wtf");
 	}
-*/
-/*
-	public boolean contains(T gt){
+
+	public boolean contains(GameThing gt){
 		Location l = gt.location();
 		if(l instanceof LevelLocation && ((LevelLocation)l).level() == this)
-			for(T g : portion(((LevelLocation)l).position(), ((LevelLocation)l).position()))
+			for(GameThing g : portion(((LevelLocation)l).position(), ((LevelLocation)l).position()))
 				if(gt == g)
 					return true;
 		return false;
 	}
-	*/
 
-	public Iterable<T> portion(Position min, Position max){
-		Set<T> res = new HashSet<T>();
-		for(Map.Entry<Position, T> kv : map.portion(min, max))
+	public Iterable<GameThing> portion(Position min, Position max){
+		Set<GameThing> res = new HashSet<GameThing>();
+		for(Map.Entry<Position, GameThing> kv : map.portion(min, max))
 			res.add(kv.getValue());
 		return res;
 	}
 
-	public Iterable<T> portion(Area a){
+	public Iterable<GameThing> portion(Area a){
 		return portion(a.position(), new Position(a.position().x() + a.width() - 1, a.position().y() + a.height() - 1));
 	}
 }

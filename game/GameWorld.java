@@ -1,4 +1,4 @@
-package client.model;
+package game;
 
 import java.util.*;
 
@@ -18,8 +18,7 @@ public class GameWorld {
 	}
 
 	public int register(GameThing gt){
-		allThings.put(gt.gid(), gt);
-		return r;
+		return allThings.put(gt.gid(), gt);
 	}
 
 	// if a requested level doesn't exist, I'll just create it.
