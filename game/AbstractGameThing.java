@@ -59,6 +59,10 @@ public abstract class AbstractGameThing implements GameThing {
 		return userArguments;
 	}
 
+	public String defaultInteraction(){
+		return null; // no interactions
+	}
+
 	public String toString(){
 		return "(" + renderer() + ")";
 	}
