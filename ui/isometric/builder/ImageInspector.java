@@ -97,5 +97,6 @@ public class ImageInspector extends JPanel {
 	
 	private void remove() {
 		System.out.println("Remove image " + isoImage.gameThing().renderer());
+		game.LocationS.NOWHERE.put(isoImage.gameThing());
 	}
 }

@@ -145,7 +145,10 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 		if(n == null)
 			return false;
 		if(x == n.x && y == n.y && (v == null || v.equals(n.val))){
-			from.children[fromo] = null;
+			if(from == null)
+				root = null;
+			else
+				from.children[fromo] = null;
 			tmpIterateAdd(n);
 			return true;
 		}
