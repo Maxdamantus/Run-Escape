@@ -19,7 +19,6 @@ import ui.isometric.IsoInterface;
  */
 public class UpdateThread extends Thread{
 	private BufferedReader reader;
-	private BufferedWriter writer;
 	private IsoInterface view;
 	private GameWorld world;
 	
