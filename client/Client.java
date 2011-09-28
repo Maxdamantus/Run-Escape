@@ -28,7 +28,7 @@ public class Client implements GameLogic{
 	private OutputStreamWriter out;
 	private BufferedWriter writer;
 	private IsoInterface view;
-	private game.GameWorld sgm = new game.GameWorld();
+	private game.GameWorld world = new game.GameWorld();
 	
 	public static void main(String[] args) {
 		String host = "localhost";
@@ -47,10 +47,10 @@ public class Client implements GameLogic{
 		boolean debug = true;
 		try {
 			//creating GUI
-			game.GameThing tile = new game.things.GroundTile(sgm);
-			sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
-			sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
-			view = new IsoInterface("IsoTest", sgm, this);
+			game.GameThing tile = new game.things.GroundTile(world);
+			world.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
+			world.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(world, "ground_grey_water_two_sides"));
+			view = new IsoInterface("IsoTest", world, this);
 			view.show();
 							
 			
@@ -63,7 +63,7 @@ public class Client implements GameLogic{
 			writer = new BufferedWriter(out);
 			
 			//test code
-			UpdateThread network = new UpdateThread(reader, this.getUI());
+			UpdateThread network = new UpdateThread(reader, this.getUI(), world);
 			
 			writer.write("uid Bob\n");
 			network.start();

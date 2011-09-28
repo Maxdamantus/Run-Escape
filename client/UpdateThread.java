@@ -1,10 +1,15 @@
 package client;
 
+import game.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+import data.Database;
+
+import serialization.Tree;
 import ui.isometric.IsoInterface;
 
 /**
@@ -16,9 +21,10 @@ public class UpdateThread extends Thread{
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private IsoInterface view;
+	private GameWorld world;
 	
 	
-	public UpdateThread(BufferedReader reader, IsoInterface view) {
+	public UpdateThread(BufferedReader reader, IsoInterface view , GameWorld world) {
 		this.reader = reader;
 		this.view = view;
 	}
@@ -34,6 +40,8 @@ public class UpdateThread extends Thread{
 				}
 				else if (incoming.startsWith("upd")) {
 					String update= incoming.substring(3);
+					
+					WorldDelta.serializer(world).read(Database.xmlToTree(update)).apply(world);
 					System.out.println("updated: "+update);				
 				}
 				else{
