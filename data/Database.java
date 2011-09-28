@@ -216,4 +216,12 @@ public class Database { // Call this something different and make it a class
 			throw new RuntimeException("Parse exception: " + e.getMessage()); // TODO: wtf
 		}
 	}
+	
+	public static String escapeNewLines(String s) {
+		return s.replaceAll("@n", "@@n").replaceAll("\\n", "@n");
+	}
+	
+	public static String unescapeNewLines(String s) {
+		return s.replaceAll("@@n", "@n").replaceAll("@n", "\n");
+	}
 }
