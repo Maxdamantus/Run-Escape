@@ -7,99 +7,97 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 import ui.isometric.IsoInterface;
 import ui.isometric.mock.IsoGameLogicMock;
 import util.*;
 
-import game.GameLogic;
-import game.GameThing;
+import game.*;
 
 /**
  * Main class for the client.
+ * 
  * @author greenwthom
- *
+ * 
  */
-public class Client implements GameLogic{
-	private String host;
-	private int port;
+public class Client implements GameLogic {
 	private Socket skt;
 	private InputStreamReader in;
 	private BufferedReader reader;
 	private OutputStreamWriter out;
 	private BufferedWriter writer;
 	private IsoInterface view;
-	private game.GameWorld world = new game.GameWorld();
-	
+	private GameWorld world = new GameWorld();
+
 	public static void main(String[] args) {
 		String host = "localhost";
-		int port = 32768;
-		if (args.length > 0) {
-			host = args[0];
+		int port = 32765;
+		String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
+		if (server.length() > 0) { 
+			String[] split = server.split(":");
+			host = split[0];
+			if (split.length == 2) port = Integer.parseInt(split[1]);
+			
 		}
-		else if (args.length == 2) {
-			port = Integer.parseInt(args[1]);
-		}
+		System.out.println(host+", "+port);
 		Client client = new Client(host, port);
 		
+		
 	}
-	
+
+	/**
+	 * Network client for the game
+	 * 
+	 * @param host
+	 *            server hostname
+	 * @param port
+	 *            server port
+	 */
 	public Client(String host, int port) {
 		boolean debug = true;
 		try {
-			//creating GUI
-			game.GameThing tile = new game.things.GroundTile(world);
-			world.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
-			world.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(world, "ground_grey_water_two_sides"));
-			view = new IsoInterface("IsoTest", world, this);
-			view.show();
-							
-			
-			//creating socket and readers/writers
-			skt = new Socket(host,port);
-			if (debug) System.out.println("connected to "+host+" on 32768");
+
+
+			// creating socket and readers/writers
+			skt = new Socket(host, port);
+			if (debug)
+				System.out.println("connected to " + host + " on 32768");
 			in = new InputStreamReader(skt.getInputStream());
 			reader = new BufferedReader(in);
 			out = new OutputStreamWriter(skt.getOutputStream());
 			writer = new BufferedWriter(out);
-			
-			//test code
-			UpdateThread network = new UpdateThread(reader, this.getUI(), world);
-			
-			writer.write("uid Bob\n");
-			network.start();
-			writer.flush();
 
+			UpdateThread updater = new UpdateThread(reader, view, world);
+
+			//sending name
+			writer.write("uid Bob\n");
+			updater.start();
+			writer.flush();
 			
-		
-		
-		
+			// creating GUI
+			view = new IsoInterface("IsoTest", world, this);
+			view.show();
+
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Unknown Host");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("IO Error");
 		}
-		
-		
-		
-		
+
 	}
 
 	@Override
 	public void performActionOn(String action, GameThing object) {
 		try {
-			String send = action+"\n"+object.gid()+"\n";
+			String send = action + "\n" + object.gid() + "\n";
 			System.out.print(send);
 			writer.write(send);
 			writer.flush();
 		} catch (IOException e) {
 			System.out.println("Bother, the BufferedWriter broke");
 		}
-		
+
 	}
-	
-	public IsoInterface getUI() {
-		return view;
-	}
+
 }

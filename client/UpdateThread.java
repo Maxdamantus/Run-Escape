@@ -22,28 +22,36 @@ public class UpdateThread extends Thread{
 	private IsoInterface view;
 	private GameWorld world;
 	
-	
+	/**
+	 * 
+	 * @param reader BufferedReader to receive game model updates on
+	 * @param view GUI to send messages to 
+	 * @param world World to apply updates to.
+	 */
 	public UpdateThread(BufferedReader reader, IsoInterface view , GameWorld world) {
 		this.reader = reader;
 		this.view = view;
 	}
 	
+	/**
+	 * Runs the update thread
+	 */
 	public void run() {
 		try {
+			//read from the reader continuously
 			while (true) {
 				String incoming = reader.readLine();
-				if (incoming.startsWith("msg")) {
+				if (incoming.startsWith("msg")) { //if message
 					String message = incoming.substring(3);
 					view.logMessage(message);
 					System.out.println("Message: "+message);
 				}
-				else if (incoming.startsWith("upd")) {
+				else if (incoming.startsWith("upd")) { //if update
 					String update= incoming.substring(3);
-					
-					WorldDelta.serializer(world).read(Database.xmlToTree(update)).apply(world);
+					WorldDelta.serializer(world).read(Database.xmlToTree(Database.unescapeNewLines(update))).apply(world);
 					System.out.println("updated: "+update);				
 				}
-				else{
+				else{ //not needed, but can be used for printing network debugging info
 					String other = incoming;
 					System.out.println(other);
 				}
