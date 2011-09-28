@@ -48,7 +48,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 
 	public static Serializer<DumbGameThing> serializer(final GameWorld w){
 		return new Serializer<DumbGameThing>(){
-			private final Serializer<List<String>> interS = new Serializers.List<String>(Serializers.Serializer_String);
+			private final Serializer<List<String>> interS = new Serializers.Nullable<List<String>>(new Serializers.List<String>(Serializers.Serializer_String));
 			private final Serializer<String> nullStringS = new Serializers.Nullable<String>(Serializers.Serializer_String);
 			// private static final Serializer<Map<String, Object>> = ???
 
