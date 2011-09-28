@@ -5,6 +5,11 @@ import java.util.*;
 public class GameWorld {
 	private final Map<Integer, GameThing> allThings = new HashMap<Integer, GameThing>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
+	private final Set<DeltaWatcher> watchers = new HashSet<DeltaWatcher>();
+
+	public static interface DeltaWatcher {
+		public void delta(WorldDelta d);
+	}
 
 	public GameThing thingWithGID(int gid){
 		return allThings.get(gid);
@@ -45,5 +50,31 @@ public class GameWorld {
 	
 	public serialization.Tree serialize(){
 		return new serialization.Tree();
+	}
+
+	public void emitPut(GameThing gt, Location where){
+		emit(new WorldDelta(new WorldDelta.Put(gt.gid(), where)));
+	}
+
+	public void emit(WorldDelta wd){
+		for(DeltaWatcher dw : watchers)
+			dw.delta(wd);
+	}
+
+	public void addDeltaWatcher(DeltaWatcher dw){
+		watchers.add(dw);
+	}
+
+	public void removeDeltaWatcher(DeltaWatcher dw){
+		watchers.remove(dw);
+	}
+
+	// spam!
+	{
+		addDeltaWatcher(new DeltaWatcher(){
+			public void delta(WorldDelta wd){
+				WorldDelta.serializer(GameWorld.this).write(wd).print();
+			}
+		});
 	}
 }

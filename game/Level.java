@@ -65,16 +65,13 @@ public class Level {
 		}
 
 		public void put(GameThing gt){
-			game.Location old = gt.location();
-			if(old != null)
-				old.remove(gt);
+			gt.location().remove(gt);
 			level.put(position, direction, gt);
 			gt.location(this);
 		}
 
 		public void remove(GameThing gt){
 			level.remove(gt, position);
-			gt.location(null);
 		}
 	}
 

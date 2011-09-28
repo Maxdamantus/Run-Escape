@@ -14,4 +14,5 @@ public interface GameThing {
 	public Map<String, Object> userArguments();
 	public boolean forgotten();
 	public void forget();
+	public GameWorld world();
 }

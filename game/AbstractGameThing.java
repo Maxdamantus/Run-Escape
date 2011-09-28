@@ -9,16 +9,16 @@ public abstract class AbstractGameThing implements GameThing {
 	private final int gid;
 	private final Map<String, Object> userArguments = new HashMap<String, Object>();
 	private boolean forgotten = false;
-	//private final GameWorld modelblah;
+	private final GameWorld world;
 
-	public AbstractGameThing(GameWorld world){
-		location = null; //= new Location(new Position(0, 0), Direction.NORTH);
-		gid = world.introduce(this);
-		// hacks
-	//	modelblah = world;
+	public AbstractGameThing(GameWorld w){
+		location = LocationS.NOWHERE; //= new Location(new Position(0, 0), Direction.NORTH);
+		gid = w.introduce(this);
+		world = w;
 	}
 
 	private AbstractGameThing(int g){
+		world = null;
 		gid = g;
 	}
 
@@ -34,6 +34,7 @@ public abstract class AbstractGameThing implements GameThing {
 	}
 
 	public Location location(Location s){
+		world.emitPut(this, s);
 		return location = s;
 	}
 
@@ -83,6 +84,10 @@ public abstract class AbstractGameThing implements GameThing {
 	public void forget(){
 		// will assume the world is removing its association from this' gid to this
 		forgotten = true;
+	}
+
+	public GameWorld world(){
+		return world;
 	}
 
 	public String toString(){
