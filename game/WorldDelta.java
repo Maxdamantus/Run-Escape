@@ -159,6 +159,10 @@ public class WorldDelta {
 		action = a;
 	}
 
+	public void apply(GameWorld w){
+		action.apply(w);
+	}
+
 	public final static Serializer<WorldDelta> serializer(final GameWorld w){
 		return new Serializer<WorldDelta>(){
 			public Tree write(WorldDelta in){

@@ -9,6 +9,7 @@ public interface GameThing {
 	public Location location(Location set);
 	public Area area();
 	public String renderer();
+	public void interact(String name, game.things.Player who);
 	public String defaultInteraction();
 	public List<String> interactions();
 	public Map<String, Object> userArguments();
