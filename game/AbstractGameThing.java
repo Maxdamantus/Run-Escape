@@ -16,6 +16,7 @@ public abstract class AbstractGameThing implements GameThing {
 		gid = w.introduce(this);
 		world = w;
 		w.emitIntroduce(this);
+		w.emitUpdate(this);
 	}
 
 	private AbstractGameThing(int g){
