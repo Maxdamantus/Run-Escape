@@ -63,7 +63,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 					interS.read(in.find("interactions")),
 					in.find("defaultinteraction").value(),
 					in.find("renderer").value(),
-					null /* ??? */);
+					new HashMap<String, Object>() /* ??? */);
 			}
 		};
 	}
