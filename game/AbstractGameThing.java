@@ -15,6 +15,7 @@ public abstract class AbstractGameThing implements GameThing {
 		location = LocationS.NOWHERE; //= new Location(new Position(0, 0), Direction.NORTH);
 		gid = w.introduce(this);
 		world = w;
+		w.emitIntroduce(this);
 	}
 
 	private AbstractGameThing(int g){

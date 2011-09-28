@@ -60,6 +60,10 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.Put(gt.gid(), where)));
 	}
 
+	public void emitIntroduce(GameThing gt){
+		emit(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
+	}
+
 	public void emit(WorldDelta wd){
 		for(DeltaWatcher dw : watchers)
 			dw.delta(wd);
@@ -78,6 +82,7 @@ public class GameWorld {
 		addDeltaWatcher(new DeltaWatcher(){
 			public void delta(WorldDelta wd){
 				WorldDelta.serializer(GameWorld.this).write(wd).print();
+				System.out.println();
 			}
 		});
 	}
