@@ -23,7 +23,11 @@ public class GameWorld {
 	}
 
 	public int introduce(GameThing gt){
-		return introduce(gt, (int)(Math.random()*(1 << 31)));
+		int r;
+		do
+			r = (int)(Math.random()*((1 << 31) - 1));
+		while(allThings.containsKey(r));
+		return introduce(gt, r);
 	}
 
 	public void forget(GameThing gt){
