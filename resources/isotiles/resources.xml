@@ -585,4 +585,17 @@
       </i>
     </v>
   </i>
+  <i>
+    <k>EMPTY_TILE</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>empty_square</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE1</v>
+      </i>
+    </v>
+  </i>
 </tree>

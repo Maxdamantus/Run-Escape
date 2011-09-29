@@ -20,11 +20,18 @@ public interface IsoTransform {
 	public Area querryArea();
 
 	/**
-	 * Perform translation/rotation to a given Position in map coordinates
+	 * Perform translation/rotation on a map position into view coordinates
 	 * @param pos
 	 * @return
 	 */
 	public Position transformMapPosition(Position pos);
+	
+	/**
+	 * Transform a view position to map position
+	 * @param pos
+	 * @return
+	 */
+	public Position transformViewPosition(Position pos);
 	
 	/**
 	 * Perform translation/rotation on a given relative or delta Point, eg mouse drags

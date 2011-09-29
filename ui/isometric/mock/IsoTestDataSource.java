@@ -52,6 +52,11 @@ public class IsoTestDataSource implements IsoDataSource {
 		public Point smoothOrigin(Point origin) {
 			return new Point(0, 0);
 		}
+
+		@Override
+		public Position transformViewPosition(Position pos) {
+			return pos;
+		}
 	}
 	
 	@Override

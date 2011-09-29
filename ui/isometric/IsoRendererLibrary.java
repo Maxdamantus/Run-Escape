@@ -26,6 +26,9 @@ public class IsoRendererLibrary {
 	public static final String RENDERER_ISOMETRIC_LEVEL = "level";
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
+	private static BufferedImage emptyTile;
+	
+	private static final String EMPTY_TILE = "EMPTY_TILE";
 	
 	/**
 	 * A class used for reading and writing image info to disk
@@ -150,6 +153,9 @@ public class IsoRendererLibrary {
 				for(String key : types.keySet()) {
 					renderers.put(key, types.get(key).load());
 				}
+				
+				emptyTile = imageForRendererName(EMPTY_TILE, Direction.NORTH);
+				System.out.println(renderers);
 			}
 		}
 	}
@@ -272,5 +278,17 @@ public class IsoRendererLibrary {
 	 */
 	public static Set<String> allRendererNames() {
 		return renderers().keySet();
+	}
+
+	/**
+	 * An empty tile with the correct alpha channel to use for tile selection
+	 * @return
+	 */
+	public static BufferedImage emptyTile() {
+		if(renderers == null) {
+			loadImages();
+		}
+		
+		return emptyTile;
 	}
 }

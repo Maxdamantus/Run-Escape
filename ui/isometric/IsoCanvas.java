@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import util.Direction;
+import util.Position;
 
 
 /**
@@ -37,6 +38,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	
 	private boolean selectionRender = false;
 	private IsoImage selectedImage = null;
+	private Position selectedSquarePosition = null;
 	private Point selectionPoint = new Point(0, 0);
 	
 	private static final double fps = 10;
@@ -47,8 +49,21 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	 * @author melby
 	 *
 	 */
-	public interface SelectionCallback { // TODO: add squareSelected
+	public interface SelectionCallback {
+		/**
+		 * A specific image was selected
+		 * @param image
+		 * @param event
+		 */
 		public void imageSelected(IsoImage image, MouseEvent event);
+		
+		/**
+		 * The user selected a given square.
+		 * Note: Only called when the user did not select a image
+		 * @param s
+		 * @param arg0
+		 */
+		public void squareAtPointSelected(Position s, MouseEvent arg0);
 	}
 	
 	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
@@ -121,21 +136,40 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	private void drawSquareAt(Graphics g, int dx, int dy, int sx, int sy) {
 		IsoSquare square = dataSource.squareAt(sx, sy);
 		
-		for(IsoImage i : square) {
-			if(!selectionRender) {
-				g.drawImage(i.image(), dx-i.width()/2, dy-i.height(), i.width(), i.height(), null, this);
+		if(square.numberOfImages() > 0) {
+			for(IsoImage i : square) {
+				if(!selectionRender) {
+					g.drawImage(i.image(), dx-i.width()/2, dy-i.height(), i.width(), i.height(), null, this);
+				}
+				else {
+					if(selectionPoint.x > dx-i.width()/2 && selectionPoint.x < dx+i.width()/2) { // Check x
+						if(selectionPoint.y > dy-i.height() && selectionPoint.y < dy) { // Check y
+							int x = selectionPoint.x - dx + i.width()/2;
+							int y = selectionPoint.y - dy + i.height();
+							
+							int[] pixels = new int[4];
+							i.image().getAlphaRaster().getPixel(x, y, pixels);
+							
+							if(pixels[0] > 0) {
+								selectedImage = i;
+							}
+						}
+					}
+				}
 			}
-			else {
-				if(selectionPoint.x > dx-i.width()/2 && selectionPoint.x < dx+i.width()/2) { // Check x
-					if(selectionPoint.y > dy-i.height() && selectionPoint.y < dy) { // Check y
-						int x = selectionPoint.x - dx + i.width()/2;
-						int y = selectionPoint.y - dy + i.height();
+		}
+		else {
+			if(selectionRender) {
+				if(selectionPoint.x > dx-TILE_X/2 && selectionPoint.x < dx+TILE_X/2) { // Check x
+					if(selectionPoint.y > dy-TILE_Y && selectionPoint.y < dy) { // Check y
+						int x = selectionPoint.x - dx + TILE_X/2;
+						int y = selectionPoint.y - dy + TILE_Y;
 						
 						int[] pixels = new int[4];
-						i.image().getAlphaRaster().getPixel(x, y, pixels);
+						IsoRendererLibrary.emptyTile().getAlphaRaster().getPixel(x, y, pixels);
 						
 						if(pixels[0] > 0) {
-							selectedImage = i;
+							selectedSquarePosition = dataSource.transform().transformViewPosition(new Position(sx, sy));
 						}
 					}
 				}
@@ -177,8 +211,16 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	public void mouseClicked(MouseEvent arg0) {
 		final IsoImage i = this.getImageAtPoint(arg0.getPoint());
 		
-		for(SelectionCallback s : selectionCallback) {
-			s.imageSelected(i, arg0);
+		if(i != null) {
+			for(SelectionCallback c : selectionCallback) {
+				c.imageSelected(i, arg0);
+			}
+		}
+		else {
+			final Position s = this.getCachedSquarePosition();
+			for(SelectionCallback c : selectionCallback) {
+				c.squareAtPointSelected(s, arg0);
+			}
 		}
 	}
 
@@ -187,15 +229,46 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	 * @param point
 	 * @return
 	 */
-	private IsoImage getImageAtPoint(Point point) {
+	public IsoImage getImageAtPoint(Point point) {
 		selectedImage = null;
 		
 		selectionRender = true;
 		selectionPoint = point;
-		this.paint(null);
+		try {
+			this.paint(null);
+		}
+		catch (Exception e) { }
 		selectionRender = false;
 		
 		return selectedImage;
+	}
+	
+	/**
+	 * Search for the square position at a given point in the canvas
+	 * @param point
+	 * @return
+	 */
+	public Position getSquarePositionAtPoint(Point point) {
+		selectedImage = null;
+		
+		selectionRender = true;
+		selectionPoint = point;
+		try {
+			this.paint(null);
+		}
+		catch (Exception e) { }
+		selectionRender = false;
+		
+		return selectedSquarePosition;
+	}
+	
+	/**
+	 * Get the cached square location, does no checking to ensure it is not stale,
+	 * should only be called directly after getImageAtPoint/getSquarePositionAtPoint
+	 * @return
+	 */
+	public Position getCachedSquarePosition() {
+		return selectedSquarePosition;
 	}
 
 	@Override

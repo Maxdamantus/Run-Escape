@@ -84,4 +84,12 @@ public class IsoSquare implements Iterable<IsoImage> {
 	public Iterator<IsoImage> iterator() {
 		return new ImageIterator();
 	}
+	
+	/**
+	 * The number of images on this square
+	 * @return
+	 */
+	public int numberOfImages() {
+		return images.size();
+	}
 }

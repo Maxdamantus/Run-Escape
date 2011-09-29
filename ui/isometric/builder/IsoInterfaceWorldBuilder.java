@@ -9,6 +9,7 @@ import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
+import util.Position;
 
 import game.*;
 
@@ -47,6 +48,11 @@ public class IsoInterfaceWorldBuilder {
 			public void imageSelected(final IsoImage i, MouseEvent event) {
 				inspect(i);
 			}
+
+			@Override
+			public void squareAtPointSelected(Position s, MouseEvent arg0) {
+				// TODO: implement
+			}
 		});
 		canvas.setSize(300, 300);
 		canvas.repaint();
@@ -80,7 +86,7 @@ public class IsoInterfaceWorldBuilder {
 		return logic;
 	}
 	
-	private void inspect(IsoImage i) {
+	private void inspect(IsoImage i) { // TODO: deal with squares
 		if(i == null) {
 			inspector.inspect(null);
 		}

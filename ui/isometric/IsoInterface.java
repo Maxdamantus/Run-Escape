@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import util.Position;
+
 import game.*;
 
 /**
@@ -72,6 +74,11 @@ public class IsoInterface implements PlayerMessage {
 						isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
 					}
 				}
+			}
+
+			@Override
+			public void squareAtPointSelected(Position s, MouseEvent arg0) {
+				// Do nothing
 			}
 		});
 		canvas.setSize(300, 300);

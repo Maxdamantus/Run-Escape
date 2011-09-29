@@ -84,6 +84,33 @@ public class IsoTransformImp implements IsoTransform {
 	}
 	
 	@Override
+	public Position transformViewPosition(Position pos) {		
+		int x = pos.x();
+		int y = pos.y();
+		
+		switch(viewDirection) {
+			case NORTH:
+				break;
+			case EAST:
+				x = bottomLeft.x()+y;
+				y = bottomLeft.y()-x;
+				break;
+			case SOUTH:
+				x = bottomRight.x()+x;
+				y = bottomRight.y()+y;
+				break;
+			case WEST:
+				x = topRight.x()-y;
+				y = topRight.y()+x;
+		}
+		
+		x += viewOrigin.x();
+		y += viewOrigin.y();
+		
+		return new Position(x, y);
+	}
+	
+	@Override
 	public Point transformRelitivePoint(Point p) {
 		int x = (int)p.getX();
 		int y = (int)p.getY();
