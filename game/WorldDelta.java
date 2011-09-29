@@ -166,6 +166,14 @@ public class WorldDelta {
 			world.emitSay(world.thingWithGID(gid), what);
 		}
 
+		public int who(){
+			return gid;
+		}
+
+		public String what(){
+			return what;
+		}
+
 		public final static Serializer<Say> serializer(final GameWorld w){
 			return new Serializer<Say>(){
 				public Tree write(Say in){
