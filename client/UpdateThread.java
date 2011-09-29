@@ -47,9 +47,10 @@ public class UpdateThread extends Thread{
 					System.out.println("Message: "+message);
 				}
 				else if (incoming.startsWith("upd")) { //if update
-					String update= incoming.substring(4);
-					WorldDelta.serializer(world).read(Database.xmlToTree(Database.unescapeNewLines(update))).apply(world);
-					System.out.println("updated: "+update);				
+					String update= Database.unescapeNewLines(incoming.substring(4));
+					System.out.println("updated: "+update);	
+					WorldDelta.serializer(world).read(Database.xmlToTree(update)).apply(world);
+								
 				}
 				else{ //not needed, but can be used for printing network debugging info
 					String other = incoming;

@@ -36,16 +36,16 @@ public class Client implements ClientMessageHandler {
 		String host = "localhost";
 		int port = 32765;
 		String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
-		if (server.length() > 0) { 
+		if (server.length() > 0) {
 			String[] split = server.split(":");
 			host = split[0];
-			if (split.length == 2) port = Integer.parseInt(split[1]);
-			
+			if (split.length == 2)
+				port = Integer.parseInt(split[1]);
+
 		}
-		System.out.println(host+", "+port);
+		System.out.println(host + ", " + port);
 		Client client = new Client(host, port);
-		
-		
+
 	}
 
 	/**
@@ -60,7 +60,6 @@ public class Client implements ClientMessageHandler {
 		boolean debug = true;
 		try {
 
-
 			// creating socket and readers/writers
 			skt = new Socket(host, port);
 			if (debug)
@@ -72,11 +71,11 @@ public class Client implements ClientMessageHandler {
 
 			UpdateThread updater = new UpdateThread(reader, view, world);
 
-			//sending name
+			// sending name
 			writer.write("uid Bob\n");
 			updater.start();
 			writer.flush();
-			
+
 			// creating GUI
 			view = new IsoInterface("IsoTest", world, this);
 			view.show();

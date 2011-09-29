@@ -3,7 +3,6 @@ package game;
 import java.util.*;
 
 import serialization.*;
-import serialization.util.*;
 
 public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
