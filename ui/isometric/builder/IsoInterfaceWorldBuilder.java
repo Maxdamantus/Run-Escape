@@ -93,10 +93,18 @@ public class IsoInterfaceWorldBuilder {
 		return logic;
 	}
 	
+	/**
+	 * Inspect a given location
+	 * @param l
+	 */
 	private void inspect(Location l) {
 		inspector.inspect(l);
 	}
 
+	/**
+	 * The GameWorld that this interface is using
+	 * @return
+	 */
 	public GameWorld gameWorld() {
 		return world;
 	}

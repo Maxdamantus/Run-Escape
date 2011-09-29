@@ -15,6 +15,12 @@ import util.Area;
 
 import game.*;
 
+/**
+ * A panel for inspecting locations
+ * 
+ * @author melby
+ *
+ */
 public class InspectorPanel extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -23,16 +29,27 @@ public class InspectorPanel extends JFrame {
 	private IsoInterfaceWorldBuilder builder;
 	private Location loc = null;
 
-	public static void registerForUpdates(Runnable r) {
+	/**
+	 * Register for updates to the world
+	 * @param r
+	 */
+	public static void registerForUpdates(Runnable r) { // TODO: methods on world?
 		updaters.add(r);
 	}
 	
+	/**
+	 * Signal a update to the world
+	 */
 	public static void signalUpdate() {
 		for(Runnable r : updaters) {
 			r.run();
 		}
 	}
 	
+	/**
+	 * Create a InspectorPanel with a IsoInterfaceWorldBuilder that is managing it
+	 * @param builder
+	 */
 	public InspectorPanel(final IsoInterfaceWorldBuilder builder) {
 		this.builder = builder;
 		
@@ -54,6 +71,10 @@ public class InspectorPanel extends JFrame {
 		})));
 	}
 	
+	/**
+	 * Inspect a given Location
+	 * @param l
+	 */
 	public void inspect(Location l) {
 		loc = l;
 		
@@ -64,7 +85,7 @@ public class InspectorPanel extends JFrame {
 				Iterable<game.GameThing> things = ((Level.Location) l).level().portion(new Area(((Level.Location)l).position(), 1, 1));
 				
 				for(game.GameThing t : things) {
-					ImageInspector ins = new ImageInspector(t, this);
+					GameThingInspector ins = new GameThingInspector(t, this);
 					getContentPane().add(ins);
 				}
 			}
@@ -75,6 +96,10 @@ public class InspectorPanel extends JFrame {
 		repaint();
 	}
 
+	/**
+	 * The IsoInterfaceWorldBuilder that is managing this InspectorPanel
+	 * @return
+	 */
 	public IsoInterfaceWorldBuilder builder() {
 		return builder;
 	}

@@ -16,12 +16,28 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import ui.isometric.builder.ImagePanel;
+import util.DragInfo;
 
+/**
+ * A set of classes used for dragging and dropping ThingCreators
+ * 
+ * @author melby
+ *
+ */
 public class ThingCreatorDnD {
+	/**
+	 * A class that is used to transfer ThingCreators between components in a drag
+	 * 
+	 * @author melby
+	 *
+	 */
 	public static class ThingCreatorTransfer implements Transferable {
 		private static DataFlavor dragAndDropDataFlavor = null;
 		
+		/**
+		 * Get the DataFlavor this transfer object uses
+		 * @return
+		 */
 		private static DataFlavor getDragAndDropDataFlavor() {
 			if(dragAndDropDataFlavor == null) {
 				try {
@@ -37,6 +53,10 @@ public class ThingCreatorDnD {
 		
 		private ThingCreator creator;
 		
+		/**
+		 * Create a ThingCreatorTransfer with a given ThingCreator
+		 * @param creator
+		 */
 		public ThingCreatorTransfer(ThingCreator creator) {
 			this.creator = creator;
 		}
@@ -62,13 +82,19 @@ public class ThingCreatorDnD {
 		
 	}
 	
+	/**
+	 * A class that handles the start of a drag operation
+	 * 
+	 * @author melby
+	 *
+	 */
 	public static class ThingCreatorToThingTransferHandler extends TransferHandler implements DragSourceMotionListener {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public Transferable createTransferable(JComponent c) {			
-	        if(c instanceof ImagePanel) {
-	        	ImagePanel p = (ImagePanel)c;
+	        if(c instanceof DragInfo) {
+	        	DragInfo p = (DragInfo)c;
 	        	if(p.dragObject() != null && p.dragObject() instanceof ThingCreator) {
 		            Transferable tip = new ThingCreatorTransfer((ThingCreator)p.dragObject());
 		            return tip;
@@ -83,8 +109,8 @@ public class ThingCreatorDnD {
 
 	    @Override
 	    public int getSourceActions(JComponent c) {	    	
-	        if(c instanceof ImagePanel) {
-	        	ImagePanel p = (ImagePanel)c;
+	        if(c instanceof DragInfo) {
+	        	DragInfo p = (DragInfo)c;
 	        	if(p.dragObject() != null && p.dragObject() instanceof ThingCreator) {
 	        		return TransferHandler.COPY;
 	        	}
@@ -94,13 +120,34 @@ public class ThingCreatorDnD {
 	    }
 	}
 	
+	/**
+	 * A class that listens for appropriate drop actions and responds to them
+	 * 
+	 * @author melby
+	 *
+	 */
 	public static class ThingDropListener implements DropTargetListener {
+		/**
+		 * A interface to specify how to receive messages when a drop action is performed
+		 * @author melby
+		 *
+		 */
 		public static interface ThingDropListenerAction {
+			/**
+			 * A drop action was performed
+			 * @param onto - the component the drop was over
+			 * @param location - the location within this component
+			 * @param creator - the ThingCreator that was dropped
+			 */
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator);
 		}
 		
 		private ThingDropListenerAction action;
 		
+		/**
+		 * Create a ThingDropListener with w given action to perform when the drop is made
+		 * @param action
+		 */
 	    public ThingDropListener(ThingDropListener.ThingDropListenerAction action) {
 	    	this.action = action;
 	    }

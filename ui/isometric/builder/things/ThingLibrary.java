@@ -9,7 +9,18 @@ import java.util.*;
 import ui.isometric.IsoRendererLibrary;
 import util.Direction;
 
+/**
+ * A class to manage all the ThingCreators
+ * 
+ * @author melby
+ *
+ */
 public class ThingLibrary {
+	/**
+	 * A class that generates new GroundThings
+	 * @author melby
+	 *
+	 */
 	public static class GroundCreator implements ThingCreator {
 		private String renderer;
 		
@@ -23,7 +34,7 @@ public class ThingLibrary {
 		}
 
 		@Override
-		public BufferedImage image() {
+		public BufferedImage previewImage() {
 			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH);
 		}
 		
@@ -36,6 +47,9 @@ public class ThingLibrary {
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
+	/**
+	 * Initialize all the internal ThingCreators
+	 */
 	private static void setupCreators() {
 		synchronized(ThingLibrary.class) {
 			if(creators == null) {
@@ -47,6 +61,10 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * Get all the ThingCreators
+	 * @return - an immutable list of ThingCreators
+	 */
 	public static List<ThingCreator> creators() {
 		synchronized(ThingLibrary.class) {
 			if(creators == null) {

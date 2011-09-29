@@ -13,9 +13,20 @@ import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.builder.things.ThingLibrary;
 
+/**
+ * 
+ * A window with all the different types of GameThings
+ * that can be dragged out and used in the world
+ * 
+ * @author melby
+ *
+ */
 public class LibraryFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Create a LibraryFrame with the default GameThings
+	 */
 	public LibraryFrame() { // TODO: categories
 		int cols = 10;
 		int rows = IsoRendererLibrary.allRendererNames().size()/cols;
@@ -23,7 +34,7 @@ public class LibraryFrame extends JFrame {
 		this.getContentPane().setLayout(new GridLayout(rows, cols));
 		
 		for(ThingCreator g : ThingLibrary.creators()) {
-			ImagePanel panel = new ImagePanel(g.image());
+			ImagePanel panel = new ImagePanel(g.previewImage());
 			panel.addMouseListener(new MouseAdapter() {
 				@Override()
 			    public void mousePressed(MouseEvent e) {			        

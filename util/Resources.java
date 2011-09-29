@@ -9,7 +9,19 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+/**
+ * A class to use for loading and finding resources from inside the jar package
+ * 
+ * @author melby
+ *
+ */
 public class Resources {
+	/**
+	 * Read a text resource, i.e. the entire file into a string
+	 * 
+	 * @param resourceName
+	 * @return
+	 */
 	public static String loadTextResource(String resourceName) {
 		InputStream inputStream = "".getClass().getResourceAsStream(resourceName);
 		
@@ -34,6 +46,11 @@ public class Resources {
 		return null; // Getting here is bad
 	}
 	
+	/**
+	 * Load an image unfliped
+	 * @param resourceName
+	 * @return
+	 */
 	public static BufferedImage readImageResourceUnfliped(String resourceName) {
 		try {
 			URL url = getResourceURL(resourceName);
@@ -48,6 +65,11 @@ public class Resources {
 		}
 	}
 	
+	/**
+	 * Load an image fliped
+	 * @param resourceName
+	 * @return
+	 */
 	public static BufferedImage readImageResourceFliped(String resourceName) {
 		try {
 			URL url = getResourceURL(resourceName);
@@ -69,6 +91,11 @@ public class Resources {
 		}
 	}
 	
+	/**
+	 * Get the URL to a given resource
+	 * @param resourceName
+	 * @return
+	 */
 	public static URL getResourceURL(String resourceName) { // TODO: print out if file doesn't exist
 		return "".getClass().getResource(resourceName);
 	}

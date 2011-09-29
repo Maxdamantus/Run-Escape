@@ -13,7 +13,13 @@ import ui.isometric.IsoImage;
 import ui.isometric.IsoRendererLibrary;
 import util.Direction;
 
-public class ImageInspector extends JPanel {
+/**
+ * This class is an inspector for a single GameThing.
+ * It is a self-configuring JPanel and can be added to many interfaces
+ * @author melby
+ *
+ */
+public class GameThingInspector extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private ImagePanel image;
@@ -22,7 +28,12 @@ public class ImageInspector extends JPanel {
 
 	private InspectorPanel panel;
 
-	public ImageInspector(GameThing t, InspectorPanel inspectorPanel) {
+	/**
+	 * Create a GameThingInspector with a given GameThing and InspectorPanel
+	 * @param t - any GameThing
+	 * @param inspectorPanel - the InspectorPanel managing this GameThingInspector
+	 */
+	public GameThingInspector(GameThing t, InspectorPanel inspectorPanel) {
 		this.thing = t;
 		this.isoImage = IsoRendererLibrary.newImageFromGameThing(null, t, Direction.NORTH);
 		panel = inspectorPanel;
@@ -64,6 +75,16 @@ public class ImageInspector extends JPanel {
 		this.validate();
 	}
 	
+	/**
+	 * Notify any inspectors of changes
+	 */
+	private void refresh() {
+		InspectorPanel.signalUpdate();
+	}
+	
+	/**
+	 * Rotate the GameThing CW
+	 */
 	private void rotateCW() {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
@@ -74,11 +95,10 @@ public class ImageInspector extends JPanel {
 		}
 		this.refresh();
 	}
-	
-	private void refresh() {
-		InspectorPanel.signalUpdate();
-	}
 
+	/**
+	 * Rotate the GameThing CCW
+	 */
 	private void rotateCCW() {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
@@ -90,6 +110,9 @@ public class ImageInspector extends JPanel {
 		this.refresh();
 	}
 	
+	/**
+	 * Remove the GameThing
+	 */
 	private void remove() {
 		System.out.println("Remove image " + thing.renderer());
 		game.LocationS.NOWHERE.put(thing);
