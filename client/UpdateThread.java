@@ -42,12 +42,12 @@ public class UpdateThread extends Thread{
 			while (true) {
 				String incoming = reader.readLine();
 				if (incoming.startsWith("msg")) { //if message
-					String message = incoming.substring(3);
+					String message = incoming.substring(4);
 					view.logMessage(message);
 					System.out.println("Message: "+message);
 				}
 				else if (incoming.startsWith("upd")) { //if update
-					String update= incoming.substring(3);
+					String update= incoming.substring(4);
 					WorldDelta.serializer(world).read(Database.xmlToTree(Database.unescapeNewLines(update))).apply(world);
 					System.out.println("updated: "+update);				
 				}
@@ -57,9 +57,8 @@ public class UpdateThread extends Thread{
 				}
 			}
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Oops, unable to read from ");
 		}
 		
 	}

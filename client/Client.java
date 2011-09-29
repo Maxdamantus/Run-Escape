@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
+import data.Database;
+
 import ui.isometric.IsoInterface;
 import ui.isometric.mock.IsoGameLogicMock;
 import util.*;
@@ -21,7 +23,7 @@ import game.*;
  * @author greenwthom
  * 
  */
-public class Client implements GameLogic {
+public class Client implements ClientMessageHandler {
 	private Socket skt;
 	private InputStreamReader in;
 	private BufferedReader reader;
@@ -87,10 +89,9 @@ public class Client implements GameLogic {
 
 	}
 
-	@Override
-	public void performActionOn(String action, GameThing object) {
+	public void sendMessage(ClientMessage message) {
 		try {
-			String send = action + "\n" + object.gid() + "\n";
+			String send = Database.escapeNewLines(Database.treeToXML(ClientMessage.serializer(world, 0).write(message)));
 			System.out.print(send);
 			writer.write(send);
 			writer.flush();
