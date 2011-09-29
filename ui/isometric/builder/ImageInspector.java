@@ -65,7 +65,6 @@ public class ImageInspector extends JPanel {
 	}
 	
 	private void rotateCW() {
-		game.GameThing thing = panel.builder().gameModel().thingWithGID(isoImage.gameThing().gid());
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			((Level.Location)l).rotate(Direction.WEST).put(thing);
@@ -81,7 +80,6 @@ public class ImageInspector extends JPanel {
 	}
 
 	private void rotateCCW() {
-		game.GameThing thing = panel.builder().gameModel().thingWithGID(isoImage.gameThing().gid());
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			((Level.Location)l).rotate(Direction.EAST).put(thing);
@@ -93,8 +91,9 @@ public class ImageInspector extends JPanel {
 	}
 	
 	private void remove() {
-		System.out.println("Remove image " + isoImage.gameThing().renderer());
-		game.LocationS.NOWHERE.put(isoImage.gameThing());
+		System.out.println("Remove image " + thing.renderer());
+		game.LocationS.NOWHERE.put(thing);
+		panel.builder().gameModel().forget(thing);
 		this.refresh();
 	}
 }
