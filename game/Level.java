@@ -6,7 +6,7 @@ import java.util.*;
 import serialization.*;
 import serialization.util.Serializers;
 
-public class Level {
+public class Level implements Iterable<GameThing> {
 	private final GameWorld world;
 	private final int level;
 	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
@@ -143,5 +143,12 @@ public class Level {
 
 	public Iterable<GameThing> portion(Area a){
 		return portion(a.position(), new Position(a.position().x() + a.width() - 1, a.position().y() + a.height() - 1));
+	}
+
+	public Iterator<GameThing> iterator(){
+		Set<GameThing> res = new HashSet<GameThing>();
+		for(Map.Entry<Position, GameThing> kv : map)
+			res.add(kv.getValue());
+		return res.iterator();
 	}
 }
