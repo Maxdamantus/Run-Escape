@@ -3,11 +3,17 @@ package ui.isometric.builder;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.dnd.DropTarget;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
@@ -17,6 +23,7 @@ import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Direction;
 
 import game.*;
+import game.things.Player;
 
 /**
  * 
@@ -52,7 +59,42 @@ public class IsoInterfaceWorldBuilder {
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
 			public void selected(final IsoImage i, final Location l, MouseEvent event) {
-				inspect(l);
+				if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
+					if(i != null) {
+						if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
+							List<String> interactions = i.gameThing().interactions();
+							
+							JPopupMenu popup = new JPopupMenu();
+							for(String intr : interactions) {
+								JMenuItem item = new JMenuItem(intr);
+								item.addActionListener(new ActionListener() {
+									private GameThing thing = i.gameThing();
+									
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										Object s = e.getSource();
+										
+										if(s instanceof JMenuItem) {
+											JMenuItem m = (JMenuItem)s;
+											for(GameThing t : dataSource.level()) {
+												if(t instanceof Player) {
+													thing.interact(m.getText(), (Player)t);
+													break;
+												}
+											}
+//											builder.gameLogic().performActionOn(m.getText(), thing);
+										}
+									}
+								});
+								popup.add(item);
+							}
+							popup.show(canvas, event.getPoint().x, event.getPoint().y);
+						}
+					}
+				}
+				else {
+					inspect(l);
+				}
 			}
 		});
 		canvas.setDropTarget(new DropTarget(canvas, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {

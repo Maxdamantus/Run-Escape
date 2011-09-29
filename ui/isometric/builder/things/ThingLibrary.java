@@ -44,6 +44,29 @@ public class ThingLibrary {
 		}
 	}
 	
+	public static class PlayerCreator implements ThingCreator {
+		private String renderer;
+		
+		public PlayerCreator(String rendererName) {
+			renderer = rendererName;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w) {
+			return new game.things.Player(w, Direction.NORTH, renderer);
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH);
+		}
+		
+		@Override
+		public String rendererName() {
+			return renderer;
+		}
+	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -61,6 +84,8 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_grey_water_corner"));
 				creators.add(new GroundCreator("ground_grey_water_two_sides"));
 				creators.add(new GroundCreator("water_1"));
+				
+				creators.add(new PlayerCreator("character_cordi_empty"));
 			}
 		}
 	}
