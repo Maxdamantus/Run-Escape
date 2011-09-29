@@ -68,6 +68,10 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));
 	}
 
+	public void emitSay(GameThing gt, String what){
+		emit(new WorldDelta(new WorldDelta.Say(gt.gid(), what)));
+	}
+
 	public void emit(WorldDelta wd){
 		for(DeltaWatcher dw : watchers)
 			dw.delta(wd);
