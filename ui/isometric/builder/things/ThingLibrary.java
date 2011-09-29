@@ -57,6 +57,10 @@ public class ThingLibrary {
 				unmodifiable = Collections.unmodifiableList(creators);
 				
 				creators.add(new GroundCreator("ground_grey_1"));
+				creators.add(new GroundCreator("ground_grey_2"));
+				creators.add(new GroundCreator("ground_grey_water_corner"));
+				creators.add(new GroundCreator("ground_grey_water_two_sides"));
+				creators.add(new GroundCreator("water_1"));
 			}
 		}
 	}
