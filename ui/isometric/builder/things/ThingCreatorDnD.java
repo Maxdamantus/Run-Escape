@@ -1,6 +1,7 @@
 package ui.isometric.builder.things;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -95,7 +96,7 @@ public class ThingCreatorDnD {
 	
 	public static class ThingDropListener implements DropTargetListener {
 		public static interface ThingDropListenerAction {
-			public void thingCreatorDroped(Component onto, ThingCreator creator);
+			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator);
 		}
 		
 		private ThingDropListenerAction action;
@@ -140,7 +141,7 @@ public class ThingCreatorDnD {
 	        
 	        ThingCreator thingCreator = (ThingCreator)transferableObj;
 	        
-	        action.thingCreatorDroped(drag.getDropTargetContext().getComponent(), thingCreator);
+	        action.thingCreatorDroped(drag.getDropTargetContext().getComponent(), drag.getLocation(), thingCreator);
 	        
 	        drag.acceptDrop(TransferHandler.COPY); // TODO: working?
 	    }

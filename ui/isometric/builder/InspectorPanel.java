@@ -1,6 +1,7 @@
 package ui.isometric.builder;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.dnd.DropTarget;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,9 +45,9 @@ public class InspectorPanel extends JFrame {
 		
 		this.setDropTarget(new DropTarget(this, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {
 			@Override
-			public void thingCreatorDroped(Component onto, ThingCreator creator) {
+			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(loc != null) {
-					loc.put(creator.createThing(builder.gameModel()));
+					loc.put(creator.createThing(builder.gameWorld()));
 					signalUpdate();
 				}
 			}

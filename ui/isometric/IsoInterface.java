@@ -74,10 +74,8 @@ public class IsoInterface implements PlayerMessage {
 				}
 			}
 		});
-		canvas.setSize(300, 300);
-		canvas.repaint();
+		frame.setSize(300, 300);
 		frame.add(canvas);
-		frame.pack();
 	}
 	
 	/**

@@ -93,7 +93,7 @@ public class ImageInspector extends JPanel {
 	private void remove() {
 		System.out.println("Remove image " + thing.renderer());
 		game.LocationS.NOWHERE.put(thing);
-		panel.builder().gameModel().forget(thing);
+		panel.builder().gameWorld().forget(thing);
 		this.refresh();
 	}
 }

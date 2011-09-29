@@ -3,7 +3,6 @@ package ui.isometric;
 import game.Level;
 import game.Location;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -14,6 +13,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.swing.JPanel;
 
 import util.Direction;
 import util.Position;
@@ -26,7 +27,7 @@ import util.Position;
  * @author melby
  *
  */
-public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListener, MouseListener {
+public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 	
 	public static final int TILE_X = 64;

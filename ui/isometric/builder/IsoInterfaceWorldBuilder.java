@@ -1,5 +1,8 @@
 package ui.isometric.builder;
 
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.dnd.DropTarget;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
@@ -9,6 +12,9 @@ import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
+import ui.isometric.builder.things.ThingCreator;
+import ui.isometric.builder.things.ThingCreatorDnD;
+import util.Direction;
 
 import game.*;
 
@@ -26,32 +32,40 @@ public class IsoInterfaceWorldBuilder {
 	
 	private IsoCanvas canvas;
 	
-	private GameWorld model;
+	private GameWorld world;
 	private GameLogic logic;
+	private IsoDataSource dataSource;
 	
 	/**
-	 * Create a world builder interface with a given GameModel and GameLogic
+	 * Create a world builder interface with a given GameWorld and GameLogic
 	 * @param name
-	 * @param model
+	 * @param world
 	 * @param logic
 	 */
-	public IsoInterfaceWorldBuilder(String name, GameWorld model, GameLogic logic) {
-		this.model = model;
+	public IsoInterfaceWorldBuilder(String name, final GameWorld world, GameLogic logic) {
+		this.world = world;
 		this.logic = logic;
 		
 		frame = new JFrame(name);
-		IsoDataSource d = new IsoGameModelDataSource(this.model);
-		canvas = new IsoCanvas(d);
+		dataSource = new IsoGameModelDataSource(this.world);
+		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
 			public void selected(final IsoImage i, final Location l, MouseEvent event) {
 				inspect(l);
 			}
 		});
-		canvas.setSize(300, 300);
-		canvas.repaint();
+		canvas.setDropTarget(new DropTarget(canvas, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {
+			@Override
+			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
+				if(onto instanceof IsoCanvas) {
+					IsoCanvas canvas = (IsoCanvas)onto;
+					new Level.Location(dataSource.level(), canvas.getSquarePositionAtPoint(location), Direction.NORTH).put(creator.createThing(world));
+				}
+			}
+		})));
+		frame.setSize(300, 300);
 		frame.add(canvas);
-		frame.pack();
 		
 		inspector = new InspectorPanel(this);
 		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
@@ -83,7 +97,7 @@ public class IsoInterfaceWorldBuilder {
 		inspector.inspect(l);
 	}
 
-	public GameWorld gameModel() {
-		return model;
+	public GameWorld gameWorld() {
+		return world;
 	}
 }
