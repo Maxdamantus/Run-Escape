@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import game.GameThing;
 import game.PlayerMessage;
 
 import javax.swing.JFrame;
@@ -26,15 +27,15 @@ public class IsoInterface implements PlayerMessage {
 	private IsoInterface isoInterface = this;
 	
 	private GameWorld model;
-	private GameLogic logic;
+	private ClientMessageHandler logic;
 	
 	/**
-	 * Create a interface with a given GameModel and GameLogic
+	 * Create a interface with a given GameModel and ClientMessageHandler
 	 * @param name
 	 * @param model
 	 * @param logic
 	 */
-	public IsoInterface(String name, GameWorld model, GameLogic logic) {
+	public IsoInterface(String name, GameWorld model, final ClientMessageHandler logic) {
 		this.model = model;
 		this.logic = logic;
 		
@@ -60,7 +61,7 @@ public class IsoInterface implements PlayerMessage {
 									
 									if(s instanceof JMenuItem) {
 										JMenuItem m = (JMenuItem)s;
-										isoInterface.gameLogic().performActionOn(m.getText(), thing);
+										isoInterface.performActionOn(m.getText(), thing);
 									}
 								}
 							});
@@ -69,7 +70,7 @@ public class IsoInterface implements PlayerMessage {
 						popup.show(canvas, event.getPoint().x, event.getPoint().y);
 					}
 					else {
-						isoInterface.gameLogic().performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
+						isoInterface.performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
 					}
 				}
 			}
@@ -78,6 +79,15 @@ public class IsoInterface implements PlayerMessage {
 		frame.add(canvas);
 	}
 	
+	/**
+	 * Send an interaction to the clienthandler
+	 * @param interaction
+	 * @param thing
+	 */
+	protected void performActionOn(String interaction, GameThing thing) {
+		logic.sendMessage(new ClientMessage(new ClientMessage.Interaction(thing.gid(), interaction), -1));
+	}
+
 	/**
 	 * Display this interface
 	 */
@@ -93,13 +103,5 @@ public class IsoInterface implements PlayerMessage {
 	@Override
 	public void showContainer(String name, List<GameThing> contents) {
 		// TODO Auto-generated method stub
-	}
-	
-	/**
-	 * Get the GameLogic that this interface is connected to
-	 * @return
-	 */
-	public GameLogic gameLogic() {
-		return logic;
 	}
 }

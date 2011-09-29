@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import data.Database;
 
 import ui.isometric.IsoInterface;
-import ui.isometric.mock.IsoGameLogicMock;
+import ui.isometric.mock.ClientMessageHandlerMock;
 import util.*;
 
 import game.*;

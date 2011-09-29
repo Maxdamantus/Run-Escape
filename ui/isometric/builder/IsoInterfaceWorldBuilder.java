@@ -40,18 +40,16 @@ public class IsoInterfaceWorldBuilder {
 	private IsoCanvas canvas;
 	
 	private GameWorld world;
-	private GameLogic logic;
 	private IsoDataSource dataSource;
 	
 	/**
-	 * Create a world builder interface with a given GameWorld and GameLogic
+	 * Create a world builder interface with a given GameWorld and ClientMessageHandler
 	 * @param name
 	 * @param world
 	 * @param logic
 	 */
-	public IsoInterfaceWorldBuilder(String name, final GameWorld world, GameLogic logic) {
+	public IsoInterfaceWorldBuilder(String name, final GameWorld world, ClientMessageHandler logic) {
 		this.world = world;
-		this.logic = logic;
 		
 		frame = new JFrame(name);
 		dataSource = new IsoGameModelDataSource(this.world);
@@ -82,7 +80,6 @@ public class IsoInterfaceWorldBuilder {
 													break;
 												}
 											}
-//											builder.gameLogic().performActionOn(m.getText(), thing);
 										}
 									}
 								});
@@ -125,14 +122,6 @@ public class IsoInterfaceWorldBuilder {
 		frame.setVisible(true);
 		inspector.setVisible(true);
 		library.setVisible(true);
-	}
-	
-	/**
-	 * Get the GameLogic that this interface is connected to
-	 * @return
-	 */
-	public GameLogic gameLogic() {
-		return logic;
 	}
 	
 	/**

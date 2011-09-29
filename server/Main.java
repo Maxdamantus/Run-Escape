@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 import server.*;
 import ui.isometric.IsoInterface;
-import ui.isometric.mock.IsoGameLogicMock;
+import ui.isometric.mock.ClientMessageHandlerMock;
 import util.Direction;
 import util.Position;
 
