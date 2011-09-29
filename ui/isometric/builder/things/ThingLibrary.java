@@ -24,6 +24,10 @@ public class ThingLibrary {
 	public static class GroundCreator implements ThingCreator {
 		private String renderer;
 		
+		/**
+		 * Create a ground tile with a given renderer
+		 * @param rendererName
+		 */
 		public GroundCreator(String rendererName) {
 			renderer = rendererName;
 		}
@@ -44,9 +48,18 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * A class that generates new Players
+	 * @author melby
+	 *
+	 */
 	public static class PlayerCreator implements ThingCreator {
 		private String renderer;
 		
+		/**
+		 * Create a player with a given renderer
+		 * @param rendererName
+		 */
 		public PlayerCreator(String rendererName) {
 			renderer = rendererName;
 		}
@@ -83,7 +96,19 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_grey_2"));
 				creators.add(new GroundCreator("ground_grey_water_corner"));
 				creators.add(new GroundCreator("ground_grey_water_two_sides"));
+				creators.add(new GroundCreator("ground_grey_water_one_side"));
 				creators.add(new GroundCreator("water_1"));
+				
+				creators.add(new GroundCreator("ground_grey_road_corner_1"));
+				creators.add(new GroundCreator("ground_grey_road_end_1"));
+				creators.add(new GroundCreator("ground_grey_road_straight_1"));
+				creators.add(new GroundCreator("ground_grey_road_t_1"));
+				creators.add(new GroundCreator("ground_grey_road_x_1"));
+				
+				creators.add(new GroundCreator("ground_grey_tile_1_corner_1"));
+				creators.add(new GroundCreator("ground_grey_tile_1_one_side_1"));
+				creators.add(new GroundCreator("ground_grey_tile_1_two_sides_1"));
+				creators.add(new GroundCreator("ground_tile_1"));
 				
 				creators.add(new PlayerCreator("character_cordi_empty"));
 			}
