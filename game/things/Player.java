@@ -14,7 +14,7 @@ import game.*;
 public class Player extends AbstractGameThing {
 	private String renderer;
 
-	public Player(GameWorld world, Location loc, Direction dir, String renderer){
+	public Player(GameWorld world, Direction dir, String renderer){
 		super(world);
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		// map.put(IsoRendererLibrary.RENDERER_ISOMETRIC_LEVEL, 1);
@@ -26,7 +26,17 @@ public class Player extends AbstractGameThing {
 	}
 
 	public boolean moveTo(Level.Location where, Runnable ondone){
-		/* call ((Level.Location)location()).nextTo(where).put(this) every so often, ensure only one moveTo at a time .. */
+		/*
+		// call ((Level.Location)location()).nextTo(where).put(this) every so often, ensure only one moveTo at a time ..
 		return false; // can't move
+		*/
+		where.put(this);
+		if(ondone != null)
+			ondone.run();
+		return true;
+	}
+
+	public boolean moveTo(Level.Location where){
+		return moveTo(where, null);
 	}
 }

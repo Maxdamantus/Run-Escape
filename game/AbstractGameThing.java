@@ -76,7 +76,8 @@ public abstract class AbstractGameThing implements GameThing {
 	}
 
 	public String defaultInteraction(){
-		return null; // no interactions
+		List<String> i = interactions();
+		return i == null || i.size() == 0? null : i.get(0);
 	}
 
 	public boolean forgotten(){
