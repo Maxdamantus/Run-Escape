@@ -114,7 +114,6 @@ public class GameThingInspector extends JPanel {
 	 * Remove the GameThing
 	 */
 	private void remove() {
-		System.out.println("Remove image " + thing.renderer());
 		game.LocationS.NOWHERE.put(thing);
 		panel.builder().gameWorld().forget(thing);
 		this.refresh();
