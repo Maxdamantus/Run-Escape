@@ -190,7 +190,8 @@ public class ThingCreatorDnD {
 	        
 	        action.thingCreatorDroped(drag.getDropTargetContext().getComponent(), drag.getLocation(), thingCreator);
 	        
-	        drag.acceptDrop(TransferHandler.COPY); // TODO: working?
+	        drag.acceptDrop(drag.getDropAction());
+	        drag.dropComplete(true);
 	    }
 	}
 }
