@@ -2,6 +2,8 @@
 package server;
 
 import game.GameWorld;
+import game.GameWorld.DeltaWatcher;
+import game.WorldDelta;
 
 import java.util.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ import javax.swing.JOptionPane;
 
 import server.*;
 import ui.isometric.IsoInterface;
+import ui.isometric.builder.IsoInterfaceWorldBuilder;
 import ui.isometric.mock.ClientMessageHandlerMock;
 import util.Direction;
 import util.Position;
@@ -37,7 +40,7 @@ public class Main{
 		
 		int gameClock = CLOCK_TIME;
 		int broadcastClock = BROADCAST_TIME;
-		int port = 32768; // default
+		int port = 32765; // default
 		String savefile;
 		String choice = "null";
 		while(!(choice.equals("NewGame") || choice.equals("LoadGame"))){
@@ -67,8 +70,12 @@ public class Main{
 			runServer(port, model);
 		}
 		else{
+			
 			GameWorld model = defaultworld();
+			IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
+			view.show();
 			runServer(port,model);
+			
 		}		
 		System.exit(0);
 	}
@@ -82,7 +89,15 @@ public class Main{
 		// Listen for connections
 		System.out.println("GAME SERVER LISTENING ON PORT " + port);
 		try {
-			ArrayList<Server> connections = new ArrayList<Server>(10);
+			final ArrayList<Server> connections = new ArrayList<Server>(10);
+			game.addDeltaWatcher(new DeltaWatcher(){
+				@Override
+				public void delta(WorldDelta d) {
+					for(Server svr : connections){
+						svr.addDelta(d);
+					}
+				}	
+			});
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
 			while (1 == 1) {
