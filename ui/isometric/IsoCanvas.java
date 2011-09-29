@@ -87,6 +87,7 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 				}
 			}
 		}).start();
+		this.setFocusable(true);
 	}
 	
 	@Override
