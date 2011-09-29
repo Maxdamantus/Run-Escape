@@ -155,7 +155,6 @@ public class IsoRendererLibrary {
 				}
 				
 				emptyTile = imageForRendererName(EMPTY_TILE, Direction.NORTH);
-				System.out.println(renderers);
 			}
 		}
 	}

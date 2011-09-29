@@ -9,7 +9,6 @@ import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.IsoImage;
-import util.Position;
 
 import game.*;
 
@@ -45,13 +44,8 @@ public class IsoInterfaceWorldBuilder {
 		canvas = new IsoCanvas(d);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
-			public void imageSelected(final IsoImage i, MouseEvent event) {
-				inspect(i);
-			}
-
-			@Override
-			public void squareAtPointSelected(Position s, MouseEvent arg0) {
-				// TODO: implement
+			public void selected(final IsoImage i, final Location l, MouseEvent event) {
+				inspect(l);
 			}
 		});
 		canvas.setSize(300, 300);
@@ -63,7 +57,6 @@ public class IsoInterfaceWorldBuilder {
 		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
 		inspector.setSize(200, 400);
 		inspector.getContentPane().add(Box.createVerticalGlue());
-		inspector.getContentPane().add(new InspectorOptionsPanel(null)); // TODO: Why doesn't this go away after being removed
 		inspector.validate();
 		
 		library = new LibraryFrame();
@@ -86,13 +79,8 @@ public class IsoInterfaceWorldBuilder {
 		return logic;
 	}
 	
-	private void inspect(IsoImage i) { // TODO: deal with squares
-		if(i == null) {
-			inspector.inspect(null);
-		}
-		else {
-			inspector.inspect(i.gameThing());
-		}
+	private void inspect(Location l) {
+		inspector.inspect(l);
 	}
 
 	public GameWorld gameModel() {

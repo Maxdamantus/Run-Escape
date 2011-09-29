@@ -1,5 +1,7 @@
 package ui.isometric.mock;
 
+import game.Level;
+
 import java.awt.Point;
 
 import ui.isometric.IsoDataSource;
@@ -115,5 +117,10 @@ public class IsoTestDataSource implements IsoDataSource {
 	@Override
 	public IsoTransform transform() {
 		return new IsoTransformDummy();
+	}
+
+	@Override
+	public Level level() {
+		return null;
 	}
 }

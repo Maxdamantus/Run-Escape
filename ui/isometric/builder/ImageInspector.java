@@ -78,9 +78,6 @@ public class ImageInspector extends JPanel {
 	
 	private void refresh() {
 		InspectorPanel.signalUpdate();
-		isoImage = IsoRendererLibrary.newImageFromGameThing(null, thing, Direction.NORTH);
-		image.setImage(isoImage.image());
-		image.repaint();
 	}
 
 	private void rotateCCW() {
@@ -98,5 +95,6 @@ public class ImageInspector extends JPanel {
 	private void remove() {
 		System.out.println("Remove image " + isoImage.gameThing().renderer());
 		game.LocationS.NOWHERE.put(isoImage.gameThing());
+		this.refresh();
 	}
 }

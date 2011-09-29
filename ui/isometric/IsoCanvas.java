@@ -1,5 +1,8 @@
 package ui.isometric;
 
+import game.Level;
+import game.Location;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -51,19 +54,12 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	 */
 	public interface SelectionCallback {
 		/**
-		 * A specific image was selected
-		 * @param image
+		 * A specific image and location that was selected
+		 * @param image - the image selected
+		 * @param loc - the location under the mouse
 		 * @param event
 		 */
-		public void imageSelected(IsoImage image, MouseEvent event);
-		
-		/**
-		 * The user selected a given square.
-		 * Note: Only called when the user did not select a image
-		 * @param s
-		 * @param arg0
-		 */
-		public void squareAtPointSelected(Position s, MouseEvent arg0);
+		public void selected(IsoImage image, Location loc, MouseEvent event);
 	}
 	
 	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
@@ -158,19 +154,18 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 				}
 			}
 		}
-		else {
-			if(selectionRender) {
-				if(selectionPoint.x > dx-TILE_X/2 && selectionPoint.x < dx+TILE_X/2) { // Check x
-					if(selectionPoint.y > dy-TILE_Y && selectionPoint.y < dy) { // Check y
-						int x = selectionPoint.x - dx + TILE_X/2;
-						int y = selectionPoint.y - dy + TILE_Y;
-						
-						int[] pixels = new int[4];
-						IsoRendererLibrary.emptyTile().getAlphaRaster().getPixel(x, y, pixels);
-						
-						if(pixels[0] > 0) {
-							selectedSquarePosition = dataSource.transform().transformViewPosition(new Position(sx, sy));
-						}
+		
+		if(selectionRender) {
+			if(selectionPoint.x > dx-TILE_X/2 && selectionPoint.x < dx+TILE_X/2) { // Check x
+				if(selectionPoint.y > dy-TILE_Y && selectionPoint.y < dy) { // Check y
+					int x = selectionPoint.x - dx + TILE_X/2;
+					int y = selectionPoint.y - dy + TILE_Y;
+					
+					int[] pixels = new int[4];
+					IsoRendererLibrary.emptyTile().getAlphaRaster().getPixel(x, y, pixels);
+					
+					if(pixels[0] > 0) {
+						selectedSquarePosition = dataSource.transform().transformViewPosition(new Position(sx, sy));
 					}
 				}
 			}
@@ -210,17 +205,10 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		final IsoImage i = this.getImageAtPoint(arg0.getPoint());
+		final Position s = this.getCachedSquarePosition();
 		
-		if(i != null) {
-			for(SelectionCallback c : selectionCallback) {
-				c.imageSelected(i, arg0);
-			}
-		}
-		else {
-			final Position s = this.getCachedSquarePosition();
-			for(SelectionCallback c : selectionCallback) {
-				c.squareAtPointSelected(s, arg0);
-			}
+		for(SelectionCallback c : selectionCallback) {
+			c.selected(i, new Level.Location(dataSource.level(), s, Direction.NORTH), arg0);
 		}
 	}
 
@@ -231,6 +219,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	 */
 	public IsoImage getImageAtPoint(Point point) {
 		selectedImage = null;
+		selectedSquarePosition = null;
 		
 		selectionRender = true;
 		selectionPoint = point;
@@ -250,6 +239,7 @@ public class IsoCanvas extends Canvas implements KeyListener, MouseMotionListene
 	 */
 	public Position getSquarePositionAtPoint(Point point) {
 		selectedImage = null;
+		selectedSquarePosition = null;
 		
 		selectionRender = true;
 		selectionPoint = point;

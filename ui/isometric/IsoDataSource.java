@@ -1,5 +1,6 @@
 package ui.isometric;
 
+import game.Level;
 import util.Direction;
 
 
@@ -44,4 +45,10 @@ public interface IsoDataSource {
 	 * @return
 	 */
 	public IsoTransform transform();
+
+	/**
+	 * The level currently being displayed
+	 * @return
+	 */
+	public Level level();
 }
