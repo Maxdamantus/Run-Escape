@@ -5,7 +5,17 @@ import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.*;
 
+/**
+ * A control that displays a set of hierarchical data as an outline.
+ * A Tree node can either be a String or an Entry which is a Tree itself.
+ * 
+ * @author wafaahma
+ *
+ */
 public class Tree{
+	/**
+	 * The Entry class is a Tree with a name
+	 */
 	public static class Entry {
 		private final String name;
 		private final Tree tree;
@@ -27,42 +37,73 @@ public class Tree{
 	private final List<Entry> children;
 	private final String value;
 
-	// Non-leaf constructor
+	/**
+	 * Non-leaf constructor
+	 */
 	public Tree(){
 		children = new ArrayList<Entry>();
 		value = null;
 	}
 
-	// Leaf constructor
+	/**
+	 * Leaf constructor
+	 * @param String
+	 */
 	public Tree(String v){
 		children = null;
 		value = v;
 	}
 
+	/**
+	 * checks if the node is a leaf
+	 * @return value if not null
+	 */
 	public boolean isLeaf(){
 		return value != null;
 	}
 
+	/**
+	 * Returns the value of Tree node
+	 * @return String value
+	 */
 	public String value(){
 		if(value == null)
 			throw new NullPointerException("Tree is not a leaf node");
 		return value;
 	}
 
+	/**
+	 * Can iterate through the Tree children.
+	 * @return collection of children
+	 */
 	public Iterable<Entry> children(){
 		if(children == null)
 			throw new NullPointerException("Tree is a leaf node");
 		return Collections.unmodifiableList(children);
 	}
 
+	/**
+	 * Adds an Entry to the children
+	 * @param Entry e
+	 */
 	public void add(Entry e){
 		children.add(e);
 	}
 
+	/**
+	 * A getter method for the current Tree Entry
+	 * @param int i
+	 * @return gets the ith position child in the tree 
+	 */
 	public Entry get(int i){
 		return children.get(i);
 	}
 
+	/**
+	 * Will find the String s in the tree
+	 * @param String s
+	 * @return Entry with the name s
+	 */
 	public Tree find(String s){
 		for(Entry e : children)
 			if(e.name().equals(s))
@@ -70,7 +111,8 @@ public class Tree{
 		throw new RuntimeException("wtf");
 	}
 
-	/* Leaf representation:
+	/**
+	 *  Leaf representation:
 	 * List of characters, preceded by %
 	 * Character representation:
 	 * \% - end of string
@@ -79,8 +121,9 @@ public class Tree{
 	 * Non-leaf representation:
 	 * List of trees, preceded by [, succeeded by ]
 	 * (this should be unambiguous)
+	 * 
+	 * @return String Tree
 	 */
-
 	public String toString(){
 		StringWriter sw = new StringWriter();
 		try{
@@ -89,6 +132,11 @@ public class Tree{
 		return sw.toString();
 	}
 
+	/**
+	 * Can write a Tree to Appendable objects (e.g bufferWriter)
+	 * @param out
+	 * @throws IOException
+	 */
 	public void toString(Appendable out) throws IOException {
 		if(isLeaf()){
 			out.append('%');
@@ -121,7 +169,7 @@ public class Tree{
 	}
 
 	// cur.length == 1; cur[0] read and updated as cursor position in the string
-	public static Tree fromString(String in, int[] cur) throws ParseException {
+	private static Tree fromString(String in, int[] cur) throws ParseException {
 		if(in.charAt(cur[0]) == '%'){
 			cur[0]++;
 			return new Tree(readStr(in, cur));
@@ -137,10 +185,19 @@ public class Tree{
 		throw new ParseException("Invalid input", cur[0]);
 	}
 
+	/**
+	 * Interprets a toString-output String as a Tree
+	 * @param in
+	 * @return
+	 * @throws ParseException
+	 */
 	public static Tree fromString(String in) throws ParseException {
 		return fromString(in, new int[1]);
 	}
 
+	/**
+	 * Prints the indentation of the Tree in toString
+	 */
 	public void print(){
 		print("");
 	}
@@ -157,6 +214,10 @@ public class Tree{
 		}
 	}
 	
+	/**
+	 * returns the size of the tree
+	 * @return int size
+	 */
 	public int size() {
 		if(children != null) {
 			return children.size();

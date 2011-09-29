@@ -38,7 +38,7 @@ import serialization.Tree;
  * @author wafaahma
  *
  */
-public class Database { // Call this something different and make it a class
+public class Database {
 	
 	private static final String XML_ROOT = "tree";
 	private static final char STRING_ESCAPE = '*';

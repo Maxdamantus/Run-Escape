@@ -5,11 +5,25 @@ import java.util.*;
 import serialization.Serializer;
 import serialization.Tree;
 
-
+/**
+ * 
+ * Serializing objects to the Tree
+ * List, Set, MapEntry, Map, String, tree, integer, double and nullable objects
+ * 
+ * @author wafaahma
+ *
+ */
 public class Serializers {
+	/**
+	 * A List<T> serializer class which implements read and write methods 
+	 * @author wafaahma
+	 *
+	 * @param <T>
+	 */
 	public static class List<T> implements Serializer<java.util.List<T>> {
 		private final Serializer<T> elemSerializer;
 
+		//Constructor
 		public List(Serializer<T> s){
 			elemSerializer = s;
 		}
@@ -35,6 +49,12 @@ public class Serializers {
 		}
 	}
 
+	/**
+	 * A Set<T> serializer class which implements read and write methods 
+	 * @author wafaahma
+	 *
+	 * @param <T>
+	 */
 	// two-pass (first creates a List then a Set .. simpler, doesn't really need to be efficient: we're using XML anyway
 	public static class Set<T> implements Serializer<java.util.Set<T>> {
 		// Serializers.List<T>, not java.util.List<T>
@@ -52,7 +72,13 @@ public class Serializers {
 			return listSerializer.write(in);
 		}
 	}
-
+	
+	/**
+	 * A MapEntry<K, V> serializer class which implements read and write methods 
+	 * @author wafaahma
+	 *
+	 * @param <T>
+	 */
 	public static class MapEntry<K, V> implements Serializer<java.util.Map.Entry<K, V>> {
 		private final Serializer<K> keySerializer;
 		private final Serializer<V> elemSerializer;
@@ -87,6 +113,12 @@ public class Serializers {
 		}
 	}
 
+	/**
+	 * A Map<K, V> serializer class which implements read and write methods 
+	 * @author wafaahma
+	 *
+	 * @param <T>
+	 */
 	public static class Map<K, V> implements Serializer<java.util.Map<K, V>> {
 		private final Set<java.util.Map.Entry<K, V>> setSerializer;
 
@@ -149,6 +181,13 @@ public class Serializers {
 		}
 	};
 
+	/**
+	 * Wraps another serializer to support null values.
+	 * Other serializers can not necessarily hold null values.
+	 * @author wafaahma
+	 *
+	 * @param <T>
+	 */
 	public static class Nullable<T> implements Serializer<T> {
 		private final Serializer<T> elemSerializer;
 
