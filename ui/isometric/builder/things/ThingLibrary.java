@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 
 import ui.isometric.IsoRendererLibrary;
+import ui.isometric.IsoSquare;
 import util.Direction;
 
 /**
@@ -66,7 +67,9 @@ public class ThingLibrary {
 		
 		@Override
 		public GameThing createThing(GameWorld w) {
-			return new game.things.Player(w, Direction.NORTH, renderer);
+			game.things.Player player = new game.things.Player(w, Direction.NORTH, renderer);
+			IsoRendererLibrary.setLevelInArguments(player.userArguments(), IsoSquare.PLAYER);
+			return player;
 		}
 
 		@Override

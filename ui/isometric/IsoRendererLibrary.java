@@ -251,6 +251,27 @@ public class IsoRendererLibrary {
 		
 		return IsoSquare.FLOOR;
 	}
+	
+	/**
+	 * Set the level on a map of user arguments
+	 * @param userArguments
+	 * @param level
+	 */
+	@SuppressWarnings("unchecked")
+	public static void setLevelInArguments(Map<String, Object> userArguments, int level) {
+		Object tmp = userArguments.get(RENDERER_ISOMETRIC);
+		
+		Map<String, Object> map = null;
+		
+		if(tmp != null && tmp instanceof Map) {
+			map = (Map<String, Object>)tmp;
+		}
+		else {
+			map = new HashMap<String, Object>();
+		}
+		
+		map.put(RENDERER_ISOMETRIC_LEVEL, level);
+	}
 
 	/**
 	 * Get a new IsoImage representing the given GameThing on a given square
