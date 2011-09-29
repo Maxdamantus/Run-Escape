@@ -10,7 +10,7 @@ import java.net.*;
 
 import data.Database;
 
-
+//new ClientMessage(mygid, new ClientMessage.Interaction(thatgid, foo)).apply(game);
 
 /**
  * A Server thread receives xml formatted-instructions from a client connection via a socket.
