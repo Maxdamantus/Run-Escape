@@ -67,7 +67,7 @@ public class ThingLibrary {
 		
 		@Override
 		public GameThing createThing(GameWorld w) {
-			game.things.Player player = new game.things.Player(w, Direction.NORTH, renderer);
+			game.things.Player player = new game.things.Player(w, renderer);
 			IsoRendererLibrary.setLevelInArguments(player.userArguments(), IsoSquare.PLAYER);
 			return player;
 		}
