@@ -19,6 +19,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 
 	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Object> u){
 		this(g, i, d, r, u);
+		System.out.println("blah");
 		w.introduce(this, gid());
 	}
 

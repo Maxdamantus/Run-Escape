@@ -31,6 +31,7 @@ public class UpdateThread extends Thread{
 	public UpdateThread(BufferedReader reader, IsoInterface view , GameWorld world) {
 		this.reader = reader;
 		this.view = view;
+		this.world = world;
 	}
 	
 	/**
