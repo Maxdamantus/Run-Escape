@@ -85,6 +85,10 @@ public class GameWorld {
 		watchers.remove(dw);
 	}
 
+	public synchronized void run(Runnable r){
+		r.run();
+	}
+
 	// spam!
 	{
 		addDeltaWatcher(new DeltaWatcher(){
