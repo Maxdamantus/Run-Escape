@@ -30,15 +30,25 @@ import org.xml.sax.SAXException;
 
 import serialization.Tree;
 
+
+/**
+ * This class is dealing with changing XML file to Tree and from Tree to XML.
+ * You may also call TreeToStrong from this class
+ * 
+ * @author wafaahma
+ *
+ */
 public class Database { // Call this something different and make it a class
 	
 	private static final String XML_ROOT = "tree";
-	
 	private static final char STRING_ESCAPE = '*';
 	private static final char TREE_ESCAPE = '#';
 	
+	/**
+	 * Creates a new Document using dom library. The document will get called by the internal methods.
+	 * @return Document
+	 */
 	public static Document newDocument(){
-		//set up the factory
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		} catch (ParserConfigurationException e) {
@@ -47,36 +57,38 @@ public class Database { // Call this something different and make it a class
 		return null;
 	}
 	
-//	//Should return XML instead of String, but for meantime use String
-//	public static String treeToXML(Tree tree){
-//		StringWriter sw = new StringWriter();
-//		sw.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-//		treeToXML(tree, sw);
-//		return sw.toString();
-//	}
-//	
-//	public static void treeToXML(Tree tree, StringWriter sw){
-//		if(tree.isLeaf()){
-//			sw.append("*"+tree.value());
-//		}else{
-//			for(Tree.Entry t: tree.children()){
-//				sw.append("<" + t.name() + ">");
-//				treeToXML(t.tree(), sw);
-//				sw.append("</" + t.name() + ">");
-//			}
-//		}
-//	}
-	
+	/**
+	 * This method can be called from outside which then calls the private treeToDOC method.
+	 * A method which returns a toString version of the tree after changing it to a doc.
+	 * @param tree
+	 * @return calls the documentToString method
+	 */
 	public static String treeToXML(Tree tree){
 		return documentToString(treeToDOC(tree), true);
 	}
 	
+	/**
+	 * Creates a new doc and calls the treeToDOC method.
+	 * It will also adds the root child to the doc tree.
+	 * @param tree
+	 * @return document
+	 */
 	public static Document treeToDOC(Tree tree){
 		Document doc = newDocument();
 		treeToDOC(tree,doc,doc.appendChild(doc.createElement(XML_ROOT)));
 		return doc;
 	}
 	
+	/**
+	 * Change a tree to a XML document.
+	 * * is used to represent an empty string
+	 * # is used for an empty list
+	 * These escape charactors will get added to the XML file and when reading gets taken out.
+	 * They will not have any effects on the contents of the XML file.  
+	 * @param tree
+	 * @param doc
+	 * @param node
+	 */
 	private static void treeToDOC(Tree tree, Document doc, Node node){
 		if(tree.isLeaf()){
 			String value = tree.value();
@@ -98,6 +110,12 @@ public class Database { // Call this something different and make it a class
 		}
 	}
 	
+	/**
+	 * Returns a toString of indented XML file from doc.
+	 * @param doc
+	 * @param indent
+	 * @return String XML file
+	 */
 	public static String documentToString(Node doc, boolean indent){
 		StringWriter sw = new StringWriter();
 		try {
@@ -118,6 +136,11 @@ public class Database { // Call this something different and make it a class
 		return sw.toString();
 	}
 	
+	/**
+	 * This method will call another method to get rid of indentation, then calls a private method to convert XML to Tree.
+	 * @param String XML
+	 * @return Tree
+	 */
 	public static Tree xmlToTree(String XML){
 		//set up the factory
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -146,7 +169,10 @@ public class Database { // Call this something different and make it a class
 		return xmlToTree(node);
 	}
 	
-
+	/**
+	 * This method will get rid of the indentations of the the XML file
+	 * @param root node
+	 */
 	private static void stripEmptyNodes(Node node) {
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		// XPath to find empty text nodes.
@@ -166,7 +192,14 @@ public class Database { // Call this something different and make it a class
 		}
 	}
 
-	//Should take XML instead of String, but for meantime use String
+	/**
+	 * Converts the XML to Tree
+	 * * is used to represent an empty string
+	 * # is used for an empty list
+	 * These escape charectors will get removed from the file and will not effect the content of the Tree.
+	 * @param node
+	 * @return
+	 */
 	private static Tree xmlToTree(Node node){
 		NodeList nl = node.getChildNodes();
 		Node firstChild = nl.item(0);
@@ -186,29 +219,22 @@ public class Database { // Call this something different and make it a class
 		for(int i = 0; i < nl.getLength(); i++)
 			t.add(new Tree.Entry(nl.item(i).getNodeName(), xmlToTree(nl.item(i))));
 		return t;
-		/*
-		if (node.hasChildNodes()){
-			//if it does, get them into a node list
-			NodeList nl = node.getChildNodes();
-			Tree tree = new Tree();
-			for (int i = 0; i < nl.getLength(); i++){
-				//looping over the second level of XML provided, aka the children of the root class
-				xmlToTree(nl.item(0));
-			}
-			return tree;
-		}
-		else{
-			if(node.getNodeName().toLowerCase().startsWith("*")){
-				//if the node name equals one of these predefined values, set the string to be the nodes content
-				return new Tree(node.getTextContent().substring(1));
-			}
-		}
-		return null;*/
 	}
 	
+	/**
+	 * A helper method which calls tree.toString()
+	 * @param tree
+	 * @return tree.toString()
+	 */
 	public static String treeToString(Tree tree){
 		return tree.toString();
 	}
+	
+	/**
+	 * A helper method which calls tree.fromString(str).
+	 * @param str
+	 * @return
+	 */
 	public Tree treeFromString(String str){
 		try {
 			return Tree.fromString(str);
@@ -217,10 +243,20 @@ public class Database { // Call this something different and make it a class
 		}
 	}
 	
+	/**
+	 * A helper method which adds new line to the XML file
+	 * @param string
+	 * @return String with indentation
+	 */
 	public static String escapeNewLines(String s) {
 		return s.replaceAll("@n", "@@n").replaceAll("\\n", "@n");
 	}
 	
+	/**
+	 * A helper method which removes new line to the XML file
+	 * @param string
+	 * @return String without indentation
+	 */
 	public static String unescapeNewLines(String s) {
 		return s.replaceAll("@@n", "@n").replaceAll("@n", "\n");
 	}
