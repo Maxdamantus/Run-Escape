@@ -1,16 +1,20 @@
 package ui.isometric.builder;
 
-import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class ImagePanel extends Canvas {
+import javax.swing.JPanel;
+
+public class ImagePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private BufferedImage image;
+	private Object dragObject;
 	
 	public ImagePanel(BufferedImage bufferedImage) {
 		this.image = bufferedImage;
+		this.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
 	}
 
 	@Override
@@ -35,5 +39,13 @@ public class ImagePanel extends Canvas {
 	
 	public void setImage(BufferedImage i) {
 		image = i;
+	}
+	
+	public Object dragObject() {
+		return dragObject;
+	}
+	
+	public void setDragObject(Object o) {
+		dragObject = o;
 	}
 }

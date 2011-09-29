@@ -1,11 +1,15 @@
 package ui.isometric.builder;
 
+import java.awt.Component;
+import java.awt.dnd.DropTarget;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JFrame;
 
+import ui.isometric.builder.things.ThingCreator;
+import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Area;
 
 import game.*;
@@ -28,7 +32,7 @@ public class InspectorPanel extends JFrame {
 		}
 	}
 	
-	public InspectorPanel(IsoInterfaceWorldBuilder builder) {
+	public InspectorPanel(final IsoInterfaceWorldBuilder builder) {
 		this.builder = builder;
 		
 		registerForUpdates(new Runnable() {
@@ -37,6 +41,16 @@ public class InspectorPanel extends JFrame {
 				inspect(loc);
 			}
 		});
+		
+		this.setDropTarget(new DropTarget(this, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {
+			@Override
+			public void thingCreatorDroped(Component onto, ThingCreator creator) {
+				if(loc != null) {
+					loc.put(creator.createThing(builder.gameModel()));
+					signalUpdate();
+				}
+			}
+		})));
 	}
 	
 	public void inspect(Location l) {
@@ -57,6 +71,7 @@ public class InspectorPanel extends JFrame {
 		
 		getContentPane().add(Box.createVerticalGlue());
 		validate();
+		repaint();
 	}
 
 	public IsoInterfaceWorldBuilder builder() {
