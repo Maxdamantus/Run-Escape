@@ -186,12 +186,19 @@ public class ThingCreatorDnD {
 	            return;
 	        }
 	        
-	        ThingCreator thingCreator = (ThingCreator)transferableObj;
-	        
-	        action.thingCreatorDroped(drag.getDropTargetContext().getComponent(), drag.getLocation(), thingCreator);
-	        
-	        drag.acceptDrop(drag.getDropAction());
-	        drag.dropComplete(true);
+	        try {
+		        ThingCreator thingCreator = (ThingCreator)transferableObj;
+		        
+		        action.thingCreatorDroped(drag.getDropTargetContext().getComponent(), drag.getLocation(), thingCreator);
+		        
+		        drag.acceptDrop(drag.getDropAction());
+		        drag.dropComplete(true);
+	        } catch (Exception e) {
+	        	System.out.println("Exception handling drop: " + e.getLocalizedMessage());
+	        	
+	        	drag.rejectDrop();
+		        drag.dropComplete(false);
+	        }
 	    }
 	}
 }
