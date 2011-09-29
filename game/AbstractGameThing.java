@@ -16,7 +16,6 @@ public abstract class AbstractGameThing implements GameThing {
 		gid = w.introduce(this);
 		world = w;
 		w.emitIntroduce(this);
-		w.emitUpdate(this);
 	}
 
 	private AbstractGameThing(int g){
@@ -91,6 +90,10 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public GameWorld world(){
 		return world;
+	}
+
+	public void update(){
+		world.emitUpdate(this);
 	}
 
 	public String toString(){

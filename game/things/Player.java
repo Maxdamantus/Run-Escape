@@ -20,6 +20,7 @@ public class Player extends AbstractGameThing {
 		// map.put(IsoRendererLibrary.RENDERER_ISOMETRIC_LEVEL, 1);
 		this.userArguments().put(IsoRendererLibrary.RENDERER_ISOMETRIC, map);
 		this.renderer = renderer;
+		update();
 	}
 
 	public Player(GameWorld world){
