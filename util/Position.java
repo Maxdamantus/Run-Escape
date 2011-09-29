@@ -8,15 +8,15 @@ public class Position {
 	public static final Serializer<Position> SERIALIZER = new Serializer<Position>(){
 		public Tree write(Position in){
 			Tree out = new Tree();
-			out.add(new Tree.Entry("x", serialization.util.Serializers.Serializer_Integer.write(in.px)));
-			out.add(new Tree.Entry("y", serialization.util.Serializers.Serializer_Integer.write(in.py)));
+			out.add(new Tree.Entry("x", serialization.Serializers.Serializer_Integer.write(in.px)));
+			out.add(new Tree.Entry("y", serialization.Serializers.Serializer_Integer.write(in.py)));
 			return out;
 		}
 
 		public Position read(Tree in){
 			return new Position(
-				serialization.util.Serializers.Serializer_Integer.read(in.find("x")),
-				serialization.util.Serializers.Serializer_Integer.read(in.find("y")));
+				serialization.Serializers.Serializer_Integer.read(in.find("x")),
+				serialization.Serializers.Serializer_Integer.read(in.find("y")));
 		}
 	};
 

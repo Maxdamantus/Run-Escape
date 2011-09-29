@@ -1,7 +1,6 @@
 package game;
 
 import serialization.*;
-import serialization.util.Serializers;
 
 public class ClientMessage {
 	public static interface Action {

@@ -4,7 +4,6 @@ import util.*;
 import java.util.*;
 
 import serialization.*;
-import serialization.util.Serializers;
 
 public class Level implements Iterable<GameThing> {
 	private final GameWorld world;

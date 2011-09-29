@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import serialization.Serializer;
+import serialization.Serializers;
 import serialization.Tree;
-import serialization.util.Serializers;
 import util.Direction;
 import util.Resources;
 

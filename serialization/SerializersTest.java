@@ -1,4 +1,4 @@
-package serialization.util;
+package serialization;
 import java.util.*;
 import java.io.StringWriter;
 import java.text.*;
@@ -7,8 +7,6 @@ import data.Database;
 
 //import data.Database;
 
-import serialization.Serializer;
-import serialization.Tree;
 
 
 class SerializersTest {

@@ -1,9 +1,7 @@
-package serialization.util;
+package serialization;
 
 import java.util.*;
 
-import serialization.Serializer;
-import serialization.Tree;
 
 /**
  * 
