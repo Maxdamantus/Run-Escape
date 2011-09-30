@@ -4,7 +4,7 @@ import game.*;
 
 public class Player extends AbstractGameThing {
 	private String renderer;
-	private final static int WALKDELAY = 300;
+	private final static int WALKDELAY = 50;
 
 	public Player(GameWorld world, String renderer){
 		super(world);
