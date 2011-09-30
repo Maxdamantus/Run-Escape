@@ -263,7 +263,7 @@ public class Database {
 	public static String unescapeNewLines(String s) {
 		String unescaped = s.replaceAll("@@n", "@n").replaceAll("@n", "\n"); 
 		//now escaping \r for windows support - Tom
-		unescaped = s.replaceAll("@@r", "@r").replaceAll("@r", "\r"); 
+		unescaped = unescaped.replaceAll("@@r", "@r").replaceAll("@r", "\r"); 
 		return unescaped;
 	}
 }
