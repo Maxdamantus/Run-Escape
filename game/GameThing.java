@@ -1,6 +1,7 @@
 package game;
 
 import util.*;
+
 import java.util.*;
 
 public interface GameThing {
@@ -12,7 +13,8 @@ public interface GameThing {
 	public void interact(String name, game.things.Player who);
 	public String defaultInteraction();
 	public List<String> interactions();
-	public Map<String, Object> userArguments();
+	@SuppressWarnings("rawtypes")
+	public Map<String, Serializable> userArguments();
 	public boolean forgotten();
 	public void forget();
 	public GameWorld world();

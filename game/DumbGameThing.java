@@ -3,17 +3,21 @@ package game;
 import java.util.*;
 
 import serialization.*;
+import util.Serializable;
 
 public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
 	private String defaultInteraction, renderer;
-	private Map<String, Object> userArguments;
+	@SuppressWarnings("rawtypes")
+	private Map<String, Serializable> userArguments;
 
-	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Object> u){
+	@SuppressWarnings("rawtypes")
+	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Serializable> u){
 		this(null, g, i, d, r, u);
 	}
 
-	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Object> u){
+	@SuppressWarnings("rawtypes")
+	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Serializable> u){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
@@ -62,13 +66,14 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				return out;
 			}
 
+			@SuppressWarnings("rawtypes")
 			public DumbGameThing read(Tree in){
 				return new DumbGameThing(
 					Serializers.Serializer_Integer.read(in.find("gid")),
 					interS.read(in.find("interactions")),
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),
-					new HashMap<String, Object>() /* ??? */);
+					new HashMap<String, Serializable>() /* ??? */);
 			}
 		};
 	}
