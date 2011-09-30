@@ -49,7 +49,7 @@ public class Find {
 		public Iterable<Node<T>> next(Node<T> v);
 	}
 
-	public static <T> Node<T> Dijkstra(T from, T to, Nextator<T> next){
+	public static <T> Node<T> dijkstra(T from, T to, Nextator<T> next){
 		PriorityQueue<Node<T>> pq = new PriorityQueue<Node<T>>();
 		pq.add(new Node<T>(from));
 
