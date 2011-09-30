@@ -73,11 +73,11 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public void interact(String inter, game.things.Player who){}
 
-	public boolean canWalkInto(Position p, Direction d, game.things.Player who){
+	public boolean canWalkInto(Direction d, game.things.Player who){
 		return true;
 	}
 
-	public boolean didWalkInto(Position p, Direction d, game.things.Player who){
+	public boolean didWalkInto(Direction d, game.things.Player who){
 		return true;
 	}
 

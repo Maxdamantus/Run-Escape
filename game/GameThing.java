@@ -12,6 +12,8 @@ public interface GameThing {
 	public Area area();
 	public String renderer();
 	public void interact(String name, game.things.Player who);
+	public boolean canWalkInto(Direction d, game.things.Player who);
+	public boolean didWalkInto(Direction d, game.things.Player who);
 	public String defaultInteraction();
 	public List<String> interactions();
 	public Map<String, Serializable> userArguments();

@@ -58,9 +58,28 @@ public class Level implements Iterable<GameThing> {
 			return direct(direction.compose(d));
 		}
 
+		public Location next(Direction d){
+			return new Location(level, new Position(position.x() + d.dx(), position.y() + d.dy()), d);
+		}
+
 		public Location nextTo(Location where){
 			/* A* */
 			return null;
+		}
+
+		public Iterable<GameThing> contents(){
+			return level.portion(position, position);
+		}
+
+		public boolean canWalkInto(Direction d, game.things.Player w){
+			return canWalkInto(d, w, false);
+		}
+
+		private boolean canWalkInto(Direction d, game.things.Player w, boolean second){
+			for(GameThing gt : contents())
+				if(!gt.canWalkInto(d, w))
+					return false;
+			return second || next(d).canWalkInto(d.compose(Direction.SOUTH), w, true);
 		}
 
 		public void put(GameThing gt){
