@@ -1,6 +1,7 @@
 package ui.isometric;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -148,7 +149,13 @@ public class IsoRendererLibrary {
 				
 				
 				Serializer<Map<String, ImageType>> deserializer = new Serializers.Map<String, ImageType>(Serializers.Serializer_String, new ImageType.Serializer());
-				Map<String, ImageType> types = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/isotiles/resources.xml")));
+				Map<String, ImageType> types = null;
+				try {
+					types = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/isotiles/resources.xml")));
+				} catch (IOException e) {
+					System.out.println("Unable to load resource declerations");
+					e.printStackTrace();
+				}
 				
 				for(String key : types.keySet()) {
 					renderers.put(key, types.get(key).load());
@@ -168,12 +175,16 @@ public class IsoRendererLibrary {
 	private static Map<Direction, BufferedImage> loadImage1(String resourceName) {
 		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
 		
-		BufferedImage image = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+".png");
-		map.put(Direction.NORTH, image);
-		map.put(Direction.EAST, image);
-		map.put(Direction.WEST, image);
-		map.put(Direction.SOUTH, image);
-		
+		BufferedImage image = null;
+		try {
+			image = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+".png");
+			map.put(Direction.NORTH, image);
+			map.put(Direction.EAST, image);
+			map.put(Direction.WEST, image);
+			map.put(Direction.SOUTH, image);
+		} catch (IOException e) {
+			System.out.println("Unable to load image1: " + resourceName);
+		}
 		return map;
 	}
 	
@@ -186,10 +197,14 @@ public class IsoRendererLibrary {
 	private static Map<Direction, BufferedImage> loadImage4(String resourceName) {
 		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
 		
-		map.put(Direction.NORTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_n.png"));
-		map.put(Direction.EAST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png"));
-		map.put(Direction.WEST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png"));
-		map.put(Direction.SOUTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png"));
+		try {
+			map.put(Direction.NORTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_n.png"));
+			map.put(Direction.EAST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png"));
+			map.put(Direction.WEST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png"));
+			map.put(Direction.SOUTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png"));
+		} catch (IOException e) {
+			System.out.println("Unable to load image4: " + resourceName);
+		}
 		
 		return map;
 	}
@@ -203,13 +218,18 @@ public class IsoRendererLibrary {
 	private static Map<Direction, BufferedImage> loadImage2(String resourceName) {
 		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
 		
-		BufferedImage ns = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png");
-		BufferedImage ew = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png");
-		
-		map.put(Direction.NORTH, ns);
-		map.put(Direction.EAST, ew);
-		map.put(Direction.WEST, ns);
-		map.put(Direction.SOUTH, ew);
+		BufferedImage ns;
+		try {
+			ns = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png");
+			BufferedImage ew = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png");
+			
+			map.put(Direction.NORTH, ns);
+			map.put(Direction.EAST, ew);
+			map.put(Direction.WEST, ns);
+			map.put(Direction.SOUTH, ew);
+		} catch (IOException e) {
+			System.out.println("Unable to load image2: " + resourceName);
+		}
 		
 		return map;
 	}

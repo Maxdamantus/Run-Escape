@@ -1,6 +1,7 @@
 package ui.isometric;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import game.GameThing;
 
@@ -26,7 +27,13 @@ public class IsoImage {
 	 */
 	public IsoImage(String path, IsoSquare square) {
 		this.square = square;
-		this.image = Resources.readImageResourceUnfliped(path);
+		try {
+			this.image = Resources.readImageResourceUnfliped(path);
+		} catch (IOException e) {
+			System.out.println("Unable to load: " + path);
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**

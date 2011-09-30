@@ -10,6 +10,14 @@ public class GameWorld {
 	public static interface DeltaWatcher {
 		public void delta(WorldDelta d);
 	}
+	
+	public void empty() {
+		Set<GameThing> tmp = new HashSet<GameThing>(allThings.values());
+		
+		for(GameThing t : tmp) {
+			this.forget(t);
+		}
+	}
 
 	public GameThing thingWithGID(int gid){
 		return allThings.get(gid);
