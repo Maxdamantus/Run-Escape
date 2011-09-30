@@ -96,7 +96,7 @@ public class Level implements Iterable<GameThing> {
 			for(GameThing gt : contents())
 				if(!gt.canWalkInto(d, w))
 					return false;
-			return second || next(d).canWalkInto(d.compose(Direction.SOUTH), w, true);
+			return second || next(d.compose(Direction.SOUTH)).canWalkInto(d.compose(Direction.SOUTH), w, true);
 		}
 
 		public void put(GameThing gt){
