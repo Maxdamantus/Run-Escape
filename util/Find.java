@@ -5,21 +5,22 @@ import java.util.*;
 public class Find {
 	public static class Node<T> implements Comparable<Node<T>> {
 		private final T value;
-		private final int cost;
+		private final int cost, len;
 		private final Node<T> from;
 
-		private Node(T v, Node<T> f, int c){
+		private Node(T v, Node<T> f, int c, int l){
 			value = v;
 			from = f;
 			cost = c;
+			len = l;
 		}
 
 		public Node(T v){
-			this(v, null, 0);
+			this(v, null, 0, 0);
 		}
 
 		public Node<T> next(T v, int c){
-			return new Node<T>(v, this, cost + c);
+			return new Node<T>(v, this, cost + c, len + 1);
 		}
 
 		public Node<T> from(){
@@ -28,6 +29,10 @@ public class Find {
 
 		public int cost(){
 			return cost;
+		}
+
+		public int length(){
+			return len;
 		}
 
 		public T value(){

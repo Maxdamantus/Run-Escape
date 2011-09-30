@@ -68,7 +68,7 @@ public class Level implements Iterable<GameThing> {
 			Find.Node<Location> cur = Find.dijkstra(this, where, new Find.Nextator<Location>(){
 				public Iterable<Find.Node<Location>> next(Find.Node<Location> n){
 					List<Find.Node<Location>> out = new LinkedList<Find.Node<Location>>();
-					if(n.cost() < 1000)
+					if(n.length() < 100)
 						for(Direction d : Direction.values()){
 							Location p = n.value().next(d);
 							if(p.canWalkInto(d, who))
