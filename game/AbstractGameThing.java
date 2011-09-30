@@ -12,10 +12,18 @@ public abstract class AbstractGameThing implements GameThing {
 	private final GameWorld world;
 
 	public AbstractGameThing(GameWorld w){
-		location = LocationS.NOWHERE; //= new Location(new Position(0, 0), Direction.NORTH);
 		gid = w.introduce(this);
+		location = LocationS.NOWHERE;
 		world = w;
 		w.emitIntroduce(this);
+	}
+
+	private AbstractGameThing(GameWorld w, int g){
+		location = LocationS.NOWHERE;
+		gid = g;
+		world = w;
+		if(w != null)
+			w.emitIntroduce(this);
 	}
 
 	private AbstractGameThing(int g){
@@ -25,13 +33,19 @@ public abstract class AbstractGameThing implements GameThing {
 
 	// so normal extenders of AbstractGameThing don't have access to the special non-introductive constructor
 	public static abstract class AbstractDumbGameThing extends AbstractGameThing {
+	/*
 		public AbstractDumbGameThing(int g){
 			super(g);
+		}
+		*/
+
+		public AbstractDumbGameThing(GameWorld w, int g){
+			super(w, g);
 		}
 	}
 
 	public Location location(){
-		return location;
+		return location == null? LocationS.NOWHERE : location;
 	}
 
 	public Location location(Location s){

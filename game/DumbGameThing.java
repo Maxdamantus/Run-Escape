@@ -10,17 +10,17 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private Map<String, Object> userArguments;
 
 	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Object> u){
-		super(g);
+		this(null, g, i, d, r, u);
+	}
+
+	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Object> u){
+		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
 		renderer = r;
 		userArguments = u;
-	}
-
-	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Object> u){
-		this(g, i, d, r, u);
-		System.out.println("blah");
-		w.introduce(this, gid());
+		if(w != null)
+			w.introduce(this, gid());
 	}
 
 	public DumbGameThing(GameWorld w, int g){

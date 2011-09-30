@@ -14,6 +14,7 @@ public class Wall extends AbstractGameThing {
 	public Wall(GameWorld world, String name){
 		super(world);
 		renderer = name;
+		update();
 	}
 	
 	public Wall(GameWorld world){

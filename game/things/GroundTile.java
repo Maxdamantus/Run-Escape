@@ -16,6 +16,7 @@ public class GroundTile extends AbstractGameThing {
 	public GroundTile(GameWorld world, String name){
 		super(world);
 		renderer = name;
+		update();
 	}
 
 	public GroundTile(GameWorld world){
