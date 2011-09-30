@@ -31,8 +31,10 @@ public class Client implements ClientMessageHandler {
 	private BufferedWriter writer;
 	private IsoInterface view;
 	private GameWorld world = new GameWorld();
+	private boolean debugMode;
 
 	public static void main(String[] args) {
+		private boolean debugMode = false;
 		String host = "localhost";
 		int port = 32765;
 		String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
@@ -43,8 +45,8 @@ public class Client implements ClientMessageHandler {
 				port = Integer.parseInt(split[1]);
 
 		}
-		System.out.println(host + ", " + port);
-		Client client = new Client(host, port);
+		if (debugMode) System.out.println(host + ", " + port);
+		Client client = new Client(host, port, debugMode);
 
 	}
 
@@ -56,7 +58,8 @@ public class Client implements ClientMessageHandler {
 	 * @param port
 	 *            server port
 	 */
-	public Client(String host, int port) {
+	public Client(String host, int port, boolean debugMode) {
+		this.debugMode = debugMode;
 		boolean debug = true;
 		try {
 
