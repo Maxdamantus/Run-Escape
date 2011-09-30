@@ -6,6 +6,7 @@ public class GameWorld {
 	private final Map<Integer, GameThing> allThings = new HashMap<Integer, GameThing>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 	private final Set<DeltaWatcher> watchers = new HashSet<DeltaWatcher>();
+	private final Timer scheduler = new Timer();
 
 	public static interface DeltaWatcher {
 		public void delta(WorldDelta d);
@@ -91,6 +92,14 @@ public class GameWorld {
 
 	public void removeDeltaWatcher(DeltaWatcher dw){
 		watchers.remove(dw);
+	}
+
+	public void schedule(final Runnable r, long d){
+		scheduler.schedule(new TimerTask(){
+			public void run(){
+				GameWorld.this.run(r);
+			}
+		}, d);
 	}
 
 	public synchronized void run(Runnable r){
