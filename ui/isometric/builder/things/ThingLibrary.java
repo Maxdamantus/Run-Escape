@@ -24,18 +24,25 @@ public class ThingLibrary {
 	 */
 	public static class GroundCreator implements ThingCreator {
 		private String renderer;
+		private boolean willBlock;
 		
 		/**
 		 * Create a ground tile with a given renderer
 		 * @param rendererName
+		 * @param block
 		 */
-		public GroundCreator(String rendererName) {
+		public GroundCreator(String rendererName, boolean block) {
 			renderer = rendererName;
+			willBlock = block;
+		}
+
+		public GroundCreator(String rendererName) {
+			this(rendererName, false);
 		}
 		
 		@Override
 		public GameThing createThing(GameWorld w) {
-			return new game.things.GroundTile(w, renderer);
+			return new game.things.GroundTile(w, renderer, willBlock);
 		}
 
 		@Override
@@ -97,10 +104,10 @@ public class ThingLibrary {
 				
 				creators.add(new GroundCreator("ground_grey_1"));
 				creators.add(new GroundCreator("ground_grey_2"));
-				creators.add(new GroundCreator("ground_grey_water_corner"));
-				creators.add(new GroundCreator("ground_grey_water_two_sides"));
-				creators.add(new GroundCreator("ground_grey_water_one_side"));
-				creators.add(new GroundCreator("water_1"));
+				creators.add(new GroundCreator("ground_grey_water_corner", true));
+				creators.add(new GroundCreator("ground_grey_water_two_sides", true));
+				creators.add(new GroundCreator("ground_grey_water_one_side", true));
+				creators.add(new GroundCreator("water_1", true));
 				
 				creators.add(new GroundCreator("ground_grey_road_corner_1"));
 				creators.add(new GroundCreator("ground_grey_road_end_1"));

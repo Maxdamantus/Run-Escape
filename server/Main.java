@@ -164,7 +164,7 @@ public class Main{
 		game.GameWorld sgm = new GameWorld();
 		game.GameThing tile = new game.things.GroundTile(sgm);
 		sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
-		sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
+		sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
 		return sgm;
 	}
 		

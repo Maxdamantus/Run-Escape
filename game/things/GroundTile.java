@@ -7,16 +7,22 @@ import java.util.*;
 
 public class GroundTile extends AbstractGameThing {
 	private final String renderer;
+	private final boolean willBlock;
 	private final List<String> interactions;
 	{
 		interactions = new LinkedList<String>();
 		interactions.add("walk here");
 	}
 
-	public GroundTile(GameWorld world, String name){
+	public GroundTile(GameWorld world, String name, boolean block){
 		super(world);
 		renderer = name;
+		willBlock = block;
 		update();
+	}
+
+	public GroundTile(GameWorld world, String name){
+		this(world, name, false);
 	}
 
 	public GroundTile(GameWorld world){
@@ -32,6 +38,11 @@ public class GroundTile extends AbstractGameThing {
 			if(location() instanceof Level.Location)
 				who.moveTo((Level.Location)location());
 		}
+	}
+
+	public boolean canWalkInto(Direction d, Player who){
+		System.out.println("canWalkInto: " + !willBlock);
+		return !willBlock;
 	}
 
 	public String renderer(){
