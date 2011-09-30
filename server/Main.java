@@ -163,8 +163,18 @@ public class Main{
 	public static GameWorld defaultworld(){
 		game.GameWorld sgm = new GameWorld();
 		game.GameThing tile = new game.things.GroundTile(sgm);
-		sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
-		sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
+		// make a spiral instead
+		int width = 20;
+		game.Level.Location ll = sgm.level(0).location(new Position(0, 0), Direction.NORTH);
+		for(int x = 0; x < width; x++){
+			for(int y = 0; y < x; y++){
+				ll.put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
+				ll = ll.next(ll.direction());
+			}
+			ll = ll.rotate(Direction.WEST);
+		}
+		//sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
+		//sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
 		return sgm;
 	}
 		
