@@ -34,7 +34,7 @@ public class Client implements ClientMessageHandler {
 	private boolean debugMode;
 
 	public static void main(String[] args) {
-		private boolean debugMode = false;
+		boolean debugMode = false;
 		String host = "localhost";
 		int port = 32765;
 		String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
