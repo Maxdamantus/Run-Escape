@@ -2,13 +2,14 @@ package game;
 
 import util.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 public abstract class AbstractGameThing implements GameThing {
 	private Location location;
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
 	private final int gid;
-	private final Map<String, Object> userArguments = new HashMap<String, Object>();
+	private final Map<String, Serializable> userArguments = new HashMap<String, Serializable>();
 	private boolean forgotten = false;
 	private final GameWorld world;
 
@@ -85,7 +86,7 @@ public abstract class AbstractGameThing implements GameThing {
 		return modelblah.getLevelFor(this);
 	}
 */
-	public Map<String, Object> userArguments(){
+	public Map<String, Serializable> userArguments(){
 		return userArguments;
 	}
 

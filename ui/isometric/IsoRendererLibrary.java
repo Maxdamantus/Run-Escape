@@ -2,6 +2,7 @@ package ui.isometric;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -256,9 +257,9 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static int levelFromArguments(Map<String, Object> userArguments) {				
-		Object tmp = userArguments.get(RENDERER_ISOMETRIC);;
-		
+	public static int levelFromArguments(Map<String, Serializable> userArguments) {				
+		Object tmp = userArguments.get(RENDERER_ISOMETRIC);
+				
 		if(tmp != null && tmp instanceof Map) {
 			Map<String, Object> iso = (Map<String, Object>)tmp;
 			tmp = iso.get(RENDERER_ISOMETRIC_LEVEL);
@@ -278,13 +279,13 @@ public class IsoRendererLibrary {
 	 * @param level
 	 */
 	@SuppressWarnings("unchecked")
-	public static void setLevelInArguments(Map<String, Object> userArguments, int level) {
+	public static void setLevelInArguments(Map<String, Serializable> userArguments, int level) {
 		Object tmp = userArguments.get(RENDERER_ISOMETRIC);
 		
-		Map<String, Object> map = null;
+		HashMap<String, Object> map = null;
 		
 		if(tmp != null && tmp instanceof Map) {
-			map = (Map<String, Object>)tmp;
+			map = (HashMap<String, Object>)tmp;
 		}
 		else {
 			map = new HashMap<String, Object>();

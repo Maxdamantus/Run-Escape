@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.util.*;
 
 import serialization.*;
@@ -7,13 +8,13 @@ import serialization.*;
 public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
 	private String defaultInteraction, renderer;
-	private Map<String, Object> userArguments;
+	private Map<String, Serializable> userArguments;
 
-	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Object> u){
+	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Serializable> u){
 		this(null, g, i, d, r, u);
 	}
 
-	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Object> u){
+	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Serializable> u){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
@@ -21,6 +22,10 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 		userArguments = u;
 		if(w != null)
 			w.introduce(this, gid());
+	}
+	
+	public Map<String, Serializable> userArguments() {
+		return userArguments;
 	}
 
 	public DumbGameThing(GameWorld w, int g){
@@ -42,7 +47,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			renderer = o.renderer;
 	}
 
-	public String renderer(){
+	public String renderer() {
 		return renderer != null? renderer : super.renderer();
 	}
 
@@ -58,6 +63,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				out.add(new Tree.Entry("interactions", interS.write(in.interactions)));
 				out.add(new Tree.Entry("defaultinteraction", nullStringS.write(in.defaultInteraction)));
 				out.add(new Tree.Entry("renderer", nullStringS.write(in.renderer)));
+				out.add(new Tree.Entry("userArgs", new Serializers.Map<String, Serializable>(Serializers.Serializer_String, new Serializers.JSerializable<Serializable>()).write(in.userArguments)));
 				return out;
 			}
 
@@ -69,7 +75,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 					interS.read(in.find("interactions")),
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),
-					new HashMap<String, Object>());
+					new Serializers.Map<String, Serializable>(Serializers.Serializer_String, new Serializers.JSerializable<Serializable>()).read(in.find("userArgs")));
 			}
 		};
 	}

@@ -1,6 +1,15 @@
 package serialization;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
+
+import javax.xml.bind.DatatypeConverter;
+
+import data.Database;
 
 
 /**
@@ -135,6 +144,39 @@ public class Serializers {
 
 		public Tree write(java.util.Map<K, V> in){
 			return setSerializer.write(in.entrySet());
+		}
+	}
+	
+	public static class JSerializable<T extends java.io.Serializable> implements Serializer<T> {
+		@SuppressWarnings("unchecked")
+		public T read(Tree in){
+			byte[] bytes = DatatypeConverter.parseBase64Binary(Database.escapeNewLines(in.value()));
+			T out = null;
+			try {
+				ObjectInputStream reader = new ObjectInputStream(new ByteArrayInputStream(bytes));
+				out = (T)reader.readObject();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			return out;
+		}
+
+		public Tree write(T in) {
+			String encoded = null;
+			
+			try {
+				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+				ObjectOutputStream writer = new ObjectOutputStream(bytes);
+				writer.writeObject(in);
+				encoded = Database.escapeNewLines(DatatypeConverter.printBase64Binary(bytes.toByteArray()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return new Tree(encoded);
 		}
 	}
 
