@@ -42,8 +42,7 @@ public class Area implements Iterable<Position> {
 	}
 
 	public int hashCode(){
-		// TODO
-		return 42;
+		return pos.hashCode() ^ wd ^ (ht << 16) ^ 296650768;
 	}
 
 	public Area translated(Position p){
