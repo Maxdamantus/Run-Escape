@@ -249,7 +249,10 @@ public class Database {
 	 * @return String with indentation
 	 */
 	public static String escapeNewLines(String s) {
-		return s.replaceAll("@n", "@@n").replaceAll("\\n", "@n");
+		String escaped = s.replaceAll("@n", "@@n").replaceAll("\\n", "@n");
+		//now escaping \r for windows support - Tom
+		escaped = escaped.replaceAll("@r", "@@r").replaceAll("\\r", "@r");
+		return escaped;
 	}
 	
 	/**
@@ -258,6 +261,9 @@ public class Database {
 	 * @return String without indentation
 	 */
 	public static String unescapeNewLines(String s) {
-		return s.replaceAll("@@n", "@n").replaceAll("@n", "\n");
+		String unescaped = s.replaceAll("@@n", "@n").replaceAll("@n", "\n"); 
+		//now escaping \r for windows support - Tom
+		unescaped = s.replaceAll("@@r", "@r").replaceAll("@r", "\r"); 
+		return unescaped;
 	}
 }
