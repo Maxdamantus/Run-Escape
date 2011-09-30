@@ -41,7 +41,6 @@ public class GroundTile extends AbstractGameThing {
 	}
 
 	public boolean canWalkInto(Direction d, Player who){
-		System.out.println("canWalkInto: " + !willBlock);
 		return !willBlock;
 	}
 
