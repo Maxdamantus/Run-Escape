@@ -108,7 +108,7 @@ public class Tree{
 		for(Entry e : children)
 			if(e.name().equals(s))
 				return e.tree();
-		throw new RuntimeException("wtf");
+		return null;
 	}
 
 	/**
