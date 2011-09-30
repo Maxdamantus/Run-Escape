@@ -24,8 +24,19 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			w.introduce(this, gid());
 	}
 	
-	public Map<String, Serializable> userArguments() {
+	@Override
+	public Map<String, Serializable> userArguments() { // Melby fixed
 		return userArguments;
+	}
+	
+	@Override
+	public List<String> interactions() { // Melby fixed
+		return interactions;
+	}
+	
+	@Override
+	public String defaultInteraction() { // Melby fixed
+		return defaultInteraction;
 	}
 
 	public DumbGameThing(GameWorld w, int g){
