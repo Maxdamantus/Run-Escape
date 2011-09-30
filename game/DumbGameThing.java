@@ -3,21 +3,17 @@ package game;
 import java.util.*;
 
 import serialization.*;
-import util.Serializable;
 
 public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
 	private String defaultInteraction, renderer;
-	@SuppressWarnings("rawtypes")
-	private Map<String, Serializable> userArguments;
+	private Map<String, Object> userArguments;
 
-	@SuppressWarnings("rawtypes")
-	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Serializable> u){
+	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Object> u){
 		this(null, g, i, d, r, u);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Serializable> u){
+	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Object> u){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
@@ -62,18 +58,18 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				out.add(new Tree.Entry("interactions", interS.write(in.interactions)));
 				out.add(new Tree.Entry("defaultinteraction", nullStringS.write(in.defaultInteraction)));
 				out.add(new Tree.Entry("renderer", nullStringS.write(in.renderer)));
-				// userArguments ???
 				return out;
 			}
 
-			@SuppressWarnings("rawtypes")
 			public DumbGameThing read(Tree in){
+				in.print();
+				
 				return new DumbGameThing(
 					Serializers.Serializer_Integer.read(in.find("gid")),
 					interS.read(in.find("interactions")),
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),
-					new HashMap<String, Serializable>() /* ??? */);
+					new HashMap<String, Object>());
 			}
 		};
 	}

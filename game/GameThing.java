@@ -13,8 +13,7 @@ public interface GameThing {
 	public void interact(String name, game.things.Player who);
 	public String defaultInteraction();
 	public List<String> interactions();
-	@SuppressWarnings("rawtypes")
-	public Map<String, Serializable> userArguments();
+	public Map<String, Object> userArguments();
 	public boolean forgotten();
 	public void forget();
 	public GameWorld world();

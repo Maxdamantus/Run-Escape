@@ -89,15 +89,15 @@ public class GameWorld {
 		r.run();
 	}
 
-	// spam!
-	{
-		addDeltaWatcher(new DeltaWatcher(){
-			public void delta(WorldDelta wd){
-				WorldDelta.serializer(GameWorld.this).write(wd).print();
-				System.out.println();
-			}
-		});
-	}
+//	// spam!
+//	{
+//		addDeltaWatcher(new DeltaWatcher(){
+//			public void delta(WorldDelta wd){
+//				WorldDelta.serializer(GameWorld.this).write(wd).print();
+//				System.out.println();
+//			}
+//		});
+//	}
 
 	public void allDeltas(DeltaWatcher dw){
 		for(GameThing gt : allThings.values()){

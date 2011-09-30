@@ -81,8 +81,8 @@ public final class Server extends Thread {
 							ClientMessage msg = ClientMessage.serializer(model, usrGID).read(Database.xmlToTree(action));
 						}
 					} 
-					System.out.println(timer.getCounter());
-					System.out.println(xmlupdate);
+//					System.out.println(timer.getCounter());
+//					System.out.println(xmlupdate);
 					/**
 					 * Insert game altering here
 					 */

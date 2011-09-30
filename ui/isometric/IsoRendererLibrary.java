@@ -10,9 +10,6 @@ import serialization.Serializers;
 import serialization.Tree;
 import util.Direction;
 import util.Resources;
-import util.Serializable;
-import util.SerializableInteger;
-import util.SerializableMap;
 
 import game.*;
 import data.Database;
@@ -238,8 +235,8 @@ public class IsoRendererLibrary {
 	 * @param userArguments
 	 * @return
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static int levelFromArguments(Map<String, Serializable> userArguments) {				
+	@SuppressWarnings("unchecked")
+	public static int levelFromArguments(Map<String, Object> userArguments) {				
 		Object tmp = userArguments.get(RENDERER_ISOMETRIC);;
 		
 		if(tmp != null && tmp instanceof Map) {
@@ -260,21 +257,21 @@ public class IsoRendererLibrary {
 	 * @param userArguments
 	 * @param level
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void setLevelInArguments(Map<String, Serializable> userArguments, int level) {
+	@SuppressWarnings("unchecked")
+	public static void setLevelInArguments(Map<String, Object> userArguments, int level) {
 		Object tmp = userArguments.get(RENDERER_ISOMETRIC);
 		
-		SerializableMap<String, Serializable> map = null;
+		Map<String, Object> map = null;
 		
 		if(tmp != null && tmp instanceof Map) {
-			map = (SerializableMap<String, Serializable>)tmp;
+			map = (Map<String, Object>)tmp;
 		}
 		else {
-			map = new SerializableMap<String, Serializable>(Serializers.Serializer_String, Serializable.serializer);
+			map = new HashMap<String, Object>();
 			userArguments.put(RENDERER_ISOMETRIC, map);
 		}
 		
-		map.put(RENDERER_ISOMETRIC_LEVEL, new SerializableInteger(level));
+		map.put(RENDERER_ISOMETRIC_LEVEL, level);
 	}
 
 	/**
