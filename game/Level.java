@@ -62,9 +62,25 @@ public class Level implements Iterable<GameThing> {
 			return new Location(level, new Position(position.x() + d.dx(), position.y() + d.dy()), d);
 		}
 
-		public Location nextTo(Location where){
-			/* A* */
-			return null;
+		public Location nextTo(final Location where, final game.things.Player who){
+			if(where.equals(this))
+				return this;
+			Find.Node<Location> cur = Find.dijkstra(this, where, new Find.Nextator<Location>(){
+				public Iterable<Find.Node<Location>> next(Find.Node<Location> n){
+					List<Find.Node<Location>> out = new LinkedList<Find.Node<Location>>();
+					for(Direction d : Direction.values()){
+						Location p = n.value().next(d);
+						if(p.canWalkInto(d, who))
+							out.add(n.next(p, Math.abs(n.value().position.x() - where.position.x() + (n.value().position.y() - where.position.y()))));
+					}
+					return out;
+				}
+			});
+			if(cur == null)
+				return null;
+			while(!cur.from().value().equals(this))
+				cur = cur.from();
+			return cur.value();
 		}
 
 		public Iterable<GameThing> contents(){
@@ -90,6 +106,15 @@ public class Level implements Iterable<GameThing> {
 
 		public void remove(GameThing gt){
 			level.remove(gt, position);
+		}
+
+		// hrm .. this equality disregards Direction
+		public int hashCode(){
+			return level.hashCode() ^ position.hashCode() ^ -882774422;
+		}
+
+		public boolean equals(Object o){
+			return this == o || o instanceof Location && level.equals(((Location)o).level) && position.equals(((Location)o).position);
 		}
 	}
 
