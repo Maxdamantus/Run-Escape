@@ -98,4 +98,12 @@ public class GameWorld {
 			}
 		});
 	}
+
+	public void allDeltas(DeltaWatcher dw){
+		for(GameThing gt : allThings.values()){
+			dw.delta(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
+			dw.delta(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));
+			emit(new WorldDelta(new WorldDelta.Put(gt.gid(), gt.location())));
+		}
+	}
 }

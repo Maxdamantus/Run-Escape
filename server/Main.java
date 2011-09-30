@@ -104,8 +104,14 @@ public class Main{
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				Server newSer = new Server(s,uid,game, timer);
+				final Server newSer = new Server(s,uid,game, timer);
 				connections.add(newSer);
+				// MaxZ's code: send initial state
+				game.allDeltas(new DeltaWatcher(){
+					public void delta(WorldDelta d){
+						newSer.addDelta(d);
+					}
+				});
 				newSer.start();
 				uid++;; //this will add players unique identifier in future.
 				ArrayList<Server> remove = new ArrayList<Server>();
