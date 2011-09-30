@@ -53,14 +53,20 @@ public class Find {
 
 	public static <T> Node<T> dijkstra(T from, T to, Nextator<T> next){
 		PriorityQueue<Node<T>> pq = new PriorityQueue<Node<T>>();
+		Map<T, Integer> scores = new HashMap<T, Integer>();
 		pq.add(new Node<T>(from));
 
 		while(pq.size() > 0){
 			Node<T> n = pq.poll();
 			if(n.value().equals(to))
 				return n;
-			for(Node<T> v : next.next(n))
-				pq.add(v);
+			for(Node<T> v : next.next(n)){
+				Integer i = scores.get(v.value());
+				if(i == null || v.cost() < i){
+					pq.add(v);
+					scores.put(v.value(), v.cost());
+				}
+			}
 		}
 		return null;
 	}
