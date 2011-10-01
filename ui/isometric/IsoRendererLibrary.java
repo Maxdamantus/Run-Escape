@@ -28,6 +28,7 @@ public class IsoRendererLibrary {
 	public static final String RENDERER_ISOMETRIC_LEVEL = "level";
 	
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
+	private static Map<String, Integer> offsets = null;
 	private static BufferedImage emptyTile;
 	
 	public static final String EMPTY_TILE_NAME = "EMPTY_TILE";
@@ -41,9 +42,11 @@ public class IsoRendererLibrary {
 	private static class ImageType {
 		private Type type;
 		private String imageName;
+		private int offset;
 		
 		private static final String NAME = "name";
 		private static final String TYPE = "type";
+		private static final String Y_OFFSET = "y-offset";
 		
 		/**
 		 * The different types of images
@@ -82,7 +85,13 @@ public class IsoRendererLibrary {
 				serialization.Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				Map<String, String> store = deserializer.read(in);
 				
-				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)));
+				int off = 0;
+				String l = store.get(Y_OFFSET);
+				if(l != null && l.length() > 0) {
+					off = Integer.parseInt(l);
+				}
+				
+				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)), off);
 			}
 
 			@Override
@@ -90,6 +99,9 @@ public class IsoRendererLibrary {
 				HashMap<String, String> store = new HashMap<String, String>();
 				store.put(NAME, in.imageName);
 				store.put(TYPE, in.type.name());
+				if(in.offset != 0) {
+					store.put(Y_OFFSET, in.offset+"");
+				}
 				
 				serialization.Serializer<Map<String, String>> serializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				
@@ -98,13 +110,15 @@ public class IsoRendererLibrary {
 		}
 		
 		/**
-		 * Create an ImageType with a image name and type
+		 * Create an ImageType with a image name, type and image y-offset
 		 * @param image
 		 * @param type
+		 * @param yoff
 		 */
-		public ImageType(String image, Type type) {
+		public ImageType(String image, Type type, int yoff) {
 			this.imageName = image;
 			this.type = type;
+			this.offset = yoff;
 		}
 		
 		/**
@@ -124,6 +138,14 @@ public class IsoRendererLibrary {
 					throw new RuntimeException("Unknown ImageType.Type encountered: " + type);
 			}
 		}
+		
+		/**
+		 * The y-offset this image should be rendered at
+		 * @return
+		 */
+		public int yoffset() {
+			return offset;
+		}
 	}
 
 	/**
@@ -139,6 +161,20 @@ public class IsoRendererLibrary {
 		
 		return renderers;
 	}
+	
+	/**
+	 * Get the y offsets, if null create them
+	 * @return
+	 */
+	private static Map<String, Integer> offsets() {
+		synchronized(IsoRendererLibrary.class) {
+			if(offsets == null) {
+				loadImages();
+			}
+		}
+		
+		return offsets;
+	}
 
 	/**
 	 * Load all the images from disk into our internal data structures
@@ -147,6 +183,7 @@ public class IsoRendererLibrary {
 		synchronized(IsoRendererLibrary.class) {
 			if(renderers == null) {
 				renderers = new HashMap<String, Map<Direction, BufferedImage>>();
+				offsets = new HashMap<String, Integer>();
 				
 				
 				Serializer<Map<String, ImageType>> deserializer = new Serializers.Map<String, ImageType>(Serializers.Serializer_String, new ImageType.Serializer());
@@ -160,6 +197,7 @@ public class IsoRendererLibrary {
 				
 				for(String key : types.keySet()) {
 					renderers.put(key, types.get(key).load());
+					offsets.put(key, types.get(key).yoffset());
 				}
 				
 				emptyTile = imageForRendererName(EMPTY_TILE_NAME, Direction.NORTH);
@@ -250,6 +288,21 @@ public class IsoRendererLibrary {
 			return null;
 		}
 	}
+	
+	/**
+	 * Get the y offset to render the image at
+	 * @param rendererName
+	 * @return
+	 */
+	public static int offsetForRendererName(String rendererName) {
+		Integer off = offsets().get(rendererName);
+		if(off != null) {
+			return off;
+		}
+		else {
+			return 0;
+		}
+	}
 
 	/**
 	 * Get the level a IsoImage should be displayed at from the user arguments stored by a GameModel
@@ -307,7 +360,7 @@ public class IsoRendererLibrary {
 		
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			tmp = new IsoImage(imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection)), square);
+			tmp = new IsoImage(imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection)), square, offsetForRendererName(thing.renderer()));
 			tmp.setGameThing(thing);
 		}
 		

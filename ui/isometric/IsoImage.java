@@ -18,6 +18,7 @@ public class IsoImage {
 	private BufferedImage image;
 	private GameThing gameThing = null;
 	private IsoSquare square;
+	private int yoffset = 0;
 	
 	/**
 	 * Create an IsoImage with a given resource path and square that it is on
@@ -25,8 +26,7 @@ public class IsoImage {
 	 * @param square
 	 * @param name
 	 */
-	public IsoImage(String path, IsoSquare square) {
-		this.square = square;
+	public IsoImage(String path, IsoSquare square) {		
 		try {
 			this.image = Resources.readImageResourceUnfliped(path);
 		} catch (IOException e) {
@@ -37,13 +37,15 @@ public class IsoImage {
 	}
 
 	/**
-	 * Create an IsoImage with an existing image and square it is on
+	 * Create an IsoImage with an existing image, square it is on and y-offset
 	 * @param image
 	 * @param square
+	 * @param yoff
 	 */
-	public IsoImage(BufferedImage image, IsoSquare square) {
+	public IsoImage(BufferedImage image, IsoSquare square, int yoff) {
 		this.square = square;
 		this.image = image;
+		this.yoffset = yoff;
 	}
 
 	/**
@@ -92,5 +94,13 @@ public class IsoImage {
 	 */
 	public IsoSquare square() {
 		return square;
+	}
+	
+	/**
+	 * Get ther y-offset to renderer this image at
+	 * @return
+	 */
+	public int yoffset() {
+		return yoffset;
 	}
 }
