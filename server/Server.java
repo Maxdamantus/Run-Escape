@@ -155,6 +155,7 @@ public class Server{
 		// make a spiral instead
 		int width = 20;
 		game.Level.Location ll = sgm.level(0).location(new Position(0, 0), Direction.NORTH);
+		ll.put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_closed", false));
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
 				ll.put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
@@ -162,6 +163,7 @@ public class Server{
 			}
 			ll = ll.rotate(Direction.WEST);
 		}
+		
 		return sgm;
 	}
 
