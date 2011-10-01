@@ -63,6 +63,10 @@ public abstract class AbstractGameThing implements GameThing {
 		return "null";
 	}
 
+	public String name(){
+		return "thing";
+	}
+
 	public int gid(){
 		return gid;
 	}

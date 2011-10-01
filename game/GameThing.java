@@ -19,5 +19,6 @@ public interface GameThing {
 	public Map<String, Serializable> userArguments();
 	public boolean forgotten();
 	public void forget();
+	public String name();
 	public GameWorld world();
 }

@@ -7,18 +7,19 @@ import serialization.*;
 
 public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
-	private String defaultInteraction, renderer;
+	private String defaultInteraction, renderer, name;
 	private Map<String, Serializable> userArguments;
 
-	public DumbGameThing(int g, List<String> i, String d, String r, Map<String, Serializable> u){
-		this(null, g, i, d, r, u);
+	public DumbGameThing(int g, List<String> i, String d, String r, String n, Map<String, Serializable> u){
+		this(null, g, i, d, r, n, u);
 	}
 
-	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, Map<String, Serializable> u){
+	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, String n, Map<String, Serializable> u){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
 		renderer = r;
+		name = n;
 		userArguments = u;
 		if(w != null)
 			w.introduce(this, gid());
@@ -26,25 +27,30 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	
 	@Override
 	public Map<String, Serializable> userArguments() { // Melby fixed
-		return userArguments;
+		return userArguments == null? userArguments : super.userArguments();
 	}
 	
 	@Override
 	public List<String> interactions() { // Melby fixed
-		return interactions;
+		return interactions == null? interactions : super.interactions();
 	}
 	
 	@Override
 	public String defaultInteraction() { // Melby fixed
-		return defaultInteraction;
+		return defaultInteraction == null? defaultInteraction : super.defaultInteraction();
+	}
+
+	@Override
+	public String name(){
+		return name == null? name : super.name();
 	}
 
 	public DumbGameThing(GameWorld w, int g){
-		this(w, g, null, null, null, null);
+		this(w, g, null, null, null, null, null);
 	}
 
 	public DumbGameThing(GameThing gt){
-		this(gt.gid(), gt.interactions(), gt.defaultInteraction(), gt.renderer(), gt.userArguments());
+		this(gt.gid(), gt.interactions(), gt.defaultInteraction(), gt.renderer(), gt.name(), gt.userArguments());
 	}
 
 	public void update(DumbGameThing o){
@@ -74,6 +80,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				out.add(new Tree.Entry("interactions", interS.write(in.interactions)));
 				out.add(new Tree.Entry("defaultinteraction", nullStringS.write(in.defaultInteraction)));
 				out.add(new Tree.Entry("renderer", nullStringS.write(in.renderer)));
+				out.add(new Tree.Entry("name", nullStringS.write(in.name)));
 				out.add(new Tree.Entry("userArgs", new Serializers.Map<String, Serializable>(Serializers.Serializer_String, new Serializers.JSerializable<Serializable>()).write(in.userArguments)));
 				return out;
 			}
@@ -84,6 +91,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 					interS.read(in.find("interactions")),
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),
+					nullStringS.read(in.find("name")),
 					new Serializers.Map<String, Serializable>(Serializers.Serializer_String, new Serializers.JSerializable<Serializable>()).read(in.find("userArgs")));
 			}
 		};
