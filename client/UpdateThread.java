@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
 
 import javax.swing.JOptionPane;
 
@@ -57,7 +58,11 @@ public class UpdateThread extends Thread {
 				} else if (incoming.startsWith("upd")) { // if update
 					String update = Database.unescapeNewLines(incoming.substring(4));
 					if (debugMode) System.out.println("updated: " + update);
-					WorldDelta.SERIALIZER.read(Database.xmlToTree(update)).apply(world);
+					try {
+						WorldDelta.SERIALIZER.read(Tree.fromString(update)).apply(world);
+					} catch (ParseException e) {
+						System.out.println("Tree fromString broke");
+					}
 
 				} else if (incoming.startsWith("ctc")) { // if chat
 					String chatString = incoming.substring(4);

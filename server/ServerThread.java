@@ -14,6 +14,7 @@ import java.net.*;
 
 import data.Database;
 
+import serialization.Tree;
 import util.*;
 
 //new ClientMessage(mygid, new ClientMessage.Interaction(thatgid, foo)).apply(game);
@@ -67,7 +68,7 @@ public final class ServerThread {
 						else if(temp.startsWith("cmg")){
 							String action = temp.substring(4);
 							action = Database.unescapeNewLines(action);
-							ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Database.xmlToTree(action));
+							ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Tree.fromString(action));
 							msg.apply(parent.model);
 						}
 						else if(temp.startsWith("cts")) {
@@ -129,7 +130,7 @@ public final class ServerThread {
 	}
 	
 	public void addDelta(WorldDelta d){
-		String deltaupdate = Database.escapeNewLines(Database.treeToXML(WorldDelta.SERIALIZER.write(d)));
+		String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
 		this.queueMessage("upd " + deltaupdate + "\n");
 	}
 	

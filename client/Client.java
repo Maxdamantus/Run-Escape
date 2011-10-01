@@ -103,7 +103,7 @@ public class Client implements ClientMessageHandler {
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = "cmg " + Database.escapeNewLines(Database.treeToXML(ClientMessage.serializer(world, 0).write(message))) +"\n";
+			String send = "cmg " + Database.escapeNewLines(Database.treeToString(ClientMessage.serializer(world, 0).write(message))) +"\n";
 			if (debugMode) System.out.print("Sent: " + send);
 			writer.write(send);
 			writer.flush();
