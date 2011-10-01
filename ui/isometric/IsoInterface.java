@@ -49,14 +49,14 @@ public class IsoInterface implements PlayerMessage {
 					if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
 						JPopupMenu popup = new JPopupMenu();
 						for(GameThing t : i.gameThing().location().contents()) {
-							JMenuItem n = new JMenuItem("- " + t.name());
+							JMenuItem n = new JMenuItem(t.name());
 							n.setEnabled(false);
 							popup.add(n);
 							
 							List<String> interactions = t.interactions();
 							
 							for(String intr : interactions) {
-								JMenuItem item = new JMenuItem(intr);
+								JMenuItem item = new JMenuItem("  "+intr);
 								item.addActionListener(new ActionListener() {
 									private GameThing thing = i.gameThing();
 									
@@ -66,7 +66,7 @@ public class IsoInterface implements PlayerMessage {
 										
 										if(s instanceof JMenuItem) {
 											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText(), thing);
+											isoInterface.performActionOn(m.getText().substring(3), thing);
 										}
 									}
 								});
