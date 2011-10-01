@@ -58,26 +58,23 @@ public class Server{
 		}
 		if(choice.equals("LoadGame")){
 			fromSave = true;
-
+			
 		}
+		GameWorld model = null;
 		if(fromSave){
-			GameWorld model = load();
+			model = load();
 			if(model == null){
 				System.out.println("No file given, giving default gameworld");
 				model = defaultworld();
 			}
-			IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
-			view.show();
-			runServer(port,model);
 		}
 		else{
-			
-			GameWorld model = defaultworld();
-			IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
-			view.show();
-			runServer(port,model);
-			
+			model = defaultworld();
 		}
+
+		IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
+		view.show();
+		runServer(port,model);	
 		System.exit(0);
 	}
 	
