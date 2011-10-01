@@ -221,6 +221,16 @@ public class Serializers {
 		}
 	};
 
+	public static final Serializer<Boolean> Serializer_Boolean = new Serializer<Boolean>(){
+		public Boolean read(Tree in){
+			return Boolean.valueOf(in.value());
+		}
+
+		public Tree write(Boolean in){
+			return new Tree(in.toString());
+		}
+	};
+
 	/**
 	 * Wraps another serializer to support null values.
 	 * Other serializers can not necessarily hold null values.
