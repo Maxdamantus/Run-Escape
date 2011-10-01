@@ -1,127 +1,180 @@
 
-
 package server;
 
-import game.ClientMessage;
 import game.GameWorld;
+import game.GameWorld.DeltaWatcher;
 import game.WorldDelta;
-import game.things.Player;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.io.*;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-import data.Database;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-//new ClientMessage(mygid, new ClientMessage.Interaction(thatgid, foo)).apply(game);
 
-/**
- * A Server thread receives xml formatted-instructions from a client connection via a socket.
- * These intructions are registered with the game model. The Server connection is also
- * responsible for transmitting information to the client about the updates to the game
- * state.
- */
-public final class Server extends Thread {
-	private final GameWorld model;
-	private int usrNo;
-	private int usrGID;
-	private String usrName;
-	private final Socket socket;
-	private final Clock timer;
-	private Queue<WorldDelta> worldqueue = new ConcurrentLinkedQueue<WorldDelta>();
-	private int timerint;
-	boolean exit=false;
+import ui.isometric.builder.IsoInterfaceWorldBuilder;
+import ui.isometric.mock.ClientMessageHandlerMock;
+import util.Direction;
+import util.Position;
 
-	public Server(Socket socket, int usrNo, GameWorld model, Clock timer) {
-		this.model = model;	
-		this.socket = socket;
-		this.usrNo = usrNo;
-		this.timer = timer;
-		this.timerint = timer.getCounter();
-	}
+
+
+
+public class Server{
+	private static final int CLOCK_TIME = 20;
+	private static final int BROADCAST_TIME = 5;
+	private static JFileChooser fc;
+	private static String filename = null;
+	private static int returnVal;
+	public static final int DEFAULT_PORT = 32765;
 	
-	public void addDelta(WorldDelta d){
-		worldqueue.add(d);
-	}
+	private ArrayList<ServerThread> connections = new ArrayList<ServerThread>(10);
 	
-	public void run() {		
-		try {
+	public void run() throws IOException {
+		//Main Class for server	
+		boolean fromSave = false;		
+		
+		int port = DEFAULT_PORT;
+		String savefile;
+		String choice = "null";
+		while(!(choice.equals("NewGame") || choice.equals("LoadGame"))){
+			Object[] possibilities = {"NewGame", "LoadGame"};
+			choice = (String)JOptionPane.showInputDialog(
+			                    null,
+			                    "Start new, or load from file?",
+			                    "Customized Dialog",
+			                    JOptionPane.PLAIN_MESSAGE,
+			                    null,
+			                    possibilities,
+			                    "NewGame");
+		}
+		if(choice.equals("LoadGame")){
+			fromSave = true;
+			while(filename == null){
+			fc = new JFileChooser();
+			returnVal = fc.showOpenDialog(new JFrame());
+			File file = fc.getSelectedFile();
+	        System.out.println("Opening: " + file.getName());
+	        filename = file.getAbsolutePath();
+			}
+		}
+		if(fromSave){
+			GameWorld model = null;
+			//will eventually do from File -> XML to world
+			runServer(port, model);
+		}
+		else{
 			
-			InputStreamReader input = new InputStreamReader(socket.getInputStream());
-			OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());			
-			BufferedReader rd = new BufferedReader(input);
-			BufferedWriter bw = new BufferedWriter(output);
-			while(!exit) {
-				synchronized(worldqueue) {
-					if(!worldqueue.isEmpty()){
-						WorldDelta d = worldqueue.poll();
-						String deltaupdate = Database.escapeNewLines(Database.treeToXML(WorldDelta.SERIALIZER.write(d)));
-						System.out.println("upd " +deltaupdate +"\n");
-						bw.write("upd " +deltaupdate +"\n");
-						bw.flush();
-					}
-				}
-				
-				if(timerint != timer.getCounter()){
-					String xmlupdate = "";
-					String temp;
-					if(rd.ready()){
-						temp = rd.readLine();
-						if((temp.startsWith("uid"))) {
-							xmlupdate+= temp;
-							usrName = xmlupdate.substring(4);
-							Player plyr = new Player(model);
-							usrGID = plyr.gid();
-							
-						}
-						else if(temp.startsWith("cmg")){
-							String action = temp.substring(4);
-							action = Database.unescapeNewLines(action);
-							ClientMessage msg = ClientMessage.serializer(model, usrGID).read(Database.xmlToTree(action));
-						}
-					} 
-//					System.out.println(timer.getCounter());
-//					System.out.println(xmlupdate);
-					/**
-					 * Insert game altering here
-					 */
-				
-//		xmlDecrypt(xmlupdate);
-//		model.update();
-				// Now, broadcast the state of the board to client
-				//Update to game array 
-				
-//			To Client	
-//			msg [message]\n	messages to send to the client
-//			upd [update]\n	updates to the game model
-					
+			GameWorld model = defaultworld();
+			IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
+			view.show();
+			runServer(port,model);
+			
+		}
+		System.exit(0);
+	}
+	
 
-//			To Server	
-//			uid [username]\n	HANDSHAKE STAGE. sets the user id, for returning after quitting
-//			act [action]\n[object gid]\n	sends an interaction to the game model
-					
-				//	String update = "upd "+Database.escapeNewLines(Database.treeToXML(model.serialize()))+"\n";
-				//	System.out.print("upd "+Database.escapeNewLines(Database.treeToXML(model.serialize()))+"\n");
-				//	bw.write(update);
-				//	bw.flush();
-					timerint++;
+	private void runServer(int port, GameWorld game) {		
+		int uid = 0;
+		int nclients = 2;
+		Clock timer = new Clock(0);
+		timer.start();
+		// Listen for connections
+		System.out.println("GAME SERVER LISTENING ON PORT " + port);
+		try {
+			game.addDeltaWatcher(new DeltaWatcher(){
+				@Override
+				public void delta(final WorldDelta d) {
+					toAllPlayers(new ClientMessenger() {
+						@Override
+						public void doTo(ServerThread client) {
+							client.addDelta(d);
+						}
+					});
+				}	
+			});
+			// Now, we await connections.
+			ServerSocket ss = new ServerSocket(port);
+			while (true) {
+				// 	Wait for a socket
+				Socket s = ss.accept();
+				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
+				final ServerThread newSer = new ServerThread(s,uid,game, timer, this);
+				connections.add(newSer);
+				// MaxZ's code: send initial state
+				game.allDeltas(new DeltaWatcher(){
+					public void delta(WorldDelta d){
+						newSer.addDelta(d);
+					}
+				});
+				newSer.start();
+				uid++;; //this will add players unique identifier in future.
+				//check for dead clients
+				if(connections.size() == nclients){
+					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
+					runGame(connections, game);
+					System.out.println("ALL CLIENTS DISCONNECTED --- GAME ENDS");
+					return; // done
 				}
 			}
-			socket.close(); // release socket
 		} catch(IOException e) {
-			System.err.println("PLAYER " + usrNo +"/" + "usrName" + " DISCONNECTED");
-			this.exit = true;
-		}		
-	}
-	
-	//decrypts
-	private String xmlDecrypt(String xmlupdate) {
-		// TODO Auto-generated method stub
-		return null;
+			System.err.println("I/O error: " + e.getMessage());
+		} 
 	}
 
-	public boolean getExit(){
-		return exit;
+
+
+	/**
+	 * Check whether or not there is at least one connection alive.
+	 * 
+	 * @param connections
+	 * @return
+	 */
+	private boolean atleastOneConnection(ArrayList<ServerThread> connections) {
+		for (ServerThread m : connections) {
+			if (m.isAlive()) {
+				return true;
+			}			
+		}
+		return false;
 	}
+	
+	private void runGame(ArrayList<ServerThread> connections, GameWorld game){
+		while(atleastOneConnection(connections)){
+			Thread.yield();		
+		}
+	}
+	
+	public static GameWorld defaultworld(){
+		game.GameWorld sgm = new GameWorld();
+		// make a spiral instead
+		int width = 20;
+		game.Level.Location ll = sgm.level(0).location(new Position(0, 0), Direction.NORTH);
+		for(int x = 0; x < width; x++){
+			for(int y = 0; y < x; y++){
+				ll.put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
+				ll = ll.next(ll.direction());
+			}
+			ll = ll.rotate(Direction.WEST);
+		}
+		//sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
+		//sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
+		return sgm;
+	}
+
+
+	public static interface ClientMessenger {
+		public void doTo(ServerThread client);
+	}
+	
+	public void toAllPlayers(ClientMessenger clientMessenger) {
+		for(ServerThread t : connections) {
+			clientMessenger.doTo(t);
+		}
+	}
+		
 }

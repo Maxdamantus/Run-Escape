@@ -56,6 +56,10 @@ public class UpdateThread extends Thread {
 					if (debugMode) System.out.println("updated: " + update);
 					WorldDelta.SERIALIZER.read(Database.xmlToTree(update)).apply(world);
 
+				} else if (incoming.startsWith("ctc")) { // if chat
+					String chatString = incoming.substring(4);
+					view.incomingChat(chatString);
+
 				} else { // not needed, but can be used for printing network
 							// debugging info
 					String other = incoming;

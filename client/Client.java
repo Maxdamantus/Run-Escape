@@ -20,6 +20,7 @@ import game.*;
  */
 public class Client implements ClientMessageHandler {
 	private Socket skt;
+	private String uid;
 	private InputStreamReader in;
 	private BufferedReader reader;
 	private OutputStreamWriter out;
@@ -64,6 +65,7 @@ public class Client implements ClientMessageHandler {
 	 *            server port
 	 */
 	public Client(String host, int port, String uid, boolean debugMode) {
+		this.uid = uid;
 		this.debugMode = debugMode;
 		boolean debug = true;
 		try {
@@ -76,7 +78,8 @@ public class Client implements ClientMessageHandler {
 			reader = new BufferedReader(in);
 			out = new OutputStreamWriter(skt.getOutputStream());
 			writer = new BufferedWriter(out);
-
+			
+			view = new IsoInterface("IsoTest", world, this);
 			UpdateThread updater = new UpdateThread(reader, view, world);
 
 			// sending name
@@ -85,8 +88,19 @@ public class Client implements ClientMessageHandler {
 			writer.flush();
 
 			// creating GUI
-			view = new IsoInterface("IsoTest", world, this);
+			
 			view.show();
+			int askjdhf = 1;
+			while (true) {
+				
+				try {
+					Thread.sleep(1007);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				sendChat("oh crap "+askjdhf++);
+			}
 
 		} catch (UnknownHostException e) {
 			System.out.println("Unknown Host");
@@ -111,7 +125,8 @@ public class Client implements ClientMessageHandler {
 	public void sendChat(String chatText) {
 		try {
 			if (debugMode) System.out.print("Sent chat: " + chatText);
-			writer.write("cht " + chatText + "\n");
+			chatText = uid + ": " + chatText; 
+			writer.write("cts " + chatText + "\n");
 			writer.flush();
 		} catch (IOException e) {
 			System.out.println("The network connection has been lost");
