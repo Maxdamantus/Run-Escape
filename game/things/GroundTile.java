@@ -33,6 +33,10 @@ public class GroundTile extends AbstractGameThing {
 		return interactions;
 	}
 
+	public String name(){
+		return "Ground";
+	}
+
 	public void interact(String inter, Player who){
 		if(inter.equals("walk here")){
 			if(location() instanceof Level.Location)

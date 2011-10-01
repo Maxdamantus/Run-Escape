@@ -24,4 +24,8 @@ public class Wall extends AbstractGameThing {
 	public String renderer(){
 		return renderer;
 	}
+
+	public String name(){
+		return "Wall";
+	}
 }

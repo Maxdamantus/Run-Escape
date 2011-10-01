@@ -20,6 +20,10 @@ public class Player extends AbstractGameThing {
 		return this.renderer;
 	}
 
+	public String name(){
+		return "<insert name here>";
+	}
+
 	public boolean moveTo(final Level.Location where, final Runnable ondone){
 		/*
 		// call ((Level.Location)location()).nextTo(where).put(this) every so often, ensure only one moveTo at a time ..
