@@ -55,7 +55,9 @@ public class IsoTransformImp implements IsoTransform {
 		}
 		viewOrigin = new Position(xOrigin/xDivide-yOrigin/yDivide, yOrigin/yDivide+xOrigin/xDivide);
 		
-		querryArea = new Area(xOrigin/IsoCanvas.TILE_X, minyy, maxxx, maxyy-minyy); // TODO: rotation of width/height
+		int aw = (direction == Direction.NORTH || direction == Direction.SOUTH)?maxxx:maxyy-minyy;
+		int ah = (direction == Direction.NORTH || direction == Direction.SOUTH)?maxyy-minyy:maxxx;
+		querryArea = new Area(viewOrigin.x(), viewOrigin.y()+minyy, aw, ah); // TODO: rotation of width/height
 		viewDirection = direction;
 	}
 
@@ -85,27 +87,33 @@ public class IsoTransformImp implements IsoTransform {
 	
 	@Override
 	public Position transformViewPosition(Position pos) {		
-		int x = pos.x();
-		int y = pos.y();
+		int x = 0;
+		int y = 0;
+		
+		System.out.println(pos);
 		
 		switch(viewDirection) {
 			case NORTH:
+				x = pos.x();
+				y = pos.y();
 				break;
 			case EAST:
-				x = bottomLeft.x()+y;
-				y = bottomLeft.y()-x;
+				x = pos.y()-bottomLeft.y();
+				y = -bottomLeft.y()-pos.x();
 				break;
 			case SOUTH:
-				x = bottomRight.x()+x;
-				y = bottomRight.y()+y;
+				x = bottomRight.x()-pos.x();
+				y = bottomRight.y()-pos.y();
 				break;
 			case WEST:
-				x = topRight.x()-y;
-				y = topRight.y()+x;
+				x = -topRight.x()-pos.y();
+				y = pos.x()-topRight.y();
 		}
 		
 		x += viewOrigin.x();
 		y += viewOrigin.y();
+		
+		System.out.println(x + " " + y);
 		
 		return new Position(x, y);
 	}
