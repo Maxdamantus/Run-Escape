@@ -15,7 +15,7 @@ public class ThingCreatorChecker {
 		Set<String> usedRenderers = new HashSet<String>();
 		
 		for(ThingCreator c : ThingLibrary.creators()) {
-			usedRenderers.add(c.rendererName());
+			usedRenderers.addAll(c.rendererNames());
 		}
 		
 		boolean ok = true;

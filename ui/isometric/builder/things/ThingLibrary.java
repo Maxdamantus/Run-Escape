@@ -51,8 +51,8 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public String rendererName() {
-			return renderer;
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
 		}
 	}
 	
@@ -85,8 +85,8 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public String rendererName() {
-			return renderer;
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
 		}
 	}
 	
@@ -119,8 +119,8 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public String rendererName() {
-			return renderer;
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
 		}
 	}
 	
@@ -159,8 +159,8 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public String rendererName() {
-			return open?openR:closedR;
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(openR);add(closedR);}};
 		}
 	}
 	

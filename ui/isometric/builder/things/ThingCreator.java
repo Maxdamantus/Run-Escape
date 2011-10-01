@@ -4,6 +4,7 @@ import game.GameThing;
 import game.GameWorld;
 
 import java.awt.image.BufferedImage;
+import java.util.Set;
 
 /**
  * A interface that specifies how to use factory methods for creating GameThings
@@ -25,8 +26,8 @@ public interface ThingCreator {
 	public BufferedImage previewImage();
 	
 	/**
-	 * The name of the renderer that the GameThing creates uses
+	 * The names of the renderer that the GameThing creates uses
 	 * @return
 	 */
-	public String rendererName();
+	public Set<String> rendererNames();
 }
