@@ -77,6 +77,10 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
 	}
 
+	public void emitForget(GameThing gt){
+		emit(new WorldDelta(new WorldDelta.Forget(gt.gid())));
+	}
+
 	public void emitUpdate(GameThing gt){
 		emit(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));
 	}
@@ -126,6 +130,10 @@ public class GameWorld {
 	}
 
 	public void fromTree(Tree in){
+		for(GameThing gt : allThings.values()){
+			LocationS.NOWHERE.put(gt);
+			gt.forget();
+		}
 		allThings.clear();
 		levels.clear();
 		Serializer<GameThing> gts = ThingsS.makeSerializer(this);

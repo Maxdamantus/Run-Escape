@@ -114,7 +114,7 @@ public abstract class AbstractGameThing implements GameThing {
 	}
 
 	public void forget(){
-		// will assume the world is removing its association from this' gid to this
+		world.emitForget(this);
 		forgotten = true;
 	}
 
