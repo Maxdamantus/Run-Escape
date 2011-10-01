@@ -12,11 +12,6 @@ public class GameWorld {
 		public void delta(WorldDelta d);
 	}
 
-	public GameWorld(){
-		// arghtaoheoae
-		ThingsS.WORLD = this;
-	}
-	
 	public void empty() {
 		Set<GameThing> tmp = new HashSet<GameThing>(allThings.values());
 		

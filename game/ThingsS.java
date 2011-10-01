@@ -1,9 +1,17 @@
 package game;
 
+import game.things.*;
+
 import serialization.*;
 
 public class ThingsS {
-	public final static SerializerUnion<GameThing> UNION = new SerializerUnion<GameThing>();
-	public final static Serializer<GameThing> SERIALIZER = UNION.serializer();
-	public static GameWorld WORLD;
+	public static Serializer<GameThing> makeSerializer(GameWorld w){
+		SerializerUnion<GameThing> u = new SerializerUnion<GameThing>();
+		Door.makeSerializer(u, w);
+		Player.makeSerializer(u, w);
+		Wall.makeSerializer(u, w);
+		GroundTile.makeSerializer(u, w);
+
+		return u.serializer();
+	}	
 }
