@@ -37,6 +37,7 @@ public class Client implements ClientMessageHandler {
 		boolean debugMode = false;
 		String host = "localhost";
 		int port = 32765;
+
 		String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
 		if (server.length() > 0) {
 			String[] split = server.split(":");
@@ -75,7 +76,7 @@ public class Client implements ClientMessageHandler {
 			UpdateThread updater = new UpdateThread(reader, view, world);
 
 			// sending name
-			writer.write("uid Bob\n");
+			writer.write("uid "+ JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)")+"\n");
 			updater.start();
 			writer.flush();
 
