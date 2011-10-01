@@ -78,9 +78,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				return out;
 			}
 
-			public DumbGameThing read(Tree in){
-				in.print();
-				
+			public DumbGameThing read(Tree in){				
 				return new DumbGameThing(
 					Serializers.Serializer_Integer.read(in.find("gid")),
 					interS.read(in.find("interactions")),
