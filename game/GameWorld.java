@@ -90,13 +90,12 @@ public class GameWorld {
 	public void schedule(final Runnable r, long d){
 		new Timer().schedule(new TimerTask(){
 			public void run(){
-				GameWorld.this.run(r);
+				double a = Math.random();
+				synchronized(GameWorld.this){
+					r.run();
+				}
 			}
 		}, d);
-	}
-
-	public synchronized void run(Runnable r){
-		r.run();
 	}
 
 	public void allDeltas(DeltaWatcher dw){
