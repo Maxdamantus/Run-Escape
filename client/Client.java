@@ -1,9 +1,6 @@
 package client;
 
-import game.PlayerMessage;
-
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,8 +9,6 @@ import javax.swing.JOptionPane;
 import data.Database;
 
 import ui.isometric.IsoInterface;
-import ui.isometric.mock.ClientMessageHandlerMock;
-import util.*;
 
 import game.*;
 
@@ -37,16 +32,22 @@ public class Client implements ClientMessageHandler {
 		boolean debugMode = false;
 		String host = "localhost";
 		int port = 32765;
+		//can now take command line server info
+		if (args.length == 2) {
+			host = args[0];
+			port = Integer.parseInt(args[1]);
+		} else {
+			String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
+			if (server.length() > 0) {
+				String[] split = server.split(":");
+				host = split[0];
+				if (split.length == 2)
+					port = Integer.parseInt(split[1]);
 
-		String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
-		if (server.length() > 0) {
-			String[] split = server.split(":");
-			host = split[0];
-			if (split.length == 2)
-				port = Integer.parseInt(split[1]);
-
+			}
 		}
-		if (debugMode) System.out.println(host + ", " + port);
+		if (debugMode)
+			System.out.println(host + ", " + port);
 		Client client = new Client(host, port, debugMode);
 
 	}
@@ -76,7 +77,8 @@ public class Client implements ClientMessageHandler {
 			UpdateThread updater = new UpdateThread(reader, view, world);
 
 			// sending name
-			writer.write("uid "+ JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)")+"\n");
+			writer.write("uid " + JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)")
+					+ "\n");
 			updater.start();
 			writer.flush();
 
