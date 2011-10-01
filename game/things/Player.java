@@ -5,14 +5,14 @@ import game.*;
 import serialization.*;
 
 public class Player extends AbstractGameThing {
-	static {
-		ThingsS.UNION.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
 				return g instanceof Player? "player" : null;
 			}
 		});
 
-		ThingsS.UNION.addSerializer("player", new Serializer<GameThing>(){
+		union.addSerializer("player", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				Player in = (Player)o;
 				Tree out = new Tree();
@@ -22,7 +22,7 @@ public class Player extends AbstractGameThing {
 
 			public GameThing read(Tree in){
 				// arghoaehdaoet
-				return new Player(ThingsS.WORLD, in.find("type").value());
+				return new Player(world, in.find("type").value());
 			}
 		});
 	}

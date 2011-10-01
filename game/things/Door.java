@@ -10,14 +10,14 @@ import serialization.*;
 import game.*;
 
 public class Door extends AbstractGameThing {
-	static {
-		ThingsS.UNION.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
 				return g instanceof Door? "door" : null;
 			}
 		});
 
-		ThingsS.UNION.addSerializer("door", new Serializer<GameThing>(){
+		union.addSerializer("door", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				Door in = (Door)o;
 				Tree out = new Tree();
@@ -29,7 +29,7 @@ public class Door extends AbstractGameThing {
 
 			public GameThing read(Tree in){
 				// arghoaehdaoet
-				return new Door(ThingsS.WORLD, in.find("open").value(), in.find("close").value(), Serializers.Serializer_Boolean.read(in.find("state")));
+				return new Door(world, in.find("open").value(), in.find("close").value(), Serializers.Serializer_Boolean.read(in.find("state")));
 			}
 		});
 	}

@@ -7,14 +7,14 @@ import serialization.*;
 import java.util.*;
 
 public class GroundTile extends AbstractGameThing {
-	static {
-		ThingsS.UNION.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
 				return g instanceof GroundTile? "groundtile" : null;
 			}
 		});
 
-		ThingsS.UNION.addSerializer("groundtile", new Serializer<GameThing>(){
+		union.addSerializer("groundtile", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				GroundTile in = (GroundTile)o;
 				Tree out = new Tree();
@@ -25,7 +25,7 @@ public class GroundTile extends AbstractGameThing {
 
 			public GameThing read(Tree in){
 				// arghoaehdaoet
-				return new GroundTile(ThingsS.WORLD, in.find("type").value(), Serializers.Serializer_Boolean.read(in.find("block")));
+				return new GroundTile(world, in.find("type").value(), Serializers.Serializer_Boolean.read(in.find("block")));
 			}
 		});
 	}
