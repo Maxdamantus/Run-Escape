@@ -24,7 +24,7 @@ public class WorldDelta {
 
 		public void apply(GameWorld world){
 			int gid = Serializers.Serializer_Integer.read(in.find("gid"));
-			Location loc = LocationS.s(null).read(in.find("location"));
+			Location loc = LocationS.s(world).read(in.find("location"));
 			loc.put(world.thingWithGID(gid));
 		}
 
