@@ -62,7 +62,6 @@ public final class ServerThread {
 						Player plyr = new Player(parent.model);
 						parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 						parent.usrGID = plyr.gid();
-						//
 						
 					}
 					else if(temp.startsWith("cmg")){
