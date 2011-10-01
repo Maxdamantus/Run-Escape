@@ -99,7 +99,7 @@ public class ThingLibrary {
 		private String renderer;
 		
 		/**
-		 * Create a player with a given renderer
+		 * Create a wall with a given renderer
 		 * @param rendererName
 		 */
 		public WallCreator(String rendererName) {
@@ -121,6 +121,46 @@ public class ThingLibrary {
 		@Override
 		public String rendererName() {
 			return renderer;
+		}
+	}
+	
+	/**
+	 * A class that generates doors
+	 * @author melby
+	 *
+	 */
+	public static class DoorCreator implements ThingCreator {
+		private String openR;
+		private String closedR;
+		private boolean open;
+		
+		/**
+		 * Create a door with given renderer + open state
+		 * @param closedR - closed renderer
+		 * @param openR - open renderer
+		 * @param open - open state
+		 */
+		public DoorCreator(String closedR, String openR, boolean open) {
+			this.openR = openR;
+			this.closedR = closedR;
+			this.open = open;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w) {
+			game.things.Door door = new game.things.Door(w, closedR, openR, open);
+			IsoRendererLibrary.setLevelInArguments(door.userArguments(), IsoSquare.WALL);
+			return door;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName(open?openR:closedR, Direction.NORTH);
+		}
+		
+		@Override
+		public String rendererName() {
+			return open?openR:closedR;
 		}
 	}
 	
@@ -189,11 +229,11 @@ public class ThingLibrary {
 				creators.add(new PlayerCreator("character_cordi_empty"));
 				
 				creators.add(new WallCreator("wall_brown_1_corner"));
-				creators.add(new WallCreator("wall_brown_1_door_closed"));
-				creators.add(new WallCreator("wall_brown_1_door_open"));
 				creators.add(new WallCreator("wall_brown_1_x"));
 				creators.add(new WallCreator("wall_brown_1_t"));
 				creators.add(new WallCreator("wall_brown_1_straight"));
+				
+				creators.add(new DoorCreator("wall_brown_1_door_closed", "wall_brown_1_door_open", false));
 				
 				ThingCreatorChecker.check();
 			}

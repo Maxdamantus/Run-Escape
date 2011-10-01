@@ -1,11 +1,5 @@
 package game.things;
 
-import java.util.Collections;
-import java.util.List;
-
-import util.Area;
-import util.Direction;
-import util.Position;
 import game.*;
 
 public class Wall extends AbstractGameThing {
