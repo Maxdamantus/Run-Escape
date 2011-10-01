@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Frame;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -103,22 +104,21 @@ public class Client implements ClientMessageHandler {
 			}
 
 		} catch (UnknownHostException e) {
-			System.out.println("Unknown Host");
+			Client.exit("Unknown host name");
 		} catch (IOException e) {
-			System.out.println("IO Error");
+			Client.exit("Connection to server lost");
 		}
 
 	}
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = Database.escapeNewLines(Database.treeToXML(ClientMessage.serializer(world, 0).write(message))) +"\n";
+			String send = "cmg " + Database.escapeNewLines(Database.treeToXML(ClientMessage.serializer(world, 0).write(message))) +"\n";
 			if (debugMode) System.out.print("Sent: " + send);
 			writer.write(send);
 			writer.flush();
 		} catch (IOException e) {
-			System.out.println("The network connection has been lost");
-			System.exit(0);
+			Client.exit("Connection to server lost");
 		}
 
 	}
@@ -130,9 +130,15 @@ public class Client implements ClientMessageHandler {
 			writer.write("cts " + chatText + "\n");
 			writer.flush();
 		} catch (IOException e) {
-			System.out.println("The network connection has been lost");
-			System.exit(0);
+			Client.exit("Connection to server lost");
 		}
+	}
+	
+	public static void exit(String message) {
+		System.out.println(message);
+		System.out.flush();
+		JOptionPane.showMessageDialog(null, message);
+		System.exit(0);
 	}
 
 }

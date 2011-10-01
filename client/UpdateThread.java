@@ -7,6 +7,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+import javax.swing.JOptionPane;
+
 import data.Database;
 
 import serialization.Tree;
@@ -67,11 +69,10 @@ public class UpdateThread extends Thread {
 					System.out.println(other);
 				}
 			}
-			System.exit(0);
+			Client.exit("Connection to server lost");
 
 		} catch (IOException e) {
-			System.out.println("Oops, unable to read from network. Server has probably been closed");
-			System.exit(0);
+			Client.exit("Connection to server lost");
 		}
 
 	}
