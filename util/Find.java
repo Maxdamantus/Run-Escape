@@ -54,16 +54,17 @@ public class Find {
 
 	public static interface Nextator<T> {
 		public Iterable<Node<T>> next(Node<T> v);
+		public boolean end(Node<T> v);
 	}
 
-	public static <T> Node<T> dijkstra(T from, T to, Nextator<T> next){
+	public static <T> Node<T> dijkstra(T from, Nextator<T> next){
 		PriorityQueue<Node<T>> pq = new PriorityQueue<Node<T>>();
 		Map<T, Integer> scores = new HashMap<T, Integer>();
 		pq.add(new Node<T>(from));
 
 		while(pq.size() > 0){
 			Node<T> n = pq.poll();
-			if(n.value().equals(to))
+			if(next.end(n))
 				return n;
 			for(Node<T> v : next.next(n)){
 				Integer i = scores.get(v.value());

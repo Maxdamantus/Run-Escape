@@ -64,17 +64,24 @@ public class Door extends AbstractGameThing {
 			return "open";
 		}
 	}
+
+	public void walkAndSet(final boolean s, Player p){
+		Location l = location();
+		if(l instanceof Level.Location)
+			p.moveTo((Level.Location)l, 1, new Runnable(){
+				public void run(){
+					open = s;
+					update();
+				}
+			});
+	}
 	
 	@Override
 	public void interact(String inter, Player who) {
-		if(inter.equals("close") && open) {
-			open = false;
-			update();
-		}
-		else if(inter.equals("open") && !open) {
-			open = true;
-			update();
-		}
+		if(inter.equals("close"))
+			walkAndSet(false, who);
+		else if(inter.equals("open"))
+			walkAndSet(true, who);
 	}
 
 	@Override

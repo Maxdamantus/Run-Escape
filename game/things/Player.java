@@ -54,7 +54,7 @@ public class Player extends AbstractGameThing {
 		return name;
 	}
 
-	public boolean moveTo(final Level.Location where, final Runnable ondone){
+	public boolean moveTo(final Level.Location where, final int dist, final Runnable ondone){
 		/*
 		// call ((Level.Location)location()).nextTo(where).put(this) every so often, ensure only one moveTo at a time ..
 		return false; // can't move
@@ -67,12 +67,12 @@ public class Player extends AbstractGameThing {
 		*/
 		Location l = location();
 		if(l instanceof Level.Location){
-			Level.Location to = ((Level.Location)l).nextTo(where, this);
+			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
 			if(to == null)
 				return false;
 			world().schedule(new Runnable(){
 				public void run(){
-					step(where, ondone, stepIdent = new Object());
+					step(where, ondone, dist, stepIdent = new Object());
 				}
 			}, WALKDELAY);
 			return true;
@@ -80,22 +80,27 @@ public class Player extends AbstractGameThing {
 		return false;
 	}
 
+	public boolean moveTo(Level.Location where, Runnable ondone){
+		return moveTo(where, 0, ondone);
+	}
+
 	private Object stepIdent;
-	public void step(final Level.Location where, final Runnable ondone, final Object ident){
+	public void step(final Level.Location where, final Runnable ondone, final int dist, final Object ident){
 		if(stepIdent != ident)
 			return;
 		Location l = location();
-		if(where.equals(l)){
+		if(!(l instanceof Level.Location))
+			return;
+		if(((Level.Location)l).level().equals(where.level()) && where.dist((Level.Location)l) <= dist){
 			if(ondone != null)
 				ondone.run();
-		}
-		else if(l instanceof Level.Location){
-			Level.Location to = ((Level.Location)l).nextTo(where, this);
+		}else{
+			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
 			if(to != null){
 				to.put(this);
 				world().schedule(new Runnable(){
 					public void run(){
-						step(where, ondone, ident);
+						step(where, ondone, dist, ident);
 					}
 				}, WALKDELAY);
 			}

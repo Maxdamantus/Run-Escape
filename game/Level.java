@@ -62,10 +62,14 @@ public class Level implements Iterable<GameThing> {
 			return new Location(level, new Position(position.x() + d.dx(), position.y() + d.dy()), d);
 		}
 
-		public Location nextTo(final Location where, final game.things.Player who){
+		public int dist(Location l){
+			return Math.abs(l.position().x() - position.x()) + Math.abs(l.position().y() - position.y());
+		}
+
+		public Location nextTo(final Location where, final game.things.Player who, final int dist){
 			if(where.equals(this))
 				return this;
-			Find.Node<Location> cur = Find.dijkstra(this, where, new Find.Nextator<Location>(){
+			Find.Node<Location> cur = Find.dijkstra(this, new Find.Nextator<Location>(){
 				private int x = 0;
 
 				public Iterable<Find.Node<Location>> next(Find.Node<Location> n){
@@ -78,9 +82,16 @@ public class Level implements Iterable<GameThing> {
 						}
 					return out;
 				}
+
+				public boolean end(Find.Node<Location> p){
+					return p.value().level.equals(level) && where.dist(p.value()) <= dist;
+				}
 			});
 			if(cur == null)
 				return null;
+			// eh .. someone's going to be put back in teh same place. Meh.
+			if(cur.value().equals(this))
+				return this;
 			while(!cur.from().value().equals(this))
 				cur = cur.from();
 			return cur.value();
