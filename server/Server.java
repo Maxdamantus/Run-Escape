@@ -14,6 +14,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import data.Database;
+
 
 import ui.isometric.builder.IsoInterfaceWorldBuilder;
 import ui.isometric.mock.ClientMessageHandlerMock;
@@ -62,9 +64,8 @@ public class Server{
 			}
 		}
 		if(fromSave){
-			GameWorld model = null;
-			//will eventually do from File -> XML to world
-			runServer(port, model);
+	//		GameWorld model = Database.xmlToTree(Database.newDocumentFromFile(file));
+	//		runServer(port, model);
 		}
 		else{
 			
@@ -155,7 +156,7 @@ public class Server{
 		// make a spiral instead
 		int width = 20;
 		game.Level.Location ll = sgm.level(0).location(new Position(0, 0), Direction.NORTH);
-		ll.put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_closed", false));
+		ll.put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
 				ll.put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
