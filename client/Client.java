@@ -74,12 +74,13 @@ public class Client implements ClientMessageHandler {
 			// creating socket and readers/writers
 			skt = new Socket(host, port);
 			if (debug)
-				System.out.println("connected to " + host + " on 32768");
+				System.out.println("connected to " + host + " on " + port);
 			in = new InputStreamReader(skt.getInputStream());
 			reader = new BufferedReader(in);
 			out = new OutputStreamWriter(skt.getOutputStream());
 			writer = new BufferedWriter(out);
 			
+			//creating GUI
 			view = new IsoInterface("IsoTest", world, this);
 			UpdateThread updater = new UpdateThread(reader, view, world);
 
@@ -88,20 +89,9 @@ public class Client implements ClientMessageHandler {
 			updater.start();
 			writer.flush();
 
-			// creating GUI
+			// showing GUI
 			
 			view.show();
-			int askjdhf = 1;
-			while (true) {
-				
-				try {
-					Thread.sleep(1007);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				sendChat("oh crap "+askjdhf++);
-			}
 
 		} catch (UnknownHostException e) {
 			Client.exit("Unknown host name");
