@@ -154,7 +154,7 @@ public class IsoRendererLibrary {
 				try {
 					types = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/isotiles/resources.xml")));
 				} catch (IOException e) {
-					System.out.println("Unable to load resource declerations");
+					System.err.println("Unable to load resource declerations");
 					e.printStackTrace();
 				}
 				
@@ -184,7 +184,7 @@ public class IsoRendererLibrary {
 			map.put(Direction.WEST, image);
 			map.put(Direction.SOUTH, image);
 		} catch (IOException e) {
-			System.out.println("Unable to load image1: " + resourceName);
+			System.err.println("Unable to load image1: " + resourceName);
 		}
 		return map;
 	}
@@ -204,7 +204,7 @@ public class IsoRendererLibrary {
 			map.put(Direction.WEST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png"));
 			map.put(Direction.SOUTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png"));
 		} catch (IOException e) {
-			System.out.println("Unable to load image4: " + resourceName);
+			System.err.println("Unable to load image4: " + resourceName);
 		}
 		
 		return map;
@@ -229,7 +229,7 @@ public class IsoRendererLibrary {
 			map.put(Direction.WEST, ew);
 			map.put(Direction.SOUTH, ns);
 		} catch (IOException e) {
-			System.out.println("Unable to load image2: " + resourceName);
+			System.err.println("Unable to load image2: " + resourceName);
 		}
 		
 		return map;

@@ -30,7 +30,7 @@ public class IsoImage {
 		try {
 			this.image = Resources.readImageResourceUnfliped(path);
 		} catch (IOException e) {
-			System.out.println("Unable to load: " + path);
+			System.err.println("Unable to load: " + path);
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}

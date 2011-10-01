@@ -91,7 +91,7 @@ public class GameThingInspector extends JPanel {
 			((Level.Location)l).rotate(Direction.WEST).put(thing);
 		}
 		else {
-			System.out.println("Trying to rotate something weird"); // TODO: fix
+			System.err.println("Trying to rotate something weird"); // TODO: fix
 		}
 		this.refresh();
 	}
@@ -105,7 +105,7 @@ public class GameThingInspector extends JPanel {
 			((Level.Location)l).rotate(Direction.EAST).put(thing);
 		}
 		else {
-			System.out.println("Trying to rotate something weird"); // TODO: fix
+			System.err.println("Trying to rotate something weird"); // TODO: fix
 		}
 		this.refresh();
 	}

@@ -43,7 +43,7 @@ public class ThingCreatorDnD {
 				try {
 					dragAndDropDataFlavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=" + ThingCreatorTransfer.class.getName());
 				} catch (ClassNotFoundException e) {
-					System.out.println("Unable to find ThingTransfer class: " + DataFlavor.javaJVMLocalObjectMimeType + ";class=" + ThingCreatorTransfer.class.getName());
+					System.err.println("Unable to find ThingTransfer class: " + DataFlavor.javaJVMLocalObjectMimeType + ";class=" + ThingCreatorTransfer.class.getName());
 					e.printStackTrace();
 				}
 	        }
@@ -194,7 +194,7 @@ public class ThingCreatorDnD {
 		        drag.acceptDrop(drag.getDropAction());
 		        drag.dropComplete(true);
 	        } catch (Exception e) {
-	        	System.out.println("Exception handling drop: " + e.getLocalizedMessage());
+	        	System.err.println("Exception handling drop: " + e.getLocalizedMessage());
 	        	
 	        	drag.rejectDrop();
 		        drag.dropComplete(false);
