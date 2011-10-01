@@ -28,7 +28,6 @@ public class Door extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				// arghoaehdaoet
 				return new Door(world, in.find("open").value(), in.find("close").value(), Serializers.Serializer_Boolean.read(in.find("state")));
 			}
 		});

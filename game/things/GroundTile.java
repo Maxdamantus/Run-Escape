@@ -24,7 +24,6 @@ public class GroundTile extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				// arghoaehdaoet
 				return new GroundTile(world, in.find("type").value(), Serializers.Serializer_Boolean.read(in.find("block")));
 			}
 		});

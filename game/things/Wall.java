@@ -22,7 +22,6 @@ public class Wall extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				// arghoaehdaoet
 				return new Wall(world, in.find("type").value());
 			}
 		});

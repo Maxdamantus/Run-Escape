@@ -23,7 +23,6 @@ public class Player extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				// arghoaehdaoet
 				return new Player(world, in.find("type").value());
 			}
 		});
