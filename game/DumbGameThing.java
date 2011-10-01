@@ -42,7 +42,6 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 
 	@Override
 	public String name(){
-		System.out.println("name = " + name);
 		return name != null? name : super.name();
 	}
 
@@ -63,6 +62,8 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			userArguments = o.userArguments;
 		if(o.renderer != null)
 			renderer = o.renderer;
+		if(o.name != null)
+			name = o.name;
 	}
 
 	public String renderer() {
@@ -87,7 +88,6 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			}
 
 			public DumbGameThing read(Tree in){				
-				in.print();
 				return new DumbGameThing(
 					Serializers.Serializer_Integer.read(in.find("gid")),
 					interS.read(in.find("interactions")),
