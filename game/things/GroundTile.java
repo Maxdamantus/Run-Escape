@@ -8,17 +8,14 @@ import java.util.*;
 public class GroundTile extends AbstractGameThing {
 	private final String renderer;
 	private final boolean willBlock;
-	private final List<String> interactions;
-	{
-		interactions = new LinkedList<String>();
-		if(!willBlock)
-			interactions.add("walk here");
-	}
+	private final List<String> interactions = new LinkedList<String>();
 
 	public GroundTile(GameWorld world, String name, boolean block){
 		super(world);
 		renderer = name;
 		willBlock = block;
+		if(!willBlock)
+			interactions.add("walk here");
 		update();
 	}
 
