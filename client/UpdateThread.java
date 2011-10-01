@@ -47,6 +47,7 @@ public class UpdateThread extends Thread {
 			// read from the reader continuously
 			while (true) {
 				String incoming = reader.readLine();
+				if (incoming == null) break;
 				if (incoming.startsWith("msg")) { // if message
 					String message = incoming.substring(4);
 					view.logMessage(message);
@@ -66,9 +67,11 @@ public class UpdateThread extends Thread {
 					System.out.println(other);
 				}
 			}
+			System.exit(0);
 
 		} catch (IOException e) {
-			System.out.println("Oops, unable to read from network");
+			System.out.println("Oops, unable to read from network. Server has probably been closed");
+			System.exit(0);
 		}
 
 	}

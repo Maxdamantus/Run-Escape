@@ -118,6 +118,7 @@ public class Client implements ClientMessageHandler {
 			writer.flush();
 		} catch (IOException e) {
 			System.out.println("The network connection has been lost");
+			System.exit(0);
 		}
 
 	}
@@ -130,6 +131,7 @@ public class Client implements ClientMessageHandler {
 			writer.flush();
 		} catch (IOException e) {
 			System.out.println("The network connection has been lost");
+			System.exit(0);
 		}
 	}
 
