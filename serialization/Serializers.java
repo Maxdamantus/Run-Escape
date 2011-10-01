@@ -223,6 +223,7 @@ public class Serializers {
 
 	public static final Serializer<Boolean> Serializer_Boolean = new Serializer<Boolean>(){
 		public Boolean read(Tree in){
+			System.out.println("Boolean.read: " + in);
 			return Boolean.valueOf(in.value());
 		}
 

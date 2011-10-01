@@ -186,15 +186,7 @@ public class IsoInterfaceWorldBuilder {
 	}
 	
 	public void save() {
-		final List<WorldDelta> deltas = new ArrayList<WorldDelta>();
-		world.allDeltas(new DeltaWatcher() {
-			@Override
-			public void delta(WorldDelta d) {
-				deltas.add(d);
-			}
-		});
-		
-		String file = Database.treeToXML(new Serializers.List<WorldDelta>(WorldDelta.SERIALIZER).write(deltas));
+		String file = Database.treeToXML(world.toTree());
 		
 		JFileChooser chooser = new JFileChooser();
 		if(chooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
@@ -250,12 +242,6 @@ public class IsoInterfaceWorldBuilder {
 			return;
 		}
 		
-		List<WorldDelta> deltas = new Serializers.List<WorldDelta>(WorldDelta.SERIALIZER).read(Database.xmlToTree(loaded));
-		
-		world.empty();
-		
-		for(WorldDelta d : deltas) {
-			d.apply(world);
-		}
+		world.fromTree(Database.xmlToTree(loaded));
 	}
 }

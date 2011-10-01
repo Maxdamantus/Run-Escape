@@ -2,6 +2,8 @@ package game;
 
 import java.util.*;
 
+import serialization.*;
+
 public class GameWorld {
 	private final Map<Integer, GameThing> allThings = new HashMap<Integer, GameThing>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
@@ -10,14 +12,6 @@ public class GameWorld {
 
 	public static interface DeltaWatcher {
 		public void delta(WorldDelta d);
-	}
-
-	public void empty() {
-		Set<GameThing> tmp = new HashSet<GameThing>(allThings.values());
-		
-		for(GameThing t : tmp) {
-			this.forget(t);
-		}
 	}
 
 	public GameThing thingWithGID(int gid){
@@ -122,5 +116,21 @@ public class GameWorld {
 			dw.delta(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));
 			emit(new WorldDelta(new WorldDelta.Put(gt.gid(), gt.location())));
 		}
+	}
+
+	public Tree toTree(){
+		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
+		List<Map.Entry<Location, GameThing>> map = new LinkedList<Map.Entry<Location, GameThing>>();
+		for(GameThing gt : allThings.values())
+			map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(gt.location(), gt));
+		return new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(null), gts)).write(map);
+	}
+
+	public void fromTree(Tree in){
+		allThings.clear();
+		levels.clear();
+		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
+		for(Map.Entry<Location, GameThing> lgt : new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(this), gts)).read(in))
+			lgt.getKey().put(lgt.getValue());
 	}
 }

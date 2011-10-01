@@ -32,7 +32,7 @@ public class SerializerUnion<T> {
 
 			public T read(Tree in){
 				String type = in.find("type").value();
-				return readers.get(type).read(in);
+				return readers.get(type).read(in.find("value"));
 			}
 		};
 	}
