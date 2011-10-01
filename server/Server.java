@@ -56,7 +56,7 @@ public final class Server extends Thread {
 				synchronized(worldqueue) {
 					if(!worldqueue.isEmpty()){
 						WorldDelta d = worldqueue.poll();
-						String deltaupdate = Database.escapeNewLines(Database.treeToXML(WorldDelta.serializer(model).write(d)));
+						String deltaupdate = Database.escapeNewLines(Database.treeToXML(WorldDelta.SERIALIZER.write(d)));
 						System.out.println("upd " +deltaupdate +"\n");
 						bw.write("upd " +deltaupdate +"\n");
 						bw.flush();

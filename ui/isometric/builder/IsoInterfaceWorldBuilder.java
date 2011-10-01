@@ -189,7 +189,7 @@ public class IsoInterfaceWorldBuilder {
 			}
 		});
 		
-		String file = Database.treeToXML(new Serializers.List<WorldDelta>(WorldDelta.serializer(world)).write(deltas));
+		String file = Database.treeToXML(new Serializers.List<WorldDelta>(WorldDelta.SERIALIZER).write(deltas));
 		
 		JFileChooser chooser = new JFileChooser();
 		if(chooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
@@ -245,7 +245,7 @@ public class IsoInterfaceWorldBuilder {
 			return;
 		}
 		
-		List<WorldDelta> deltas = new Serializers.List<WorldDelta>(WorldDelta.serializer(world)).read(Database.xmlToTree(loaded));
+		List<WorldDelta> deltas = new Serializers.List<WorldDelta>(WorldDelta.SERIALIZER).read(Database.xmlToTree(loaded));
 		
 		world.empty();
 		

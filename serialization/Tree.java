@@ -200,6 +200,12 @@ public class Tree{
 	 */
 	public void print(){
 		print("");
+		try {
+		throw new RuntimeException("SALKJFDHSDFLKJH");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void print(String indent){
