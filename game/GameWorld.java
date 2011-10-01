@@ -19,11 +19,8 @@ public class GameWorld {
 	}
 
 	public game.things.Player getPlayer(String name){
-		if(!players.containsKey(name)){
-			game.things.Player p = new game.things.Player(this, "character_cordi_empty", name);
-			players.put(name, p);
-			return p;
-		}
+		if(!players.containsKey(name))
+			return new game.things.Player(this, "character_cordi_empty", name);
 		return players.get(name);
 	}
 

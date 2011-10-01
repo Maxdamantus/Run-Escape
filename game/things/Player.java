@@ -42,6 +42,7 @@ public class Player extends AbstractGameThing {
 		super(world);
 		this.renderer = renderer;
 		name = n;
+		world.setPlayer(n, this);
 		update();
 	}
 
