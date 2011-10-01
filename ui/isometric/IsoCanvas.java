@@ -45,7 +45,7 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	private Position selectedSquarePosition = null;
 	private Point selectionPoint = new Point(0, 0);
 	
-	private static final double fps = 10;
+	private static final double fps = 20;
 		
 	/**
 	 * An interface for objects that wish to be added to the set of objects to be notified when a selection is made
