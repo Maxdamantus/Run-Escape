@@ -48,6 +48,7 @@ public class IsoInterface implements PlayerMessage {
 		chatRenderer = new ChatRenderer();
 		
 		frame = new JFrame(name);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		IsoDataSource d = new IsoGameModelDataSource(this.model);
 		canvas = new IsoCanvas(d);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
