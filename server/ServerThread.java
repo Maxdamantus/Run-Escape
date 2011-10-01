@@ -76,8 +76,6 @@ public final class ServerThread {
 							}
 						});
 					}
-					
-					System.out.println("Read " + parent.usrName);
 				}
 			} catch(IOException e) {
 				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
@@ -106,8 +104,6 @@ public final class ServerThread {
 						bw.write(msg);
 						bw.flush();
 					}
-					
-					System.out.println("Write " + parent.usrName);
 				}
 			} catch(IOException e) {
 				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
