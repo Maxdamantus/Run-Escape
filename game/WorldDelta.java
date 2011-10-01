@@ -12,9 +12,9 @@ public class WorldDelta {
 	public static class Put implements Action {
 		private final Tree in;
 
-		public Put(int g, Location l){
+		public Put(long g, Location l){
 			in = new Tree();
-			in.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(g)));
+			in.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(g)));
 			in.add(new Tree.Entry("location", LocationS.s(null).write(l)));
 		}
 
@@ -23,7 +23,7 @@ public class WorldDelta {
 		}
 
 		public void apply(GameWorld world){
-			int gid = Serializers.Serializer_Integer.read(in.find("gid"));
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			Location loc = LocationS.s(world).read(in.find("location"));
 			loc.put(world.thingWithGID(gid));
 		}
@@ -56,9 +56,9 @@ public class WorldDelta {
 	public static class Introduce implements Action {
 		private final Tree in;
 
-		public Introduce(int g){
+		public Introduce(long g){
 			in = new Tree();
-			in.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(g)));
+			in.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(g)));
 		}
 
 		public Introduce(Tree t){
@@ -66,7 +66,7 @@ public class WorldDelta {
 		}
 
 		public void apply(GameWorld world){
-			int gid = Serializers.Serializer_Integer.read(in.find("gid"));
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			new DumbGameThing(world, gid);
 		}
 
@@ -94,9 +94,9 @@ public class WorldDelta {
 	public static class Forget implements Action {
 		private final Tree in;
 
-		public Forget(int g){
+		public Forget(long g){
 			in = new Tree();
-			in.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(g)));
+			in.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(g)));
 		}
 
 		public Forget(Tree t){
@@ -104,7 +104,7 @@ public class WorldDelta {
 		}
 
 		public void apply(GameWorld world){
-			int gid = Serializers.Serializer_Integer.read(in.find("gid"));
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			new DumbGameThing(world, gid);
 		}
 
@@ -170,9 +170,9 @@ public class WorldDelta {
 	public static class Say implements Action {
 		private final Tree in;
 
-		public Say(int g, String w){
+		public Say(long g, String w){
 			in = new Tree();
-			in.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(g)));
+			in.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(g)));
 			in.add(new Tree.Entry("what", new Tree(w)));
 		}
 
@@ -181,13 +181,13 @@ public class WorldDelta {
 		}
 
 		public void apply(GameWorld world){
-			int gid = Serializers.Serializer_Integer.read(in.find("gid"));
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitSay(world.thingWithGID(gid), what);
 		}
 
-		public int who(){
-			return Serializers.Serializer_Integer.read(in.find("gid"));
+		public long who(){
+			return Serializers.Serializer_Long.read(in.find("gid"));
 		}
 
 		public String what(){

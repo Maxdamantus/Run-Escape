@@ -38,7 +38,7 @@ public interface IsoTransform {
 	 * @param p
 	 * @return
 	 */
-	public Point transformRelitivePoint(Point p);
+	public Point transformRelativePoint(Point p);
 
 	/**
 	 * Given a pixel accurate origin, calculate the offset that tiles should be rendered at

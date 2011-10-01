@@ -193,7 +193,7 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		Point delta = new Point(arg0.getPoint().x-mouse.x, arg0.getPoint().y-mouse.y);
-		delta = dataSource.transform().transformRelitivePoint(delta);
+		delta = dataSource.transform().transformRelativePoint(delta);
 		mouse = arg0.getPoint();
 		
 		origin.setLocation(origin.getX()-delta.getX(), origin.getY()+delta.getY());

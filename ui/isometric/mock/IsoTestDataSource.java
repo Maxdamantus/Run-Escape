@@ -46,7 +46,7 @@ public class IsoTestDataSource implements IsoDataSource {
 		}
 
 		@Override
-		public Point transformRelitivePoint(Point p) {
+		public Point transformRelativePoint(Point p) {
 			return p;
 		}
 

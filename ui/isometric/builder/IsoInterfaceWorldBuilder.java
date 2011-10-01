@@ -116,7 +116,7 @@ public class IsoInterfaceWorldBuilder {
 												for(GameThing t : dataSource.level()) {
 													if(t instanceof Player) {
 														System.out.println(m.getName());
-														world.thingWithGID(Integer.parseInt(m.getName())).interact(m.getText().substring(3), (Player)t);
+														world.thingWithGID(Long.parseLong(m.getName())).interact(m.getText().substring(3), (Player)t);
 														break;
 													}
 												}

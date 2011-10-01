@@ -65,7 +65,7 @@ public class IsoInterface implements PlayerMessage {
 										
 										if(s instanceof JMenuItem) {
 											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText().substring(3), model.thingWithGID(Integer.parseInt(m.getName())));
+											isoInterface.performActionOn(m.getText().substring(3), model.thingWithGID(Long.parseLong /* BLARGH */ (m.getName())));
 										}
 									}
 								});

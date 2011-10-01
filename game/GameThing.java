@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public interface GameThing {
-	public int gid();
+	public long gid();
 	public Location location();
 	public Location location(Location set);
 	public Area area();

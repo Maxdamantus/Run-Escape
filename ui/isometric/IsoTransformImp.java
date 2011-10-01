@@ -115,7 +115,7 @@ public class IsoTransformImp implements IsoTransform {
 	}
 	
 	@Override
-	public Point transformRelitivePoint(Point p) {
+	public Point transformRelativePoint(Point p) {
 		int x = (int)p.getX();
 		int y = (int)p.getY();
 		

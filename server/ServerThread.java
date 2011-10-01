@@ -27,7 +27,7 @@ import util.*;
 public final class ServerThread {
 	private final GameWorld model;
 	private int usrNo;
-	private int usrGID;
+	private long usrGID;
 	private String usrName;
 	private final Socket socket;
 	private LinkedBlockingQueue<String> outqueue = new LinkedBlockingQueue<String>();

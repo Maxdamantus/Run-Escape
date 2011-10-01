@@ -4,20 +4,20 @@ import serialization.*;
 
 public class ClientMessage {
 	public static interface Action {
-		public void apply(GameWorld w, int from);
+		public void apply(GameWorld w, long from);
 		public Tree toTree(GameWorld w);
 		public String type();
 	}
 
 	public static class Interaction implements Action {
-		private final int gid;
+		private final long gid;
 		private final String name;
 
-		public Interaction(int g, String n){
+		public Interaction(long g, String n){
 			gid = g; name = n;
 		}
 
-		public void apply(GameWorld world, int from){
+		public void apply(GameWorld world, long from){
 			world.thingWithGID(gid).interact(name, (game.things.Player)world.thingWithGID(from));
 		}
 
@@ -25,14 +25,14 @@ public class ClientMessage {
 			return new Serializer<Interaction>(){
 				public Tree write(Interaction in){
 					Tree out = new Tree();
-					out.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(in.gid)));
+					out.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(in.gid)));
 					out.add(new Tree.Entry("name", new Tree(in.name)));
 					return out;
 				}
 
 				public Interaction read(Tree in){
 					return new Interaction(
-						Serializers.Serializer_Integer.read(in.find("gid")),
+						Serializers.Serializer_Long.read(in.find("gid")),
 						in.find("name").value());
 				}
 			};
@@ -49,9 +49,9 @@ public class ClientMessage {
 
 	private final Action action;
 	// the Player's gid
-	private final int from;
+	private final long from;
 
-	public ClientMessage(Action a, int f){
+	public ClientMessage(Action a, long f){
 		action = a;
 		from = f;
 	}
@@ -60,7 +60,7 @@ public class ClientMessage {
 		action.apply(w, from);
 	}
 
-	public final static Serializer<ClientMessage> serializer(final GameWorld w, final int from){
+	public final static Serializer<ClientMessage> serializer(final GameWorld w, final long from){
 		return new Serializer<ClientMessage>(){
 			public Tree write(ClientMessage in){
 				Tree out = new Tree();

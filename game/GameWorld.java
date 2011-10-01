@@ -5,7 +5,7 @@ import java.util.*;
 import serialization.*;
 
 public class GameWorld {
-	private final Map<Integer, GameThing> allThings = new HashMap<Integer, GameThing>();
+	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 	private final Set<DeltaWatcher> watchers = new HashSet<DeltaWatcher>();
 	private final Timer scheduler = new Timer();
@@ -14,7 +14,7 @@ public class GameWorld {
 		public void delta(WorldDelta d);
 	}
 
-	public GameThing thingWithGID(int gid){
+	public GameThing thingWithGID(long gid){
 		return allThings.get(gid);
 	}
 
@@ -25,10 +25,10 @@ public class GameWorld {
 		return null;
 	}
 
-	public int introduce(GameThing gt){
-		int r;
+	public long introduce(GameThing gt){
+		long r;
 		do
-			r = (int)(Math.random()*((1 << 31) - 1));
+			r = (long)(Math.random()*((1l << 63) - 1));
 		while(allThings.containsKey(r));
 		return introduce(gt, r);
 	}
@@ -39,7 +39,7 @@ public class GameWorld {
 	}
 
 	// only use on the client
-	public int introduce(GameThing gt, int gid){
+	public long introduce(GameThing gt, long gid){
 		allThings.put(gid, gt);
 		return gid;
 	}

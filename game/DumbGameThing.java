@@ -10,11 +10,11 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private String defaultInteraction, renderer, name;
 	private Map<String, Serializable> userArguments;
 
-	public DumbGameThing(int g, List<String> i, String d, String r, String n, Map<String, Serializable> u){
+	public DumbGameThing(long g, List<String> i, String d, String r, String n, Map<String, Serializable> u){
 		this(null, g, i, d, r, n, u);
 	}
 
-	public DumbGameThing(GameWorld w, int g, List<String> i, String d, String r, String n, Map<String, Serializable> u){
+	public DumbGameThing(GameWorld w, long g, List<String> i, String d, String r, String n, Map<String, Serializable> u){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
@@ -45,7 +45,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 		return name != null? name : super.name();
 	}
 
-	public DumbGameThing(GameWorld w, int g){
+	public DumbGameThing(GameWorld w, long g){
 		this(w, g, null, null, null, null, null);
 	}
 
@@ -78,7 +78,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 
 			public Tree write(DumbGameThing in){
 				Tree out = new Tree();
-				out.add(new Tree.Entry("gid", Serializers.Serializer_Integer.write(in.gid())));
+				out.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(in.gid())));
 				out.add(new Tree.Entry("interactions", interS.write(in.interactions)));
 				out.add(new Tree.Entry("defaultinteraction", nullStringS.write(in.defaultInteraction)));
 				out.add(new Tree.Entry("renderer", nullStringS.write(in.renderer)));
@@ -89,7 +89,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 
 			public DumbGameThing read(Tree in){				
 				return new DumbGameThing(
-					Serializers.Serializer_Integer.read(in.find("gid")),
+					Serializers.Serializer_Long.read(in.find("gid")),
 					interS.read(in.find("interactions")),
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),

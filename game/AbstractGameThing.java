@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class AbstractGameThing implements GameThing {
 	private Location location;
 	private final static Area singleSpot = new Area(new Position(0, 0), 1, 1);
-	private final int gid;
+	private final long gid;
 	private final Map<String, Serializable> userArguments = new HashMap<String, Serializable>();
 	private boolean forgotten = false;
 	private final GameWorld world;
@@ -20,7 +20,7 @@ public abstract class AbstractGameThing implements GameThing {
 		w.emitIntroduce(this);
 	}
 
-	private AbstractGameThing(GameWorld w, int g){
+	private AbstractGameThing(GameWorld w, long g){
 		location = LocationS.NOWHERE;
 		gid = g;
 		world = w;
@@ -28,7 +28,7 @@ public abstract class AbstractGameThing implements GameThing {
 			w.emitIntroduce(this);
 	}
 
-	private AbstractGameThing(int g){
+	private AbstractGameThing(long g){
 		world = null;
 		gid = g;
 	}
@@ -41,7 +41,7 @@ public abstract class AbstractGameThing implements GameThing {
 		}
 		*/
 
-		public AbstractDumbGameThing(GameWorld w, int g){
+		public AbstractDumbGameThing(GameWorld w, long g){
 			super(w, g);
 		}
 	}
@@ -67,7 +67,7 @@ public abstract class AbstractGameThing implements GameThing {
 		return "thing";
 	}
 
-	public int gid(){
+	public long gid(){
 		return gid;
 	}
 

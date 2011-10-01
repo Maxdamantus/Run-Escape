@@ -210,7 +210,17 @@ public class Serializers {
 			return new Tree(in.toString());
 		}
 	};
-	
+
+	public static final Serializer<Long> Serializer_Long = new Serializer<Long>(){
+		public Long read(Tree in){
+			return Long.parseLong(in.value());
+		}
+
+		public Tree write(Long in){
+			return new Tree(in.toString());
+		}
+	};
+
 	public static final Serializer<Double> Serializer_Double = new Serializer<Double>(){
 		public Double read(Tree in){
 			return Double.parseDouble(in.value());
