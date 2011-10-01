@@ -19,11 +19,12 @@ public class Player extends AbstractGameThing {
 				Player in = (Player)o;
 				Tree out = new Tree();
 				out.add(new Tree.Entry("type", new Tree(in.renderer)));
+				out.add(new Tree.Entry("name", new Tree(in.name)));
 				return out;
 			}
 
 			public GameThing read(Tree in){
-				return new Player(world, in.find("type").value());
+				return new Player(world, in.find("type").value(), in.find("name").value());
 			}
 		});
 	}

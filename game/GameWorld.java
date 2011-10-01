@@ -8,9 +8,23 @@ public class GameWorld {
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 	private final Set<DeltaWatcher> watchers = new HashSet<DeltaWatcher>();
+	private final Map<String, game.things.Player> players = new HashMap<String, game.things.Player>();
 
 	public static interface DeltaWatcher {
 		public void delta(WorldDelta d);
+	}
+
+	public void setPlayer(String name, game.things.Player gt){
+		players.put(name, gt);
+	}
+
+	public game.things.Player getPlayer(String name){
+		if(!players.containsKey(name)){
+			game.things.Player p = new game.things.Player(this, "character_cordi_empty", name);
+			players.put(name, p);
+			return p;
+		}
+		return players.get(name);
 	}
 
 	public GameThing thingWithGID(long gid){
