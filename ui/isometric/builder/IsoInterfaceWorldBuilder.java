@@ -10,7 +10,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -26,7 +25,6 @@ import javax.swing.filechooser.FileFilter;
 
 import data.Database;
 
-import serialization.Serializers;
 import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
@@ -37,7 +35,6 @@ import util.Direction;
 import util.Resources;
 
 import game.*;
-import game.GameWorld.DeltaWatcher;
 import game.things.Player;
 
 /**
@@ -107,10 +104,10 @@ public class IsoInterfaceWorldBuilder {
 								List<String> interactions = t.interactions();
 								
 								for(String intr : interactions) {
+									final GameThing thing = i.gameThing();
+									
 									JMenuItem item = new JMenuItem("   "+intr);
 									item.addActionListener(new ActionListener() {
-										private GameThing thing = i.gameThing();
-										
 										@Override
 										public void actionPerformed(ActionEvent e) {
 											Object s = e.getSource();
@@ -119,7 +116,7 @@ public class IsoInterfaceWorldBuilder {
 												JMenuItem m = (JMenuItem)s;
 												for(GameThing t : dataSource.level()) {
 													if(t instanceof Player) {
-														thing.interact(m.getText().substring(3), (Player)t);
+														thing.interact(m.getText().substring(2), (Player)t);
 														break;
 													}
 												}

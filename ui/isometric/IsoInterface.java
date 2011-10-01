@@ -35,7 +35,7 @@ public class IsoInterface implements PlayerMessage {
 	 * @param model
 	 * @param logic
 	 */
-	public IsoInterface(String name, GameWorld model, final ClientMessageHandler logic) {
+	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic) {
 		this.model = model;
 		this.logic = logic;
 		
@@ -57,16 +57,15 @@ public class IsoInterface implements PlayerMessage {
 							
 							for(String intr : interactions) {
 								JMenuItem item = new JMenuItem("  "+intr);
-								item.addActionListener(new ActionListener() {
-									private GameThing thing = i.gameThing();
-									
+								item.setName(t.gid()+"");
+								item.addActionListener(new ActionListener() {								
 									@Override
 									public void actionPerformed(ActionEvent e) {
 										Object s = e.getSource();
 										
 										if(s instanceof JMenuItem) {
 											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText().substring(3), thing);
+											isoInterface.performActionOn(m.getText().substring(2), model.thingWithGID(Integer.parseInt(m.getName())));
 										}
 									}
 								});
