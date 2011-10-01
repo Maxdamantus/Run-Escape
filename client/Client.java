@@ -116,7 +116,8 @@ public class Client implements ClientMessageHandler {
 	public void sendChat(String chatText) {
 		try {
 			if (debugMode) System.out.print("Sent chat: " + chatText);
-			chatText = uid + ": " + chatText; 
+			if (chatText.startsWith("/me")) chatText = "*" + uid + " " + chatText.substring(4); 
+			else chatText = uid + ": " + chatText; 
 			writer.write("cts " + chatText + "\n");
 			writer.flush();
 		} catch (IOException e) {
