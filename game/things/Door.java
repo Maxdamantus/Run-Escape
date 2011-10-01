@@ -3,6 +3,8 @@ package game.things;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Direction;
+
 import game.*;
 
 public class Door extends AbstractGameThing {
@@ -53,5 +55,10 @@ public class Door extends AbstractGameThing {
 	@Override
 	public String name(){
 		return "Door";
+	}
+	
+	@Override
+	public boolean canWalkInto(Direction d, game.things.Player who){
+		return open;
 	}
 }
