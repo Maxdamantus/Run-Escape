@@ -53,6 +53,7 @@ public final class ServerThread {
 					if(temp == null) { // End of stream
 						break;
 					}
+					
 					if((temp.startsWith("uid"))) {
 						xmlupdate+= temp;
 						parent.usrName = xmlupdate.substring(4);
@@ -66,7 +67,7 @@ public final class ServerThread {
 						ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Database.xmlToTree(action));
 						msg.apply(parent.model);
 					}
-					else if (temp.startsWith("cts")) {
+					else if(temp.startsWith("cts")) {
 						String chat = temp.substring(4);
 						final String msg = "ctc "+chat+"\n";
 						parent.server.toAllPlayers(new Server.ClientMessenger() {

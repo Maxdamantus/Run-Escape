@@ -80,7 +80,6 @@ public class Server{
 
 	private void runServer(int port, GameWorld game) {		
 		int uid = 0;
-		int nclients = 2;
 		Clock timer = new Clock(0);
 		timer.start();
 		// Listen for connections
@@ -113,13 +112,6 @@ public class Server{
 				});
 				newSer.start();
 				uid++;; //this will add players unique identifier in future.
-				//check for dead clients
-				if(connections.size() == nclients){
-					System.out.println("A CLIENT HAS CONNECTED --- GAME BEGINS");
-					runGame(connections, game);
-					System.out.println("ALL CLIENTS DISCONNECTED --- GAME ENDS");
-					return; // done
-				}
 			}
 		} catch(IOException e) {
 			System.err.println("I/O error: " + e.getMessage());
@@ -145,10 +137,19 @@ public class Server{
 	
 	private void runGame(ArrayList<ServerThread> connections, GameWorld game){
 		while(atleastOneConnection(connections)){
-			Thread.yield();		
+			Thread.yield();	
+			pause(10);
 		}
 	}
 	
+	private static void pause(int delay) {
+		try {
+			Thread.sleep(delay);
+		} 
+		catch(InterruptedException e){			
+		}
+	}
+
 	public static GameWorld defaultworld(){
 		game.GameWorld sgm = new GameWorld();
 		// make a spiral instead
@@ -161,8 +162,6 @@ public class Server{
 			}
 			ll = ll.rotate(Direction.WEST);
 		}
-		//sgm.level(0).location(new Position(5, 0), Direction.NORTH).put(tile);
-		//sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
 		return sgm;
 	}
 
