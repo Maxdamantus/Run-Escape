@@ -31,13 +31,16 @@ public class Client implements ClientMessageHandler {
 	public static void main(String[] args) {
 		boolean debugMode = false;
 		String host = "localhost";
+		String uid = "";
 		int port = 32765;
-		//can now take command line server info
-		if (args.length == 2) {
+		//can now take command line server and info
+		if (args.length == 3) {
 			host = args[0];
 			port = Integer.parseInt(args[1]);
+			uid = args[2];
 		} else {
 			String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
+			uid = JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
 			if (server.length() > 0) {
 				String[] split = server.split(":");
 				host = split[0];
@@ -48,7 +51,7 @@ public class Client implements ClientMessageHandler {
 		}
 		if (debugMode)
 			System.out.println(host + ", " + port);
-		Client client = new Client(host, port, debugMode);
+		Client client = new Client(host, port, uid, debugMode);
 
 	}
 
@@ -60,7 +63,7 @@ public class Client implements ClientMessageHandler {
 	 * @param port
 	 *            server port
 	 */
-	public Client(String host, int port, boolean debugMode) {
+	public Client(String host, int port, String uid, boolean debugMode) {
 		this.debugMode = debugMode;
 		boolean debug = true;
 		try {
@@ -77,8 +80,7 @@ public class Client implements ClientMessageHandler {
 			UpdateThread updater = new UpdateThread(reader, view, world);
 
 			// sending name
-			writer.write("uid " + JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)")
-					+ "\n");
+			writer.write("uid " + uid + "\n");
 			updater.start();
 			writer.flush();
 
