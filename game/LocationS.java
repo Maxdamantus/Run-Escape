@@ -2,6 +2,8 @@ package game;
 
 import serialization.*;
 
+import java.util.*;
+
 // hrm ..
 public class LocationS {
 	public static Serializer<Location> s(final GameWorld w){
@@ -40,6 +42,10 @@ public class LocationS {
 			if(old != this)
 				old.remove(gt);
 			gt.location(this);
+		}
+
+		public Iterable<GameThing> contents(){
+			return Collections.emptyList();
 		}
 
 		public void remove(GameThing gt){}
