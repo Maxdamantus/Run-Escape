@@ -12,6 +12,7 @@ public abstract class AbstractGameThing implements GameThing {
 	private final Map<String, Serializable> userArguments = new HashMap<String, Serializable>();
 	private boolean forgotten = false;
 	private final GameWorld world;
+	private final List<Runnable> trackers = new LinkedList<Runnable>();
 
 	public AbstractGameThing(GameWorld w){
 		gid = w.introduce(this);
@@ -46,13 +47,21 @@ public abstract class AbstractGameThing implements GameThing {
 		}
 	}
 
+	public void track(Runnable r){
+		trackers.add(r);
+	}
+
 	public Location location(){
 		return location == null? LocationS.NOWHERE : location;
 	}
 
 	public Location location(Location s){
+		location = s;
 		world.emitPut(this, s);
-		return location = s;
+		for(Runnable r : trackers)
+			r.run();
+		trackers.clear();
+		return s;
 	}
 
 	public Area area(){

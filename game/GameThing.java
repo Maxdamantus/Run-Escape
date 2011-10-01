@@ -20,5 +20,6 @@ public interface GameThing {
 	public boolean forgotten();
 	public void forget();
 	public String name();
+	public void track(Runnable r);
 	public GameWorld world();
 }

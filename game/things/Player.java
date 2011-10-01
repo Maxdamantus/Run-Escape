@@ -4,6 +4,8 @@ import game.*;
 
 import serialization.*;
 
+import java.util.*;
+
 public class Player extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
@@ -30,6 +32,11 @@ public class Player extends AbstractGameThing {
 	private String renderer;
 	private final String name;
 	private final static int WALKDELAY = 50;
+	private final static List<String> interactions;
+	static {
+		interactions = new LinkedList<String>();
+		interactions.add("follow");
+	}
 
 	public Player(GameWorld world, String renderer, String n){
 		super(world);
@@ -54,7 +61,16 @@ public class Player extends AbstractGameThing {
 		return name;
 	}
 
-	public boolean moveTo(final Level.Location where, final int dist, final Runnable ondone){
+	public List<String> interactions(){
+		return interactions;
+	}
+
+	public void interact(String name, Player who){
+		if(name.equals("follow"))
+			who.follow(this);
+	}
+
+	public boolean moveTo(final Level.Location where, final int dist, final Runnable ondone, final boolean keepfollow){
 		/*
 		// call ((Level.Location)location()).nextTo(where).put(this) every so often, ensure only one moveTo at a time ..
 		return false; // can't move
@@ -65,6 +81,8 @@ public class Player extends AbstractGameThing {
 			ondone.run();
 		return true;
 		*/
+		if(!keepfollow)
+			following = null;
 		Location l = location();
 		if(l instanceof Level.Location){
 			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
@@ -80,12 +98,16 @@ public class Player extends AbstractGameThing {
 		return false;
 	}
 
+	public boolean moveTo(Level.Location where, int dist, Runnable ondone){
+		return moveTo(where, dist, ondone, false);
+	}
+
 	public boolean moveTo(Level.Location where, Runnable ondone){
 		return moveTo(where, 0, ondone);
 	}
 
 	private Object stepIdent;
-	public void step(final Level.Location where, final Runnable ondone, final int dist, final Object ident){
+	private void step(final Level.Location where, final Runnable ondone, final int dist, final Object ident){
 		if(stepIdent != ident)
 			return;
 		Location l = location();
@@ -105,6 +127,24 @@ public class Player extends AbstractGameThing {
 				}, WALKDELAY);
 			}
 		}
+	}
+
+	private GameThing following;
+	// Mm .. can't go: final Runnable tracker = .. and have it reference itself.
+	private Runnable tracker;
+	public void follow(final GameThing g){
+		following = g;
+		tracker = new Runnable(){
+			public void run(){
+				if(g == following){
+					Location l = g.location();
+					if(l instanceof Level.Location && moveTo((Level.Location)l, 1, null, true))
+						g.track(tracker);
+				}
+			}
+		};
+		g.track(tracker);
+		tracker.run();
 	}
 
 	public boolean moveTo(Level.Location where){
