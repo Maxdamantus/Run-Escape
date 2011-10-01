@@ -13,7 +13,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 
 	public static final int FLOOR = 0;
 	public static final int WALL = 1000;
-	public static final int PLAYER = 500;
+	public static final int PLAYER = 2000;
 	
 	private ArrayList<ImageLevel> images = new ArrayList<ImageLevel>();
 	
