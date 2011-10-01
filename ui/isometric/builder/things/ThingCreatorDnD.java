@@ -195,6 +195,7 @@ public class ThingCreatorDnD {
 		        drag.dropComplete(true);
 	        } catch (Exception e) {
 	        	System.err.println("Exception handling drop: " + e.getLocalizedMessage());
+	        	e.printStackTrace();
 	        	
 	        	drag.rejectDrop();
 		        drag.dropComplete(false);
