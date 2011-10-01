@@ -135,7 +135,7 @@ public class Server{
 		return false;
 	}
 	
-	private void runGame(ArrayList<ServerThread> connections, GameWorld game){
+	private void runGame(ArrayList<ServerThread> connections, GameWorld game){ // We dont actually need this if we want the server to run forever, if you just let main return the other threads will still run
 		while(atleastOneConnection(connections)){
 			Thread.yield();	
 			pause(10);
