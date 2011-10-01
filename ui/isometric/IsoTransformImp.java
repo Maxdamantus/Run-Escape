@@ -57,7 +57,7 @@ public class IsoTransformImp implements IsoTransform {
 		
 		int aw = (direction == Direction.NORTH || direction == Direction.SOUTH)?maxxx:maxyy-minyy;
 		int ah = (direction == Direction.NORTH || direction == Direction.SOUTH)?maxyy-minyy:maxxx;
-		querryArea = new Area(viewOrigin.x(), viewOrigin.y()+minyy, aw, ah); // TODO: rotation of width/height
+		querryArea = new Area(viewOrigin.x(), viewOrigin.y()+minyy, aw*2, ah*2); // TODO: make over grabbing more optimal
 		viewDirection = direction;
 	}
 

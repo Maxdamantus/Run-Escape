@@ -98,30 +98,36 @@ public class IsoInterfaceWorldBuilder {
 				if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
 					if(i != null) {
 						if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
-							List<String> interactions = i.gameThing().interactions();
-							
 							JPopupMenu popup = new JPopupMenu();
-							for(String intr : interactions) {
-								JMenuItem item = new JMenuItem(intr);
-								item.addActionListener(new ActionListener() {
-									private GameThing thing = i.gameThing();
-									
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										Object s = e.getSource();
+							for(GameThing t : i.gameThing().location().contents()) {
+								JMenuItem n = new JMenuItem("- " + t.name());
+								n.setEnabled(false);
+								popup.add(n);
+								
+								List<String> interactions = t.interactions();
+								
+								for(String intr : interactions) {
+									JMenuItem item = new JMenuItem(intr);
+									item.addActionListener(new ActionListener() {
+										private GameThing thing = i.gameThing();
 										
-										if(s instanceof JMenuItem) {
-											JMenuItem m = (JMenuItem)s;
-											for(GameThing t : dataSource.level()) {
-												if(t instanceof Player) {
-													thing.interact(m.getText(), (Player)t);
-													break;
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											Object s = e.getSource();
+											
+											if(s instanceof JMenuItem) {
+												JMenuItem m = (JMenuItem)s;
+												for(GameThing t : dataSource.level()) {
+													if(t instanceof Player) {
+														thing.interact(m.getText(), (Player)t);
+														break;
+													}
 												}
 											}
 										}
-									}
-								});
-								popup.add(item);
+									});
+									popup.add(item);
+								}
 							}
 							popup.show(canvas, event.getPoint().x, event.getPoint().y);
 						}

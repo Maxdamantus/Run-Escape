@@ -103,16 +103,16 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 		}
 		
 		int rowY = TILE_Y/2;
-		int tileCountY = this.getHeight()/rowY+3;
+		int tileCountY = this.getHeight()/rowY+5;
 		int tileCountX = this.getWidth()/TILE_X+2;
 		int row = 0;
 		
-		int y = rowY;
+		int y = -rowY; // rowY
 		for(;y<tileCountY*rowY;y+=rowY) {
 			if(!selectionRender || selectionPoint.y < y+smoothing.getY()) {
 				int yg = -((row%2 == 0)?row/2-1:row/2);
 				int xg = (row%2 == 0)?row/2:(row-1)/2;
-				int x = (row%2 == 0)?TILE_X/2:0;
+				int x = ((row%2 == 0)?TILE_X/2:0)-TILE_X;
 				for(;x<tileCountX*TILE_X;x+=TILE_X) {
 					this.drawSquareAt(g, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
 					yg++;
