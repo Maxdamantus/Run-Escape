@@ -56,7 +56,7 @@ public class IsoInterface implements PlayerMessage {
 							List<String> interactions = t.interactions();
 							
 							for(String intr : interactions) {
-								JMenuItem item = new JMenuItem("  "+intr);
+								JMenuItem item = new JMenuItem("   "+intr);
 								item.setName(t.gid()+"");
 								item.addActionListener(new ActionListener() {								
 									@Override
@@ -65,7 +65,7 @@ public class IsoInterface implements PlayerMessage {
 										
 										if(s instanceof JMenuItem) {
 											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText().substring(2), model.thingWithGID(Integer.parseInt(m.getName())));
+											isoInterface.performActionOn(m.getText().substring(3), model.thingWithGID(Integer.parseInt(m.getName())));
 										}
 									}
 								});

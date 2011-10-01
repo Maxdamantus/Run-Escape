@@ -103,10 +103,9 @@ public class IsoInterfaceWorldBuilder {
 								
 								List<String> interactions = t.interactions();
 								
-								for(String intr : interactions) {
-									final GameThing thing = i.gameThing();
-									
+								for(String intr : interactions) {									
 									JMenuItem item = new JMenuItem("   "+intr);
+									item.setName(t.gid()+"");
 									item.addActionListener(new ActionListener() {
 										@Override
 										public void actionPerformed(ActionEvent e) {
@@ -116,7 +115,8 @@ public class IsoInterfaceWorldBuilder {
 												JMenuItem m = (JMenuItem)s;
 												for(GameThing t : dataSource.level()) {
 													if(t instanceof Player) {
-														thing.interact(m.getText().substring(2), (Player)t);
+														System.out.println(m.getName());
+														world.thingWithGID(Integer.parseInt(m.getName())).interact(m.getText().substring(3), (Player)t);
 														break;
 													}
 												}
