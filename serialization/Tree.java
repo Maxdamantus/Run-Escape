@@ -113,9 +113,9 @@ public class Tree{
 
 	/**
 	 *  Leaf representation:
-	 * List of characters, preceded by %
+	 * List of characters, preceded by |
 	 * Character representation:
-	 * \% - end of string
+	 * \| - end of string
 	 * \\ - a literal \
 	 * any other character - it
 	 * Non-leaf representation:
@@ -139,14 +139,14 @@ public class Tree{
 	 */
 	public void toString(Appendable out) throws IOException {
 		if(isLeaf()){
-			out.append('%');
+			out.append('|');
 			out.append(value.replace("\\", "\\\\"));
-			out.append("\\%");
+			out.append("\\|");
 		}else{
 			out.append('[');
 			for(Entry c : children()){
 				out.append(c.name().replace("\\", "\\\\"));
-				out.append("\\%");
+				out.append("\\|");
 				c.tree().toString(out);
 			}
 			out.append(']');
@@ -162,7 +162,7 @@ public class Tree{
 				throw new ParseException("Unterminated string", cur[0]);
 			out.append(in.substring(cur[0], i));
 			cur[0] = i + 2;
-			if(in.charAt(cur[0] - 1) == '%')
+			if(in.charAt(cur[0] - 1) == '|')
 				return out.toString();
 			out.append(in.charAt(cur[0] - 1));
 		}
@@ -170,7 +170,7 @@ public class Tree{
 
 	// cur.length == 1; cur[0] read and updated as cursor position in the string
 	private static Tree fromString(String in, int[] cur) throws ParseException {
-		if(in.charAt(cur[0]) == '%'){
+		if(in.charAt(cur[0]) == '|'){
 			cur[0]++;
 			return new Tree(readStr(in, cur));
 		}
