@@ -14,6 +14,8 @@ import java.net.*;
 
 import data.Database;
 
+import util.*;
+
 //new ClientMessage(mygid, new ClientMessage.Interaction(thatgid, foo)).apply(game);
 
 /**
@@ -58,6 +60,7 @@ public final class ServerThread {
 						xmlupdate+= temp;
 						parent.usrName = xmlupdate.substring(4);
 						Player plyr = new Player(parent.model);
+						parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 						parent.usrGID = plyr.gid();
 						
 					}
