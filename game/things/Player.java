@@ -28,11 +28,13 @@ public class Player extends AbstractGameThing {
 	}
 
 	private String renderer;
+	private final String name;
 	private final static int WALKDELAY = 50;
 
-	public Player(GameWorld world, String renderer){
+	public Player(GameWorld world, String renderer, String n){
 		super(world);
 		this.renderer = renderer;
+		name = n;
 		update();
 	}
 
@@ -40,12 +42,16 @@ public class Player extends AbstractGameThing {
 		this(world, "character_cordi_empty");
 	}
 
+	public Player(GameWorld world, String renderer){
+		this(world, renderer, "<insert name here>");
+	}
+
 	public String renderer(){
 		return this.renderer;
 	}
 
 	public String name(){
-		return "<insert name here>";
+		return name;
 	}
 
 	public boolean moveTo(final Level.Location where, final Runnable ondone){
