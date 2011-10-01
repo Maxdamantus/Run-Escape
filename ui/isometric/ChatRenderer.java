@@ -53,9 +53,8 @@ public class ChatRenderer implements UILayerRenderer {
 		int index = 0;
 		while(messagePosition > 0 && index < log.size()) {
 			String nextMessage = log.get(index);
-			g.drawString(nextMessage, originX, messagePosition);
 			index++;
-			messagePosition -= 20;
+			messagePosition -= TextHelper.drawStringMultiLineUp(g, nextMessage, originX, messagePosition, 0, chatBoxImage.getWidth(null)) + 5;
 		}
 	}
 	
