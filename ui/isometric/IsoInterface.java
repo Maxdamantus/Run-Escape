@@ -110,4 +110,12 @@ public class IsoInterface implements PlayerMessage {
 	public void showContainer(String name, List<GameThing> contents) {
 		// TODO Auto-generated method stub
 	}
+	
+	/**
+	 * An incoming chat message from a player via the server
+	 * @param message
+	 */
+	public void incomingChat(String message) {
+		System.out.println(message);
+	}
 }
