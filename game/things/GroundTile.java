@@ -11,7 +11,8 @@ public class GroundTile extends AbstractGameThing {
 	private final List<String> interactions;
 	{
 		interactions = new LinkedList<String>();
-		interactions.add("walk here");
+		if(!willBlock)
+			interactions.add("walk here");
 	}
 
 	public GroundTile(GameWorld world, String name, boolean block){
