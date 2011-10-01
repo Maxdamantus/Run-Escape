@@ -137,7 +137,6 @@ public class IsoInterfaceWorldBuilder {
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(onto instanceof IsoCanvas) {
 					IsoCanvas canvas = (IsoCanvas)onto;
-					System.out.println("Drop @ " + canvas.getSquarePositionAtPoint(location));
 					new Level.Location(dataSource.level(), canvas.getSquarePositionAtPoint(location), Direction.NORTH).put(creator.createThing(world));
 				}
 			}

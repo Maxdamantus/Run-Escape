@@ -30,7 +30,7 @@ public class IsoRendererLibrary {
 	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
 	private static BufferedImage emptyTile;
 	
-	private static final String EMPTY_TILE = "EMPTY_TILE";
+	public static final String EMPTY_TILE_NAME = "EMPTY_TILE";
 	
 	/**
 	 * A class used for reading and writing image info to disk
@@ -162,7 +162,7 @@ public class IsoRendererLibrary {
 					renderers.put(key, types.get(key).load());
 				}
 				
-				emptyTile = imageForRendererName(EMPTY_TILE, Direction.NORTH);
+				emptyTile = imageForRendererName(EMPTY_TILE_NAME, Direction.NORTH);
 			}
 		}
 	}
