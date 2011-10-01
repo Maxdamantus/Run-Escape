@@ -56,29 +56,35 @@ public final class ServerThread {
 						break;
 					}
 					
-					if((temp.startsWith("uid"))) {
-						xmlupdate+= temp;
-						parent.usrName = xmlupdate.substring(4);
-						Player plyr = new Player(parent.model);
-						parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
-						parent.usrGID = plyr.gid();
-						
+					try {
+						if((temp.startsWith("uid"))) {
+							xmlupdate+= temp;
+							parent.usrName = xmlupdate.substring(4);
+							Player plyr = new Player(parent.model);
+							parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
+							parent.usrGID = plyr.gid();
+							
+						}
+						else if(temp.startsWith("cmg")){
+							String action = temp.substring(4);
+							action = Database.unescapeNewLines(action);
+							ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Database.xmlToTree(action));
+							msg.apply(parent.model);
+						}
+						else if(temp.startsWith("cts")) {
+							String chat = temp.substring(4);
+							final String msg = "ctc "+chat+"\n";
+							parent.server.toAllPlayers(new Server.ClientMessenger() {
+								@Override
+								public void doTo(ServerThread client) {
+									client.queueMessage(msg);
+								}
+							});
+						}
 					}
-					else if(temp.startsWith("cmg")){
-						String action = temp.substring(4);
-						action = Database.unescapeNewLines(action);
-						ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Database.xmlToTree(action));
-						msg.apply(parent.model);
-					}
-					else if(temp.startsWith("cts")) {
-						String chat = temp.substring(4);
-						final String msg = "ctc "+chat+"\n";
-						parent.server.toAllPlayers(new Server.ClientMessenger() {
-							@Override
-							public void doTo(ServerThread client) {
-								client.queueMessage(msg);
-							}
-						});
+					catch (Exception e) { // Catch everything while processing message
+						System.err.println("Exception handling message from client...");
+						e.printStackTrace();
 					}
 				}
 			} catch(IOException e) {
