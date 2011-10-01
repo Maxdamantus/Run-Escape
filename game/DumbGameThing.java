@@ -27,22 +27,23 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	
 	@Override
 	public Map<String, Serializable> userArguments() { // Melby fixed
-		return userArguments == null? userArguments : super.userArguments();
+		return userArguments != null? userArguments : super.userArguments();
 	}
 	
 	@Override
 	public List<String> interactions() { // Melby fixed
-		return interactions == null? interactions : super.interactions();
+		return interactions != null? interactions : super.interactions();
 	}
 	
 	@Override
 	public String defaultInteraction() { // Melby fixed
-		return defaultInteraction == null? defaultInteraction : super.defaultInteraction();
+		return defaultInteraction != null? defaultInteraction : super.defaultInteraction();
 	}
 
 	@Override
 	public String name(){
-		return name == null? name : super.name();
+		System.out.println("name = " + name);
+		return name != null? name : super.name();
 	}
 
 	public DumbGameThing(GameWorld w, int g){
@@ -86,6 +87,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			}
 
 			public DumbGameThing read(Tree in){				
+				in.print();
 				return new DumbGameThing(
 					Serializers.Serializer_Integer.read(in.find("gid")),
 					interS.read(in.find("interactions")),
