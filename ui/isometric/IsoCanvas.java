@@ -1,6 +1,5 @@
 package ui.isometric;
 
-import game.Level;
 import game.Location;
 
 import java.awt.Color;
@@ -43,9 +42,10 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private Point origin = new Point(0, 0);
 	
 	private boolean selectionRender = false;
-	private IsoImage selectedImage = null;
-	private Position selectedSquarePosition = null;
+	private IsoImage selectedImage;
+	private Position selectedSquarePosition;
 	private Point selectionPoint = new Point(0, 0);
+	private UILayerRenderer selectedRenderer;
 	
 	private static final double fps = 20;
 	
@@ -70,6 +70,26 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		 * @param into
 		 */
 		public void render(Graphics g, IsoCanvas into);
+
+		/**
+		 * Can use this to figure out what was under the mouse.
+		 * Note don't use this for actions, as this being called is not a guarantee
+		 * that this renderer was not obscured by another renderer. To do that
+		 * wait for a call to wasClicked(), which will be called if this was the topmost
+		 * renderer. This will be called immediately after, so it is safe to store information
+		 * about the click between the two calls.
+		 * 
+		 * @param selectionPoint - the point in view coordinates of the selection
+		 * @param isoCanvas - the canvas this is in
+		 * @return whether this renderer would want to intercept the selection
+		 */
+		public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas);
+
+		/**
+		 * Called after a call to doSelectionPassif this component was the topmost
+		 * of all the renderers and can act on a mouse down
+		 */
+		public void wasClicked();
 	}
 		
 	/**
@@ -116,7 +136,10 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	
 	@Override
 	public void paint(Graphics g) {
-		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		try {
+			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		} catch(Exception e) { } // Stupid java bug when not on windows
+		
 		dataSource.setViewableRect((int)origin.getX(), (int)origin.getY(), this.getWidth(), this.getHeight(), viewDirection);
 		dataSource.update();
 		
@@ -147,8 +170,17 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			row++;
 		}
 		
-		for(UILayerRenderer ren : extraRenderers) {
-			ren.render(g, this);
+		if(!selectionRender) {
+			for(UILayerRenderer ren : extraRenderers) {
+				ren.render(g, this);
+			}
+		}
+		else {
+			for(UILayerRenderer ren : extraRenderers) {
+				if(ren.doSelectionPass(selectionPoint, this)) {
+					selectedRenderer = ren;
+				}
+			}
 		}
 	}
 	
@@ -218,61 +250,68 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		final IsoImage i = this.getImageAtPoint(arg0.getPoint());
-		final Position s = this.getCachedSquarePosition();
+		this.calculateTypesAtAtPoint(arg0.getPoint());
+		final IsoImage i = this.getCachedSelectedImage();
+		final Position s = this.getCachedSelectedSquarePosition();
+		final UILayerRenderer r = this.getCachedSelectedRenderer();
 		
-		for(SelectionCallback c : selectionCallback) {
-			c.selected(i, new Level.Location(dataSource.level(), s, Direction.NORTH), arg0);
+		if(r == null) {
+			for(SelectionCallback c : selectionCallback) {
+				c.selected(i, dataSource.level().location(s, Direction.NORTH), arg0);
+			}
+		}
+		else {
+			r.wasClicked();
 		}
 	}
-
+	
 	/**
-	 * Search for the image at a given point in the canvas
+	 * Compute the image/square/renderer at a given point
+	 * Use
 	 * @param point
-	 * @return
 	 */
-	public IsoImage getImageAtPoint(Point point) {
+	public void calculateTypesAtAtPoint(Point point) {
 		selectedImage = null;
 		selectedSquarePosition = null;
+		selectedRenderer = null;
 		
 		selectionRender = true;
 		selectionPoint = point;
 		try {
 			this.paint(null);
 		}
-		catch (Exception e) { }
+		catch (Exception e) {
+			System.err.println("Exception renderering for selection");
+			e.printStackTrace();
+		}
 		selectionRender = false;
-		
+	}
+	
+	/**
+	 * Get the cached selected image, does no checking to ensure it is not stale,
+	 * should only be called directly after calculateTypesAtAtPoint
+	 * @return
+	 */
+	public IsoImage getCachedSelectedImage() {
 		return selectedImage;
 	}
 	
 	/**
-	 * Search for the square position at a given point in the canvas
-	 * @param point
+	 * Get the cached selected square location, does no checking to ensure it is not stale,
+	 * should only be called directly after calculateTypesAtAtPoint
 	 * @return
 	 */
-	public Position getSquarePositionAtPoint(Point point) {
-		selectedImage = null;
-		selectedSquarePosition = null;
-		
-		selectionRender = true;
-		selectionPoint = point;
-		try {
-			this.paint(null);
-		}
-		catch (Exception e) { }
-		selectionRender = false;
-		
+	public Position getCachedSelectedSquarePosition() {
 		return selectedSquarePosition;
 	}
 	
 	/**
-	 * Get the cached square location, does no checking to ensure it is not stale,
-	 * should only be called directly after getImageAtPoint/getSquarePositionAtPoint
+	 * Get the cached selected renderer, does no checking to ensure it is not stale,
+	 * should only be called directly after calculateTypesAtAtPoint
 	 * @return
 	 */
-	public Position getCachedSquarePosition() {
-		return selectedSquarePosition;
+	public UILayerRenderer getCachedSelectedRenderer() {
+		return selectedRenderer;
 	}
 
 	@Override

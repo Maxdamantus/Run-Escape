@@ -3,6 +3,7 @@ package ui.isometric;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -57,6 +58,14 @@ public class ChatRenderer implements UILayerRenderer {
 			messagePosition -= TextHelper.drawStringMultiLineUp(g, nextMessage, originX, messagePosition, 0, chatBoxImage.getWidth(null)) + 5;
 		}
 	}
+	
+	@Override
+	public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas) {
+		return false;
+	}
+
+	@Override
+	public void wasClicked() { }
 	
 	/**
 	 * Set the message to display

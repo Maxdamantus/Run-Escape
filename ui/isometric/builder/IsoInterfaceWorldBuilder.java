@@ -139,7 +139,8 @@ public class IsoInterfaceWorldBuilder {
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(onto instanceof IsoCanvas) {
 					IsoCanvas canvas = (IsoCanvas)onto;
-					new Level.Location(dataSource.level(), canvas.getSquarePositionAtPoint(location), Direction.NORTH).put(creator.createThing(world));
+					canvas.calculateTypesAtAtPoint(location);
+					dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH).put(creator.createThing(world));
 				}
 			}
 		})));
