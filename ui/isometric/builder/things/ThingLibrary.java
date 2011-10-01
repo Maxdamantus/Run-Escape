@@ -200,8 +200,8 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_grey_water_corner", true));
 				creators.add(new GroundCreator("ground_grey_water_two_sides", true));
 				creators.add(new GroundCreator("ground_grey_water_one_side", true));
-				creators.add(new GroundCreator("ground_grey_water_island_1"));
-				creators.add(new GroundCreator("ground_grey_water_rock_1"));
+				creators.add(new GroundCreator("ground_grey_water_island_1", true));
+				creators.add(new GroundCreator("ground_grey_water_rock_1", true));
 				
 				creators.add(new GroundCreator("ground_grey_mushrooms_1"));
 				creators.add(new GroundCreator("ground_grey_mushrooms_2"));
