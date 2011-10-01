@@ -166,7 +166,7 @@ public class IsoInterface implements PlayerMessage {
 	 * @param message
 	 */
 	public void incomingChat(String message) {
-		System.out.println(message);
+		chatRenderer.logMessage(message);
 	}
 	
 	/**

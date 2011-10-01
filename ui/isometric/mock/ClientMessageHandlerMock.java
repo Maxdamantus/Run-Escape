@@ -18,6 +18,5 @@ public class ClientMessageHandlerMock implements ClientMessageHandler {
 	@Override
 	public void sendChat(String chatText) {
 		System.out.println("Send chat: " + chatText);
-		
 	}
 }
