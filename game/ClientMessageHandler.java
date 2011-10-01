@@ -11,4 +11,6 @@ public interface ClientMessageHandler {
 	 * @param message message to be sent
 	 */
 	public void sendMessage(ClientMessage message);
+	
+	public void sendChat(String chatText);
 }

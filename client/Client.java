@@ -103,9 +103,19 @@ public class Client implements ClientMessageHandler {
 			writer.write(send);
 			writer.flush();
 		} catch (IOException e) {
-			System.out.println("Bother, the BufferedWriter broke");
+			System.out.println("The network connection has been lost");
 		}
 
+	}
+	
+	public void sendChat(String chatText) {
+		try {
+			if (debugMode) System.out.print("Sent chat: " + chatText);
+			writer.write("cht " + chatText + "\n");
+			writer.flush();
+		} catch (IOException e) {
+			System.out.println("The network connection has been lost");
+		}
 	}
 
 }
