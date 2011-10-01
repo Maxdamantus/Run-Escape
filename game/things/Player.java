@@ -2,7 +2,31 @@ package game.things;
 
 import game.*;
 
+import serialization.*;
+
 public class Player extends AbstractGameThing {
+	static {
+		ThingsS.UNION.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof Player? "player" : null;
+			}
+		});
+
+		ThingsS.UNION.addSerializer("player", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				Player in = (Player)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("type", new Tree(in.renderer)));
+				return out;
+			}
+
+			public GameThing read(Tree in){
+				// arghoaehdaoet
+				return new Player(ThingsS.WORLD, in.find("type").value());
+			}
+		});
+	}
+
 	private String renderer;
 	private final static int WALKDELAY = 50;
 

@@ -5,9 +5,34 @@ import java.util.List;
 
 import util.Direction;
 
+import serialization.*;
+
 import game.*;
 
 public class Door extends AbstractGameThing {
+	static {
+		ThingsS.UNION.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof Door? "door" : null;
+			}
+		});
+
+		ThingsS.UNION.addSerializer("door", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				Door in = (Door)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("open", new Tree(in.openRenderer)));
+				out.add(new Tree.Entry("close", new Tree(in.closedRenderer)));
+				out.add(new Tree.Entry("state", Serializers.Serializer_Boolean.write(in.open)));
+				return out;
+			}
+
+			public GameThing read(Tree in){
+				// arghoaehdaoet
+				return new Door(ThingsS.WORLD, in.find("open").value(), in.find("close").value(), Serializers.Serializer_Boolean.read(in.find("state")));
+			}
+		});
+	}
 	private final String openRenderer;
 	private final String closedRenderer;
 	private boolean open;
