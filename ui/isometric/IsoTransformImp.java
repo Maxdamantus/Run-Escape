@@ -89,9 +89,7 @@ public class IsoTransformImp implements IsoTransform {
 	public Position transformViewPosition(Position pos) {		
 		int x = 0;
 		int y = 0;
-		
-		System.out.println(pos);
-		
+				
 		switch(viewDirection) {
 			case NORTH:
 				x = pos.x();
@@ -112,8 +110,6 @@ public class IsoTransformImp implements IsoTransform {
 		
 		x += viewOrigin.x();
 		y += viewOrigin.y();
-		
-		System.out.println(x + " " + y);
 		
 		return new Position(x, y);
 	}
