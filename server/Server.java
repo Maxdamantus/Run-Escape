@@ -13,6 +13,7 @@ import java.net.Socket;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import data.Database;
 
@@ -21,6 +22,7 @@ import ui.isometric.builder.IsoInterfaceWorldBuilder;
 import ui.isometric.mock.ClientMessageHandlerMock;
 import util.Direction;
 import util.Position;
+import util.Resources;
 
 
 
@@ -32,6 +34,7 @@ public class Server{
 	private static String filename = null;
 	private static int returnVal;
 	public static final int DEFAULT_PORT = 32765;
+	private static final String EXTENTION = "wblrd";
 	
 	private ArrayList<ServerThread> connections = new ArrayList<ServerThread>(10);
 	
@@ -55,17 +58,17 @@ public class Server{
 		}
 		if(choice.equals("LoadGame")){
 			fromSave = true;
-			while(filename == null){
-			fc = new JFileChooser();
-			returnVal = fc.showOpenDialog(new JFrame());
-			File file = fc.getSelectedFile();
-	        System.out.println("Opening: " + file.getName());
-	        filename = file.getAbsolutePath();
-			}
+
 		}
 		if(fromSave){
-	//		GameWorld model = Database.xmlToTree(Database.newDocumentFromFile(file));
-	//		runServer(port, model);
+			GameWorld model = load();
+			if(model == null){
+				System.out.println("No file given, giving default gameworld");
+				model = defaultworld();
+			}
+			IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
+			view.show();
+			runServer(port,model);
 		}
 		else{
 			
@@ -77,6 +80,71 @@ public class Server{
 		}
 		System.exit(0);
 	}
+	
+	public GameWorld load() {
+		String loaded = null;
+		JFrame frame = new JFrame();
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File arg0) {
+				return arg0.isFile() && arg0.getAbsolutePath().endsWith(EXTENTION);
+			}
+
+			@Override
+			public String getDescription() {
+				return "World Builder File";
+			}
+		});
+		if(chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+			File load = chooser.getSelectedFile().getAbsoluteFile();
+			try {
+				loaded = Resources.loadTextFile(load.getAbsolutePath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			return null;
+		}
+		
+		if(loaded == null) {
+			JOptionPane.showMessageDialog(frame, "Error loading file");
+			return null;
+		}
+		GameWorld world = new GameWorld(); 
+		world.fromTree(Database.xmlToTree(loaded));
+		return world;
+	}
+	
+	public void save() {
+		GameWorld world = new GameWorld();
+		JFrame frame = new JFrame();
+		String file = Database.treeToXML(world.toTree());
+		
+		JFileChooser chooser = new JFileChooser();
+		if(chooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
+			File save = chooser.getSelectedFile().getAbsoluteFile();
+			if(!save.getAbsolutePath().endsWith("."+EXTENTION)) {
+				save = new File(save.getAbsolutePath() + "." + EXTENTION);
+			}
+			if(save.exists()) {
+				if(JOptionPane.showConfirmDialog(frame, "This file exists, are you sure you wish to overwrite it?", null, JOptionPane.OK_CANCEL_OPTION, 0) == JOptionPane.CANCEL_OPTION) {
+					return;
+				}
+			}
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(save));
+				writer.write(file);
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	
 
 	private void runServer(int port, GameWorld game) {		
@@ -167,6 +235,8 @@ public class Server{
 		
 		return sgm;
 	}
+	
+	
 
 
 	public static interface ClientMessenger {
