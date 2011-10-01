@@ -6,12 +6,12 @@ import game.Location;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -27,7 +27,7 @@ import util.Position;
  * @author melby
  *
  */
-public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListener, MouseListener {
+public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 	
 	public static final int TILE_X = 64;
@@ -46,6 +46,29 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	private Point selectionPoint = new Point(0, 0);
 	
 	private static final double fps = 20;
+	
+	private List<UILayerRenderer> extraRenderers = new ArrayList<UILayerRenderer>();
+	
+	/**
+	 * An interface for rendering extra content on top of the IsoCanvas
+	 * 
+	 * @author melby
+	 *
+	 */
+	public static interface UILayerRenderer {
+		/**
+		 * The level this renderer should renderer at
+		 * @return
+		 */
+		public int level();
+		
+		/**
+		 * Do the rendering into the specified Graphics context
+		 * @param g
+		 * @param into
+		 */
+		public void render(Graphics g, IsoCanvas into);
+	}
 		
 	/**
 	 * An interface for objects that wish to be added to the set of objects to be notified when a selection is made
@@ -72,7 +95,6 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	 */
 	public IsoCanvas(IsoDataSource dataSource) {
 		this.dataSource = dataSource;
-		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		
@@ -120,6 +142,10 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 				}
 			}
 			row++;
+		}
+		
+		for(UILayerRenderer ren : extraRenderers) {
+			ren.render(g, this);
 		}
 	}
 	
@@ -173,23 +199,7 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 			}
 		}
 	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		if(arg0.getKeyChar() == 'r') {
-			viewDirection = viewDirection.compose(Direction.EAST);
-			this.repaint();
-		}
-	}
-
+	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		Point delta = new Point(arg0.getPoint().x-mouse.x, arg0.getPoint().y-mouse.y);
@@ -201,8 +211,7 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
-	}
+	public void mouseMoved(MouseEvent arg0) {}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -264,12 +273,10 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-	}
+	public void mouseEntered(MouseEvent arg0) {}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-	}
+	public void mouseExited(MouseEvent arg0) {}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
@@ -277,8 +284,7 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-	}
+	public void mouseReleased(MouseEvent arg0) {}
 	
 	/**
 	 * Add a SelectionCallback that will be called when an image/square is selected
@@ -294,5 +300,46 @@ public class IsoCanvas extends JPanel implements KeyListener, MouseMotionListene
 	 */
 	public void removeSelectionCallback(SelectionCallback s) {
 		selectionCallback.remove(s);
+	}
+
+	/**
+	 * Get the view direction
+	 * @return
+	 */
+	public Direction viewDirection() {
+		return viewDirection;
+	}
+
+	/**
+	 * Set the view direction
+	 * @param direction
+	 */
+	public void setViewDirection(Direction direction) {
+		viewDirection = direction;
+	}
+	
+	/**
+	 * Add a UiLayerRenderer to the correct place in the list of renderers based on the level
+	 * @param renderer
+	 */
+	public void addLayerRenderer(UILayerRenderer renderer) { // TODO: log duplicates?
+		if(extraRenderers.size() == 0) {
+			extraRenderers.add(renderer);
+		}
+		else {
+			for(int n = 0; n < extraRenderers.size(); n++) {
+				if(extraRenderers.get(n).level() > renderer.level()) {
+					extraRenderers.add(n, renderer);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Remove a UiLayerRenderer
+	 * @param renderer
+	 */
+	public void removeLayerRenderer(UILayerRenderer renderer) {
+		extraRenderers.remove(renderer);
 	}
 }

@@ -2,6 +2,8 @@ package ui.isometric;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
@@ -11,6 +13,8 @@ import game.PlayerMessage;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
+import util.Direction;
 
 import game.*;
 
@@ -29,6 +33,8 @@ public class IsoInterface implements PlayerMessage {
 	private GameWorld model;
 	private ClientMessageHandler logic;
 	
+	private ChatRenderer chatRenderer;
+	
 	/**
 	 * Create a interface with a given GameModel and ClientMessageHandler
 	 * @param name
@@ -38,6 +44,8 @@ public class IsoInterface implements PlayerMessage {
 	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic) {
 		this.model = model;
 		this.logic = logic;
+		
+		chatRenderer = new ChatRenderer();
 		
 		frame = new JFrame(name);
 		IsoDataSource d = new IsoGameModelDataSource(this.model);
@@ -80,6 +88,49 @@ public class IsoInterface implements PlayerMessage {
 				}
 			}
 		});
+		canvas.addKeyListener(new KeyListener() {
+			private boolean chat = false;
+			private String message = "";
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n') {
+					if(chat) {
+						if(message.length() > 0) {
+							sendChatMessage(message);
+						}
+						chat = false;
+						message = "";
+					}
+					else {
+						chat = true;
+					}
+					chatRenderer.setBoxVisible(chat);
+				}
+				else if(chat) {
+					if(arg0.getKeyChar() == '\b') {
+						if(message.length() > 0) {
+							message = message.substring(0, message.length()-1);
+						}
+					}
+					else {
+						message = message + arg0.getKeyChar();
+					}
+				}
+				else if(arg0.getKeyChar() == 'r') {
+					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
+				}
+				
+				chatRenderer.setMessage(message);
+			}
+		});
+		canvas.addLayerRenderer(chatRenderer);
 		frame.setSize(300, 300);
 		frame.add(canvas);
 	}
@@ -116,5 +167,14 @@ public class IsoInterface implements PlayerMessage {
 	 */
 	public void incomingChat(String message) {
 		System.out.println(message);
+	}
+	
+	/**
+	 * 
+	 * Post a chat message
+	 * @param message
+	 */
+	private void sendChatMessage(String message) {
+		logic.sendChat(message);
 	}
 }
