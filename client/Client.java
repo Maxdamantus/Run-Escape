@@ -35,14 +35,17 @@ public class Client implements ClientMessageHandler {
 		String host = "localhost";
 		String uid = "";
 		int port = 32765;
-		//can now take command line server and info
+		//take command line server and info
 		if (args.length == 3) {
 			host = args[0];
 			port = Integer.parseInt(args[1]);
 			uid = args[2];
-		} else {
+		} else { // user input dialogs to get server and player information
 			String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
+			if (server == null) System.exit(0); //closes if cancel is pressed
 			uid = JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
+			if (uid == null) System.exit(0);//closes if cancel is pressed
+			if (uid.equals("")) uid = "Player"+(int)(Math.random()*1000);
 			if (server.length() > 0) {
 				String[] split = server.split(":");
 				host = split[0];

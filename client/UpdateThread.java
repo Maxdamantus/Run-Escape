@@ -2,6 +2,7 @@ package client;
 
 import game.*;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -66,9 +67,13 @@ public class UpdateThread extends Thread {
 
 				} else if (incoming.startsWith("ctc")) { // if chat
 					String chatString = incoming.substring(4);
-					view.incomingChat(chatString);
+					view.incomingChat(chatString, Color.WHITE);
 
-				} else { // not needed, but can be used for printing network
+				} else if (incoming.startsWith("svm")) { // if chat
+					String chatString = incoming.substring(4);
+					view.incomingChat(chatString, Color.YELLOW);
+
+				}else { // not needed, but can be used for printing network
 							// debugging info
 					String other = incoming;
 					System.out.println(other);
