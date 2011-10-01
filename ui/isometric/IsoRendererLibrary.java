@@ -226,8 +226,8 @@ public class IsoRendererLibrary {
 			
 			map.put(Direction.NORTH, ns);
 			map.put(Direction.EAST, ew);
-			map.put(Direction.WEST, ns);
-			map.put(Direction.SOUTH, ew);
+			map.put(Direction.WEST, ew);
+			map.put(Direction.SOUTH, ns);
 		} catch (IOException e) {
 			System.out.println("Unable to load image2: " + resourceName);
 		}
