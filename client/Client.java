@@ -98,7 +98,7 @@ public class Client implements ClientMessageHandler {
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = Database.escapeNewLines(Database.treeToXML(ClientMessage.serializer(world, 0).write(message)));
+			String send = Database.escapeNewLines(Database.treeToXML(ClientMessage.serializer(world, 0).write(message))) +"\n";
 			System.out.print("Sent: " + send);
 			writer.write(send);
 			writer.flush();
