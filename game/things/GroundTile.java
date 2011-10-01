@@ -2,10 +2,34 @@ package game.things;
 
 import game.*;
 import util.*;
+import serialization.*;
 
 import java.util.*;
 
 public class GroundTile extends AbstractGameThing {
+	static {
+		ThingsS.UNION.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof GroundTile? "groundtile" : null;
+			}
+		});
+
+		ThingsS.UNION.addSerializer("groundtile", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				GroundTile in = (GroundTile)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("type", new Tree(in.renderer)));
+				out.add(new Tree.Entry("block", Serializers.Serializer_Boolean.write(in.willBlock)));
+				return out;
+			}
+
+			public GameThing read(Tree in){
+				// arghoaehdaoet
+				return new GroundTile(ThingsS.WORLD, in.find("type").value(), Serializers.Serializer_Boolean.read(in.find("block")));
+			}
+		});
+	}
+
 	private final String renderer;
 	private final boolean willBlock;
 	private final List<String> interactions = new LinkedList<String>();

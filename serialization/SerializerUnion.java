@@ -41,8 +41,13 @@ public class SerializerUnion<T> {
 		readers.put(name, reader);
 	}
 
-	public void addReader(String name, Writer<? super T> writer){
+	public void addWriter(String name, Writer<? super T> writer){
 		writers.put(name, writer);
+	}
+
+	public void addSerializer(String name, Serializer<T> serializer){
+		addReader(name, serializer);
+		addWriter(name, serializer);
 	}
 
 	public void addIdentifier(Identifier<T> i){
