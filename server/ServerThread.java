@@ -61,19 +61,14 @@ public final class ServerThread {
 							xmlupdate+= temp;
 							parent.usrName = xmlupdate.substring(4);
 							Player plyr = new Player(parent.model);
-							synchronized(parent.model){
-								parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
-								parent.usrGID = plyr.gid();
-							}
-							
+							parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
+							parent.usrGID = plyr.gid();
 						}
 						else if(temp.startsWith("cmg")){
 							String action = temp.substring(4);
 							action = Database.unescapeNewLines(action);
-							synchronized(parent.model){
-								ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Database.xmlToTree(action));
-								msg.apply(parent.model);
-							}
+							ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Database.xmlToTree(action));
+							msg.apply(parent.model);
 						}
 						else if(temp.startsWith("cts")) {
 							String chat = temp.substring(4);
