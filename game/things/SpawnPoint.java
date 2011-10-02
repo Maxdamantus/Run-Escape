@@ -3,7 +3,6 @@ package game.things;
 import game.*;
 
 import serialization.*;
-import util.Direction;
 
 public class SpawnPoint extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){

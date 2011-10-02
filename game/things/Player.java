@@ -91,10 +91,12 @@ public class Player extends AbstractGameThing {
 	}
 
 	public void interact(String name, Player who){
-		if(name.equals("follow"))
-			who.follow(this);
-		else if(name.equals("attack")){
-			who.attack(this);
+		if(name != null) {
+			if(name.equals("follow"))
+				who.follow(this);
+			else if(name.equals("attack")){
+				who.attack(this);
+			}
 		}
 	}
 

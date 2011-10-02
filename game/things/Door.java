@@ -77,10 +77,12 @@ public class Door extends AbstractGameThing {
 	
 	@Override
 	public void interact(String inter, Player who) {
-		if(inter.equals("close"))
-			walkAndSet(false, who);
-		else if(inter.equals("open"))
-			walkAndSet(true, who);
+		if(inter != null) {
+			if(inter.equals("close"))
+				walkAndSet(false, who);
+			else if(inter.equals("open"))
+				walkAndSet(true, who);
+		}
 	}
 
 	@Override

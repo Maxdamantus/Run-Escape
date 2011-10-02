@@ -59,9 +59,11 @@ public class GroundTile extends AbstractGameThing {
 	}
 
 	public void interact(String inter, Player who){
-		if(inter.equals("walk here")){
-			if(location() instanceof Level.Location)
-				who.moveTo((Level.Location)location());
+		if(inter != null) {
+			if(inter.equals("walk here")){
+				if(location() instanceof Level.Location)
+					who.moveTo((Level.Location)location());
+			}
 		}
 	}
 
