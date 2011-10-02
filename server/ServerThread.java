@@ -122,7 +122,7 @@ public final class ServerThread {
 		}
 	}
 
-	public ServerThread(Socket socket, int usrNo, GameWorld model, Clock timer, Server server) {
+	public ServerThread(Socket socket, int usrNo, GameWorld model, Server server) {
 		this.model = model;	
 		this.socket = socket;
 		this.usrNo = usrNo;

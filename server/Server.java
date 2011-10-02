@@ -146,8 +146,6 @@ public class Server{
 
 	private void runServer(int port, GameWorld game) {		
 		int uid = 0;
-		Clock timer = new Clock(0);
-		timer.start();
 		// Listen for connections
 		System.out.println("GAME SERVER LISTENING ON PORT " + port);
 		try {
@@ -168,7 +166,7 @@ public class Server{
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				final ServerThread newSer = new ServerThread(s,uid,game, timer, this);
+				final ServerThread newSer = new ServerThread(s,uid,game, this);
 				connections.add(newSer);
 				// MaxZ's code: send initial state
 				game.allDeltas(new DeltaWatcher(){
