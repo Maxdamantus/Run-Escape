@@ -61,7 +61,7 @@ public final class ServerThread {
 						if((temp.startsWith("uid"))) {
 							xmlupdate+= temp;
 							parent.usrName = xmlupdate.substring(4);
-							Player plyr = new Player(parent.model);
+							Player plyr = parent.model.getPlayer(parent.usrName);
 							parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 							parent.usrGID = plyr.gid();
 						}
