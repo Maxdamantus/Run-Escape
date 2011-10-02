@@ -36,7 +36,7 @@ public class IsoImage {
 	 * @return
 	 */
 	public BufferedImage image() {
-		return image.image();
+		return image.image((int) (Math.random()*100));
 	}
 	
 	/**

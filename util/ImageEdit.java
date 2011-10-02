@@ -43,4 +43,23 @@ public class ImageEdit {
 		}
 		return out;
 	}
+
+	/**
+	 * Split an image into an array of images, based on the number of
+	 * frames and spacing between images
+	 * @param image - the image to split
+	 * @param frames - the number of frames in the animation
+	 * @param spacing - the number of pixels between frames of the animations in image
+	 * @return
+	 */
+	public static BufferedImage[] splitImage(BufferedImage image, int frames, int spacing) {
+		BufferedImage[] out = new BufferedImage[frames];
+				
+		int width = (image.getWidth() - spacing*(frames-1))/frames;
+		for(int n = 0; n < frames; n++) {
+			out[n] = image.getSubimage((width+spacing)*n, 0, width, image.getHeight());
+		}
+		
+		return out;
+	}
 }

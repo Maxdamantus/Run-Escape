@@ -11,6 +11,7 @@ import serialization.Serializer;
 import serialization.Serializers;
 import serialization.Tree;
 import util.Direction;
+import util.ImageEdit;
 import util.Resources;
 
 import game.*;
@@ -48,8 +49,19 @@ public class IsoRendererLibrary {
 		 * @param image
 		 */
 		public RendererImage(BufferedImage image) {
-			frames = new BufferedImage[]{image};
-			numFrames = 1;
+			this.frames = new BufferedImage[]{image};
+			this.numFrames = 1;
+		}
+		
+		public RendererImage(BufferedImage image, int frames) {
+			if(frames > 0) {
+				this.frames = ImageEdit.splitImage(image, frames, 1);
+				this.numFrames = frames;
+			}
+			else {
+				this.frames = new BufferedImage[]{image};
+				this.numFrames = 1;
+			}
 		}
 		
 		/**
@@ -105,10 +117,12 @@ public class IsoRendererLibrary {
 		private Type type;
 		private String imageName;
 		private int offset;
+		private int frames;
 		
 		private static final String NAME = "name";
 		private static final String TYPE = "type";
 		private static final String Y_OFFSET = "y-offset";
+		private static final String FRAME_COUNT = "frame-count";
 		
 		/**
 		 * The different types of images
@@ -153,7 +167,13 @@ public class IsoRendererLibrary {
 					off = Integer.parseInt(l);
 				}
 				
-				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)), off);
+				int frames = 0;
+				String f = store.get(FRAME_COUNT);
+				if(f != null && f.length() > 0) {
+					frames = Integer.parseInt(f);
+				}
+				
+				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)), off, frames);
 			}
 
 			@Override
@@ -164,6 +184,9 @@ public class IsoRendererLibrary {
 				if(in.offset != 0) {
 					store.put(Y_OFFSET, in.offset+"");
 				}
+				if(in.frames != 0) {
+					store.put(Y_OFFSET, in.frames+"");
+				}
 				
 				serialization.Serializer<Map<String, String>> serializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				
@@ -172,15 +195,17 @@ public class IsoRendererLibrary {
 		}
 		
 		/**
-		 * Create an ImageType with a image name, type and image y-offset
+		 * Create an ImageType with a image name, type, image y-offset and number of animation frames
 		 * @param image
 		 * @param type
 		 * @param yoff
+		 * @param frames
 		 */
-		public ImageType(String image, Type type, int yoff) {
+		public ImageType(String image, Type type, int yoff, int frames) {
 			this.imageName = image;
 			this.type = type;
 			this.offset = yoff;
+			this.frames = frames;
 		}
 		
 		/**
@@ -189,15 +214,29 @@ public class IsoRendererLibrary {
 		 * @return
 		 */
 		public Map<Direction, RendererImage> load() {
-			switch(type) {
-				case IMAGE1:
-					return loadImage1(imageName);
-				case IMAGE2:
-					return loadImage2(imageName);
-				case IMAGE4:
-					return loadImage4(imageName);
-				default:
-					throw new RuntimeException("Unknown ImageType.Type encountered: " + type);
+			if(frames > 0) {
+				switch(type) {
+					case IMAGE1:
+						return loadImageAnimation1(imageName, frames);
+					case IMAGE2:
+						return loadImageAnimation2(imageName, frames);
+					case IMAGE4:
+						return loadImageAnimation4(imageName, frames);
+					default:
+						throw new RuntimeException("Unknown ImageType.Type encountered: " + type);
+				}
+			}
+			else {
+				switch(type) {
+					case IMAGE1:
+						return loadImage1(imageName);
+					case IMAGE2:
+						return loadImage2(imageName);
+					case IMAGE4:
+						return loadImage4(imageName);
+					default:
+						throw new RuntimeException("Unknown ImageType.Type encountered: " + type);
+				}
 			}
 		}
 		
@@ -274,10 +313,22 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	private static Map<Direction, RendererImage> loadImage1(String resourceName) {
+		return loadImageAnimation1(resourceName, 0);
+	}
+	
+	/**
+	 * Create the data structure needed for an image by having the same image for all 4 directions.
+	 * Note, assumes images are png and adds the extension automatically. Optional number of frames for an animation,
+	 * pass 0 to get no animation splitting
+	 * @param resourceName
+	 * @param frames
+	 * @return
+	 */
+	private static Map<Direction, RendererImage> loadImageAnimation1(String resourceName, int frames) {
 		Map<Direction, RendererImage> map = new HashMap<Direction, RendererImage>();
 		
 		try {
-			RendererImage image = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+".png"));
+			RendererImage image = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+".png"), frames);
 			
 			map.put(Direction.NORTH, image);
 			map.put(Direction.EAST, image);
@@ -296,13 +347,25 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	private static Map<Direction, RendererImage> loadImage4(String resourceName) {
+		return loadImageAnimation4(resourceName, 0);
+	}
+	
+	/**
+	 * Create the data structure for an image by loading the images suffixed _n _e _s _w into the appropriate places
+	 * Note, assumes images are png and adds the extension automatically. Optional number of frames for an animation,
+	 * pass 0 to get no animation splitting
+	 * @param resourceName
+	 * @param frames
+	 * @return
+	 */
+	private static Map<Direction, RendererImage> loadImageAnimation4(String resourceName, int frames) {
 		Map<Direction, RendererImage> map = new HashMap<Direction, RendererImage>();
 		
 		try {
-			map.put(Direction.NORTH, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_n.png")));
-			map.put(Direction.EAST, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png")));
-			map.put(Direction.WEST, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png")));
-			map.put(Direction.SOUTH, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png")));
+			map.put(Direction.NORTH, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_n.png"), frames));
+			map.put(Direction.EAST, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png"), frames));
+			map.put(Direction.WEST, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png"), frames));
+			map.put(Direction.SOUTH, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png"), frames));
 		} catch (IOException e) {
 			System.err.println("Unable to load image4: " + resourceName);
 		}
@@ -317,11 +380,23 @@ public class IsoRendererLibrary {
 	 * @return
 	 */
 	private static Map<Direction, RendererImage> loadImage2(String resourceName) {
+		return loadImageAnimation2(resourceName, 0);
+	}
+	
+	/**
+	 * Create the data structure for an image by loading the images suffixed _ns _ew into the appropriate places
+	 * Note, assumes images are png and adds the extension automatically. Optional number of frames for an animation,
+	 * pass 0 to get no animation splitting
+	 * @param resourceName
+	 * @param frames
+	 * @return
+	 */
+	private static Map<Direction, RendererImage> loadImageAnimation2(String resourceName, int frames) {
 		Map<Direction, RendererImage> map = new HashMap<Direction, RendererImage>();
 		
 		try {
-			RendererImage ns = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png"));
-			RendererImage ew = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png"));
+			RendererImage ns = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png"), frames);
+			RendererImage ew = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png"), frames);
 			
 			map.put(Direction.NORTH, ns);
 			map.put(Direction.EAST, ew);
