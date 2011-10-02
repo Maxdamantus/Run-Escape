@@ -52,7 +52,6 @@
       </i>
     </v>
   </i>
-
   <i>
     <k>ground_grey_water_island_1</k>
     <v>
@@ -89,6 +88,19 @@
       <i>
         <k>type</k>
         <v>IMAGE1</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>dbg_compass</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>dbg_compass</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
       </i>
     </v>
   </i>

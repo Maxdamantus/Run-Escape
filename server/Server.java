@@ -225,10 +225,10 @@ public class Server{
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
 				String name = ll.position().equals(new Position(0, 2))? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
-				ll.rotate(ll.position().equals(new Position(0, 2))? Direction.NORTH : Direction.EAST).put(new game.things.Wall(sgm, name));
+				ll.rotate(Direction.WEST).put(new game.things.Wall(sgm, name));
 				ll = ll.next(ll.direction());
 			}
-			ll = ll.rotate(Direction.WEST);
+			ll = ll.rotate(Direction.EAST);
 		}
 		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
@@ -237,6 +237,7 @@ public class Server{
 		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
 		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
 		ll.next(Direction.WEST).put(new game.things.GroundTile(sgm, "dbg_west"));
+		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_compass"));
 
 		return sgm;
 	}
