@@ -231,6 +231,12 @@ public class Server{
 			ll = ll.rotate(Direction.WEST);
 		}
 		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
+		ll.put(new game.things.GroundTile(sgm, "EMPTY_TILE"));
+		ll.next(Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_north"));
+		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
+		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
+		ll.next(Direction.WEST).put(new game.things.GroundTile(sgm, "dbg_west"));
 
 		return sgm;
 	}
