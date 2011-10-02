@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import data.Database;
 
+import serialization.Serializers;
 import ui.isometric.IsoInterface;
 
 import game.*;
@@ -114,10 +115,7 @@ public class Client implements ClientMessageHandler {
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = "cmg "
-					+ Database.escapeNewLines(Database
-							.treeToString(ClientMessage.serializer(world, 0)
-									.write(message))) + "\n";
+			String send = "cmg " + Database.escapeNewLines(Database.treeToString(new Serializers.Nullable<ClientMessage>(ClientMessage.serializer(world, 0)).write(message))) + "\n";
 			if (debugMode)
 				System.out.print("Sent: " + send);
 			writer.write(send);
@@ -160,6 +158,7 @@ public class Client implements ClientMessageHandler {
 				return;
 			} else if (chatText.startsWith("/resetcolor")) {
 				chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
+				return;
 			} else
 				chatText = uid + ": " + chatText;
 			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
