@@ -50,7 +50,11 @@ public class Player extends AbstractGameThing {
 	}
 
 	public Player(GameWorld world, String renderer, String n){
-		this(world, renderer, n, null);
+		this(world, renderer, n, spawnPointWorkAroundCrap(world.getSpawnPoint()));
+	}
+
+	private static Location spawnPointWorkAroundCrap(SpawnPoint sp){
+		return sp != null? sp.location() : null;
 	}
 
 	public Player(GameWorld world){
