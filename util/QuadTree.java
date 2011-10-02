@@ -1,32 +1,32 @@
 	package util;
-
+	
 	import java.util.*;
-
+	
 	public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 		private Node root;
-
+	
 		private static class Node {
 			final int x, y;
 			final Node[] children = new Node[4];
 			// Mmm .. I can't really see any good reason why Java doesn't allow generic arrays. Maybe I'm not thinking hard enough.
 			final Object val;
-
+	
 			Node(int px, int py, Object v){
 				x = px; y = py; val = v;
 			}
-
+	
 			public String toString(){
 				return "{p: (" + x + ", " + y + "), v: " + val + ", children: " + children + "}";
 			}
 		}
-
+	
 		private class QuadTreeIterator implements Iterable<Map.Entry<Position, T>>, Iterator<Map.Entry<Position, T>>{
 			private final Stack<Node> stack = new Stack<Node>();
 			private Node offer;
 			private boolean offerReady;
 			private final boolean all;
 			private final int minx, miny, maxx, maxy;
-
+	
 			// Not sure if I like this `final` system .. seems too restrictive
 			private QuadTreeIterator(int ix, int iy, int ax, int ay, boolean a){
 				minx = ix; miny = iy; maxx = ax; maxy = ay;
@@ -34,20 +34,20 @@
 				if(root != null)
 					stack.push(root);
 			}
-
+	
 			public QuadTreeIterator(){
 				this(0, 0, 0, 0, true);
 			}
-
+	
 			public QuadTreeIterator(int ix, int iy, int ax, int ay){
 				this(ix, iy, ax, ay, false);
 			}
-
+	
 			// Wonder why they don't make all iterators iterable, so you can use the `for(.. : ..)` loop on iterator objects.
 			public Iterator<Map.Entry<Position, T>> iterator(){
 				return this;
 			}
-
+	
 			public boolean hasNext(){
 				if(!offerReady)
 					if(all)
@@ -56,7 +56,7 @@
 						readyNextRect();
 				return offer != null;
 			}
-
+	
 			@SuppressWarnings("unchecked")
 			public Map.Entry<Position, T> next(){
 				if(!hasNext())
@@ -65,11 +65,11 @@
 				offerReady = false;
 				return r;
 			}
-
+	
 			public void remove(){
 				throw new UnsupportedOperationException();
 			}
-
+	
 			private void readyNextRect(){
 				offerReady = true;
 				do{
@@ -91,11 +91,11 @@
 					}
 				}while(!acceptable(offer.x, offer.y));
 			}
-
+	
 			private boolean acceptable(int x, int y){
 				return x >= minx && y >= miny && x <= maxx && y <= maxy;
 			}
-
+	
 			private void readyNextAll(){
 				offerReady = true;
 				if(stack.empty())
@@ -108,15 +108,15 @@
 				}
 			}
 		};
-
+	
 		public void put(Position p, T v){
 			put(p.x(), p.y(), v);
 		}
-
+	
 		public void put(int x, int y, T v){
 			put(x, y, null, -1, root, new Node(x, y, v));
 		}
-
+	
 		private void put(int x, int y, Node from, int fromo, Node n, Node v){
 			if(n == null){
 				if(from == null)
@@ -132,15 +132,15 @@
 				put(x, y, n, i, n.children[i], v);
 			}
 		}
-
+	
 		public boolean remove(Position p, T v){
 			return remove(p.x(), p.y(), v);
 		}
-
+	
 		public boolean remove(int x, int y, T v){
 			return remove(x, y, null, -1, root, v);
 		}
-
+	
 		private boolean remove(int x, int y, Node from, int fromo, Node n, T v){
 			if(n == null)
 				return false;
@@ -159,7 +159,7 @@
 				i = y < n.y? 3 : 1;
 			return remove(x, y, n, i, n.children[i], v);
 		}
-
+	
 		// until I can figure out proper deletion
 		@SuppressWarnings("unchecked")
 		private void tmpIterateAdd(Node n){
@@ -169,7 +169,7 @@
 					tmpIterateAdd(m);
 				}
 		}
-
+	
 		public Iterable<Map.Entry<Position, T>> portion(Position min, Position max){
 			return new QuadTreeIterator(min.x(), min.y(), max.x(), max.y());
 		}
@@ -177,11 +177,11 @@
 		public Iterator<Map.Entry<Position, T>> iterator(){
 			return new QuadTreeIterator();
 		}
-
+	
 		public String toString(){
 			return "QuadTree(" + root + ")";
 		}
-
+	
 		public static void main(String[] argv){
 			QuadTree<Integer> qt = new QuadTree<Integer>();
 			Set<Map.Entry<Position, Integer>> test = new HashSet<Map.Entry<Position, Integer>>();
