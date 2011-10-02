@@ -32,12 +32,14 @@ public class Player extends AbstractGameThing {
 
 	private Location lastLocation;
 	private String renderer;
+	private int health;
 	private final String name;
 	private final static int WALKDELAY = 50;
 	private final static List<String> interactions;
 	static {
 		interactions = new LinkedList<String>();
 		interactions.add("follow");
+		interactions.add("attack");
 	}
 
 	public Player(GameWorld world, String renderer, String n, Location spawn){
@@ -47,6 +49,7 @@ public class Player extends AbstractGameThing {
 		world.setPlayer(n, this);
 		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
 		update();
+		this.health = 100;
 	}
 
 	public Player(GameWorld world, String renderer, String n){
@@ -90,6 +93,9 @@ public class Player extends AbstractGameThing {
 	public void interact(String name, Player who){
 		if(name.equals("follow"))
 			who.follow(this);
+		else if(name.equals("attack")){
+			who.attack(this);
+		}
 	}
 
 	public boolean moveTo(final Level.Location where, final int dist, final Runnable ondone, final boolean keepfollow){
@@ -105,6 +111,7 @@ public class Player extends AbstractGameThing {
 		*/
 		if(!keepfollow)
 			following = null;
+			attacking = null;
 		Location l = location();
 		if(l instanceof Level.Location){
 			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
@@ -168,8 +175,35 @@ public class Player extends AbstractGameThing {
 		g.track(tracker);
 		tracker.run();
 	}
+	
+	private GameThing attacking;
+	public void attack(final GameThing g){
+		attacking = g;
+		if(attacking == g){
+			if(((Level.Location)this.location()).dist((Level.Location) g.location()) <= 2){
+				world().schedule(new Runnable(){
+					public void run(){
+						damage(g, 10);
+					}
+				}, 500);
+			}
+			else{
+				world().schedule(new Runnable(){
+					public void run(){
+						moveTo(((Level.Location)g.location()), 1, null, true);
+					}
+				}, 500);
+			}
+		}
+	}
+	
+	public void damage(GameThing g, int amount){
+		((Player)g).health -= amount;
+		System.out.println(this.name() + " damages "+g.name() + " and his health is now " + ((Player)g).health);
+	}
 
 	public boolean moveTo(Level.Location where){
 		return moveTo(where, null);
 	}
+	
 }
