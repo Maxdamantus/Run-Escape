@@ -33,31 +33,63 @@ public class IsoRendererLibrary {
 	
 	public static final String EMPTY_TILE_NAME = "EMPTY_TILE";
 	
+	/**
+	 * A class that stores images/animations
+	 * 
+	 * @author melby
+	 *
+	 */
 	public static class RendererImage {
 		private int numFrames;
 		private BufferedImage[] frames;
 		
+		/**
+		 * Create a static image with a single frame
+		 * @param image
+		 */
 		public RendererImage(BufferedImage image) {
 			frames = new BufferedImage[]{image};
 			numFrames = 1;
 		}
 		
+		/**
+		 * get the single first image
+		 * @return
+		 */
 		public BufferedImage image() {
 			return frames[0];
 		}
 		
+		/**
+		 * Get a image for a frame at the given index
+		 * Wraps back to start if index out of bounds
+		 * @param index
+		 * @return
+		 */
 		public BufferedImage image(int index) {
 			return frames[index % numFrames];
 		}
 		
+		/**
+		 * The number of frames
+		 * @return
+		 */
 		public int frameCount() {
 			return numFrames;
 		}
 		
+		/**
+		 * The width of the image
+		 * @return
+		 */
 		public int width() {
 			return frames[0].getWidth();
 		}
 		
+		/**
+		 * The height of the image
+		 * @return
+		 */
 		public int height() {
 			return frames[0].getHeight();
 		}
