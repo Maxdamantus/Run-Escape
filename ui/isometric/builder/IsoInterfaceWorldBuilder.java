@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -146,6 +148,20 @@ public class IsoInterfaceWorldBuilder {
 				}
 			}
 		})));
+		canvas.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() == 'r') {
+					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
+				}
+			}
+		});
 		frame.setSize(300, 300);
 		frame.add(canvas);
 		
