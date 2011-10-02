@@ -15,10 +15,13 @@ public abstract class AbstractGameThing implements GameThing {
 	private List<Runnable> trackers = new LinkedList<Runnable>();
 
 	public AbstractGameThing(GameWorld w){
-		gid = w.introduce(this);
 		location = LocationS.NOWHERE;
 		world = w;
-		w.emitIntroduce(this);
+		if(world != null){
+			gid = w.introduce(this);
+			w.emitIntroduce(this);
+		}else
+			gid = 0;
 	}
 
 	private AbstractGameThing(GameWorld w, long g){
