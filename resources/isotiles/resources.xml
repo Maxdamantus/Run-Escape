@@ -680,4 +680,17 @@
       </i>
     </v>
   </i>
+  <i>
+    <k>spawn_point</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>spawn_point</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE1</v>
+      </i>
+    </v>
+  </i>
 </tree>

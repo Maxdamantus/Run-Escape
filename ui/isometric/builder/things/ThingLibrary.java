@@ -164,6 +164,30 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * A class that generates spawn points
+	 * @author melby
+	 *
+	 */
+	public static class SpawnPointCreator implements ThingCreator {
+		@Override
+		public GameThing createThing(GameWorld w) {
+			game.things.SpawnPoint spawn = new game.things.SpawnPoint();
+			IsoRendererLibrary.setLevelInArguments(spawn.userArguments(), IsoSquare.SPAWN_POINT);
+			return spawn;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("spawn_point", Direction.NORTH);
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("spawn_point");}};
+		}
+	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -234,6 +258,8 @@ public class ThingLibrary {
 				creators.add(new WallCreator("wall_brown_1_straight"));
 				
 				creators.add(new DoorCreator("wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+				
+				creators.add(new SpawnPointCreator());
 				
 				ThingCreatorChecker.check();
 			}
