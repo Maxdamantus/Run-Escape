@@ -80,12 +80,11 @@ public class Client implements ClientMessageHandler {
 	public Client(String host, int port, String uid, boolean debugMode) {
 		this.uid = uid;
 		this.debugMode = debugMode;
-		boolean debug = true;
 		try {
 
 			// creating socket and readers/writers
 			skt = new Socket(host, port);
-			if (debug)
+			if (debugMode)
 				System.out.println("connected to " + host + " on " + port);
 			in = new InputStreamReader(skt.getInputStream());
 			reader = new BufferedReader(in);

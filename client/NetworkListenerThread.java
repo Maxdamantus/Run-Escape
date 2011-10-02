@@ -51,11 +51,14 @@ public class NetworkListenerThread extends Thread {
 			// read from the reader continuously
 			while (true) {
 				String incoming = reader.readLine();
-				if (incoming == null) break;
+				
+				if (incoming == null) break;// indicates connection lost
+				
 				if (incoming.startsWith("log")) { // if message
 					String message = incoming.substring(4);
 					view.logMessage(message);
 					if (debugMode) System.out.println("Message: " + message);
+					
 				} else if (incoming.startsWith("upd")) { // if update
 					String update = Database.unescapeNewLines(incoming.substring(4));
 					if (debugMode) System.out.println("updated: " + update);
@@ -71,14 +74,10 @@ public class NetworkListenerThread extends Thread {
 					view.incomingChat(splitString[1], new Color(Integer.parseInt(splitString[0])));
 					
 
-				} else if (incoming.startsWith("svm")) { // if chat
+				} else if (incoming.startsWith("svm")) { // if server message
 					String chatString = incoming.substring(4);
 					view.incomingChat(chatString, Color.YELLOW);
 
-				}else { // not needed, but can be used for printing network
-							// debugging info
-					String other = incoming;
-					System.out.println(other);
 				}
 			}
 			Client.exit("Connection to server lost");
