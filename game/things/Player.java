@@ -113,7 +113,6 @@ public class Player extends AbstractGameThing {
 		*/
 		if(!keepfollow)
 			following = null;
-			attacking = null;
 		Location l = location();
 		if(l instanceof Level.Location){
 			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
@@ -181,22 +180,35 @@ public class Player extends AbstractGameThing {
 	private GameThing attacking;
 	public void attack(final GameThing g){
 		attacking = g;
-		if(attacking == g){
-			if(((Level.Location)this.location()).dist((Level.Location) g.location()) <= 2){
-				world().schedule(new Runnable(){
-					public void run(){
-						damage(g, 10);
+		final Player thisg = this;
+		tracker = new Thread(){
+			public void run(){
+				while(attacking == g){
+					if(((Level.Location)thisg.location()).dist((Level.Location) g.location()) <= 2){
+						world().schedule(new Runnable(){
+							public void run(){
+								damage(g, 10);
+							}
+						}, 500);
 					}
-				}, 500);
-			}
-			else{
-				world().schedule(new Runnable(){
-					public void run(){
-						moveTo(((Level.Location)g.location()), 1, null, true);
+					else{
+						world().schedule(new Runnable(){
+							public void run(){
+								thisg.moveTo(((Level.Location)g.location()), 1, null, true);
+							}
+						}, 500);
 					}
-				}, 500);
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-		}
+		};
+		g.track(tracker);
+		tracker.run();
 	}
 	
 	public void damage(GameThing g, int amount){
