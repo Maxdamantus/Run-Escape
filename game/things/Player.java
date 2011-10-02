@@ -24,7 +24,11 @@ public class Player extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				return new Player(world, in.find("type").value(), in.find("name").value());
+				Player p = new Player(world, in.find("type").value(), in.find("name").value());
+				SpawnPoint s = world.getSpawnPoint();
+				if(s != null)
+					s.location().put(p);
+				return p;
 			}
 		});
 	}

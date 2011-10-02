@@ -26,12 +26,12 @@ public class SpawnPoint extends AbstractGameThing {
 		});
 	}
 	
-	private SpawnPoint(){
+	public SpawnPoint(){
 		super(null);
 	}
 	
 	public String renderer(){
-		return "spawnpoint";
+		return "spawn_point";
 	}
 
 	public String name(){
