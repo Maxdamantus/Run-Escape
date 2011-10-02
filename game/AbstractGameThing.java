@@ -57,7 +57,8 @@ public abstract class AbstractGameThing implements GameThing {
 
 	public Location location(Location s){
 		location = s;
-		world.emitPut(this, s);
+		if(world != null)
+			world.emitPut(this, s);
 		List<Runnable> old = trackers;
 		trackers = new LinkedList<Runnable>();
 		for(Runnable r : old)
@@ -114,7 +115,8 @@ public abstract class AbstractGameThing implements GameThing {
 	}
 
 	public void forget(){
-		world.emitForget(this);
+		if(world != null)
+			world.emitForget(this);
 		forgotten = true;
 	}
 
@@ -123,7 +125,8 @@ public abstract class AbstractGameThing implements GameThing {
 	}
 
 	public void update(){
-		world.emitUpdate(this);
+		if(world != null)
+			world.emitUpdate(this);
 	}
 
 	public String toString(){

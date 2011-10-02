@@ -9,6 +9,7 @@ public class GameWorld {
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 	private final Set<DeltaWatcher> watchers = new HashSet<DeltaWatcher>();
 	private final Map<String, game.things.Player> players = new HashMap<String, game.things.Player>();
+	private final List<game.things.SpawnPoint> spawnpoints = new LinkedList<game.things.SpawnPoint>();
 
 	public static interface DeltaWatcher {
 		public void delta(WorldDelta d);
@@ -22,6 +23,16 @@ public class GameWorld {
 		if(!players.containsKey(name))
 			return new game.things.Player(this, "character_cordi_empty", name);
 		return players.get(name);
+	}
+
+	public void addSpawnPoint(game.things.SpawnPoint sp){
+		spawnpoints.add(sp);
+	}
+
+	public game.things.SpawnPoint getSpawnPoint(){
+		if(spawnpoints.size() == 0)
+			return null;
+		return spawnpoints.get((int)(Math.random()*spawnpoints.size()));
 	}
 
 	public GameThing thingWithGID(long gid){
