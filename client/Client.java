@@ -35,17 +35,22 @@ public class Client implements ClientMessageHandler {
 		String host = "localhost";
 		String uid = "";
 		int port = 32765;
-		//take command line server and info
+		// take command line server and info
 		if (args.length == 3) {
 			host = args[0];
 			port = Integer.parseInt(args[1]);
 			uid = args[2];
 		} else { // user input dialogs to get server and player information
-			String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
-			if (server == null) System.exit(0); //closes if cancel is pressed
-			uid = JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
-			if (uid == null) System.exit(0);//closes if cancel is pressed
-			if (uid.equals("")) uid = "Player"+(int)(Math.random()*1000);
+			String server = JOptionPane
+					.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
+			if (server == null)
+				System.exit(0); // closes if cancel is pressed
+			uid = JOptionPane
+					.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
+			if (uid == null)
+				System.exit(0);// closes if cancel is pressed
+			if (uid.equals(""))
+				uid = "Player" + (int) (Math.random() * 1000);
 			if (server.length() > 0) {
 				String[] split = server.split(":");
 				host = split[0];
@@ -82,10 +87,10 @@ public class Client implements ClientMessageHandler {
 			reader = new BufferedReader(in);
 			out = new OutputStreamWriter(skt.getOutputStream());
 			writer = new BufferedWriter(out);
-			
-			//creating GUI
+
+			// creating GUI
 			view = new IsoInterface("IsoTest", world, this);
-			UpdateThread updater = new UpdateThread(reader, view, world);
+			NetworkListenerThread updater = new NetworkListenerThread(reader, view, world);
 
 			// sending name
 			writer.write("uid " + uid + "\n");
@@ -93,7 +98,7 @@ public class Client implements ClientMessageHandler {
 			writer.flush();
 
 			// showing GUI
-			
+
 			view.show();
 
 		} catch (UnknownHostException e) {
@@ -106,8 +111,12 @@ public class Client implements ClientMessageHandler {
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = "cmg " + Database.escapeNewLines(Database.treeToString(ClientMessage.serializer(world, 0).write(message))) +"\n";
-			if (debugMode) System.out.print("Sent: " + send);
+			String send = "cmg "
+					+ Database.escapeNewLines(Database
+							.treeToString(ClientMessage.serializer(world, 0)
+									.write(message))) + "\n";
+			if (debugMode)
+				System.out.print("Sent: " + send);
 			writer.write(send);
 			writer.flush();
 		} catch (IOException e) {
@@ -115,19 +124,30 @@ public class Client implements ClientMessageHandler {
 		}
 
 	}
-	
+
+
 	public void sendChat(String chatText) {
 		try {
-			if (debugMode) System.out.print("Sent chat: " + chatText);
-			if (chatText.startsWith("/me")) chatText = "*" + uid + " " + chatText.substring(4); 
-			else chatText = uid + ": " + chatText; 
+			if (debugMode)
+				System.out.print("Sent chat: " + chatText);
+			if (chatText.startsWith("/me"))
+				chatText = "*" + uid + " " + chatText.substring(4);
+			else
+				chatText = uid + ": " + chatText;
 			writer.write("cts " + chatText + "\n");
 			writer.flush();
 		} catch (IOException e) {
 			Client.exit("Connection to server lost");
 		}
 	}
-	
+
+
+	/**
+	 * Exits the application with a Message Dialog explaining what happened
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
 	public static void exit(String message) {
 		System.out.println(message);
 		System.out.flush();

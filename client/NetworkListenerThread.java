@@ -17,12 +17,12 @@ import serialization.Tree;
 import ui.isometric.IsoInterface;
 
 /**
- * Handles all game state updates
+ * Handles all incoming network data
  * 
  * @author greenwthom
  * 
  */
-public class UpdateThread extends Thread {
+public class NetworkListenerThread extends Thread {
 	private BufferedReader reader;
 	private IsoInterface view;
 	private GameWorld world;
@@ -37,7 +37,7 @@ public class UpdateThread extends Thread {
 	 * @param world
 	 *            World to apply updates to.
 	 */
-	public UpdateThread(BufferedReader reader, IsoInterface view, GameWorld world) {
+	public NetworkListenerThread(BufferedReader reader, IsoInterface view, GameWorld world) {
 		this.reader = reader;
 		this.view = view;
 		this.world = world;
@@ -52,7 +52,7 @@ public class UpdateThread extends Thread {
 			while (true) {
 				String incoming = reader.readLine();
 				if (incoming == null) break;
-				if (incoming.startsWith("msg")) { // if message
+				if (incoming.startsWith("log")) { // if message
 					String message = incoming.substring(4);
 					view.logMessage(message);
 					if (debugMode) System.out.println("Message: " + message);
