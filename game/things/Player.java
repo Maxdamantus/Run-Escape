@@ -111,8 +111,10 @@ public class Player extends AbstractGameThing {
 			ondone.run();
 		return true;
 		*/
-		if(!keepfollow)
+		if(!keepfollow){
 			following = null;
+			attacking = null;
+		}
 		Location l = location();
 		if(l instanceof Level.Location){
 			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
@@ -162,7 +164,7 @@ public class Player extends AbstractGameThing {
 	private GameThing following;
 	// Mm .. can't go: final Runnable tracker = .. and have it reference itself.
 	private Runnable tracker;
-	public void follow(final GameThing g){
+	public void follow(final GameThing g, final int dist){
 		following = g;
 		tracker = new Runnable(){
 			public void run(){
@@ -176,39 +178,49 @@ public class Player extends AbstractGameThing {
 		g.track(tracker);
 		tracker.run();
 	}
-	
+
+	public void follow(GameThing g){
+		follow(g, 0);
+	}
+
 	private GameThing attacking;
+	private Runnable attacker;
 	public void attack(final GameThing g){
 		attacking = g;
-		final Player thisg = this;
-		tracker = new Thread(){
+		attacker = new Runnable(){
 			public void run(){
-				while(attacking == g){
-					if(((Level.Location)thisg.location()).dist((Level.Location) g.location()) <= 2){
-						world().schedule(new Runnable(){
-							public void run(){
-								damage(g, 10);
-							}
-						}, 500);
+				if(attacking == g){
+					Location l = g.location();
+					if(l instanceof Level.Location){
+						Location ml = location();
+						if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
+							damage(g, 10);
+						}
 					}
-					else{
-						world().schedule(new Runnable(){
-							public void run(){
-								thisg.moveTo(((Level.Location)g.location()), 1, null, true);
-							}
-						}, 500);
-					}
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					world().schedule(attacker, 500);
 				}
 			}
 		};
-		g.track(tracker);
-		tracker.run();
+		follow(g, 2);
+		attacker.run();
+		/*
+		if(attacking == g){
+			if(((Level.Location)this.location()).dist((Level.Location) g.location()) <= 2){
+				world().schedule(new Runnable(){
+					public void run(){
+						damage(g, 10);
+					}
+				}, 500);
+			}
+			else{
+				world().schedule(new Runnable(){
+					public void run(){
+						moveTo(((Level.Location)g.location()), 1, null, true);
+					}
+				}, 500);
+			}
+		}
+		*/
 	}
 	
 	public void damage(GameThing g, int amount){
