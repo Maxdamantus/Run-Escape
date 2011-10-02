@@ -14,6 +14,7 @@ import java.net.*;
 
 import data.Database;
 
+import serialization.Serializers;
 import serialization.Tree;
 import util.*;
 
@@ -68,7 +69,7 @@ public final class ServerThread {
 						else if(temp.startsWith("cmg")){
 							String action = temp.substring(4);
 							action = Database.unescapeNewLines(action);
-							ClientMessage msg = ClientMessage.serializer(parent.model, parent.usrGID).read(Tree.fromString(action));
+							ClientMessage msg = new Serializers.Nullable<ClientMessage>(ClientMessage.serializer(parent.model, parent.usrGID)).read(Tree.fromString(action));
 							msg.apply(parent.model);
 						}
 						else if(temp.startsWith("cts")) {
