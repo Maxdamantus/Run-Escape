@@ -27,11 +27,41 @@ public class IsoRendererLibrary {
 	public static final String RENDERER_ISOMETRIC = "renderer.isometric";
 	public static final String RENDERER_ISOMETRIC_LEVEL = "level";
 	
-	private static Map<String, Map<Direction, BufferedImage>> renderers = null;
+	private static Map<String, Map<Direction, RendererImage>> renderers = null;
 	private static Map<String, Integer> offsets = null;
 	private static BufferedImage emptyTile;
 	
 	public static final String EMPTY_TILE_NAME = "EMPTY_TILE";
+	
+	public static class RendererImage {
+		private int numFrames;
+		private BufferedImage[] frames;
+		
+		public RendererImage(BufferedImage image) {
+			frames = new BufferedImage[]{image};
+			numFrames = 1;
+		}
+		
+		public BufferedImage image() {
+			return frames[0];
+		}
+		
+		public BufferedImage image(int index) {
+			return frames[index % numFrames];
+		}
+		
+		public int frameCount() {
+			return numFrames;
+		}
+		
+		public int width() {
+			return frames[0].getWidth();
+		}
+		
+		public int height() {
+			return frames[0].getHeight();
+		}
+	}
 	
 	/**
 	 * A class used for reading and writing image info to disk
@@ -126,7 +156,7 @@ public class IsoRendererLibrary {
 		 * the image name and type
 		 * @return
 		 */
-		public Map<Direction, BufferedImage> load() {
+		public Map<Direction, RendererImage> load() {
 			switch(type) {
 				case IMAGE1:
 					return loadImage1(imageName);
@@ -152,7 +182,7 @@ public class IsoRendererLibrary {
 	 * Get the renderers, if null create them
 	 * @return
 	 */
-	private static Map<String, Map<Direction, BufferedImage>> renderers() {
+	private static Map<String, Map<Direction, RendererImage>> renderers() {
 		synchronized(IsoRendererLibrary.class) {
 			if(renderers == null) {
 				loadImages();
@@ -182,7 +212,7 @@ public class IsoRendererLibrary {
 	private static void loadImages() {
 		synchronized(IsoRendererLibrary.class) {
 			if(renderers == null) {
-				renderers = new HashMap<String, Map<Direction, BufferedImage>>();
+				renderers = new HashMap<String, Map<Direction, RendererImage>>();
 				offsets = new HashMap<String, Integer>();
 				
 				
@@ -200,7 +230,7 @@ public class IsoRendererLibrary {
 					offsets.put(key, types.get(key).yoffset());
 				}
 				
-				emptyTile = imageForRendererName(EMPTY_TILE_NAME, Direction.NORTH);
+				emptyTile = imageForRendererName(EMPTY_TILE_NAME, Direction.NORTH).image();
 			}
 		}
 	}
@@ -211,12 +241,12 @@ public class IsoRendererLibrary {
 	 * @param resourceName
 	 * @return
 	 */
-	private static Map<Direction, BufferedImage> loadImage1(String resourceName) {
-		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
+	private static Map<Direction, RendererImage> loadImage1(String resourceName) {
+		Map<Direction, RendererImage> map = new HashMap<Direction, RendererImage>();
 		
-		BufferedImage image = null;
 		try {
-			image = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+".png");
+			RendererImage image = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+".png"));
+			
 			map.put(Direction.NORTH, image);
 			map.put(Direction.EAST, image);
 			map.put(Direction.WEST, image);
@@ -233,14 +263,14 @@ public class IsoRendererLibrary {
 	 * @param resourceName
 	 * @return
 	 */
-	private static Map<Direction, BufferedImage> loadImage4(String resourceName) {
-		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
+	private static Map<Direction, RendererImage> loadImage4(String resourceName) {
+		Map<Direction, RendererImage> map = new HashMap<Direction, RendererImage>();
 		
 		try {
-			map.put(Direction.NORTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_n.png"));
-			map.put(Direction.EAST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png"));
-			map.put(Direction.WEST, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png"));
-			map.put(Direction.SOUTH, Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png"));
+			map.put(Direction.NORTH, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_n.png")));
+			map.put(Direction.EAST, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_e.png")));
+			map.put(Direction.WEST, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_w.png")));
+			map.put(Direction.SOUTH, new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_s.png")));
 		} catch (IOException e) {
 			System.err.println("Unable to load image4: " + resourceName);
 		}
@@ -254,13 +284,12 @@ public class IsoRendererLibrary {
 	 * @param resourceName
 	 * @return
 	 */
-	private static Map<Direction, BufferedImage> loadImage2(String resourceName) {
-		Map<Direction, BufferedImage> map = new HashMap<Direction, BufferedImage>();
+	private static Map<Direction, RendererImage> loadImage2(String resourceName) {
+		Map<Direction, RendererImage> map = new HashMap<Direction, RendererImage>();
 		
-		BufferedImage ns;
 		try {
-			ns = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png");
-			BufferedImage ew = Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png");
+			RendererImage ns = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ns.png"));
+			RendererImage ew = new RendererImage(Resources.readImageResourceUnfliped("/resources/isotiles/"+resourceName+"_ew.png"));
 			
 			map.put(Direction.NORTH, ns);
 			map.put(Direction.EAST, ew);
@@ -279,8 +308,8 @@ public class IsoRendererLibrary {
 	 * @param viewDirection
 	 * @return
 	 */
-	public static BufferedImage imageForRendererName(String rendererName, Direction viewDirection) {
-		Map<Direction, BufferedImage> renderer = renderers().get(rendererName);
+	public static RendererImage imageForRendererName(String rendererName, Direction viewDirection) {
+		Map<Direction, RendererImage> renderer = renderers().get(rendererName);
 		if(renderer != null) {
 			return renderer.get(viewDirection);
 		}

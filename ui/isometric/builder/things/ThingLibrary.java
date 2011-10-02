@@ -47,7 +47,7 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH);
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
 		}
 		
 		@Override
@@ -81,7 +81,7 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH);
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
 		}
 		
 		@Override
@@ -115,7 +115,7 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH);
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
 		}
 		
 		@Override
@@ -155,7 +155,7 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName(open?openR:closedR, Direction.NORTH);
+			return IsoRendererLibrary.imageForRendererName(open?openR:closedR, Direction.NORTH).image();
 		}
 		
 		@Override
@@ -179,7 +179,7 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("spawn_point", Direction.NORTH);
+			return IsoRendererLibrary.imageForRendererName("spawn_point", Direction.NORTH).image();
 		}
 		
 		@Override

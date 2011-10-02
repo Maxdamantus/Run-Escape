@@ -1,11 +1,10 @@
 package ui.isometric;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import game.GameThing;
 
-import util.*;
+import ui.isometric.IsoRendererLibrary.RendererImage;
 
 /**
  * 
@@ -15,36 +14,20 @@ import util.*;
  *
  */
 public class IsoImage {
-	private BufferedImage image;
+	private RendererImage image;
 	private GameThing gameThing = null;
 	private IsoSquare square;
 	private int yoffset = 0;
-	
-	/**
-	 * Create an IsoImage with a given resource path and square that it is on
-	 * @param path
-	 * @param square
-	 * @param name
-	 */
-	public IsoImage(String path, IsoSquare square) {		
-		try {
-			this.image = Resources.readImageResourceUnfliped(path);
-		} catch (IOException e) {
-			System.err.println("Unable to load: " + path);
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
 
 	/**
 	 * Create an IsoImage with an existing image, square it is on and y-offset
-	 * @param image
+	 * @param rendererImage
 	 * @param square
 	 * @param yoff
 	 */
-	public IsoImage(BufferedImage image, IsoSquare square, int yoff) {
+	public IsoImage(RendererImage rendererImage, IsoSquare square, int yoff) {
 		this.square = square;
-		this.image = image;
+		this.image = rendererImage;
 		this.yoffset = yoff;
 	}
 
@@ -53,7 +36,7 @@ public class IsoImage {
 	 * @return
 	 */
 	public BufferedImage image() {
-		return image;
+		return image.image();
 	}
 	
 	/**
@@ -61,7 +44,7 @@ public class IsoImage {
 	 * @return
 	 */
 	public int width() {
-		return image.getWidth();
+		return image.width();
 	}
 	
 	/**
@@ -69,7 +52,7 @@ public class IsoImage {
 	 * @return
 	 */
 	public int height() {
-		return image.getHeight();
+		return image.height();
 	}
 
 	/**
