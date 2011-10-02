@@ -20,15 +20,17 @@ public class Player extends AbstractGameThing {
 				Tree out = new Tree();
 				out.add(new Tree.Entry("type", new Tree(in.renderer)));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
+				out.add(new Tree.Entry("location", LocationS.s(null).write(in.lastLocation == null? in.location() : in.lastLocation)));
 				return out;
 			}
 
 			public GameThing read(Tree in){
-				return new Player(world, in.find("type").value(), in.find("name").value());
+				return new Player(world, in.find("type").value(), in.find("name").value(), LocationS.s(world).read(in.find("location")));
 			}
 		});
 	}
 
+	private Location lastLocation;
 	private String renderer;
 	private final String name;
 	private final static int WALKDELAY = 50;
@@ -38,13 +40,12 @@ public class Player extends AbstractGameThing {
 		interactions.add("follow");
 	}
 
-	public Player(GameWorld world, String renderer, String n, SpawnPoint p){
+	public Player(GameWorld world, String renderer, String n, Location spawn){
 		super(world);
 		this.renderer = renderer;
 		name = n;
 		world.setPlayer(n, this);
-		if(p != null)
-			p.location().put(this);
+		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
 		update();
 	}
 
@@ -58,6 +59,16 @@ public class Player extends AbstractGameThing {
 
 	public Player(GameWorld world, String renderer){
 		this(world, renderer, "<insert name here>");
+	}
+
+	public void logout(){
+		lastLocation = location();
+		LocationS.NOWHERE.put(this);
+	}
+
+	public void login(){
+		lastLocation.put(this);
+		lastLocation = null;
 	}
 
 	public String renderer(){
