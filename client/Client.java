@@ -1,7 +1,9 @@
 package client;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -29,6 +31,7 @@ public class Client implements ClientMessageHandler {
 	private IsoInterface view;
 	private GameWorld world = new GameWorld();
 	private boolean debugMode;
+	private Color chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
 
 	public static void main(String[] args) {
 		boolean debugMode = false;
@@ -132,9 +135,37 @@ public class Client implements ClientMessageHandler {
 				System.out.print("Sent chat: " + chatText);
 			if (chatText.startsWith("/me"))
 				chatText = "*" + uid + " " + chatText.substring(4);
+			else if (chatText.startsWith("/color")) {
+				Color newColor = null;
+				if (chatText.substring(7).startsWith("#")) 
+						newColor = Color.decode("0x"+chatText.substring(8));
+				else {
+					//code from http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
+					Field field;
+					try {
+						field = Class.forName("java.awt.Color").getField(chatText.substring(7));
+						int rgb = ((Color)field.get(null)).getRGB();
+						newColor = new Color(rgb);
+					} catch (NoSuchFieldException e) {
+						view.incomingChat("GAME: Color not found", Color.RED);
+					} catch (Exception e) {
+						if (debugMode) {
+							System.err.println("That's what you get for using reflection");
+							e.printStackTrace();
+						}
+					}
+					
+				}
+				System.out.println(chatText.substring(7));
+				System.out.println(newColor.toString());
+				if (newColor != null) chatTextColor = newColor;
+				return;
+			}
 			else
 				chatText = uid + ": " + chatText;
-			writer.write("cts " + chatText + "\n");
+			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
+			System.out.print(send);
+			writer.write(send);
 			writer.flush();
 		} catch (IOException e) {
 			Client.exit("Connection to server lost");
@@ -154,5 +185,7 @@ public class Client implements ClientMessageHandler {
 		JOptionPane.showMessageDialog(null, message);
 		System.exit(0);
 	}
+	
+	
 
 }
