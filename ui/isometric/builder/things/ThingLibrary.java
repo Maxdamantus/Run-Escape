@@ -186,16 +186,16 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_grey_red_dots_1"));
 				creators.add(new GroundCreator("ground_grey_greenish_1"));
 				creators.add(new GroundCreator("ground_grey_greenish_2"));
-				creators.add(new GroundCreator("ground_grey_pool_1"));
-				creators.add(new GroundCreator("ground_grey_pools_1"));
-				creators.add(new GroundCreator("ground_grey_pools_2"));
-				creators.add(new GroundCreator("ground_grey_rock_1"));
-				creators.add(new GroundCreator("ground_grey_rock_2"));
-				creators.add(new GroundCreator("ground_grey_rock_3"));
+				creators.add(new GroundCreator("ground_grey_pool_1", true));
+				creators.add(new GroundCreator("ground_grey_pools_1", true));
+				creators.add(new GroundCreator("ground_grey_pools_2", true));
+				creators.add(new GroundCreator("ground_grey_rock_1", true));
+				creators.add(new GroundCreator("ground_grey_rock_2", true));
+				creators.add(new GroundCreator("ground_grey_rock_3", true));
 				creators.add(new GroundCreator("ground_grey_stones_1"));
-				creators.add(new GroundCreator("ground_grey_spikes_1"));
-				creators.add(new GroundCreator("ground_grey_spikes_2"));
-				creators.add(new GroundCreator("ground_grey_spikes_3"));
+				creators.add(new GroundCreator("ground_grey_spikes_1", true));
+				creators.add(new GroundCreator("ground_grey_spikes_2", true));
+				creators.add(new GroundCreator("ground_grey_spikes_3", true));
 				
 				creators.add(new GroundCreator("ground_grey_water_corner", true));
 				creators.add(new GroundCreator("ground_grey_water_two_sides", true));
