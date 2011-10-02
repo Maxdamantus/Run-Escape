@@ -219,15 +219,19 @@ public class Server{
 		// make a spiral instead
 		int width = 20;
 		game.Level.Location ll = sgm.level(0).location(new Position(0, 0), Direction.NORTH);
-		ll.put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+		for(int x = -width/2; x < width/2; x++)
+			for(int y = -width/2; y < width/2; y++)
+				sgm.level(0).location(new Position(x, y + 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_1"));
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
-				ll.put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides", true));
+				String name = ll.position().equals(new Position(0, 2))? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
+				ll.rotate(ll.position().equals(new Position(0, 2))? Direction.NORTH : Direction.EAST).put(new game.things.Wall(sgm, name));
 				ll = ll.next(ll.direction());
 			}
 			ll = ll.rotate(Direction.WEST);
 		}
-		
+		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+
 		return sgm;
 	}
 	
