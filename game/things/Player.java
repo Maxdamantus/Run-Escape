@@ -24,11 +24,7 @@ public class Player extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				Player p = new Player(world, in.find("type").value(), in.find("name").value());
-				SpawnPoint s = world.getSpawnPoint();
-				if(s != null)
-					s.location().put(p);
-				return p;
+				return new Player(world, in.find("type").value(), in.find("name").value());
 			}
 		});
 	}
@@ -42,12 +38,18 @@ public class Player extends AbstractGameThing {
 		interactions.add("follow");
 	}
 
-	public Player(GameWorld world, String renderer, String n){
+	public Player(GameWorld world, String renderer, String n, SpawnPoint p){
 		super(world);
 		this.renderer = renderer;
 		name = n;
 		world.setPlayer(n, this);
+		if(p != null)
+			p.location().put(this);
 		update();
+	}
+
+	public Player(GameWorld world, String renderer, String n){
+		this(world, renderer, n, null);
 	}
 
 	public Player(GameWorld world){
