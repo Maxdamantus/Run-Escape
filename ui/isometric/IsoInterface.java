@@ -85,7 +85,9 @@ public class IsoInterface implements PlayerMessage {
 						popup.show(canvas, event.getPoint().x, event.getPoint().y);
 					}
 					else {
-						isoInterface.performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
+						if (i.gameThing().defaultInteraction() != null) {
+							isoInterface.performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
+						}
 					}
 				}
 			}
