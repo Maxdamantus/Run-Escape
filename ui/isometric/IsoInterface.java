@@ -35,6 +35,7 @@ public class IsoInterface implements PlayerMessage {
 	private ClientMessageHandler logic;
 	
 	private ChatRenderer chatRenderer;
+	private QuickBarRenderer quickBarRenderer;
 	
 	/**
 	 * Create a interface with a given GameModel and ClientMessageHandler
@@ -47,6 +48,7 @@ public class IsoInterface implements PlayerMessage {
 		this.logic = logic;
 		
 		chatRenderer = new ChatRenderer();
+		quickBarRenderer = new QuickBarRenderer();
 		
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,6 +137,7 @@ public class IsoInterface implements PlayerMessage {
 			}
 		});
 		canvas.addLayerRenderer(chatRenderer);
+		canvas.addLayerRenderer(quickBarRenderer);
 		frame.setSize(300, 300);
 		frame.add(canvas);
 	}

@@ -48,7 +48,7 @@ public class ChatRenderer implements UILayerRenderer {
 	
 	@Override
 	public int level() {
-		return 10;
+		return 100;
 	}
 
 	@Override

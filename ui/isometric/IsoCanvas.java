@@ -372,6 +372,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			for(int n = 0; n < extraRenderers.size(); n++) {
 				if(extraRenderers.get(n).level() > renderer.level()) {
 					extraRenderers.add(n, renderer);
+					break;
 				}
 			}
 		}
