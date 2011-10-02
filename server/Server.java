@@ -72,7 +72,7 @@ public class Server{
 			model = defaultworld();
 		}
 
-		IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", model, new ClientMessageHandlerMock());
+		IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("Server", model, new ClientMessageHandlerMock());
 		view.show();
 		runServer(port,model);	
 		System.exit(0);
