@@ -147,7 +147,7 @@ public class Client implements ClientMessageHandler {
 						int rgb = ((Color)field.get(null)).getRGB();
 						newColor = new Color(rgb);
 					} catch (NoSuchFieldException e) {
-						view.incomingChat("GAME: Color not found", Color.RED);
+						view.incomingChat("GAME: Color \"" + chatText.substring(7) + "\" not found", Color.RED);
 					} catch (Exception e) {
 						if (debugMode) {
 							System.err.println("That's what you get for using reflection");
@@ -156,15 +156,13 @@ public class Client implements ClientMessageHandler {
 					}
 					
 				}
-				System.out.println(chatText.substring(7));
-				System.out.println(newColor.toString());
 				if (newColor != null) chatTextColor = newColor;
 				return;
-			}
-			else
+			} else if (chatText.startsWith("/resetcolor")) {
+				chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
+			} else
 				chatText = uid + ": " + chatText;
 			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
-			System.out.print(send);
 			writer.write(send);
 			writer.flush();
 		} catch (IOException e) {

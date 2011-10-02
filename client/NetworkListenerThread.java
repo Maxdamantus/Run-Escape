@@ -69,8 +69,6 @@ public class NetworkListenerThread extends Thread {
 					String chatString = incoming.substring(4);
 					String[] splitString = chatString.split("::::");
 					view.incomingChat(splitString[1], new Color(Integer.parseInt(splitString[0])));
-					System.out.println(splitString[0]);
-					System.out.println(splitString[1]);
 					
 
 				} else if (incoming.startsWith("svm")) { // if chat
