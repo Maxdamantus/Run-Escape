@@ -3,6 +3,8 @@ package game;
 import java.util.*;
 
 import serialization.*;
+import ui.isometric.IsoRendererLibrary;
+import ui.isometric.IsoSquare;
 
 public class GameWorld {
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
@@ -20,8 +22,11 @@ public class GameWorld {
 	}
 
 	public game.things.Player getPlayer(String name){
-		if(!players.containsKey(name))
-			return new game.things.Player(this, "character_cordi_empty", name);
+		if(!players.containsKey(name)){
+			game.things.Player newP = new game.things.Player(this, "character_cordi_empty", name);
+			IsoRendererLibrary.setLevelInArguments(newP.userArguments(), IsoSquare.PLAYER);
+			return newP;
+		}
 		return players.get(name);
 	}
 
