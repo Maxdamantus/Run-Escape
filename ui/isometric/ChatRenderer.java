@@ -26,7 +26,17 @@ public class ChatRenderer implements UILayerRenderer {
 	private int originX = 10;
 	private int originY = 10;
 	
-	private LinkedList<String> log = new LinkedList<String>();
+	private static class Message {
+		private String message;
+		private Color color;
+		
+		private Message(String mes, Color col) {
+			message = mes;
+			color = col;
+		}
+	}
+	
+	private LinkedList<Message> log = new LinkedList<Message>();
 	
 	public ChatRenderer() {
 		try {
@@ -43,9 +53,8 @@ public class ChatRenderer implements UILayerRenderer {
 
 	@Override
 	public void render(Graphics g, IsoCanvas into) {
-		g.setColor(Color.WHITE);
-		
 		if(visible) {
+			g.setColor(Color.WHITE);
 			g.drawImage(chatBoxImage, originX, into.getHeight()-originY-chatBoxImage.getHeight(null), originX+chatBoxImage.getWidth(null), into.getHeight()-originY, 0, 0, chatBoxImage.getWidth(null), chatBoxImage.getHeight(null), null);
 			TextHelper.drawStringScrolling(g, message, originX+10, into.getHeight()-originY-9, chatBoxImage.getWidth(null)-20);
 		}
@@ -53,9 +62,10 @@ public class ChatRenderer implements UILayerRenderer {
 		int messagePosition = into.getHeight()-originY-chatBoxImage.getHeight(null)-10;
 		int index = 0;
 		while(messagePosition > 0 && index < log.size()) {
-			String nextMessage = log.get(index);
+			Message nextMessage = log.get(index);
+			g.setColor(nextMessage.color);
 			index++;
-			messagePosition -= TextHelper.drawStringMultiLineUp(g, nextMessage, originX, messagePosition, 0, chatBoxImage.getWidth(null)) + 5;
+			messagePosition -= TextHelper.drawStringMultiLineUp(g, nextMessage.message, originX, messagePosition, 0, chatBoxImage.getWidth(null)) + 5;
 		}
 	}
 	
@@ -90,9 +100,10 @@ public class ChatRenderer implements UILayerRenderer {
 	/**
 	 * Add a message to the chat log
 	 * @param message
+	 * @param color
 	 */
-	public void logMessage(String message) { // TODO: different types of messages, colors?
-		log.add(0, message);
+	public void logMessage(String message, Color color) {
+		log.add(0, new Message(message, color));
 		while(log.size() > 100) {
 			log.removeLast();
 		}

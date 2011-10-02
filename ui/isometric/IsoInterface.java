@@ -1,5 +1,6 @@
 package ui.isometric;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -166,8 +167,8 @@ public class IsoInterface implements PlayerMessage {
 	 * An incoming chat message from a player via the server
 	 * @param message
 	 */
-	public void incomingChat(String message) {
-		chatRenderer.logMessage(message);
+	public void incomingChat(String message, Color color) {
+		chatRenderer.logMessage(message, color);
 	}
 	
 	/**
