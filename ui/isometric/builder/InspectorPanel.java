@@ -33,7 +33,7 @@ public class InspectorPanel extends JFrame {
 	 * Register for updates to the world
 	 * @param r
 	 */
-	public static void registerForUpdates(Runnable r) { // TODO: methods on world?
+	public static void registerForUpdates(Runnable r) { // TODO: use world deltas
 		updaters.add(r);
 	}
 	
@@ -51,6 +51,8 @@ public class InspectorPanel extends JFrame {
 	 * @param builder
 	 */
 	public InspectorPanel(final IsoInterfaceWorldBuilder builder) {
+		super(builder.frameName()+" - Inspector");
+		
 		this.builder = builder;
 		
 		registerForUpdates(new Runnable() {

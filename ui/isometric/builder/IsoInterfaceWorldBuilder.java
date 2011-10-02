@@ -48,6 +48,7 @@ public class IsoInterfaceWorldBuilder {
 	private JFrame frame;
 	private InspectorPanel inspector;
 	private LibraryFrame library;
+	private String frameName;
 	
 	private IsoCanvas canvas;
 	
@@ -64,6 +65,7 @@ public class IsoInterfaceWorldBuilder {
 	 */
 	public IsoInterfaceWorldBuilder(String name, final GameWorld world, ClientMessageHandler logic) {
 		this.world = world;
+		this.frameName = name;
 		
 		JMenuBar bar = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -153,7 +155,7 @@ public class IsoInterfaceWorldBuilder {
 		inspector.getContentPane().add(Box.createVerticalGlue());
 		inspector.validate();
 		
-		library = new LibraryFrame();
+		library = new LibraryFrame(this);
 		library.setSize(200, 400);
 	}
 	
@@ -240,5 +242,13 @@ public class IsoInterfaceWorldBuilder {
 		}
 		
 		world.fromTree(Database.xmlToTree(loaded));
+	}
+	
+	/**
+	 * Get the name of the frame
+	 * @return
+	 */
+	public String frameName() {
+		return frameName;
 	}
 }

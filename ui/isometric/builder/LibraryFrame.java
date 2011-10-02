@@ -25,9 +25,12 @@ public class LibraryFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Create a LibraryFrame with the default GameThings
+	 * Create a LibraryFrame with the default GameThings and IsoInterfaceWorldBuilder
+	 * @param builder
 	 */
-	public LibraryFrame() { // TODO: categories
+	public LibraryFrame(IsoInterfaceWorldBuilder builder) { // TODO: categories
+		super(builder.frameName()+" - Image Library");
+		
 		int cols = 10;
 		int rows = IsoRendererLibrary.allRendererNames().size()/cols;
 		
