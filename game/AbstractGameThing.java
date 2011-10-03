@@ -123,6 +123,11 @@ public abstract class AbstractGameThing implements GameThing {
 		forgotten = true;
 	}
 
+	public void animate(String name){
+		if(world != null)
+			world.emitAnimate(this, name);
+	}
+
 	public GameWorld world(){
 		return world;
 	}
