@@ -52,8 +52,10 @@ public class IsoInterface implements PlayerMessage {
 		
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		IsoDataSource d = new IsoGameModelDataSource(this.model);
-		canvas = new IsoCanvas(d);
+		
+		IsoDataSource dataSource = new IsoGameModelDataSource(this.model);
+		
+		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
 			public void selected(final IsoImage i, final Location l, MouseEvent event) {
@@ -138,6 +140,7 @@ public class IsoInterface implements PlayerMessage {
 		});
 		canvas.addLayerRenderer(chatRenderer);
 		canvas.addLayerRenderer(quickBarRenderer);
+		
 		frame.setSize(300, 300);
 		frame.add(canvas);
 	}

@@ -502,6 +502,27 @@ public class IsoRendererLibrary {
 		
 		return tmp;
 	}
+	
+	/**
+	 * Get a new IsoImage representing a given Animation
+	 * @param square
+	 * @param thing
+	 * @param viewDirection
+	 * @param rendererName
+	 * @param animationFrame
+	 * @return
+	 */
+	public static IsoImage newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection, String rendererName, int animationFrame) {
+		IsoImage tmp = null;
+		
+		Location l = thing.location();
+		if(l instanceof Level.Location) {
+			tmp = new IsoAnimatedImage(imageForRendererName(rendererName, ((Level.Location)l).direction().compose(viewDirection)), square, offsetForRendererName(thing.renderer()), animationFrame);
+			tmp.setGameThing(thing);
+		}
+		
+		return tmp;
+	}
 
 	/**
 	 * Get all the renderers supported

@@ -47,7 +47,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private Point selectionPoint = new Point(0, 0);
 	private UILayerRenderer selectedRenderer;
 	
-	private static final double fps = 20;
+	public static final double FPS = 20;
 	
 	private List<UILayerRenderer> extraRenderers = new ArrayList<UILayerRenderer>();
 	
@@ -126,7 +126,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 				while(true) {
 					repaint();
 					try {
-						Thread.sleep((long) (1000/fps));
+						Thread.sleep((long) (1000/FPS));
 					} catch (InterruptedException e) { }
 				}
 			}

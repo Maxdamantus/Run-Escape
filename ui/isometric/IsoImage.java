@@ -36,7 +36,7 @@ public class IsoImage {
 	 * @return
 	 */
 	public BufferedImage image() {
-		return image.image((int) (Math.random()*100));
+		return image.image();
 	}
 	
 	/**
@@ -85,5 +85,13 @@ public class IsoImage {
 	 */
 	public int yoffset() {
 		return yoffset;
+	}
+	
+	/**
+	 * Get the RendererImage that backs this IsoImage
+	 * @return
+	 */
+	protected RendererImage rawImage() {
+		return image;
 	}
 }
