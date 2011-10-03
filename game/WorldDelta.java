@@ -215,6 +215,54 @@ public class WorldDelta {
 		}
 	}
 
+	public static class Animate implements Action {
+		private final Tree in;
+
+		public Animate(long g, String w){
+			in = new Tree();
+			in.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(g)));
+			in.add(new Tree.Entry("what", new Tree(w)));
+		}
+
+		public Animate(Tree t){
+			in = t;
+		}
+
+		public void apply(GameWorld world){
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
+			String what = in.find("what").value();
+			world.emitAnimate(world.thingWithGID(gid), what);
+		}
+
+		public GameThing which(GameWorld world){
+			return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
+		}
+
+		public String what(){
+			return in.find("what").value();
+		}
+
+		public final static Serializer<Animate> serializer(){
+			return new Serializer<Animate>(){
+				public Tree write(Animate in){
+					return in.in;
+				}
+
+				public Animate read(Tree in){
+					return new Animate(in);
+				}
+			};
+		}
+
+		public Tree toTree(){
+			return in;
+		}
+
+		public String type(){
+			return "animate";
+		}
+	}
+
 	private final Action action;
 
 	public WorldDelta(Action a){
@@ -246,6 +294,8 @@ public class WorldDelta {
 				as = Update.serializer();
 			else if(type.equals("say"))
 				as = Say.serializer();
+			else if(type.equals("animate"))
+				as = Animate.serializer();
 			return new WorldDelta(as.read(in.find("action")));
 		}
 	};

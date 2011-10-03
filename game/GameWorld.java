@@ -105,6 +105,10 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.Say(gt.gid(), what)));
 	}
 
+	public void emitAnimate(GameThing gt, String what){
+		emit(new WorldDelta(new WorldDelta.Animate(gt.gid(), what)));
+	}
+
 	public void emit(WorldDelta wd){
 		for(DeltaWatcher dw : watchers)
 			dw.delta(wd);
