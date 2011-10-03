@@ -28,11 +28,7 @@ import util.Resources;
 
 
 public class Server{
-	private static final int CLOCK_TIME = 20;
-	private static final int BROADCAST_TIME = 5;
-	private static JFileChooser fc;
-	private static String filename = null;
-	private static int returnVal;
+
 	public static final int DEFAULT_PORT = 32765;
 	private static final String EXTENTION = "wblrd";
 	
@@ -43,7 +39,6 @@ public class Server{
 		boolean fromSave = false;		
 		
 		int port = DEFAULT_PORT;
-		String savefile;
 		String choice = "null";
 		while(!(choice.equals("NewGame") || choice.equals("LoadGame"))){
 			Object[] possibilities = {"NewGame", "LoadGame"};
