@@ -18,17 +18,21 @@ public class SpawnPoint extends AbstractGameThing {
 			}
 
 			public GameThing read(Tree in){
-				SpawnPoint r = new SpawnPoint();
-				world.addSpawnPoint(r);
-				return r;
+				return new SpawnPoint(world);
 			}
 		});
 	}
 	
+	public SpawnPoint(GameWorld world){
+		super(null);
+		world.addSpawnPoint(this);
+	}
+
 	public SpawnPoint(){
 		super(null);
+		System.out.println("Err, wrong interface");
 	}
-	
+
 	public String renderer(){
 		return "spawn_point";
 	}
