@@ -265,6 +265,10 @@ public class WorldDelta {
 
 	private final Action action;
 
+	public Action action(){
+		return action;
+	}
+
 	public WorldDelta(Action a){
 		action = a;
 	}
