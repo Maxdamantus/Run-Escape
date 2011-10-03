@@ -34,7 +34,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	private Map<Long, Animation> animations = new HashMap<Long, Animation>();
 	private ReadWriteLock animationsLock = new ReentrantReadWriteLock();
 	
-	private static final double ANIMATION_FPS = 15;
+	private static final double ANIMATION_FPS = 20;
 	
 	private class Animation {
 		private String renderer;
