@@ -50,15 +50,15 @@ public class Player extends AbstractGameThing {
 		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
 		update();
 		this.health = 100;
-		world.schedule(blah, 1000);
+	//	world.schedule(blah, 1000);
 	}
-
+/*
 	private Runnable blah = new Runnable(){
 		public void run(){
-			animate("character_cordi_empty_punch");
 			world().schedule(blah, 5000);
 		}
 	};
+	*/
 
 	public Player(GameWorld world, String renderer, String n){
 		this(world, renderer, n, spawnPointWorkAroundCrap(world.getSpawnPoint()));
@@ -202,6 +202,7 @@ public class Player extends AbstractGameThing {
 					if(l instanceof Level.Location){
 						Location ml = location();
 						if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
+							animate("character_cordi_empty_punch");
 							damage(g, 10);
 						}
 					}
