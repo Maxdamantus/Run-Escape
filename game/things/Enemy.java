@@ -9,7 +9,7 @@ import java.util.*;
 public class Enemy extends Character {
 	private final String name;
 
-	public Enemy(GameWorld world, String t, String n, Location spawn){
+	public Enemy(GameWorld world, String t, String n){
 		super(world, t);
 		name = n;
 		update();

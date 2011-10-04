@@ -28,8 +28,7 @@ public class Character extends AbstractGameThing {
 	*/
 
 	public String renderer(){
-	//	return "character_" + renderer + "_" + rendererState();
-		return "wall_brown_1_door_closed";
+		return "character_" + renderer + "_" + rendererState();
 	}
 	
 	private String rendererState() { // TODO: depends on equipped state
@@ -138,7 +137,7 @@ public class Character extends AbstractGameThing {
 			}
 		};
 		follow(g, 2);
-		attacker.run();
+		world().schedule(attacker, 500);
 	}
 
 	public void hurt(GameThing other){
