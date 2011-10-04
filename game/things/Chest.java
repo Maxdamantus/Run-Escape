@@ -4,9 +4,7 @@ import serialization.Serializer;
 import serialization.SerializerUnion;
 import serialization.Tree;
 import util.Direction;
-import game.AbstractGameThing;
-import game.GameThing;
-import game.GameWorld;
+import game.*;
 
 public class Chest extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
