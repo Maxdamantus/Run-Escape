@@ -89,7 +89,7 @@ public class Door extends AbstractGameThing {
 	}
 	
 	@Override
-	public boolean canWalkInto(Direction d, game.things.Player who){
+	public boolean canWalkInto(Direction d, Character who){
 		return open;
 	}
 }

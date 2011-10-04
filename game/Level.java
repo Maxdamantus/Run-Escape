@@ -107,7 +107,7 @@ public class Level implements Iterable<GameThing> {
 
 		private boolean canWalkInto(Direction d, game.things.Character w, boolean second){
 			for(GameThing gt : contents())
-				if(!gt.canWalkInto(d, (game.things.Player)w))
+				if(!gt.canWalkInto(d, w))
 					return false;
 			return second || next(d.compose(Direction.SOUTH)).canWalkInto(d.compose(Direction.SOUTH), w, true);
 		}

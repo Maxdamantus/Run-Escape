@@ -46,8 +46,7 @@ public class TestPickUp extends PickupGameThing {
 	}
 	
 	@Override
-	public boolean canWalkInto(Direction d, Player p) {
+	public boolean canWalkInto(Direction d, Character p) {
 		return true;
 	}
 }
-

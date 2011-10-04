@@ -64,7 +64,7 @@ public class Chest extends AbstractGameThing {
 	}
 	
 	@Override
-	public boolean canWalkInto(Direction d, Player p) {
+	public boolean canWalkInto(Direction d, Character p) {
 		return false;
 	}
 }
