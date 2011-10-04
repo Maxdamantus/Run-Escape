@@ -69,9 +69,12 @@ public class GameWorld {
 	}
 
 	public long introduceContainer(Container ct){
-		long r = someUnusedID(allContainers);
-		allContainers.put(r, ct);
-		return r;
+		return introduceContainer(ct, someUnusedID(allContainers));
+	}
+
+	public long introduceContainer(Container ct, long cid){
+		allContainers.put(cid, ct);
+		return cid;
 	}
 
 	public void forget(GameThing gt){
@@ -153,6 +156,8 @@ public class GameWorld {
 	}
 
 	public void allDeltas(DeltaWatcher dw){
+		for(Container ct : allContainers.values())
+			dw.delta(new WorldDelta(new WorldDelta.IntroduceContainer(ct.cid())));
 		for(GameThing gt : allThings.values()){
 			dw.delta(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
 			dw.delta(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));

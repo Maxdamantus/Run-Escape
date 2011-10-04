@@ -30,6 +30,7 @@ public class Container implements Iterable<GameThing>, Location {
 
 	public Container(GameWorld w, long g){
 		cid = g;
+		w.introduceContainer(this, g);
 		w.emitIntroduceContainer(this);
 	}
 

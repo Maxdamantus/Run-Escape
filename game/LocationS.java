@@ -15,12 +15,18 @@ public class LocationS {
 					out.add(new Tree.Entry("just", Level.Location.serializer(null).write((Level.Location)in)));
 					return out;
 				}
+				if(in instanceof Container){
+					Tree out = new Tree();
+					out.add(new Tree.Entry("type", new Tree("container")));
+					out.add(new Tree.Entry("just", Serializers.Serializer_Long.write(((Container)in).cid())));
+					return out;
+				}
 				if(in == NOWHERE){
 					Tree out = new Tree();
 					out.add(new Tree.Entry("type", new Tree("nowhere")));
 					return out;
 				}
-				throw new RuntimeException("wtf");
+				throw new RuntimeException("wtf: " + in);
 			}
 			
 			// will think of making a general union type serializer helper thing later
@@ -31,6 +37,8 @@ public class LocationS {
 				Tree cont = in.find("just");
 				if(type.equals("level"))
 					return Level.Location.serializer(w).read(cont);
+				if(type.equals("container"))
+					return w.containerWithCID(Serializers.Serializer_Long.read(cont));
 				throw new RuntimeException("wtf");
 			}
 		};
