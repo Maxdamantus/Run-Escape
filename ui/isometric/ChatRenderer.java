@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -75,7 +76,7 @@ public class ChatRenderer implements UILayerRenderer {
 	}
 
 	@Override
-	public void wasClicked() { }
+	public void wasClicked(MouseEvent event) { }
 	
 	/**
 	 * Set the message to display
