@@ -37,5 +37,9 @@ public class Enemy extends Character {
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
 		attack(from);
+		if(health() <= 0){
+			LocationS.NOWHERE.put(this);
+			forget();
+		}
 	}
 }

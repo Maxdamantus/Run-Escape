@@ -107,6 +107,16 @@ public class Player extends Character {
 			System.out.println(gt.name());
 		}
 	}
+
+	public void damage(int amt, Character from){
+		super.damage(amt, from);
+		if(health() <= 0){
+			SpawnPoint sp = world().getSpawnPoint();
+			if(sp != null)
+				sp.location().put(this);
+			health(1000);
+		}
+	}
 	
 	public void drop(GameThing g){
 		inventory.remove(g);
