@@ -24,7 +24,7 @@ public class ChatRenderer implements UILayerRenderer {
 	private boolean visible = false;
 	
 	private int originX = 10;
-	private int originY = 10;
+	private int originY = 60;
 	
 	private static class Message {
 		private String message;
