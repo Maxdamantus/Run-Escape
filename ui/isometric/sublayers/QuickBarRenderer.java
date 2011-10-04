@@ -9,6 +9,14 @@ import java.io.IOException;
 import ui.isometric.IsoCanvas;
 import util.Resources;
 
+/**
+ * 
+ * A class the renders the buttons at the bottom of the screen allowing
+ * interaction with the current player
+ * 
+ * @author melby
+ *
+ */
 public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private BufferedImage melee = null;
 	private BufferedImage missile = null;
@@ -42,7 +50,17 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		public void leftClick(Button selectedButton) { }
 	};
 	
+	/**
+	 * A private button class, used for storing state of each button
+	 * @author melby
+	 *
+	 */
 	private static class Button {
+		/**
+		 * A button listener to be called when a button is clicked
+		 * @author melby
+		 *
+		 */
 		private static interface ButtonListener {
 			void rightClick(Button selectedButton);
 			void leftClick(Button selectedButton);
@@ -51,20 +69,37 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		private BufferedImage image;
 		private ButtonListener listener;
 		
+		/**
+		 * Create a Button with an image and ButtonListener
+		 * @param image
+		 * @param listener
+		 */
 		public Button(BufferedImage image, ButtonListener listener) {
 			this.image = image;
 			this.listener = listener;
 		}
 		
+		/**
+		 * The image of this button
+		 * @return
+		 */
 		public BufferedImage image() {
 			return image;
 		}
 
+		/**
+		 * The ButtonListener on this button
+		 * Note: may be null
+		 * @return
+		 */
 		public ButtonListener buttonListener() {
 			return listener;
 		}
 	}
 	
+	/**
+	 * Create a QuickBarRenderer
+	 */
 	public QuickBarRenderer() {
 		try {
 			melee = Resources.readImageResourceUnfliped("/resources/ui/melee.png");
