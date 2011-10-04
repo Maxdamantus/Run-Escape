@@ -1,4 +1,4 @@
-package ui.isometric;
+package ui.isometric.sublayers;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import ui.isometric.IsoCanvas;
+import ui.isometric.IsoCanvas.UILayerRenderer;
 import util.Resources;
 
 public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {

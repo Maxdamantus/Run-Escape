@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import ui.isometric.sublayers.ChatRenderer;
+import ui.isometric.sublayers.QuickBarRenderer;
 import util.Direction;
 
 import game.*;

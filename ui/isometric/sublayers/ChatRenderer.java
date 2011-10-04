@@ -1,4 +1,4 @@
-package ui.isometric;
+package ui.isometric.sublayers;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import ui.isometric.IsoCanvas;
 import ui.isometric.IsoCanvas.UILayerRenderer;
 import util.Resources;
 import util.TextHelper;
