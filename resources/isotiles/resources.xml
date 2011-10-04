@@ -715,6 +715,40 @@
       </i>
     </v>
   </i>
+  <i>
+    <k>chest_1_open</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>chest_1_open</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE2</v>
+      </i>
+      <i>
+        <k>y-offset</k>
+        <v>7</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>chest_1_closed</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>chest_1_closed</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE2</v>
+      </i>
+      <i>
+        <k>y-offset</k>
+        <v>7</v>
+      </i>
+    </v>
+  </i>
   
   <i>
     <k>EMPTY_TILE</k>
