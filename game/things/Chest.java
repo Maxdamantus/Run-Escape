@@ -1,10 +1,12 @@
 package game.things;
 
 import serialization.Serializer;
+
 import serialization.SerializerUnion;
 import serialization.Tree;
 import util.Direction;
 import game.*;
+import game.Container;
 
 public class Chest extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
@@ -45,7 +47,7 @@ public class Chest extends AbstractGameThing {
 		super(world);
 		renderer = name;
 		update();
-		cont = new Container();
+		cont = new Container(world);
 	}
 	
 	//need the default renderer for a chest, at the moment looks like a wall...

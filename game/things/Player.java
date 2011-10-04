@@ -51,7 +51,7 @@ public class Player extends AbstractGameThing {
 		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
 		update();
 		this.health = 100;
-		inventory = new Container();
+		inventory = new Container(world);
 	//	world.schedule(blah, 1000);
 	}
 /*
@@ -248,13 +248,16 @@ public class Player extends AbstractGameThing {
 	}
 
 	public void pickup(GameThing g){
-		
-//		g.getCurLoc.remove(this);
+		inventory.put(g);
+		//for testing
+		for(GameThing gt : inventory.contents()){
+			System.out.println(gt.name());
+		}
 	}
 	
 	public void drop(GameThing g){
-//		curLoc = g.location();
-//		curLoc.put(this);
+		inventory.remove(g);
+		g.location(this.location());
 	}
 	
 }
