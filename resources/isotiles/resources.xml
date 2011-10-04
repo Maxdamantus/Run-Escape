@@ -830,6 +830,23 @@
     </v>
   </i>
   <i>
+    <k>character_cordi_empty_die</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>character_cordi_empty_die</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+      <i>
+        <k>frame-count</k>
+        <v>6</v>
+      </i>
+    </v>
+  </i>
+  <i>
     <k>character_bob_empty</k>
     <v>
       <i>
@@ -860,6 +877,23 @@
       <i>
         <k>frame-count</k>
         <v>10</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>character_bob_empty_die</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>character_bob_empty_die</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+      <i>
+        <k>frame-count</k>
+        <v>6</v>
       </i>
     </v>
   </i>
