@@ -45,6 +45,7 @@ public final class ServerThread {
 		}
 		
 		public void run() {
+			Player plyr = null;
 			try {
 				InputStreamReader input = new InputStreamReader(parent.socket.getInputStream());
 				BufferedReader rd = new BufferedReader(input);
@@ -61,7 +62,8 @@ public final class ServerThread {
 						if((temp.startsWith("uid"))) {
 							xmlupdate+= temp;
 							parent.usrName = xmlupdate.substring(4);
-							Player plyr = parent.model.getPlayer(parent.usrName);
+							plyr = parent.model.getPlayer(parent.usrName);
+							plyr.login();
 							parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 							parent.usrGID = plyr.gid();
 						}
@@ -89,8 +91,14 @@ public final class ServerThread {
 				}
 			} catch(IOException e) {
 				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
+				
 			}
-			parent.exit = true;
+			finally{
+				parent.exit = true;
+				if(plyr != null){
+				plyr.logout();
+				}
+			}
 		}
 	}
 	
