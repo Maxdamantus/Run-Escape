@@ -43,13 +43,14 @@ public class Character extends AbstractGameThing {
 		return health = s;
 	}
 
-	public boolean moveTo(final Level.Location where, final int dist, final Runnable ondone, final boolean keepfollow){
+	public boolean moveTo(final Location lwhere, final int dist, final Runnable ondone, final boolean keepfollow){
 		if(!keepfollow){
 			following = null;
 			attackIdent = null;
 		}
 		Location l = location();
-		if(l instanceof Level.Location){
+		if(lwhere instanceof Level.Location && l instanceof Level.Location){
+			final Level.Location where = (Level.Location)lwhere;
 			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
 			if(to == null)
 				return false;
@@ -63,11 +64,11 @@ public class Character extends AbstractGameThing {
 		return false;
 	}
 
-	public boolean moveTo(Level.Location where, int dist, Runnable ondone){
+	public boolean moveTo(Location where, int dist, Runnable ondone){
 		return moveTo(where, dist, ondone, false);
 	}
 
-	public boolean moveTo(Level.Location where, Runnable ondone){
+	public boolean moveTo(Location where, Runnable ondone){
 		return moveTo(where, 0, ondone);
 	}
 
