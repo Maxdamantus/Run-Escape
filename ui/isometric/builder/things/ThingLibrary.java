@@ -172,7 +172,7 @@ public class ThingLibrary {
 	public static class SpawnPointCreator implements ThingCreator {
 		@Override
 		public GameThing createThing(GameWorld w) {
-			game.things.SpawnPoint spawn = new game.things.SpawnPoint();
+			game.things.SpawnPoint spawn = new game.things.SpawnPoint(w);
 			IsoRendererLibrary.setLevelInArguments(spawn.userArguments(), IsoSquare.SPAWN_POINT);
 			return spawn;
 		}
