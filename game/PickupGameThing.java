@@ -11,8 +11,8 @@ import serialization.Tree;
 
 public abstract class PickupGameThing extends AbstractGameThing {
 	
-	private Location curLoc;
-	private final static List<String> interactions;
+	protected Location curLoc;
+	protected final static List<String> interactions;
 	static {
 		interactions = new LinkedList<String>();
 		interactions.add("pickup");
