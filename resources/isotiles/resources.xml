@@ -749,6 +749,23 @@
       </i>
     </v>
   </i>
+  <i>
+    <k>sword_1</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>sword_1</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE1</v>
+      </i>
+      <i>
+        <k>y-offset</k>
+        <v>7</v>
+      </i>
+    </v>
+  </i>
   
   <i>
     <k>EMPTY_TILE</k>
