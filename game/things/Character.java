@@ -12,19 +12,11 @@ public class Character extends AbstractGameThing {
 	private String renderer;
 	private int health;
 	private final static int WALKDELAY = 50;
-	private final static List<String> interactions;
-	private final Container inventory;
-	static {
-		interactions = new LinkedList<String>();
-		interactions.add("follow");
-		interactions.add("attack");
-	}
 
 	public Character(GameWorld world, String r){
 		super(world);
 		renderer = r;
 		update();
-		inventory = new Container(world);
 	//	world.schedule(blah, 1000);
 	}
 /*
@@ -55,7 +47,7 @@ public class Character extends AbstractGameThing {
 	public boolean moveTo(final Level.Location where, final int dist, final Runnable ondone, final boolean keepfollow){
 		if(!keepfollow){
 			following = null;
-			attacking = null;
+			attackIdent = null;
 		}
 		Location l = location();
 		if(l instanceof Level.Location){
@@ -125,19 +117,20 @@ public class Character extends AbstractGameThing {
 		follow(g, 0);
 	}
 
-	private GameThing attacking;
+	private Object attackIdent;
 	private Runnable attacker;
 	public void attack(final GameThing g){
-		attacking = g;
+		final Object ident = new Object();
+		attackIdent = ident;
 		attacker = new Runnable(){
 			public void run(){
-				if(attacking == g){
+				if(attackIdent == ident){
 					Location l = g.location();
 					if(l instanceof Level.Location){
 						Location ml = location();
 						if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
 							animate(renderer() + "_punch");
-							damage(g, 10);
+							hurt(g);
 						}
 					}
 					world().schedule(attacker, 500);
@@ -147,12 +140,15 @@ public class Character extends AbstractGameThing {
 		follow(g, 2);
 		attacker.run();
 	}
+
+	public void hurt(GameThing other){
+		if(other instanceof Character)
+			((Character)other).damage(10, this);
+	}
 	
-	public void damage(GameThing g, int amount){
-		if(g instanceof Character){
-			((Character)g).health -= amount;
-			System.out.println(name() + " damages " + g.name() + " and his health is now " + ((Character)g).health);
-		}
+	public void damage(int amt, Character from){
+		health -= amt;
+		System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 	}
 
 	public boolean moveTo(Level.Location where){
