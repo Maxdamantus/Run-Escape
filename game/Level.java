@@ -66,12 +66,7 @@ public class Level implements Iterable<GameThing> {
 			return Math.abs(l.position().x() - position.x()) + Math.abs(l.position().y() - position.y());
 		}
 
-		// TODO: get rid of this
-		public Location nextTo(Location where, game.things.Player who, int dist){
-			return nextTo(where, (game.things.Character)null, dist);
-		}
-
-		public Location nextTo(final Location where, final game.things.Character who /* fuck, all these canMoveInto, etc should take Character, not Player */, final int dist){
+		public Location nextTo(final Location where, final game.things.Character who, final int dist){
 			if(where.equals(this))
 				return this;
 			Find.Node<Location> cur = Find.dijkstra(this, new Find.Nextator<Location>(){
@@ -111,13 +106,10 @@ public class Level implements Iterable<GameThing> {
 		}
 
 		private boolean canWalkInto(Direction d, game.things.Character w, boolean second){
-			return true; // TODO: swap Player references with Character ones, maybe
-			/*
 			for(GameThing gt : contents())
-				if(!gt.canWalkInto(d, w))
+				if(!gt.canWalkInto(d, (game.things.Player)w))
 					return false;
 			return second || next(d.compose(Direction.SOUTH)).canWalkInto(d.compose(Direction.SOUTH), w, true);
-			*/
 		}
 
 		public void put(GameThing gt){
