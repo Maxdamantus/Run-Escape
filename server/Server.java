@@ -225,7 +225,9 @@ public class Server{
 			}
 			ll = ll.rotate(Direction.EAST);
 		}
-		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+		
+		//sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.TestPickUp(sgm));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
 		ll.put(new game.things.GroundTile(sgm, "EMPTY_TILE"));
 		ll.next(Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_north"));
