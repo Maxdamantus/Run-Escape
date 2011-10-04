@@ -91,6 +91,45 @@ public class WorldDelta {
 		}
 	}
 
+	public static class IntroduceContainer implements Action {
+		private final Tree in;
+
+		public IntroduceContainer(long g){
+			in = new Tree();
+			in.add(new Tree.Entry("cid", Serializers.Serializer_Long.write(g)));
+		}
+
+		public IntroduceContainer(Tree t){
+			in = t;
+		}
+
+		public void apply(GameWorld world){
+			long gid = Serializers.Serializer_Long.read(in.find("cid"));
+			new Container(world, gid);
+		}
+
+		public static Serializer<IntroduceContainer> serializer(){
+			return new Serializer<IntroduceContainer>(){
+				public Tree write(IntroduceContainer in){
+					return in.in;
+				}
+
+				public IntroduceContainer read(Tree in){
+					return new IntroduceContainer(in);
+				}
+			};
+		}
+
+		public Tree toTree(){
+			return in;
+		}
+
+		public String type(){
+			return "introducecontainer";
+		}
+	}
+
+
 	public static class Forget implements Action {
 		private final Tree in;
 
@@ -300,6 +339,8 @@ public class WorldDelta {
 				as = Say.serializer();
 			else if(type.equals("animate"))
 				as = Animate.serializer();
+			else if(type.equals("introducecontainer"))
+				as = IntroduceContainer.serializer();
 			return new WorldDelta(as.read(in.find("action")));
 		}
 	};

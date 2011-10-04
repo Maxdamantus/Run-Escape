@@ -8,6 +8,7 @@ import ui.isometric.IsoSquare;
 
 public class GameWorld {
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
+	private final Map<Long, Container> allContainers = new HashMap<Long, Container>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 	private final Set<DeltaWatcher> watchers = new HashSet<DeltaWatcher>();
 	private final Map<String, game.things.Player> players = new HashMap<String, game.things.Player>();
@@ -44,6 +45,10 @@ public class GameWorld {
 		return allThings.get(gid);
 	}
 
+	public Container containerWithCID(long cid){
+		return allContainers.get(cid);
+	}
+
 	public Level getLevelFor(GameThing gt){
 		for(Map.Entry<Integer, Level> l : levels.entrySet())
 			if(l.getValue().contains(gt))
@@ -51,12 +56,22 @@ public class GameWorld {
 		return null;
 	}
 
-	public long introduce(GameThing gt){
+	private long someUnusedID(Map<Long, ?> m){
 		long r;
 		do
 			r = (long)(Math.random()*((1l << 63) - 1));
-		while(allThings.containsKey(r));
-		return introduce(gt, r);
+		while(m.containsKey(r));
+		return r;
+	}
+
+	public long introduce(GameThing gt){
+		return introduce(gt, someUnusedID(allThings));
+	}
+
+	public long introduceContainer(Container ct){
+		long r = someUnusedID(allContainers);
+		allContainers.put(r, ct);
+		return r;
 	}
 
 	public void forget(GameThing gt){
@@ -91,6 +106,10 @@ public class GameWorld {
 
 	public void emitIntroduce(GameThing gt){
 		emit(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
+	}
+
+	public void emitIntroduceContainer(Container gt){
+		emit(new WorldDelta(new WorldDelta.IntroduceContainer(gt.cid())));
 	}
 
 	public void emitForget(GameThing gt){
