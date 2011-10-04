@@ -1,6 +1,7 @@
 package game;
 
 import game.things.Chest;
+import game.things.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +25,16 @@ public abstract class PickupGameThing extends AbstractGameThing {
 		super(w);
 		curLoc = location();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void interact(String name, Player who){
+		if(name != null) {
+			if(name.equals("pickup"))
+				who.pickup(this);
+			else if(name.equals("drop")){
+				who.drop(this);
+			}
+		}
 	}
 	
 
