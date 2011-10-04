@@ -36,6 +36,7 @@ public class Player extends AbstractGameThing {
 	private final String name;
 	private final static int WALKDELAY = 50;
 	private final static List<String> interactions;
+	private final Container inventory;
 	static {
 		interactions = new LinkedList<String>();
 		interactions.add("follow");
@@ -50,6 +51,7 @@ public class Player extends AbstractGameThing {
 		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
 		update();
 		this.health = 100;
+		inventory = new Container();
 	//	world.schedule(blah, 1000);
 	}
 /*
@@ -243,6 +245,16 @@ public class Player extends AbstractGameThing {
 
 	public boolean moveTo(Level.Location where){
 		return moveTo(where, null);
+	}
+
+	public void pickup(GameThing g){
+		
+//		g.getCurLoc.remove(this);
+	}
+	
+	public void drop(GameThing g){
+//		curLoc = g.location();
+//		curLoc.put(this);
 	}
 	
 }
