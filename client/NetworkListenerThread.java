@@ -4,12 +4,8 @@ import game.*;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.text.ParseException;
-
-import javax.swing.JOptionPane;
 
 import data.Database;
 

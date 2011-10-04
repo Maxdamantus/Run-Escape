@@ -1,7 +1,6 @@
 package client;
 
 import java.awt.Color;
-import java.awt.Frame;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.Socket;
@@ -11,7 +10,6 @@ import javax.swing.JOptionPane;
 
 import data.Database;
 
-import serialization.Serializers;
 import ui.isometric.IsoInterface;
 
 import game.*;
@@ -66,7 +64,6 @@ public class Client implements ClientMessageHandler {
 		if (debugMode)
 			System.out.println(host + ", " + port);
 		Client client = new Client(host, port, uid, debugMode);
-
 	}
 
 	/**
