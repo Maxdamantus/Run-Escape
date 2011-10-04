@@ -64,7 +64,8 @@ public final class ServerThread {
 							parent.usrName = xmlupdate.substring(4);
 							plyr = parent.model.getPlayer(parent.usrName);
 							plyr.login();
-							parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
+							System.err.println("plyr logged in");
+					//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 							parent.usrGID = plyr.gid();
 						}
 						else if(temp.startsWith("cmg")){
@@ -97,6 +98,8 @@ public final class ServerThread {
 				parent.exit = true;
 				if(plyr != null){
 				plyr.logout();
+				System.err.println("plyr logedout");
+				
 				}
 			}
 		}
