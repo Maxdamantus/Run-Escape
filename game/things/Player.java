@@ -246,11 +246,10 @@ public class Player extends AbstractGameThing {
 	public boolean moveTo(Level.Location where){
 		return moveTo(where, null);
 	}
-
+	
 	public void pickup(GameThing g){
 		inventory.put(g);
 		//for testing
-		//for 400 commit
 		for(GameThing gt : inventory.contents()){
 			System.out.println(gt.name());
 		}
