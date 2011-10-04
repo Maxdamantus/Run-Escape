@@ -69,7 +69,7 @@ public class Player extends AbstractGameThing {
 	}
 
 	public Player(GameWorld world){
-		this(world, "character_cordi_empty");
+		this(world, "cordi");
 	}
 
 	public Player(GameWorld world, String renderer){
@@ -87,7 +87,11 @@ public class Player extends AbstractGameThing {
 	}
 
 	public String renderer(){
-		return this.renderer;
+		return "character_"+this.renderer+"_"+this.rendererState();
+	}
+	
+	private String rendererState() { // TODO: depends on equipped state
+		return "empty";
 	}
 
 	public String name(){

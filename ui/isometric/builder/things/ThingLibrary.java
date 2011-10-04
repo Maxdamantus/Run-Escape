@@ -81,12 +81,12 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
+			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image();
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
-			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("character_"+renderer+"_empty");}};
 		}
 	}
 	
@@ -250,7 +250,8 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_tile_1"));
 				creators.add(new GroundCreator("ground_tile_1_greenish_1"));
 				
-				creators.add(new PlayerCreator("character_cordi_empty"));
+				creators.add(new PlayerCreator("cordi"));
+				creators.add(new PlayerCreator("bob"));
 				
 				creators.add(new WallCreator("wall_brown_1_corner"));
 				creators.add(new WallCreator("wall_brown_1_x"));
