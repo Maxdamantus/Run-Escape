@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import ui.isometric.IsoCanvas;
-import ui.isometric.IsoCanvas.UILayerRenderer;
 import util.Resources;
 
 public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
@@ -31,10 +30,12 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	
 	private Button selectedButton;
 	
+	private Panel panel = null;
+	
 	private Button.ButtonListener configureButton = new Button.ButtonListener() {
 		@Override
 		public void rightClick(Button selectedButton) {
-			// TODO: configure
+			panel = new Panel(0, 0);
 		}
 
 		@Override
@@ -130,11 +131,16 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			g.drawImage(b.image(), x, y, null);
 			x += tileWidth + tileSpacing;
 		}
+		
+		if(panel != null) {
+			panel.render(g);
+		}
 	}
 
 	@Override
 	public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas) {
 		selectedButton = null;
+		boolean clicked = false;
 		
 		int x = isoCanvas.getWidth()/2-tileWidth*buttons.length/2-tileSpacing*(buttons.length/2-1);
 		int y = isoCanvas.getHeight()-melee.getHeight()-bottomPadding;
@@ -143,13 +149,18 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			if(selectionPoint.y > y && selectionPoint.y < y+tileHeight) {
 				if(selectionPoint.x > x && selectionPoint.x < x+tileWidth) {
 					selectedButton = b;
-					return true;
+					clicked = true;
+					break;
 				}
 			}
 			x += tileWidth + tileSpacing;
 		}
 		
-		return false;
+		if(panel != null) {
+			// Ask
+		}
+		
+		return clicked;
 	}
 
 	@Override
