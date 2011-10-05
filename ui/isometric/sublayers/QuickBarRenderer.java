@@ -30,6 +30,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private BufferedImage background = null;
 	private BufferedImage disabled_tile = null;
 	private BufferedImage default_tile = null;
+	private BufferedImage open_inventory = null;
 	
 	private int tileWidth = 0;
 	private int tileHeight = 0;
@@ -41,6 +42,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private static int BUTTON_MELEE = 0;
 	private static int BUTTON_MISSILE = 1;
 	private static int BUTTON_SPELL = 2;
+	private static int BUTTON_INVENTORY = 9;
 	
 	private Button selectedButton;
 	
@@ -122,6 +124,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			background = Resources.readImageResourceUnfliped("/resources/ui/tile_background.png");
 			disabled_tile = Resources.readImageResourceUnfliped("/resources/ui/disabled_tile.png");
 			default_tile = Resources.readImageResourceUnfliped("/resources/ui/default_tile.png");
+			open_inventory = Resources.readImageResourceUnfliped("/resources/ui/open_inventory.png");
 			
 			tileWidth = melee.getWidth();
 			tileHeight = melee.getHeight();
@@ -169,6 +172,15 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 				@Override
 				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
 					// TODO: show all spells
+				}
+			});
+			buttons[BUTTON_INVENTORY] = new Button(open_inventory, new Button.ButtonListener() {
+				@Override
+				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) { }
+
+				@Override
+				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
+					// TODO: open inventory
 				}
 			});
 		} catch (IOException e) {
