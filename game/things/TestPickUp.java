@@ -46,6 +46,10 @@ public class TestPickUp extends PickupGameThing {
 		return "TestPickUp";
 	}
 	
+	public void interact(String name, game.things.Player who){
+		super.interact(name, who);
+	}
+	
 	@Override
 	public boolean canWalkInto(Direction d, Character p) {
 		return true;

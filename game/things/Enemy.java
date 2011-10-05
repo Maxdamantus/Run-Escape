@@ -32,6 +32,7 @@ public class Enemy extends Character {
 			who.follow(this);
 		else if(name.equals("attack"))
 			who.attack(this);
+		else super.interact(name, who);
 	}
 
 	public void damage(int amt, Character from){

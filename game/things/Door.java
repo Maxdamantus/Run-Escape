@@ -81,6 +81,7 @@ public class Door extends AbstractGameThing {
 			walkAndSet(false, who);
 		else if(inter.equals("open"))
 			walkAndSet(true, who);
+		else super.interact(inter, who);
 	}
 
 	@Override

@@ -154,4 +154,8 @@ public class Character extends AbstractGameThing {
 	public boolean moveTo(Level.Location where){
 		return moveTo(where, null);
 	}
+	
+	public void interact(String name, game.things.Player who){
+		super.interact(name, who);
+	}
 }

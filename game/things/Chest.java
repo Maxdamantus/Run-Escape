@@ -6,7 +6,6 @@ import serialization.SerializerUnion;
 import serialization.Tree;
 import util.Direction;
 import game.*;
-import game.Container;
 
 public class Chest extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
@@ -61,6 +60,10 @@ public class Chest extends AbstractGameThing {
 
 	public String name(){
 		return "Chest";
+	}
+	
+	public void interact(String name, game.things.Player who){
+		super.interact(name, who);
 	}
 	
 	@Override
