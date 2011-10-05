@@ -1,9 +1,6 @@
 package ui.isometric.sublayers;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-
-import ui.isometric.IsoCanvas;
 
 /**
  * A medium sized panel
@@ -25,11 +22,6 @@ abstract public class MedPanel extends Panel {
 	@Override
 	public int level() {
 		return 100;
-	}
-
-	@Override
-	public void wasClicked(MouseEvent event, IsoCanvas canvas) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package ui.isometric.sublayers;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -18,12 +17,15 @@ import util.Resources;
  *
  */
 abstract public class Panel implements IsoCanvas.UILayerRenderer {
-	private BufferedImage image = null;
+	private BufferedImage bgimage = null;
 	private double x;
 	private double y;
 	private int width;
 	private int height;
 	private IsoCanvas superview;
+	private boolean removeFrom = false;
+	
+	private static BufferedImage close = null;
 	
 	/**
 	 * Create a panel centered in the view by the given %
@@ -32,9 +34,15 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	 */
 	public Panel(double x, double y) {
 		try {
-			image = Resources.readImageResourceUnfliped(this.imageName());
-			this.width = image.getWidth();
-			this.height = image.getHeight();
+			synchronized(Panel.class) {
+				if(close == null) {
+					close = Resources.readImageResourceUnfliped("/resources/ui/close.png");
+				}
+			}
+			
+			bgimage = Resources.readImageResourceUnfliped(this.imageName());
+			this.width = bgimage.getWidth();
+			this.height = bgimage.getHeight();
 			this.x = x;
 			this.y = y;
 			
@@ -50,23 +58,37 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	final public void render(Graphics g, IsoCanvas into) {
 		g = g.create((int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2), width, height);
 		
-		g.drawImage(image, 0, 0, null);
-		g.setColor(Color.WHITE);
-		g.fillOval(width-20, 0, 20, 20);
-		this.drawContents(g.create(0, 10, width, height-10));
+		g.drawImage(bgimage, 0, 0, null);
+		g.drawImage(close, width-20, 0, null);
+		this.drawContents(g.create(20, 20, width-40, height-40));
 	}
 
 	@Override
 	public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas) { // TODO: close button
-		return
-		selectionPoint.x > isoCanvas.getWidth()*x-width/2 &&
-		selectionPoint.x < isoCanvas.getWidth()*x+width/2 &&
-		selectionPoint.y > isoCanvas.getWidth()*y-height/2 &&
-		selectionPoint.y < isoCanvas.getWidth()*y+height/2;
+		removeFrom = false;
+		
+		if(selectionPoint.x > isoCanvas.getWidth()*x-width/2 &&
+				selectionPoint.x < isoCanvas.getWidth()*x+width/2 &&
+				selectionPoint.y > isoCanvas.getHeight()*y-height/2 &&
+				selectionPoint.y < isoCanvas.getHeight()*y+height/2) {
+			if(selectionPoint.x > isoCanvas.getWidth()*x+width/2-20 &&
+					selectionPoint.y < isoCanvas.getHeight()*y-height/2+20) {
+				removeFrom = true;
+			}
+			
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
-	abstract public void wasClicked(MouseEvent event, IsoCanvas canvas);
+	public void wasClicked(MouseEvent event, IsoCanvas canvas) {
+		if(removeFrom) {
+			this.removeFromSuperview();
+		}
+	}
 	
 	@Override
 	final public void setSuperview(IsoCanvas canvas) {

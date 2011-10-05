@@ -1,9 +1,6 @@
 package ui.isometric.sublayers;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-
-import ui.isometric.IsoCanvas;
 
 /**
  * A large panel
@@ -26,11 +23,6 @@ public abstract class LargePanel extends Panel {
 	@Override
 	public int level() {
 		return 100;
-	}
-
-	@Override
-	public void wasClicked(MouseEvent event, IsoCanvas canvas) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -54,6 +54,8 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	
 	private List<UILayerRenderer> extraRenderers = new ArrayList<UILayerRenderer>();
 	
+	private boolean draggingOk = true;
+	
 	/**
 	 * An interface for rendering extra content on top of the IsoCanvas
 	 * 
@@ -248,12 +250,14 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		Point delta = new Point(arg0.getPoint().x-mouse.x, arg0.getPoint().y-mouse.y);
-		delta = dataSource.transform().transformRelativePoint(delta);
-		mouse = arg0.getPoint();
-		
-		origin.setLocation(origin.getX()-delta.getX(), origin.getY()+delta.getY());
-		this.repaint();
+		if(draggingOk) {
+			Point delta = new Point(arg0.getPoint().x-mouse.x, arg0.getPoint().y-mouse.y);
+			delta = dataSource.transform().transformRelativePoint(delta);
+			mouse = arg0.getPoint();
+			
+			origin.setLocation(origin.getX()-delta.getX(), origin.getY()+delta.getY());
+			this.repaint();
+		}
 	}
 
 	@Override
@@ -333,6 +337,11 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
+		this.calculateTypesAtAtPoint(arg0.getPoint());
+		final UILayerRenderer r = this.getCachedSelectedRenderer();
+		
+		draggingOk = r == null;
+		
 		mouse = arg0.getPoint();
 	}
 
