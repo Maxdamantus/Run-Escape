@@ -13,12 +13,29 @@ import serialization.Serializers;
 import serialization.Tree;
 import util.Resources;
 
+/**
+ * A class for accessing inventory images for GameThings
+ * 
+ * @author melby
+ *
+ */
 public class IsoEquipImageLibrary {
 	private static Map<String, BufferedImage> images = null;
 	
+	/**
+	 * Internal data structure used to storing and loading info from disk
+	 * 
+	 * @author melby
+	 *
+	 */
 	private static class ImageType {
 		private String name;
 		
+		/**
+		 * The Serializer for a ImageType
+		 * @author melby
+		 *
+		 */
 		private static class Serializer implements serialization.Serializer<ImageType> {
 			private static final String NAME = "name";
 			
@@ -40,10 +57,18 @@ public class IsoEquipImageLibrary {
 			}
 		}
 		
+		/**
+		 * Create an ImageType with a given image name
+		 * @param name
+		 */
 		private ImageType(String name) {
 			this.name = name;
 		}
 		
+		/**
+		 * Load the bufferedImage that this ImageType represents
+		 * @return
+		 */
 		private BufferedImage load() {
 			try {
 				return Resources.readImageResourceUnfliped("/resources/inventory/"+name+".png");
@@ -78,6 +103,11 @@ public class IsoEquipImageLibrary {
 		}
 	}
 	
+	/**
+	 * Get the image for a given renderer name
+	 * @param name
+	 * @return
+	 */
 	public BufferedImage imageForName(String name) {
 		synchronized(IsoEquipImageLibrary.class) {
 			if(images == null) {
