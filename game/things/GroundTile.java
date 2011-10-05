@@ -74,4 +74,9 @@ public class GroundTile extends AbstractGameThing {
 	public String renderer(){
 		return renderer;
 	}
+	
+	@Override
+	public int renderLevel() {
+		return ui.isometric.abstractions.IsoSquare.GROUND;
+	}
 }

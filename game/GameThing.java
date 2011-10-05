@@ -2,7 +2,6 @@ package game;
 
 import util.*;
 
-import java.io.Serializable;
 import java.util.*;
 
 public interface GameThing {
@@ -16,10 +15,10 @@ public interface GameThing {
 	public boolean didWalkInto(Direction d, game.things.Character who);
 	public String defaultInteraction();
 	public List<String> interactions();
-	public Map<String, Serializable> userArguments();
 	public boolean forgotten();
 	public void forget();
 	public String name();
 	public void track(Runnable r);
 	public GameWorld world();
+	public int renderLevel();
 }

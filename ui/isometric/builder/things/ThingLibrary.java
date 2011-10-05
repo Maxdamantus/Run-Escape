@@ -6,7 +6,6 @@ import game.GameWorld;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 
@@ -75,7 +74,6 @@ public class ThingLibrary {
 		@Override
 		public GameThing createThing(GameWorld w) {
 			game.things.Player player = new game.things.Player(w, renderer);
-			IsoRendererLibrary.setLevelInArguments(player.userArguments(), IsoSquare.PLAYER);
 			return player;
 		}
 
@@ -109,7 +107,6 @@ public class ThingLibrary {
 		@Override
 		public GameThing createThing(GameWorld w) {
 			game.things.Wall wall = new game.things.Wall(w, renderer);
-			IsoRendererLibrary.setLevelInArguments(wall.userArguments(), IsoSquare.WALL);
 			return wall;
 		}
 
@@ -149,7 +146,6 @@ public class ThingLibrary {
 		@Override
 		public GameThing createThing(GameWorld w) {
 			game.things.Door door = new game.things.Door(w, closedR, openR, open);
-			IsoRendererLibrary.setLevelInArguments(door.userArguments(), IsoSquare.WALL);
 			return door;
 		}
 
@@ -173,7 +169,6 @@ public class ThingLibrary {
 		@Override
 		public GameThing createThing(GameWorld w) {
 			game.things.SpawnPoint spawn = new game.things.SpawnPoint(w);
-			IsoRendererLibrary.setLevelInArguments(spawn.userArguments(), IsoSquare.SPAWN_POINT);
 			return spawn;
 		}
 

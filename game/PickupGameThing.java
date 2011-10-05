@@ -31,5 +31,8 @@ public abstract class PickupGameThing extends AbstractGameThing {
 		}
 	}
 	
-
+	@Override
+	public int renderLevel() {
+		return ui.isometric.abstractions.IsoSquare.PICKUP_ITEM;
+	}
 }

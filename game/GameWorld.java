@@ -25,7 +25,6 @@ public class GameWorld {
 	public game.things.Player getPlayer(String name){
 		if(!players.containsKey(name)){
 			game.things.Player newP = new game.things.Player(this, "cordi", name);
-			IsoRendererLibrary.setLevelInArguments(newP.userArguments(), IsoSquare.PLAYER);
 			return newP;
 		}
 		return players.get(name);
