@@ -1,6 +1,6 @@
 package ui.isometric.sublayers;
 
-import game.GameThing;
+import game.*;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -43,6 +43,9 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	
 	private Button selectedButton;
 	
+	private InventoryRenderer inventoryRenderer;
+	private boolean showInventory = false;
+	
 	/**
 	 * A private button class, used for storing state of each button
 	 * @author melby
@@ -52,16 +55,20 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		private BufferedImage image;
 		private GameThing thing;
 		private String interaction;
+		private Runnable run;
 		
 		/**
-		 * Create a Button with an image and ButtonListener
+		 * Create a Button
 		 * @param image
-		 * @param listener
+		 * @param thing
+		 * @param interaction
+		 * @param run
 		 */
-		public Button(BufferedImage image, GameThing thing, String interaction) {
+		public Button(BufferedImage image, GameThing thing, String interaction, Runnable run) {
 			this.image = image;
 			this.thing = thing;
 			this.interaction = interaction;
+			this.run = run;
 		}
 		
 		/**
@@ -72,9 +79,15 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			return image;
 		}
 		
+		/**
+		 * Do the interaction and action
+		 */
 		public void doInteraction() {
 			if(thing != null && interaction != null) {
 				inter.performActionOn(interaction, thing);
+			}
+			if(run != null) {
+				run.run();
 			}
 		}
 	}
@@ -83,9 +96,11 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	 * Create a QuickBarRenderer with a given interface
 	 * @param inter
 	 */
-	public QuickBarRenderer(IsoInterface inter) {
+	public QuickBarRenderer(final IsoInterface inter) {
 		try {			
 			this.inter = inter;
+			this.inventoryRenderer = new InventoryRenderer(0.5, 0.45);
+			
 			weapon = Resources.readImageResourceUnfliped("/resources/ui/weapon.png");
 			spell = Resources.readImageResourceUnfliped("/resources/ui/spell.png");
 			background = Resources.readImageResourceUnfliped("/resources/ui/tile_background.png");
@@ -97,12 +112,17 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			tileHeight = weapon.getHeight();
 			
 			for(int n = 0; n < buttons.length; n++) {
-				buttons[n] = new Button(background, null, null);
+				buttons[n] = new Button(background, null, null, null);
 			}
 			
-			buttons[BUTTON_WEAPON] = new Button(weapon, null, null);
-			buttons[BUTTON_SPELL] = new Button(spell, null, null);
-			buttons[BUTTON_INVENTORY] = new Button(open_inventory, inter.player(), "open inventory");
+			buttons[BUTTON_WEAPON] = new Button(weapon, null, null, null);
+			buttons[BUTTON_SPELL] = new Button(spell, null, null, null);
+			buttons[BUTTON_INVENTORY] = new Button(open_inventory, null, null, new Runnable() {
+				@Override
+				public void run() {
+					showInventory();
+				}
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -154,5 +174,19 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	@Override
 	public void setSuperview(IsoCanvas canvas) {
 		// TODO: need later?
+	}
+	
+	/**
+	 * Show the inventory panel
+	 */
+	private void showInventory() {
+		if(!showInventory) {
+			inter.canvas().addLayerRenderer(inventoryRenderer);
+			showInventory = true;
+		}
+		else {
+			inter.canvas().removeLayerRenderer(inventoryRenderer);
+			showInventory = false;
+		}
 	}
 }

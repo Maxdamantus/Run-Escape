@@ -33,9 +33,9 @@ public class IsoInterface implements PlayerMessage {
 	private IsoCanvas canvas;
 	private IsoInterface isoInterface = this;
 	
-	private GameThing me;
+	private IsoPlayer player;
 	
-	private GameWorld model;
+	private GameWorld world;
 	private ClientMessageHandler logic;
 	
 	private ChatRenderer chatRenderer;
@@ -44,16 +44,17 @@ public class IsoInterface implements PlayerMessage {
 	/**
 	 * Create a interface with a given GameModel and ClientMessageHandler
 	 * @param name
-	 * @param model
+	 * @param world
 	 * @param logic
 	 * @param gid
 	 */
-	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic, long gid) {
-		this.model = model;
+	public IsoInterface(String name, final GameWorld world, final ClientMessageHandler logic, long gid) {
+		this.world = world;
 		this.logic = logic;
 		
 		long end = System.currentTimeMillis() + 5000; // 5 sec
-		while((me = model.thingWithGID(gid)) == null && end > System.currentTimeMillis()) {
+		GameThing me = null;
+		while((me = world.thingWithGID(gid)) == null && end > System.currentTimeMillis()) {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -61,13 +62,12 @@ public class IsoInterface implements PlayerMessage {
 			}
 		}
 		
-		chatRenderer = new ChatRenderer();
-		quickBarRenderer = new QuickBarRenderer(this);
+		this.player = new IsoPlayer(world, me, this);
 		
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		IsoDataSource dataSource = new IsoGameModelDataSource(this.model);
+		IsoDataSource dataSource = new IsoGameModelDataSource(this.world);
 		
 		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
@@ -93,7 +93,7 @@ public class IsoInterface implements PlayerMessage {
 										
 										if(s instanceof JMenuItem) {
 											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText().substring(3), model.thingWithGID(Long.parseLong /* BLARGH */ (m.getName())));
+											isoInterface.performActionOn(m.getText().substring(3), world.thingWithGID(Long.parseLong /* BLARGH */ (m.getName())));
 										}
 									}
 								});
@@ -152,6 +152,10 @@ public class IsoInterface implements PlayerMessage {
 				chatRenderer.setMessage(message);
 			}
 		});
+		
+		chatRenderer = new ChatRenderer();
+		quickBarRenderer = new QuickBarRenderer(this);
+		
 		canvas.addLayerRenderer(chatRenderer);
 		canvas.addLayerRenderer(quickBarRenderer);
 		
@@ -201,12 +205,27 @@ public class IsoInterface implements PlayerMessage {
 	private void sendChatMessage(String message) {
 		logic.sendChat(message);
 	}
+
+	/**
+	 * Get the game world
+	 */
+	public GameWorld world() {
+		return world;
+	}
 	
 	/**
-	 * Get the current player
+	 * Get the wrapper round the current player
 	 * @return
 	 */
-	public GameThing player() {
-		return me;
+	public IsoPlayer player() {
+		return player;
+	}
+	
+	/**
+	 * Get the renderering canvas
+	 * @return
+	 */
+	public IsoCanvas canvas() {
+		return canvas;
 	}
 }
