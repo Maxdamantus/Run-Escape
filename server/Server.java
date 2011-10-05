@@ -220,7 +220,7 @@ public class Server{
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
 				String name = ll.position().equals(new Position(0, 2))? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
-				ll.rotate(ll.position().equals(new Position(0, 2))? Direction.EAST : Direction.WEST).put(new game.things.Wall(sgm, name));
+				ll.rotate(ll.position().equals(new Position(0, 2))? Direction.WEST : Direction.EAST).put(new game.things.Wall(sgm, name));
 				ll = ll.next(ll.direction());
 			}
 			ll = ll.rotate(Direction.EAST);
