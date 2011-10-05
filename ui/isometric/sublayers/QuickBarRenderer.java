@@ -2,9 +2,14 @@ package ui.isometric.sublayers;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import ui.isometric.IsoCanvas;
 import util.Resources;
@@ -19,9 +24,10 @@ import util.Resources;
  */
 public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private BufferedImage melee = null;
+	private BufferedImage melee_default = null;
 	private BufferedImage missile = null;
 	private BufferedImage spell = null;
-	private BufferedImage placeholder_tile = null;
+	private BufferedImage background = null;
 	private BufferedImage disabled_tile = null;
 	private BufferedImage default_tile = null;
 	
@@ -38,17 +44,24 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	
 	private Button selectedButton;
 	
-	private Panel panel = null;
-	
 	private Button.ButtonListener configureButton = new Button.ButtonListener() {
 		@Override
-		public void rightClick(Button selectedButton) {
-			panel = new Panel(0, 0);
+		public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) {
+			showMenu(canvas, point, new MenuListener() {
+				@Override
+				public void clicked(String menuName) {
+					System.out.println(menuName);
+				}
+			}, "configure");
 		}
 
 		@Override
-		public void leftClick(Button selectedButton) { }
+		public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) { }
 	};
+	
+	private interface MenuListener {
+		void clicked(String text);
+	}
 	
 	/**
 	 * A private button class, used for storing state of each button
@@ -62,8 +75,8 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		 *
 		 */
 		private static interface ButtonListener {
-			void rightClick(Button selectedButton);
-			void leftClick(Button selectedButton);
+			void rightClick(Button selectedButton, Point point, IsoCanvas canvas);
+			void leftClick(Button selectedButton, Point point, IsoCanvas canvas);
 		}
 		
 		private BufferedImage image;
@@ -103,9 +116,10 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	public QuickBarRenderer() {
 		try {
 			melee = Resources.readImageResourceUnfliped("/resources/ui/melee.png");
+			melee_default = Resources.readImageResourceUnfliped("/resources/ui/melee_default.png");
 			missile = Resources.readImageResourceUnfliped("/resources/ui/missile.png");
 			spell = Resources.readImageResourceUnfliped("/resources/ui/spell.png");
-			placeholder_tile = Resources.readImageResourceUnfliped("/resources/ui/placeholder_tile.png");
+			background = Resources.readImageResourceUnfliped("/resources/ui/tile_background.png");
 			disabled_tile = Resources.readImageResourceUnfliped("/resources/ui/disabled_tile.png");
 			default_tile = Resources.readImageResourceUnfliped("/resources/ui/default_tile.png");
 			
@@ -113,37 +127,47 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			tileHeight = melee.getHeight();
 			
 			for(int n = 0; n < buttons.length; n++) {
-				buttons[n] = new Button(placeholder_tile, configureButton);
+				buttons[n] = new Button(background, configureButton);
 			}
 			
-			buttons[BUTTON_MELEE] = new Button(melee, new Button.ButtonListener() {
+			buttons[BUTTON_MELEE] = new Button(melee_default, new Button.ButtonListener() {
 				@Override
-				public void rightClick(Button selectedButton) {
-					// TODO: set player default weapon
+				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) {
+					showMenu(canvas, point, new MenuListener() {
+						@Override
+						public void clicked(String menuName) {
+							System.out.println(menuName);
+						}
+					}, "set default weapon");
 				}
 
 				@Override
-				public void leftClick(Button selectedButton) {
+				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
 					// TODO: fight
 				}
 			});
 			buttons[BUTTON_MISSILE] = new Button(missile, new Button.ButtonListener() {
 				@Override
-				public void rightClick(Button selectedButton) {
-					// TODO: set player default weapon
+				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) {
+					showMenu(canvas, point, new MenuListener() {
+						@Override
+						public void clicked(String menuName) {
+							System.out.println(menuName);
+						}
+					}, "set default weapon");
 				}
 
 				@Override
-				public void leftClick(Button selectedButton) {
+				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
 					// TODO: fight
 				}
 			});
 			buttons[BUTTON_SPELL] = new Button(spell, new Button.ButtonListener() {
 				@Override
-				public void rightClick(Button selectedButton) { }
+				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) { }
 
 				@Override
-				public void leftClick(Button selectedButton) {
+				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
 					// TODO: show all spells
 				}
 			});
@@ -151,7 +175,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public int level() {
 		return 10;
@@ -165,10 +189,6 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		for(Button b : buttons) {
 			g.drawImage(b.image(), x, y, null);
 			x += tileWidth + tileSpacing;
-		}
-		
-		if(panel != null) {
-			panel.render(g);
 		}
 	}
 
@@ -191,26 +211,45 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			x += tileWidth + tileSpacing;
 		}
 		
-		if(panel != null) {
-			// Ask
-		}
-		
 		return clicked;
 	}
 
 	@Override
-	public void wasClicked(MouseEvent event) {
+	public void wasClicked(MouseEvent event, IsoCanvas canvas) {
 		if(event.getButton() == MouseEvent.BUTTON3) { // Right click
 			Button.ButtonListener b = selectedButton.buttonListener();
 			if(b != null) {
-				b.rightClick(selectedButton);
+				b.rightClick(selectedButton, event.getPoint(), canvas);
 			}
 		}
 		else {
 			Button.ButtonListener b = selectedButton.buttonListener();
 			if(b != null) {
-				b.leftClick(selectedButton);
+				b.leftClick(selectedButton, event.getPoint(), canvas);
 			}
 		}
+	}
+	
+	protected void showMenu(IsoCanvas canvas, Point point, final MenuListener menuListener, String ... strings) {
+		JPopupMenu popup = new JPopupMenu();
+		for(String menuName : strings) {
+			JMenuItem item = new JMenuItem(menuName);
+			popup.add(item);
+			
+			item.addActionListener(new ActionListener() {								
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Object s = e.getSource();
+					
+					if(s instanceof JMenuItem) {
+						JMenuItem m = (JMenuItem)s;
+						menuListener.clicked(m.getText());
+					}
+				}
+			});
+			popup.add(item);
+		}
+		
+		popup.show(canvas, point.x, point.y);
 	}
 }

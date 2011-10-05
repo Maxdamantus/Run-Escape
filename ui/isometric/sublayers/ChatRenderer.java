@@ -77,7 +77,7 @@ public class ChatRenderer implements UILayerRenderer {
 	}
 
 	@Override
-	public void wasClicked(MouseEvent event) { }
+	public void wasClicked(MouseEvent event, IsoCanvas canvas) { }
 	
 	/**
 	 * Set the message to display

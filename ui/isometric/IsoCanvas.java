@@ -89,8 +89,9 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		 * Called after a call to doSelectionPass if this component was the topmost
 		 * of all the renderers and can act on a mouse down
 		 * @param event - the event that triggered the selection
+		 * @param canvas - the canvas the click was in
 		 */
-		public void wasClicked(MouseEvent event);
+		public void wasClicked(MouseEvent event, IsoCanvas canvas);
 	}
 		
 	/**
@@ -262,7 +263,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			}
 		}
 		else {
-			r.wasClicked(arg0);
+			r.wasClicked(arg0, this);
 		}
 	}
 	
