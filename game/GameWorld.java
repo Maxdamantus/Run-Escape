@@ -173,7 +173,10 @@ public class GameWorld {
 		List<Map.Entry<Location, GameThing>> map = new LinkedList<Map.Entry<Location, GameThing>>();
 		for(Level level : levels.values())
 			for(GameThing gt : level)
-				map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(gt.location(), gt));
+				if(!(gt instanceof game.things.Player))
+					map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(gt.location(), gt));
+		for(game.things.Player player : players.values())
+			map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(LocationS.NOWHERE, player));
 		return new Serializers.List<Map.Entry<Location, GameThing>>(Serializers.mapEntry(LocationS.s(null), gts)).write(map);
 	}
 
