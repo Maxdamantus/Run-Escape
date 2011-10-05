@@ -98,6 +98,8 @@ public class Player extends Character {
 			who.follow(this);
 		else if(name.equals("attack"))
 			who.attack(this);
+		else if(name.equals("_showinventory") && who == this)
+			world().emitShowContainer(inventory, "Inventory");
 	}
 	
 	public void damage(int amt, Character from){
