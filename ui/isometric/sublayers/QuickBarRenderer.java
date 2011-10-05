@@ -1,5 +1,7 @@
 package ui.isometric.sublayers;
 
+import game.things.Player;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,8 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private BufferedImage disabled_tile = null;
 	private BufferedImage default_tile = null;
 	private BufferedImage open_inventory = null;
+	
+	private Player player;
 	
 	private int tileWidth = 0;
 	private int tileHeight = 0;
@@ -113,10 +117,13 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	}
 	
 	/**
-	 * Create a QuickBarRenderer
+	 * Create a QuickBarRenderer with a given player
+	 * @param player
 	 */
-	public QuickBarRenderer() {
+	public QuickBarRenderer(Player player) {
 		try {
+			this.player = player;
+			
 			melee = Resources.readImageResourceUnfliped("/resources/ui/melee.png");
 			melee_default = Resources.readImageResourceUnfliped("/resources/ui/melee_default.png");
 			missile = Resources.readImageResourceUnfliped("/resources/ui/missile.png");

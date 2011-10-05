@@ -20,6 +20,7 @@ import ui.isometric.sublayers.QuickBarRenderer;
 import util.Direction;
 
 import game.*;
+import game.things.Player;
 
 /**
  * 
@@ -39,18 +40,28 @@ public class IsoInterface implements PlayerMessage {
 	private ChatRenderer chatRenderer;
 	private QuickBarRenderer quickBarRenderer;
 	
+	private Player me;
+	
 	/**
 	 * Create a interface with a given GameModel and ClientMessageHandler
 	 * @param name
 	 * @param model
 	 * @param logic
+	 * @param playerGID
 	 */
-	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic) {
+	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic, long playerGID) {
 		this.model = model;
 		this.logic = logic;
+		GameThing g = model.thingWithGID(playerGID);
+		if(g instanceof Player) {
+			this.me = (Player)g;
+		}
+		else {
+			throw new RuntimeException("Unabel to find player for gid "+playerGID);
+		}
 		
 		chatRenderer = new ChatRenderer();
-		quickBarRenderer = new QuickBarRenderer();
+		quickBarRenderer = new QuickBarRenderer(me);
 		
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
