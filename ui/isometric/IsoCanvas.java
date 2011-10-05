@@ -378,16 +378,19 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	public void addLayerRenderer(UILayerRenderer renderer) { // TODO: log duplicates?
 		if(extraRenderers.size() == 0) {
 			extraRenderers.add(renderer);
+			renderer.setSuperview(this);
 		}
 		else {
 			for(int n = 0; n < extraRenderers.size(); n++) {
 				if(extraRenderers.get(n).level() < renderer.level()) {
 					extraRenderers.add(n, renderer);
+					renderer.setSuperview(this);
 					return;
 				}
 			}
 			
 			extraRenderers.add(renderer);
+			renderer.setSuperview(this);
 		}
 	}
 	
@@ -397,5 +400,6 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	 */
 	public void removeLayerRenderer(UILayerRenderer renderer) {
 		extraRenderers.remove(renderer);
+		renderer.setSuperview(null);
 	}
 }

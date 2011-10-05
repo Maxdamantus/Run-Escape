@@ -1,5 +1,6 @@
 package ui.isometric.sublayers;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -47,13 +48,21 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 
 	@Override
 	final public void render(Graphics g, IsoCanvas into) {
-		g.drawImage(image, (int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2), null);
-		this.drawContents(g.create((int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2)+10, width, height-10));
+		g = g.create((int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2), width, height);
+		
+		g.drawImage(image, 0, 0, null);
+		g.setColor(Color.WHITE);
+		g.fillOval(width-20, 0, 20, 20);
+		this.drawContents(g.create(0, 10, width, height-10));
 	}
 
 	@Override
-	public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas) {
-		return false; // TODO:
+	public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas) { // TODO: close button
+		return
+		selectionPoint.x > isoCanvas.getWidth()*x-width/2 &&
+		selectionPoint.x < isoCanvas.getWidth()*x+width/2 &&
+		selectionPoint.y > isoCanvas.getWidth()*y-height/2 &&
+		selectionPoint.y < isoCanvas.getWidth()*y+height/2;
 	}
 
 	@Override
@@ -77,6 +86,7 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	 */
 	public void removeFromSuperview() {
 		superview.removeLayerRenderer(this);
+		superview = null;
 	}
 	
 	/**

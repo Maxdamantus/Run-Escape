@@ -44,7 +44,6 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private Button selectedButton;
 	
 	private InventoryRenderer inventoryRenderer;
-	private boolean showInventory = false;
 	
 	/**
 	 * A private button class, used for storing state of each button
@@ -180,13 +179,11 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	 * Show/hide the inventory panel
 	 */
 	private void showHideInventory() {
-		if(!showInventory) {
+		if(inventoryRenderer.superview() == null) {
 			inter.canvas().addLayerRenderer(inventoryRenderer);
-			showInventory = true;
 		}
 		else {
-			inter.canvas().removeLayerRenderer(inventoryRenderer);
-			showInventory = false;
+			inventoryRenderer.removeFromSuperview();
 		}
 	}
 }
