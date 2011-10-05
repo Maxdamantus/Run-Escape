@@ -88,7 +88,7 @@ public class GameThingInspector extends JPanel {
 	private void rotateCW() {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			((Level.Location)l).rotate(Direction.WEST).put(thing);
+			((Level.Location)l).rotate(Direction.EAST).put(thing);
 		}
 		else {
 			System.err.println("Trying to rotate something weird"); // TODO: fix
@@ -102,7 +102,7 @@ public class GameThingInspector extends JPanel {
 	private void rotateCCW() {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			((Level.Location)l).rotate(Direction.EAST).put(thing);
+			((Level.Location)l).rotate(Direction.WEST).put(thing);
 		}
 		else {
 			System.err.println("Trying to rotate something weird"); // TODO: fix

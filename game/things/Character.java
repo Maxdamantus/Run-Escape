@@ -2,10 +2,6 @@ package game.things;
 
 import game.*;
 
-import serialization.*;
-
-import java.util.*;
-
 // might want to subclass Player by this later, so Player and Enemy are both "Characters".
 
 public class Character extends AbstractGameThing {

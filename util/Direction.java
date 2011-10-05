@@ -40,4 +40,15 @@ public enum Direction {
 			return valueOf(in.value());
 		}
 	};
+
+	public Direction inverse() {
+		switch(this) {
+			case EAST:
+				return WEST;
+			case WEST:
+				return EAST;
+		}
+		
+		return this;
+	}
 }

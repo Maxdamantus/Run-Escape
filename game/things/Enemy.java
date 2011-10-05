@@ -2,8 +2,6 @@ package game.things;
 
 import game.*;
 
-import serialization.*;
-
 import java.util.*;
 
 public class Enemy extends Character {
