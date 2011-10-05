@@ -49,7 +49,7 @@ public class Enemy extends Character {
 		update();
 		new Runnable(){
 			public void run(){
-				Location l = location();
+				Location l = start;
 				if(l instanceof Level.Location && !busy())
 					moveTo(((Level.Location)l).next(Direction.SOUTH, wanderdist*2 - wanderdist).next(Direction.EAST, wanderdist*2 - wanderdist));
 				world().schedule(this, 100);
