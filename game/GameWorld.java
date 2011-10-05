@@ -171,9 +171,10 @@ public class GameWorld {
 	public Tree toTree(){
 		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
 		List<Map.Entry<Location, GameThing>> map = new LinkedList<Map.Entry<Location, GameThing>>();
-		for(GameThing gt : allThings.values())
-			map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(gt.location(), gt));
-		return new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(null), gts)).write(map);
+		for(Level level : levels.values())
+			for(GameThing gt : level)
+				map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(gt.location(), gt));
+		return new Serializers.List<Map.Entry<Location, GameThing>>(Serializers.mapEntry(LocationS.s(null), gts)).write(map);
 	}
 
 	public void fromTree(Tree in){

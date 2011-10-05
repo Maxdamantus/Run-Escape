@@ -1,14 +1,33 @@
 package game.things;
 
-import java.util.List;
+import java.util.*;
 
-import util.Direction;
-import game.Container;
-import game.GameThing;
-import game.GameWorld;
-import game.PickupGameThing;
+import util.*;
+import game.*;
+
+import serialization.*;
 
 public class TestPickUp extends PickupGameThing {
+	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof TestPickUp? "testpickup" : null;
+			}
+		});
+
+		union.addSerializer("door", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				TestPickUp in = (TestPickUp)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("name", new Tree(in.renderer)));
+				return out;
+			}
+
+			public GameThing read(Tree in){
+				return new TestPickUp(world, in.find("name").value());
+			}
+		});
+	}
 
 	private final String renderer;
 	
