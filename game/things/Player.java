@@ -148,4 +148,9 @@ public class Player extends Character {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void examine(AbstractGameThing abstractGameThing) {
+		// TODO
+		System.out.println("You examined it");
+	}
 }
