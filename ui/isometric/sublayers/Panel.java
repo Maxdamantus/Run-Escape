@@ -9,6 +9,13 @@ import java.io.IOException;
 import ui.isometric.IsoCanvas;
 import util.Resources;
 
+/**
+ * A panel renderer, draws a panel background and close widgets etc.
+ * Subclasses override drawContents to draw the contents of the panel
+ * 
+ * @author melby
+ *
+ */
 abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	private BufferedImage image = null;
 	private double x;
@@ -17,6 +24,11 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	private int height;
 	private IsoCanvas superview;
 	
+	/**
+	 * Create a panel centered in the view by the given %
+	 * @param x - 0-1, distance from right side
+	 * @param y - 0-1, distance from top
+	 */
 	public Panel(double x, double y) {
 		try {
 			image = Resources.readImageResourceUnfliped(this.imageName());
@@ -36,6 +48,7 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	@Override
 	final public void render(Graphics g, IsoCanvas into) {
 		g.drawImage(image, (int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2), null);
+		this.drawContents(g.create((int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2)+10, width, height-10));
 	}
 
 	@Override
@@ -51,13 +64,31 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 		superview = canvas;
 	}
 	
+	/**
+	 * Get the panels superview
+	 * @return
+	 */
 	public IsoCanvas superview() {
 		return superview;
 	}
 	
+	/**
+	 * Remove this panel from it's superview
+	 */
 	public void removeFromSuperview() {
 		superview.removeLayerRenderer(this);
 	}
 	
+	/**
+	 * Get the name of the image to use for the background.
+	 * Note, this may be removed soon
+	 * @return
+	 */
 	abstract protected String imageName();
+	
+	/**
+	 * Override to draw the contents of the panel
+	 * @param g
+	 */
+	abstract protected void drawContents(Graphics g);
 }

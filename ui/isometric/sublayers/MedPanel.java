@@ -1,10 +1,11 @@
 package ui.isometric.sublayers;
 
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 import ui.isometric.IsoCanvas;
 
-public class MedPanel extends Panel {
+abstract public class MedPanel extends Panel {
 
 	public MedPanel(double x, double y) {
 		super(x, y);
@@ -25,4 +26,6 @@ public class MedPanel extends Panel {
 		return "/resources/ui/panel_med.png";
 	}
 
+	@Override
+	abstract protected void drawContents(Graphics g);
 }

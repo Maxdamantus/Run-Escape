@@ -108,7 +108,7 @@ public class IsoEquipImageLibrary {
 	 * @param name
 	 * @return
 	 */
-	public BufferedImage imageForName(String name) {
+	public static BufferedImage imageForName(String name) {
 		synchronized(IsoEquipImageLibrary.class) {
 			if(images == null) {
 				loadImages();

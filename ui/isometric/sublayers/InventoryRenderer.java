@@ -1,8 +1,21 @@
 package ui.isometric.sublayers;
 
-public class InventoryRenderer extends LargePanel {
+import java.awt.Graphics;
 
-	public InventoryRenderer(double x, double y) {
+import ui.isometric.IsoCharacterImageLibrary;
+import ui.isometric.IsoPlayer;
+
+public class InventoryRenderer extends LargePanel {
+	private IsoPlayer player;
+	
+	public InventoryRenderer(IsoPlayer player, double x, double y) {
 		super(x, y);
+		
+		this.player = player;
+	}
+
+	@Override
+	protected void drawContents(Graphics g) {
+		g.drawImage(IsoCharacterImageLibrary.imageForCharacterName(player.characterName()), 0, 0, null);
 	}
 }

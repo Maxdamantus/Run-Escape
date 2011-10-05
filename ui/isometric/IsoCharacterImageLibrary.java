@@ -109,7 +109,7 @@ public class IsoCharacterImageLibrary {
 	 * @param name
 	 * @return
 	 */
-	public BufferedImage imageForCharacterName(String name) {
+	public static BufferedImage imageForCharacterName(String name) {
 		synchronized(IsoCharacterImageLibrary.class) {
 			if(images == null) {
 				loadImages();
@@ -123,7 +123,7 @@ public class IsoCharacterImageLibrary {
 	 * Get a list of all characters
 	 * @return
 	 */
-	public Set<String> getAllCharacters() { // TODO: more consistancy checks
+	public static Set<String> getAllCharacters() { // TODO: more consistancy checks
 		synchronized(IsoCharacterImageLibrary.class) {
 			if(images == null) {
 				loadImages();

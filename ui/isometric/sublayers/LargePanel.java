@@ -1,10 +1,11 @@
 package ui.isometric.sublayers;
 
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 import ui.isometric.IsoCanvas;
 
-public class LargePanel extends Panel {
+public abstract class LargePanel extends Panel {
 
 	public LargePanel(double x, double y) {
 		super(x, y);
@@ -25,4 +26,6 @@ public class LargePanel extends Panel {
 		return "/resources/ui/panel_large.jpg";
 	}
 
+	@Override
+	abstract protected void drawContents(Graphics g);
 }

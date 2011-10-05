@@ -66,4 +66,13 @@ public class IsoPlayer {
 	public GameWorld world() {
 		return world;
 	}
+
+	/**
+	 * Get the name of the character this player is using
+	 * @return
+	 */
+	public String characterName() {
+		// TODO: actually get this to work
+		return "bob";
+	}
 }
