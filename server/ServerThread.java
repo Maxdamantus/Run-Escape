@@ -122,7 +122,7 @@ public final class ServerThread {
 					
 					try { msg = parent.outqueue.poll(2, TimeUnit.SECONDS); } catch (InterruptedException e) {}
 					
-					if(msg != null) {
+					if(msg != null && (msg.startsWith(Long.toString(parent.usrGID)+" ") || msg.startsWith("-1 "))) {
 						bw.write(msg);
 						bw.flush();
 					}
@@ -142,8 +142,9 @@ public final class ServerThread {
 	}
 	
 	public void addDelta(WorldDelta d){
-		String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
-		this.queueMessage("upd " + deltaupdate + "\n");
+			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
+			this.queueMessage(d.to() + " " + "upd" + " " + deltaupdate + "\n");
+		}
 	}
 	
 	private void queueMessage(String msg) {
