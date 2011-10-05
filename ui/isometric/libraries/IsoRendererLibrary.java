@@ -455,7 +455,7 @@ public class IsoRendererLibrary {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			RendererImage image = imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection));
-			if(image == null) {
+			if(image == null) { // TODO: make IsoImage cope with null images?
 				throw new RuntimeException("Invalid renderer name: "+thing.renderer());
 			}
 			
@@ -481,7 +481,7 @@ public class IsoRendererLibrary {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			RendererImage image = imageForRendererName(rendererName, ((Level.Location)l).direction().compose(viewDirection));
-			if(image == null) {
+			if(image == null) { // TODO: make IsoImage cope with null images?
 				throw new RuntimeException("Invalid renderer name: "+rendererName);
 			}
 			
