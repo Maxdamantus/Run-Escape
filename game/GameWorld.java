@@ -104,31 +104,31 @@ public class GameWorld {
 	}
 
 	public void emitPut(GameThing gt, Location where){
-		emit(new WorldDelta(new WorldDelta.Put(gt.gid(), where)));
+		emit(new WorldDelta(new WorldDelta.Put(gt.gid(), where), -1));
 	}
 
 	public void emitIntroduce(GameThing gt){
-		emit(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
+		emit(new WorldDelta(new WorldDelta.Introduce(gt.gid()), -1));
 	}
 
 	public void emitIntroduceContainer(Container gt){
-		emit(new WorldDelta(new WorldDelta.IntroduceContainer(gt.cid())));
+		emit(new WorldDelta(new WorldDelta.IntroduceContainer(gt.cid()), -1));
 	}
 
 	public void emitForget(GameThing gt){
-		emit(new WorldDelta(new WorldDelta.Forget(gt.gid())));
+		emit(new WorldDelta(new WorldDelta.Forget(gt.gid()), -1));
 	}
 
 	public void emitUpdate(GameThing gt){
-		emit(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));
+		emit(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt)), -1));
 	}
 
 	public void emitSay(GameThing gt, String what){
-		emit(new WorldDelta(new WorldDelta.Say(gt.gid(), what)));
+		emit(new WorldDelta(new WorldDelta.Say(gt.gid(), what), -1));
 	}
 
 	public void emitAnimate(GameThing gt, String what){
-		emit(new WorldDelta(new WorldDelta.Animate(gt.gid(), what)));
+		emit(new WorldDelta(new WorldDelta.Animate(gt.gid(), what), -1));
 	}
 
 	public void emit(WorldDelta wd){
@@ -157,11 +157,11 @@ public class GameWorld {
 
 	public void allDeltas(DeltaWatcher dw){
 		for(Container ct : allContainers.values())
-			dw.delta(new WorldDelta(new WorldDelta.IntroduceContainer(ct.cid())));
+			dw.delta(new WorldDelta(new WorldDelta.IntroduceContainer(ct.cid()), -1));
 		for(GameThing gt : allThings.values()){
-			dw.delta(new WorldDelta(new WorldDelta.Introduce(gt.gid())));
-			dw.delta(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt))));
-			emit(new WorldDelta(new WorldDelta.Put(gt.gid(), gt.location())));
+			dw.delta(new WorldDelta(new WorldDelta.Introduce(gt.gid()), -1));
+			dw.delta(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt)), -1));
+			emit(new WorldDelta(new WorldDelta.Put(gt.gid(), gt.location()), -1));
 		}
 	}
 

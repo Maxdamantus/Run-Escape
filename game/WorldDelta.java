@@ -303,13 +303,19 @@ public class WorldDelta {
 	}
 
 	private final Action action;
+	private final long to;
 
 	public Action action(){
 		return action;
 	}
 
-	public WorldDelta(Action a){
+	public long to(){
+		return to;
+	}
+
+	public WorldDelta(Action a, long target){
 		action = a;
+		to = target;
 	}
 
 	public void apply(GameWorld w){
@@ -320,6 +326,7 @@ public class WorldDelta {
 		public Tree write(WorldDelta in){
 			Tree out = new Tree();
 			out.add(new Tree.Entry("type", new Tree(in.action.type())));
+			out.add(new Tree.Entry("to", Serializers.Serializer_Long.write(in.to)));
 			out.add(new Tree.Entry("action", in.action.toTree()));
 			return out;
 		}
@@ -327,6 +334,7 @@ public class WorldDelta {
 		public WorldDelta read(Tree in){
 			Reader<? extends Action> as = null;
 			String type = in.find("type").value();
+			long target = Serializers.Serializer_Long.read(in.find("to"));
 			if(type.equals("put"))
 				as = Put.serializer();
 			else if(type.equals("introduce"))
@@ -341,7 +349,7 @@ public class WorldDelta {
 				as = Animate.serializer();
 			else if(type.equals("introducecontainer"))
 				as = IntroduceContainer.serializer();
-			return new WorldDelta(as.read(in.find("action")));
+			return new WorldDelta(as.read(in.find("action")), target);
 		}
 	};
 }
