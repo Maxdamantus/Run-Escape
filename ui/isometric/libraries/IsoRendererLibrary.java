@@ -1,4 +1,4 @@
-package ui.isometric;
+package ui.isometric.libraries;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,6 +10,9 @@ import java.util.Set;
 import serialization.Serializer;
 import serialization.Serializers;
 import serialization.Tree;
+import ui.isometric.abstractions.IsoAnimatedImage;
+import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoSquare;
 import util.Direction;
 import util.ImageEdit;
 import util.Resources;

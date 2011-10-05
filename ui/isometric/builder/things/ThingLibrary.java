@@ -6,8 +6,8 @@ import game.GameWorld;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-import ui.isometric.IsoRendererLibrary;
-import ui.isometric.IsoSquare;
+import ui.isometric.abstractions.IsoSquare;
+import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 
 /**

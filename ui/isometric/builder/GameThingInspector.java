@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ui.isometric.IsoImage;
-import ui.isometric.IsoRendererLibrary;
+import ui.isometric.abstractions.IsoImage;
+import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 
 /**

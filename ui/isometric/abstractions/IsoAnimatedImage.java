@@ -1,8 +1,8 @@
-package ui.isometric;
+package ui.isometric.abstractions;
 
 import java.awt.image.BufferedImage;
 
-import ui.isometric.IsoRendererLibrary.RendererImage;
+import ui.isometric.libraries.IsoRendererLibrary.RendererImage;
 
 /**
  * An animated IsoImage

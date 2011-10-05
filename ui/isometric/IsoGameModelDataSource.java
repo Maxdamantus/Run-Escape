@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoSquare;
+import ui.isometric.libraries.IsoRendererLibrary;
 import util.Area;
 import util.Direction;
 import util.Position;

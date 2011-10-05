@@ -1,4 +1,4 @@
-package ui.isometric;
+package ui.isometric.libraries;
 
 import java.awt.image.BufferedImage;
 

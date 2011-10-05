@@ -1,6 +1,7 @@
 package ui.isometric;
 
 import game.Level;
+import ui.isometric.abstractions.IsoSquare;
 import util.Direction;
 
 

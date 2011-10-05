@@ -17,6 +17,9 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoSquare;
+import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 import util.Position;
 

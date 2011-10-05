@@ -8,10 +8,10 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.TransferHandler;
 
-import ui.isometric.IsoRendererLibrary;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.builder.things.ThingLibrary;
+import ui.isometric.libraries.IsoRendererLibrary;
 
 /**
  * 

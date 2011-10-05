@@ -30,7 +30,7 @@ import data.Database;
 import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
-import ui.isometric.IsoImage;
+import ui.isometric.abstractions.IsoImage;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Direction;

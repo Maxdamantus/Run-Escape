@@ -3,7 +3,7 @@ package ui.isometric.builder.things;
 import java.util.HashSet;
 import java.util.Set;
 
-import ui.isometric.IsoRendererLibrary;
+import ui.isometric.libraries.IsoRendererLibrary;
 
 public class ThingCreatorChecker {
 	public static void main(String[] args) {

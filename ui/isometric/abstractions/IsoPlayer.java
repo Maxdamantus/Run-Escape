@@ -1,5 +1,6 @@
-package ui.isometric;
+package ui.isometric.abstractions;
 
+import ui.isometric.IsoInterface;
 import game.Container;
 import game.GameThing;
 import game.GameWorld;

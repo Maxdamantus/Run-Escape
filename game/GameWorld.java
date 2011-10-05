@@ -3,8 +3,8 @@ package game;
 import java.util.*;
 
 import serialization.*;
-import ui.isometric.IsoRendererLibrary;
-import ui.isometric.IsoSquare;
+import ui.isometric.abstractions.IsoSquare;
+import ui.isometric.libraries.IsoRendererLibrary;
 
 public class GameWorld {
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();

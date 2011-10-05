@@ -1,4 +1,4 @@
-package ui.isometric;
+package ui.isometric.abstractions;
 
 import java.util.*;
 

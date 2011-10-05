@@ -1,10 +1,10 @@
-package ui.isometric;
+package ui.isometric.abstractions;
 
 import java.awt.image.BufferedImage;
 
 import game.GameThing;
 
-import ui.isometric.IsoRendererLibrary.RendererImage;
+import ui.isometric.libraries.IsoRendererLibrary.RendererImage;
 
 /**
  * 

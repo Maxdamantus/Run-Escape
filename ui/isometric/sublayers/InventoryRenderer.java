@@ -2,8 +2,8 @@ package ui.isometric.sublayers;
 
 import java.awt.Graphics;
 
-import ui.isometric.IsoCharacterImageLibrary;
-import ui.isometric.IsoPlayer;
+import ui.isometric.abstractions.IsoPlayer;
+import ui.isometric.libraries.IsoCharacterImageLibrary;
 
 /**
  * Renderer the players inventory
