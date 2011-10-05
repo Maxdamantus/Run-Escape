@@ -142,14 +142,14 @@ public class IsoGameModelDataSource implements IsoDataSource {
 				animationsLock.readLock().unlock();
 				if(animate == null) {
 					IsoImage image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection);
-					square.addImageForLevel(image);
+					square.addImageForLevel(image, thing.renderLevel());
 				}
 				else {
 					IsoRendererLibrary.RendererImage animation = IsoRendererLibrary.imageForRendererName(animate.renderer(), viewDirection);
 										
 					if(animate.startTime() < System.currentTimeMillis() - (animation.frameCount() / ANIMATION_FPS * 1000.0)) {						
 						IsoImage image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection);
-						square.addImageForLevel(image);
+						square.addImageForLevel(image, thing.renderLevel());
 						
 						animationsLock.writeLock().lock(); // Animation stopped
 						animations.remove(thing);
@@ -158,7 +158,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 					else {
 						int frame = (int) ((System.currentTimeMillis() - animate.startTime()) / 1000.0 * ANIMATION_FPS);
 						IsoImage image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection, animate.renderer(), frame);
-						square.addImageForLevel(image);
+						square.addImageForLevel(image, thing.renderLevel());
 					}
 				}
 				

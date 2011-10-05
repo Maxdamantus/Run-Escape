@@ -93,4 +93,9 @@ public class Door extends AbstractGameThing {
 	public boolean canWalkInto(Direction d, Character who){
 		return open;
 	}
+	
+	@Override
+	public int renderLevel() {
+		return ui.isometric.abstractions.IsoSquare.WALL;
+	}
 }
