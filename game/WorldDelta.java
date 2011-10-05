@@ -350,6 +350,54 @@ public class WorldDelta {
 		}
 	}
 
+	public static class EmitSound implements Action {
+		private final Tree in;
+
+		public EmitSound(long g, String w){
+			in = new Tree();
+			in.add(new Tree.Entry("gid", Serializers.Serializer_Long.write(g)));
+			in.add(new Tree.Entry("what", new Tree(w)));
+		}
+
+		public EmitSound(Tree t){
+			in = t;
+		}
+
+		public void apply(GameWorld world){
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
+			String what = in.find("what").value();
+			world.emitEmitSound(world.thingWithGID(gid), what);
+		}
+
+		public GameThing which(GameWorld world){
+			return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
+		}
+
+		public String what(){
+			return in.find("what").value();
+		}
+
+		public final static Serializer<EmitSound> serializer(){
+			return new Serializer<EmitSound>(){
+				public Tree write(EmitSound in){
+					return in.in;
+				}
+
+				public EmitSound read(Tree in){
+					return new EmitSound(in);
+				}
+			};
+		}
+
+		public Tree toTree(){
+			return in;
+		}
+
+		public String type(){
+			return "emitsound";
+		}
+	}
+
 	private final Action action;
 	private final long to;
 
@@ -399,6 +447,8 @@ public class WorldDelta {
 				as = IntroduceContainer.serializer();
 			else if(type.equals("showcontainer"))
 				as = ShowContainer.serializer();
+			else if(type.equals("emitsound"))
+				as = EmitSound.serializer();
 			return new WorldDelta(as.read(in.find("action")), target);
 		}
 	};

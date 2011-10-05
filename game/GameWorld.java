@@ -134,6 +134,10 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.ShowContainer(ct.cid(), name), -1));
 	}
 
+	public void emitEmitSound(GameThing gt, String what){
+		emit(new WorldDelta(new WorldDelta.EmitSound(gt.gid(), what), -1));
+	}
+
 	public void emit(WorldDelta wd){
 		for(DeltaWatcher dw : watchers)
 			dw.delta(wd);
