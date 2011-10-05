@@ -3,6 +3,7 @@ package game.things;
 import game.*;
 
 import java.util.*;
+import util.*;
 
 import serialization.*;
 
@@ -20,24 +21,40 @@ public class Enemy extends Character {
 				Tree out = new Tree();
 				out.add(new Tree.Entry("type", new Tree(in.type())));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
+				out.add(new Tree.Entry("start", LocationS.s(world).write(in.start)));
+				out.add(new Tree.Entry("wander", Serializers.Serializer_Integer.write(in.wanderdist)));
 				return out;
 			}
 
 			public GameThing read(Tree in){
 				return new Enemy(world,
 					in.find("type").value(),
-					in.find("name").value());
+					in.find("name").value(),
+					LocationS.s(world).read(in.find("start")),
+					Serializers.Serializer_Integer.read(in.find("wander")));
 			}
 		});
 	}
 
 	private final String name;
+	private final Location start;
+	private final int wanderdist;
 
-	public Enemy(GameWorld world, String t, String n){
+	public Enemy(GameWorld world, String t, String n, Location sl, int wd){
 		super(world, t);
 		name = n;
-		update();
+		start = sl;
+		wanderdist = wd;
 		health(1000);
+		update();
+		new Runnable(){
+			public void run(){
+				Location l = location();
+				if(l instanceof Level.Location && !busy())
+					moveTo(((Level.Location)l).next(Direction.SOUTH, wanderdist*2 - wanderdist).next(Direction.EAST, wanderdist*2 - wanderdist));
+				world().schedule(this, 100);
+			}
+		}.run();
 	}
 
 	public String name(){

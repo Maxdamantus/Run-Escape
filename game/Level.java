@@ -58,8 +58,12 @@ public class Level implements Iterable<GameThing> {
 			return direct(direction.compose(d));
 		}
 
+		public Location next(Direction d, int l){
+			return new Location(level, new Position(position.x() + d.dx()*l, position.y() + d.dy()*l), l < 0? d.compose(Direction.SOUTH) : d);
+		}
+
 		public Location next(Direction d){
-			return new Location(level, new Position(position.x() + d.dx(), position.y() + d.dy()), d);
+			return next(d, 1);
 		}
 
 		public int dist(Location l){

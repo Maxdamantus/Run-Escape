@@ -72,6 +72,10 @@ public class Character extends AbstractGameThing {
 		return moveTo(where, 0, ondone);
 	}
 
+	public boolean busy(){
+		return stepIdent != null || attackIdent != null;
+	}
+
 	private Object stepIdent;
 	private void step(final Level.Location where, final Runnable ondone, final int dist, final Object ident){
 		if(stepIdent != ident)
@@ -80,6 +84,7 @@ public class Character extends AbstractGameThing {
 		if(!(l instanceof Level.Location))
 			return;
 		if(((Level.Location)l).level().equals(where.level()) && where.dist((Level.Location)l) <= dist){
+			stepIdent = null;
 			if(ondone != null)
 				ondone.run();
 		}else{
