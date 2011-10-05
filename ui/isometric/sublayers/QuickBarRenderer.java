@@ -120,7 +120,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			buttons[BUTTON_INVENTORY] = new Button(open_inventory, null, null, new Runnable() {
 				@Override
 				public void run() {
-					showInventory();
+					showHideInventory();
 				}
 			});
 		} catch (IOException e) {
@@ -177,9 +177,9 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	}
 	
 	/**
-	 * Show the inventory panel
+	 * Show/hide the inventory panel
 	 */
-	private void showInventory() {
+	private void showHideInventory() {
 		if(!showInventory) {
 			inter.canvas().addLayerRenderer(inventoryRenderer);
 			showInventory = true;
