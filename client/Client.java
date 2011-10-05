@@ -22,7 +22,8 @@ import game.*;
  */
 public class Client implements ClientMessageHandler {
 	private Socket skt;
-	private String uid;
+	private String userName;
+	private long userGID;
 	private InputStreamReader in;
 	private BufferedReader reader;
 	private OutputStreamWriter out;
@@ -35,24 +36,25 @@ public class Client implements ClientMessageHandler {
 	public static void main(String[] args) {
 		boolean debugMode = false;
 		String host = "localhost";
-		String uid = "";
+		String username = "";
+		
 		int port = 32765;
 		// take command line server and info
 		if (args.length == 3) {
 			host = args[0];
 			port = Integer.parseInt(args[1]);
-			uid = args[2];
+			username = args[2];
 		} else { // user input dialogs to get server and player information
 			String server = JOptionPane
 					.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
 			if (server == null)
 				System.exit(0); // closes if cancel is pressed
-			uid = JOptionPane
+			username = JOptionPane
 					.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
-			if (uid == null)
+			if (username == null)
 				System.exit(0);// closes if cancel is pressed
-			if (uid.equals(""))
-				uid = "Player" + (int) (Math.random() * 1000);
+			if (username.equals(""))
+				username = "Player" + (int) (Math.random() * 1000);
 			if (server.length() > 0) {
 				String[] split = server.split(":");
 				host = split[0];
@@ -63,7 +65,7 @@ public class Client implements ClientMessageHandler {
 		}
 		if (debugMode)
 			System.out.println(host + ", " + port);
-		Client client = new Client(host, port, uid, debugMode);
+		new Client(host, port, username, debugMode);
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class Client implements ClientMessageHandler {
 	 *            server port
 	 */
 	public Client(String host, int port, String uid, boolean debugMode) {
-		this.uid = uid;
+		this.userName = uid;
 		this.debugMode = debugMode;
 		try {
 
@@ -89,16 +91,18 @@ public class Client implements ClientMessageHandler {
 			writer = new BufferedWriter(out);
 
 			// creating GUI
-			view = new IsoInterface("IsoTest", world, this);
+			
 			NetworkListenerThread updater = new NetworkListenerThread(reader, view, world);
 
 			// sending name
 			writer.write("uid " + uid + "\n");
 			updater.start();
 			writer.flush();
+			
+			userGID = Long.parseLong(reader.readLine().substring(4));
 
 			// showing GUI
-
+			view = new IsoInterface("IsoTest", world, this, userGID);
 			view.show();
 
 		} catch (UnknownHostException e) {
@@ -128,7 +132,7 @@ public class Client implements ClientMessageHandler {
 			if (debugMode)
 				System.out.print("Sent chat: " + chatText);
 			if (chatText.startsWith("/me"))
-				chatText = "*" + uid + " " + chatText.substring(4);
+				chatText = "*" + userName + " " + chatText.substring(4);
 			else if (chatText.startsWith("/color")) {
 				Color newColor = null;
 				if (chatText.substring(7).startsWith("#")) 
@@ -156,7 +160,7 @@ public class Client implements ClientMessageHandler {
 				chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
 				return;
 			} else
-				chatText = uid + ": " + chatText;
+				chatText = userName + ": " + chatText;
 			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
 			writer.write(send);
 			writer.flush();
