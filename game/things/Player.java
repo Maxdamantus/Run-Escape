@@ -7,7 +7,7 @@ import serialization.*;
 import java.util.*;
 
 public class Player extends Character {
-	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
 				return g instanceof Player? "player" : null;
@@ -21,11 +21,16 @@ public class Player extends Character {
 				out.add(new Tree.Entry("type", new Tree(in.type)));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
 				out.add(new Tree.Entry("location", LocationS.s(null).write(in.lastLocation == null? in.location() : in.lastLocation)));
+				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.inventory)));
 				return out;
 			}
 
 			public GameThing read(Tree in){
-				return new Player(world, in.find("type").value(), in.find("name").value(), LocationS.s(world).read(in.find("location")));
+				return new Player(world,
+					in.find("type").value(),
+					in.find("name").value(),
+					LocationS.s(world).read(in.find("location")),
+					Container.serializer(union.serializer(), world).read(in.find("inventory")));
 			}
 		});
 	}
@@ -37,7 +42,7 @@ public class Player extends Character {
 	private final static int WALKDELAY = 50;
 	private final Container inventory;
 
-	public Player(GameWorld world, String t, String n, Location spawn){
+	private Player(GameWorld world, String t, String n, Location spawn, Container inv){
 		super(world, t);
 		type = t;
 		name = n;
@@ -45,8 +50,12 @@ public class Player extends Character {
 		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
 		update();
 		health(1000);
-		inventory = new Container(world);
+		inventory = inv;
 	//	world.schedule(blah, 1000);
+	}
+
+	public Player(GameWorld world, String t, String n, Location spawn){
+		this(world, t, n, spawn, new Container(world));
 	}
 /*
 	private Runnable blah = new Runnable(){

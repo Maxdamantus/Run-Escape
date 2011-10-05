@@ -8,12 +8,12 @@ public class Container implements Iterable<GameThing>, Location {
 	public static Serializer<Container> serializer(final Serializer<GameThing> gts, final GameWorld w){
 		return new Serializer<Container>(){
 			public Tree write(Container in){
-				return new Serializers.Set<GameThing>(gts).write(in.set);
+				return Serializers.set(gts).write(in.set);
 			}
 
 			public Container read(Tree in){
 				Container c = new Container(w);
-				for(GameThing gt : new Serializers.Set<GameThing>(gts).read(in))
+				for(GameThing gt : Serializers.set(gts).read(in))
 					c.put(gt);
 				return c;
 			}
