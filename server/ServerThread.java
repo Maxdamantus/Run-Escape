@@ -145,7 +145,6 @@ public final class ServerThread {
 			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
 			this.queueMessage(d.to() + " " + "upd" + " " + deltaupdate + "\n");
 		}
-	}
 	
 	private void queueMessage(String msg) {
 		outqueue.add(msg);
