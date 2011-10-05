@@ -34,7 +34,7 @@ public class IsoRendererLibrary {
 	private static Map<String, Integer> offsets = null;
 	private static BufferedImage maskTile;
 	
-	public static final String MASK_TILE_NAME = "MASK_TILE";
+	public static final String MASK_TILE_NAME = "mask_tile";
 	
 	/**
 	 * A class that stores images/animations

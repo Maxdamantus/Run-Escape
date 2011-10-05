@@ -768,11 +768,24 @@
   </i>
   
   <i>
-    <k>mask_square</k>
+    <k>mask_tile</k>
     <v>
       <i>
         <k>name</k>
-        <v>mask_square</v>
+        <v>mask_tile</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE1</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>empty_tile</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>empty_tile</v>
       </i>
       <i>
         <k>type</k>
