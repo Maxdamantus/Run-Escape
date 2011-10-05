@@ -11,29 +11,23 @@ import serialization.SerializerUnion;
 import serialization.Tree;
 
 public abstract class PickupGameThing extends AbstractGameThing {
-	
-	protected Location curLoc;
-	protected final static List<String> interactions;
-	static {
-		interactions = new LinkedList<String>();
-		interactions.add("pickup");
-		interactions.add("drop");
-	}
-	
-
 	public PickupGameThing(GameWorld w) {
 		super(w);
-		curLoc = location();
 		// TODO Auto-generated constructor stub
+	}
+
+	public List<String> interactions(){
+		List<String> out = new LinkedList<String>();
+		// assuming if it's not in a level, it must be droppable.
+		out.add(location() instanceof Level.Location? "pick up" : "drop");
+		return out;
 	}
 	
 	public void interact(String name, Player who){
-		if(name != null) {
-			if(name.equals("pickup"))
-				who.pickup(this);
-			else if(name.equals("drop")){
-				who.drop(this);
-			}
+		if(name.equals("pick up"))
+			who.pickup(this);
+		else if(name.equals("drop")){
+			who.drop(this);
 		}
 	}
 	

@@ -100,14 +100,6 @@ public class Player extends Character {
 			who.attack(this);
 	}
 	
-	public void pickup(GameThing g){
-		inventory.put(g);
-		//for testing
-		for(GameThing gt : inventory.contents()){
-			System.out.println(gt.name());
-		}
-	}
-
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
 		if(health() <= 0){
@@ -117,10 +109,25 @@ public class Player extends Character {
 			health(1000);
 		}
 	}
-	
-	public void drop(GameThing g){
-		inventory.remove(g);
-		g.location(this.location());
+
+	public void pickup(final GameThing g){
+		System.out.println("pickup(" + g + ")");
+		if(!moveTo(g.location(), new Runnable(){
+			public void run(){
+				inventory.put(g);
+				//for testing
+				for(GameThing gt : inventory.contents()){
+					System.out.println(gt.name());
+				}
+			}
+		})){
+			// printing to the wrong place
+			System.out.println("I can't reach that");
+		}
 	}
 	
+	public void drop(GameThing g){
+		if(g.location() == inventory)
+			location().put(g);
+	}
 }

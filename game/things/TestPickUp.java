@@ -15,6 +15,7 @@ public class TestPickUp extends PickupGameThing {
 
 	
 	//For reading in (serializer to be completed)
+	// MaxZ's note: things won't know they might be instantiated inside a container; the container will just create them afterwards, put them inside it.
 	public TestPickUp(GameWorld world, String name, Container cont){
 		super(world);
 		renderer = name;
@@ -34,7 +35,7 @@ public class TestPickUp extends PickupGameThing {
 	}
 	
 	public List<String> interactions(){
-		return interactions;
+		return super.interactions();
 	}
 	
 	public String renderer(){
