@@ -302,6 +302,54 @@ public class WorldDelta {
 		}
 	}
 
+	public static class ShowContainer implements Action {
+		private final Tree in;
+
+		public ShowContainer(long g, String w){
+			in = new Tree();
+			in.add(new Tree.Entry("cid", Serializers.Serializer_Long.write(g)));
+			in.add(new Tree.Entry("what", new Tree(w)));
+		}
+
+		public ShowContainer(Tree t){
+			in = t;
+		}
+
+		public void apply(GameWorld world){
+			long cid = Serializers.Serializer_Long.read(in.find("cid"));
+			String what = in.find("what").value();
+			world.emitShowContainer(world.containerWithCID(cid), what);
+		}
+
+		public Container which(GameWorld world){
+			return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
+		}
+
+		public String what(){
+			return in.find("what").value();
+		}
+
+		public final static Serializer<ShowContainer> serializer(){
+			return new Serializer<ShowContainer>(){
+				public Tree write(ShowContainer in){
+					return in.in;
+				}
+
+				public ShowContainer read(Tree in){
+					return new ShowContainer(in);
+				}
+			};
+		}
+
+		public Tree toTree(){
+			return in;
+		}
+
+		public String type(){
+			return "showcontainer";
+		}
+	}
+
 	private final Action action;
 	private final long to;
 
@@ -349,6 +397,8 @@ public class WorldDelta {
 				as = Animate.serializer();
 			else if(type.equals("introducecontainer"))
 				as = IntroduceContainer.serializer();
+			else if(type.equals("showcontainer"))
+				as = ShowContainer.serializer();
 			return new WorldDelta(as.read(in.find("action")), target);
 		}
 	};

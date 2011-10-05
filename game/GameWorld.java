@@ -131,6 +131,10 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.Animate(gt.gid(), what), -1));
 	}
 
+	public void emitShowContainer(Container ct, String name){
+		emit(new WorldDelta(new WorldDelta.ShowContainer(ct.cid(), name), -1));
+	}
+
 	public void emit(WorldDelta wd){
 		for(DeltaWatcher dw : watchers)
 			dw.delta(wd);
