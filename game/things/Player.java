@@ -126,6 +126,19 @@ public class Player extends Character {
 		}
 	}
 	
+	/**
+	 * For this player to receive an item from another player or npc
+	 * @param g GameThing to receive
+	 */
+	public void receiveItem(final GameThing g){
+		System.out.println("received(" + g + ")");
+		inventory.put(g);
+		//for testing
+		for(GameThing gt : inventory.contents()){
+			System.out.println(gt.name());
+		}
+	}
+	
 	public void drop(GameThing g){
 		if(g.location() == inventory)
 			location().put(g);
