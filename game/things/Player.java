@@ -143,4 +143,9 @@ public class Player extends Character {
 		if(g.location() == inventory)
 			location().put(g);
 	}
+
+	public void equip(EquipmentGameThing equipmentGameThing) {
+		// TODO Auto-generated method stub
+		
+	}
 }
