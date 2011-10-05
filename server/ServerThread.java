@@ -67,6 +67,7 @@ public final class ServerThread {
 							System.err.println("plyr logged in");
 					//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 							parent.usrGID = plyr.gid();
+							parent.queueMessage("uid " + parent.usrGID);
 						}
 						else if(temp.startsWith("cmg")){
 							String action = temp.substring(4);
