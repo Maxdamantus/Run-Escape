@@ -454,7 +454,12 @@ public class IsoRendererLibrary {
 		
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			tmp = new IsoImage(imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection)), square, offsetForRendererName(thing.renderer()));
+			RendererImage image = imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection));
+			if(image == null) {
+				throw new RuntimeException("Invalid renderer name: "+thing.renderer());
+			}
+			
+			tmp = new IsoImage(image, square, offsetForRendererName(thing.renderer()));
 			tmp.setGameThing(thing);
 		}
 		
@@ -475,7 +480,12 @@ public class IsoRendererLibrary {
 		
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
-			tmp = new IsoAnimatedImage(imageForRendererName(rendererName, ((Level.Location)l).direction().compose(viewDirection)), square, offsetForRendererName(thing.renderer()), animationFrame);
+			RendererImage image = imageForRendererName(rendererName, ((Level.Location)l).direction().compose(viewDirection));
+			if(image == null) {
+				throw new RuntimeException("Invalid renderer name: "+rendererName);
+			}
+			
+			tmp = new IsoAnimatedImage(image, square, offsetForRendererName(thing.renderer()), animationFrame);
 			tmp.setGameThing(thing);
 		}
 		
