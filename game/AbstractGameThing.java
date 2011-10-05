@@ -89,7 +89,10 @@ public abstract class AbstractGameThing implements GameThing {
 		return Collections.emptyList();
 	}
 
-	public void interact(String inter, game.things.Player who){}
+	public void interact(String inter, game.things.Player who){
+		if(inter.equals("examine"))
+			who.examine(this);
+	}
 
 	public boolean canWalkInto(Direction d, game.things.Character who){
 		return true;
