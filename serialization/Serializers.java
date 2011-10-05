@@ -56,6 +56,10 @@ public class Serializers {
 		}
 	}
 
+	public static <T> List<T> list(Serializer<T> t){
+		return new List<T>(t);
+	}
+
 	/**
 	 * A Set<T> serializer class which implements read and write methods 
 	 * @author wafaahma
@@ -78,6 +82,10 @@ public class Serializers {
 		public Tree write(java.util.Set<T> in){
 			return listSerializer.write(in);
 		}
+	}
+
+	public static <T> Set<T> set(Serializer<T> t){
+		return new Set<T>(t);
 	}
 	
 	/**
@@ -120,6 +128,10 @@ public class Serializers {
 		}
 	}
 
+	public static <K, V> MapEntry<K, V> mapEntry(Serializer<K> k, Serializer<V> v){
+		return new MapEntry<K, V>(k, v);
+	}
+
 	/**
 	 * A Map<K, V> serializer class which implements read and write methods 
 	 * @author wafaahma
@@ -145,6 +157,10 @@ public class Serializers {
 		public Tree write(java.util.Map<K, V> in){
 			return setSerializer.write(in.entrySet());
 		}
+	}
+
+	public static <K, V> Map<K, V> map(Serializer<K> k, Serializer<V> v){
+		return new Map<K, V>(k, v);
 	}
 	
 	public static class JSerializable<T extends java.io.Serializable> implements Serializer<T> {
