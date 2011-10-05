@@ -197,7 +197,6 @@ public class IsoRendererLibrary {
 							levels[y] = level;
 					}
 				}
-				System.out.println("ImageType(" + store.get(NAME) + ", .., [" + levels[0] + ", ..], ..)");
 				
 				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)), off, levels, frames);
 			}
