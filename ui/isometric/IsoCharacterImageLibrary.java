@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import data.Database;
 
@@ -116,5 +117,19 @@ public class IsoCharacterImageLibrary {
 		}
 		
 		return images.get(name);
+	}
+	
+	/**
+	 * Get a list of all characters
+	 * @return
+	 */
+	public Set<String> getAllCharacters() { // TODO: more consistancy checks
+		synchronized(IsoCharacterImageLibrary.class) {
+			if(images == null) {
+				loadImages();
+			}
+		}
+		
+		return images.keySet();
 	}
 }
