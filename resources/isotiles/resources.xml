@@ -768,11 +768,11 @@
   </i>
   
   <i>
-    <k>EMPTY_TILE</k>
+    <k>mask_square</k>
     <v>
       <i>
         <k>name</k>
-        <v>empty_square</v>
+        <v>mask_square</v>
       </i>
       <i>
         <k>type</k>

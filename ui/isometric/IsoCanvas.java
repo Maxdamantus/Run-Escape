@@ -236,7 +236,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 					int y = selectionPoint.y - dy + TILE_Y;
 					
 					int[] pixels = new int[4];
-					IsoRendererLibrary.emptyTile().getAlphaRaster().getPixel(x, y, pixels);
+					IsoRendererLibrary.maskTile().getAlphaRaster().getPixel(x, y, pixels);
 					
 					if(pixels[0] > 0) {
 						selectedSquarePosition = dataSource.transform().transformViewPosition(new Position(sx, sy));

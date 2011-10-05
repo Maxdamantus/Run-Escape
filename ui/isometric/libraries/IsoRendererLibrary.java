@@ -32,9 +32,9 @@ public class IsoRendererLibrary {
 	
 	private static Map<String, Map<Direction, RendererImage>> renderers = null;
 	private static Map<String, Integer> offsets = null;
-	private static BufferedImage emptyTile;
+	private static BufferedImage maskTile;
 	
-	public static final String EMPTY_TILE_NAME = "EMPTY_TILE";
+	public static final String MASK_TILE_NAME = "MASK_TILE";
 	
 	/**
 	 * A class that stores images/animations
@@ -303,7 +303,7 @@ public class IsoRendererLibrary {
 					offsets.put(key, types.get(key).yoffset());
 				}
 				
-				emptyTile = imageForRendererName(EMPTY_TILE_NAME, Direction.NORTH).image();
+				maskTile = imageForRendererName(MASK_TILE_NAME, Direction.NORTH).image();
 			}
 		}
 	}
@@ -494,11 +494,11 @@ public class IsoRendererLibrary {
 	 * An empty tile with the correct alpha channel to use for tile selection
 	 * @return
 	 */
-	public static BufferedImage emptyTile() {
+	public static BufferedImage maskTile() {
 		if(renderers == null) {
 			loadImages();
 		}
 		
-		return emptyTile;
+		return maskTile;
 	}
 }
