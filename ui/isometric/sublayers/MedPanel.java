@@ -5,8 +5,19 @@ import java.awt.event.MouseEvent;
 
 import ui.isometric.IsoCanvas;
 
+/**
+ * A medium sized panel
+ * 
+ * @author melby
+ *
+ */
 abstract public class MedPanel extends Panel {
 
+	/**
+	 * Create a MedPanel at a given fraction of the window width height
+	 * @param x
+	 * @param y
+	 */
 	public MedPanel(double x, double y) {
 		super(x, y);
 	}

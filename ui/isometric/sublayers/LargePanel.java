@@ -5,8 +5,20 @@ import java.awt.event.MouseEvent;
 
 import ui.isometric.IsoCanvas;
 
+/**
+ * A large panel
+ * Note: might be removed soon
+ * 
+ * @author melby
+ *
+ */
 public abstract class LargePanel extends Panel {
-
+	
+	/**
+	 * Create a LargePanel at a given fraction of the window width height
+	 * @param x
+	 * @param y
+	 */
 	public LargePanel(double x, double y) {
 		super(x, y);
 	}

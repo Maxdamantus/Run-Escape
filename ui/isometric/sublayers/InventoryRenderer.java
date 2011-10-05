@@ -5,9 +5,21 @@ import java.awt.Graphics;
 import ui.isometric.IsoCharacterImageLibrary;
 import ui.isometric.IsoPlayer;
 
+/**
+ * Renderer the players inventory
+ * 
+ * @author melby
+ *
+ */
 public class InventoryRenderer extends LargePanel {
 	private IsoPlayer player;
 	
+	/**
+	 * Create an InventoryRenderer with a given player and percentage x/y coord
+	 * @param player
+	 * @param x
+	 * @param y
+	 */
 	public InventoryRenderer(IsoPlayer player, double x, double y) {
 		super(x, y);
 		

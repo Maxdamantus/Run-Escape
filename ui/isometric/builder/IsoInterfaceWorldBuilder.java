@@ -200,6 +200,9 @@ public class IsoInterfaceWorldBuilder {
 		return world;
 	}
 	
+	/**
+	 * Save the world
+	 */
 	public void save() {
 		String file = Database.treeToXML(world.toTree());
 		
@@ -225,6 +228,9 @@ public class IsoInterfaceWorldBuilder {
 		}
 	}
 	
+	/**
+	 * Load the world
+	 */
 	public void load() {
 		String loaded = null;
 		
