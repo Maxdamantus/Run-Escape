@@ -110,4 +110,7 @@ public class ChatRenderer implements UILayerRenderer {
 			log.removeLast();
 		}
 	}
+
+	@Override
+	public void setSuperview(IsoCanvas canvas) { }
 }

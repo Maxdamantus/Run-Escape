@@ -92,6 +92,12 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		 * @param canvas - the canvas the click was in
 		 */
 		public void wasClicked(MouseEvent event, IsoCanvas canvas);
+		
+		/**
+		 * Set the superview, ok to ignore
+		 * @param canvas
+		 */
+		public void setSuperview(IsoCanvas canvas);
 	}
 		
 	/**
@@ -372,11 +378,13 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		}
 		else {
 			for(int n = 0; n < extraRenderers.size(); n++) {
-				if(extraRenderers.get(n).level() > renderer.level()) {
+				if(extraRenderers.get(n).level() < renderer.level()) {
 					extraRenderers.add(n, renderer);
-					break;
+					return;
 				}
 			}
+			
+			extraRenderers.add(renderer);
 		}
 	}
 	

@@ -25,9 +25,7 @@ import util.Resources;
  *
  */
 public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
-	private BufferedImage melee = null;
-	private BufferedImage melee_default = null;
-	private BufferedImage missile = null;
+	private BufferedImage weapon = null;
 	private BufferedImage spell = null;
 	private BufferedImage background = null;
 	private BufferedImage disabled_tile = null;
@@ -43,20 +41,19 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	
 	private Button[] buttons = new Button[10];
 	
-	private static int BUTTON_MELEE = 0;
-	private static int BUTTON_MISSILE = 1;
-	private static int BUTTON_SPELL = 2;
+	private static int BUTTON_WEAPON = 0;
+	private static int BUTTON_SPELL = 1;
 	private static int BUTTON_INVENTORY = 9;
 	
 	private Button selectedButton;
 	
 	private Button.ButtonListener configureButton = new Button.ButtonListener() {
 		@Override
-		public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) {
+		public void rightClick(Button selectedButton, Point point, final IsoCanvas canvas) {
 			showMenu(canvas, point, new MenuListener() {
 				@Override
 				public void clicked(String menuName) {
-					System.out.println(menuName);
+					canvas.addLayerRenderer(new MedPanel(0.5, 0.45));
 				}
 			}, "configure");
 		}
@@ -124,54 +121,21 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		try {
 			this.player = player;
 			
-			melee = Resources.readImageResourceUnfliped("/resources/ui/melee.png");
-			melee_default = Resources.readImageResourceUnfliped("/resources/ui/melee_default.png");
-			missile = Resources.readImageResourceUnfliped("/resources/ui/missile.png");
+			weapon = Resources.readImageResourceUnfliped("/resources/ui/weapon.png");
 			spell = Resources.readImageResourceUnfliped("/resources/ui/spell.png");
 			background = Resources.readImageResourceUnfliped("/resources/ui/tile_background.png");
 			disabled_tile = Resources.readImageResourceUnfliped("/resources/ui/disabled_tile.png");
 			default_tile = Resources.readImageResourceUnfliped("/resources/ui/default_tile.png");
 			open_inventory = Resources.readImageResourceUnfliped("/resources/ui/open_inventory.png");
 			
-			tileWidth = melee.getWidth();
-			tileHeight = melee.getHeight();
+			tileWidth = weapon.getWidth();
+			tileHeight = weapon.getHeight();
 			
 			for(int n = 0; n < buttons.length; n++) {
 				buttons[n] = new Button(background, configureButton);
 			}
 			
-			buttons[BUTTON_MELEE] = new Button(melee_default, new Button.ButtonListener() {
-				@Override
-				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					showMenu(canvas, point, new MenuListener() {
-						@Override
-						public void clicked(String menuName) {
-							System.out.println(menuName);
-						}
-					}, "set default weapon");
-				}
-
-				@Override
-				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					// TODO: fight
-				}
-			});
-			buttons[BUTTON_MISSILE] = new Button(missile, new Button.ButtonListener() {
-				@Override
-				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					showMenu(canvas, point, new MenuListener() {
-						@Override
-						public void clicked(String menuName) {
-							System.out.println(menuName);
-						}
-					}, "set default weapon");
-				}
-
-				@Override
-				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					// TODO: fight
-				}
-			});
+			buttons[BUTTON_WEAPON] = new Button(weapon, null);
 			buttons[BUTTON_SPELL] = new Button(spell, new Button.ButtonListener() {
 				@Override
 				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) { }
@@ -187,7 +151,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 
 				@Override
 				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					// TODO: open inventory
+					canvas.addLayerRenderer(new LargePanel(0.5, 0.45));
 				}
 			});
 		} catch (IOException e) {
@@ -203,7 +167,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	@Override
 	public void render(Graphics g, IsoCanvas into) {
 		int x = into.getWidth()/2-tileWidth*buttons.length/2-tileSpacing*(buttons.length/2-1);
-		int y = into.getHeight()-melee.getHeight()-bottomPadding;
+		int y = into.getHeight()-tileHeight-bottomPadding;
 		
 		for(Button b : buttons) {
 			g.drawImage(b.image(), x, y, null);
@@ -217,7 +181,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		boolean clicked = false;
 		
 		int x = isoCanvas.getWidth()/2-tileWidth*buttons.length/2-tileSpacing*(buttons.length/2-1);
-		int y = isoCanvas.getHeight()-melee.getHeight()-bottomPadding;
+		int y = isoCanvas.getHeight()-tileWidth-bottomPadding;
 		
 		for(Button b : buttons) {
 			if(selectionPoint.y > y && selectionPoint.y < y+tileHeight) {
@@ -270,5 +234,10 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		}
 		
 		popup.show(canvas, point.x, point.y);
+	}
+
+	@Override
+	public void setSuperview(IsoCanvas canvas) {
+		// TODO: need later?
 	}
 }
