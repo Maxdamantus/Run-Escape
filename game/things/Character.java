@@ -31,6 +31,10 @@ public class Character extends AbstractGameThing {
 		return "empty";
 	}
 
+	public String type(){
+		return renderer;
+	}
+
 	public int health(){
 		return health;
 	}

@@ -8,11 +8,11 @@ public class SpawnPoint extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
-				return g instanceof Wall? "spawnpoint" : null;
+				return g instanceof SpawnPoint? "spawnpoint" : null;
 			}
 		});
 
-		union.addSerializer("wall", new Serializer<GameThing>(){
+		union.addSerializer("spawnpoint", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				return new Tree();
 			}

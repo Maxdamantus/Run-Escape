@@ -24,6 +24,10 @@ public class SerializerUnion<T> {
 		return new Serializer<T>(){
 			public Tree write(T in){
 				String type = identify(in);
+				if(type == null)
+					throw new NullPointerException("No identifier for " + in);
+				if(!writers.containsKey(type))
+					throw new NullPointerException("No writer for " + type);
 				Tree out = new Tree();
 				out.add(new Tree.Entry("type", new Tree(type)));
 				out.add(new Tree.Entry("value", writers.get(type).write(in)));

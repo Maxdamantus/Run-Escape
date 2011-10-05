@@ -15,7 +15,7 @@ public class TestPickUp extends PickupGameThing {
 			}
 		});
 
-		union.addSerializer("door", new Serializer<GameThing>(){
+		union.addSerializer("testpickup", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				TestPickUp in = (TestPickUp)o;
 				Tree out = new Tree();

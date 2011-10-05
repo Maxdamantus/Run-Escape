@@ -4,7 +4,33 @@ import game.*;
 
 import java.util.*;
 
+import serialization.*;
+
 public class Enemy extends Character {
+	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof Enemy? "enemy" : null;
+			}
+		});
+
+		union.addSerializer("enemy", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				Enemy in = (Enemy)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("type", new Tree(in.type())));
+				out.add(new Tree.Entry("name", new Tree(in.name)));
+				return out;
+			}
+
+			public GameThing read(Tree in){
+				return new Enemy(world,
+					in.find("type").value(),
+					in.find("name").value());
+			}
+		});
+	}
+
 	private final String name;
 
 	public Enemy(GameWorld world, String t, String n){
