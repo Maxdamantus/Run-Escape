@@ -32,6 +32,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 		private ImageLevel(IsoImage image, int level) {
 			this.image = image;
 			this.level = level;
+			//System.out.println("ImageLevel(" + image.gameThing() + ", " + level + ")");
 		}
 	}
 	
@@ -76,8 +77,8 @@ public class IsoSquare implements Iterable<IsoImage> {
 	 * @param image
 	 * @param level
 	 */
-	public void addImageForLevel(IsoImage image, int level) {
-		images.add(new ImageLevel(image, level));
+	public void addImageForLevel(IsoImage image){
+		images.add(new ImageLevel(image, image.rawImage().level()));
 		Collections.sort(images, new ImageLevelComparator());
 	}
 	
