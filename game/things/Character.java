@@ -147,6 +147,7 @@ public class Character extends AbstractGameThing {
 	}
 	
 	public void damage(int amt, Character from){
+		world().emitEmitSound(this, "character_" + renderer + "_ow");
 		health -= amt;
 		System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 	}
