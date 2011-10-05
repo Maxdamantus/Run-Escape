@@ -40,9 +40,4 @@ public class SpawnPoint extends AbstractGameThing {
 	public String name(){
 		return "Spawn Point";
 	}
-	
-	@Override
-	public int renderLevel() {
-		return ui.isometric.abstractions.IsoSquare.SPAWN_POINT;
-	}
 }

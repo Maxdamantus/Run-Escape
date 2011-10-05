@@ -30,9 +30,4 @@ public abstract class PickupGameThing extends AbstractGameThing {
 			who.drop(this);
 		}
 	}
-	
-	@Override
-	public int renderLevel() {
-		return ui.isometric.abstractions.IsoSquare.PICKUP_ITEM;
-	}
 }

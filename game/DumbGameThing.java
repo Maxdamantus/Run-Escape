@@ -9,19 +9,17 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
 	private String defaultInteraction, renderer, name;
 	private Map<String, Serializable> userArguments;
-	private int renderLevel;
 
-	public DumbGameThing(long g, List<String> i, String d, String r, String n, int l){
-		this(null, g, i, d, r, n, l);
+	public DumbGameThing(long g, List<String> i, String d, String r, String n){
+		this(null, g, i, d, r, n);
 	}
 
-	public DumbGameThing(GameWorld w, long g, List<String> i, String d, String r, String n, int l){
+	public DumbGameThing(GameWorld w, long g, List<String> i, String d, String r, String n){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
 		renderer = r;
 		name = n;
-		renderLevel = l;
 		if(w != null)
 			w.introduce(this, gid());
 	}
@@ -42,11 +40,11 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	}
 
 	public DumbGameThing(GameWorld w, long g){
-		this(w, g, null, null, null, null, 0);
+		this(w, g, null, null, null, null);
 	}
 
 	public DumbGameThing(GameThing gt){
-		this(gt.gid(), gt.interactions(), gt.defaultInteraction(), gt.renderer(), gt.name(), gt.renderLevel());
+		this(gt.gid(), gt.interactions(), gt.defaultInteraction(), gt.renderer(), gt.name());
 	}
 
 	public void update(DumbGameThing o){
@@ -60,8 +58,6 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			renderer = o.renderer;
 		if(o.name != null)
 			name = o.name;
-		if(o.renderLevel != -1)
-			renderLevel = o.renderLevel;
 	}
 
 	public String renderer() {
@@ -81,7 +77,6 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				out.add(new Tree.Entry("defaultinteraction", nullStringS.write(in.defaultInteraction)));
 				out.add(new Tree.Entry("renderer", nullStringS.write(in.renderer)));
 				out.add(new Tree.Entry("name", nullStringS.write(in.name)));
-				out.add(new Tree.Entry("renderLevel", Serializers.Serializer_Integer.write(in.renderLevel())));
 				return out;
 			}
 
@@ -91,14 +86,8 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 					interS.read(in.find("interactions")),
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),
-					nullStringS.read(in.find("name")),
-					Serializers.Serializer_Integer.read(in.find("renderLevel")));
+					nullStringS.read(in.find("name")));
 			}
 		};
-	}
-
-	@Override
-	public int renderLevel() {
-		return renderLevel;
 	}
 }

@@ -70,9 +70,4 @@ public class Chest extends AbstractGameThing {
 	public boolean canWalkInto(Direction d, Character p) {
 		return false;
 	}
-	
-	@Override
-	public int renderLevel() {
-		return ui.isometric.abstractions.IsoSquare.FURNATURE;
-	}
 }

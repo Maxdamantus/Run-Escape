@@ -154,9 +154,4 @@ public class Character extends AbstractGameThing {
 	public void interact(String name, game.things.Player who){
 		super.interact(name, who);
 	}
-	
-	@Override
-	public int renderLevel() {
-		return ui.isometric.abstractions.IsoSquare.CHARACTER;
-	}
 }

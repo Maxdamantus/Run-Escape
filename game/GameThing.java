@@ -20,6 +20,4 @@ public interface GameThing {
 	public String name();
 	public void track(Runnable r);
 	public GameWorld world();
-	// ARGH! This is highly illogical!
-	public int renderLevel();
 }
