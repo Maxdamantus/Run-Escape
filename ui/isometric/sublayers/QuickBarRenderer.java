@@ -1,19 +1,15 @@
 package ui.isometric.sublayers;
 
-import game.things.Player;
+import game.GameThing;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
 import ui.isometric.IsoCanvas;
+import ui.isometric.IsoInterface;
 import util.Resources;
 
 /**
@@ -32,8 +28,6 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private BufferedImage default_tile = null;
 	private BufferedImage open_inventory = null;
 	
-	private Player player;
-	
 	private int tileWidth = 0;
 	private int tileHeight = 0;
 	private int tileSpacing = 2;
@@ -45,54 +39,29 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private static int BUTTON_SPELL = 1;
 	private static int BUTTON_INVENTORY = 9;
 	
+	private IsoInterface inter;
+	
 	private Button selectedButton;
-	
-	private Button.ButtonListener configureButton = new Button.ButtonListener() {
-		@Override
-		public void rightClick(Button selectedButton, Point point, final IsoCanvas canvas) {
-			showMenu(canvas, point, new MenuListener() {
-				@Override
-				public void clicked(String menuName) {
-					canvas.addLayerRenderer(new MedPanel(0.5, 0.45));
-				}
-			}, "configure");
-		}
-
-		@Override
-		public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) { }
-	};
-	
-	private interface MenuListener {
-		void clicked(String text);
-	}
 	
 	/**
 	 * A private button class, used for storing state of each button
 	 * @author melby
 	 *
 	 */
-	private static class Button {
-		/**
-		 * A button listener to be called when a button is clicked
-		 * @author melby
-		 *
-		 */
-		private static interface ButtonListener {
-			void rightClick(Button selectedButton, Point point, IsoCanvas canvas);
-			void leftClick(Button selectedButton, Point point, IsoCanvas canvas);
-		}
-		
+	private class Button {
 		private BufferedImage image;
-		private ButtonListener listener;
+		private GameThing thing;
+		private String interaction;
 		
 		/**
 		 * Create a Button with an image and ButtonListener
 		 * @param image
 		 * @param listener
 		 */
-		public Button(BufferedImage image, ButtonListener listener) {
+		public Button(BufferedImage image, GameThing thing, String interaction) {
 			this.image = image;
-			this.listener = listener;
+			this.thing = thing;
+			this.interaction = interaction;
 		}
 		
 		/**
@@ -102,25 +71,21 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 		public BufferedImage image() {
 			return image;
 		}
-
-		/**
-		 * The ButtonListener on this button
-		 * Note: may be null
-		 * @return
-		 */
-		public ButtonListener buttonListener() {
-			return listener;
+		
+		public void doInteraction() {
+			if(thing != null && interaction != null) {
+				inter.performActionOn(interaction, thing);
+			}
 		}
 	}
 	
 	/**
-	 * Create a QuickBarRenderer with a given player
-	 * @param player
+	 * Create a QuickBarRenderer with a given interface
+	 * @param inter
 	 */
-	public QuickBarRenderer(Player player) {
-		try {
-			this.player = player;
-			
+	public QuickBarRenderer(IsoInterface inter) {
+		try {			
+			this.inter = inter;
 			weapon = Resources.readImageResourceUnfliped("/resources/ui/weapon.png");
 			spell = Resources.readImageResourceUnfliped("/resources/ui/spell.png");
 			background = Resources.readImageResourceUnfliped("/resources/ui/tile_background.png");
@@ -132,28 +97,12 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			tileHeight = weapon.getHeight();
 			
 			for(int n = 0; n < buttons.length; n++) {
-				buttons[n] = new Button(background, configureButton);
+				buttons[n] = new Button(background, null, null);
 			}
 			
-			buttons[BUTTON_WEAPON] = new Button(weapon, null);
-			buttons[BUTTON_SPELL] = new Button(spell, new Button.ButtonListener() {
-				@Override
-				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) { }
-
-				@Override
-				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					// TODO: show all spells
-				}
-			});
-			buttons[BUTTON_INVENTORY] = new Button(open_inventory, new Button.ButtonListener() {
-				@Override
-				public void rightClick(Button selectedButton, Point point, IsoCanvas canvas) { }
-
-				@Override
-				public void leftClick(Button selectedButton, Point point, IsoCanvas canvas) {
-					canvas.addLayerRenderer(new LargePanel(0.5, 0.45));
-				}
-			});
+			buttons[BUTTON_WEAPON] = new Button(weapon, null, null);
+			buttons[BUTTON_SPELL] = new Button(spell, null, null);
+			buttons[BUTTON_INVENTORY] = new Button(open_inventory, inter.player(), "open inventory");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -199,41 +148,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 
 	@Override
 	public void wasClicked(MouseEvent event, IsoCanvas canvas) {
-		if(event.getButton() == MouseEvent.BUTTON3) { // Right click
-			Button.ButtonListener b = selectedButton.buttonListener();
-			if(b != null) {
-				b.rightClick(selectedButton, event.getPoint(), canvas);
-			}
-		}
-		else {
-			Button.ButtonListener b = selectedButton.buttonListener();
-			if(b != null) {
-				b.leftClick(selectedButton, event.getPoint(), canvas);
-			}
-		}
-	}
-	
-	protected void showMenu(IsoCanvas canvas, Point point, final MenuListener menuListener, String ... strings) {
-		JPopupMenu popup = new JPopupMenu();
-		for(String menuName : strings) {
-			JMenuItem item = new JMenuItem(menuName);
-			popup.add(item);
-			
-			item.addActionListener(new ActionListener() {								
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Object s = e.getSource();
-					
-					if(s instanceof JMenuItem) {
-						JMenuItem m = (JMenuItem)s;
-						menuListener.clicked(m.getText());
-					}
-				}
-			});
-			popup.add(item);
-		}
-		
-		popup.show(canvas, point.x, point.y);
+		selectedButton.doInteraction();
 	}
 
 	@Override

@@ -23,7 +23,7 @@ import game.*;
 public class Client implements ClientMessageHandler {
 	private Socket skt;
 	private String userName;
-	private long userGID;
+	private long userGID = -1;
 	private InputStreamReader in;
 	private BufferedReader reader;
 	private OutputStreamWriter out;
@@ -92,18 +92,12 @@ public class Client implements ClientMessageHandler {
 
 			// creating GUI
 			
-			NetworkListenerThread updater = new NetworkListenerThread(reader, view, world);
+			NetworkListenerThread updater = new NetworkListenerThread(reader, this, world);
 
 			// sending name
 			writer.write("uid " + uid + "\n");
 			updater.start();
 			writer.flush();
-			
-			userGID = Long.parseLong(reader.readLine().substring(4));
-
-			// showing GUI
-			view = new IsoInterface("IsoTest", world, this, userGID);
-			view.show();
 
 		} catch (UnknownHostException e) {
 			Client.exit("Unknown host name");
@@ -184,5 +178,25 @@ public class Client implements ClientMessageHandler {
 	}
 	
 	
+	public void receivedUID(long uid) {
+		if(userGID == -1) {
+			userGID = uid;
 
+			// showing GUI
+			view = new IsoInterface("IsoTest", world, this, userGID);
+			view.show();
+		}
+	}
+
+	public void logMessage(String message) {
+		if(view != null) {
+			view.logMessage(message);
+		}
+	}
+
+	public void incomingChat(String message, Color color) {
+		if(view != null) {
+			view.incomingChat(message, color);
+		}
+	}
 }

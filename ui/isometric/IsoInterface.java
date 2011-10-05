@@ -20,7 +20,6 @@ import ui.isometric.sublayers.QuickBarRenderer;
 import util.Direction;
 
 import game.*;
-import game.things.Player;
 
 /**
  * 
@@ -34,34 +33,36 @@ public class IsoInterface implements PlayerMessage {
 	private IsoCanvas canvas;
 	private IsoInterface isoInterface = this;
 	
+	private GameThing me;
+	
 	private GameWorld model;
 	private ClientMessageHandler logic;
 	
 	private ChatRenderer chatRenderer;
 	private QuickBarRenderer quickBarRenderer;
-	
-	private Player me;
-	
+		
 	/**
 	 * Create a interface with a given GameModel and ClientMessageHandler
 	 * @param name
 	 * @param model
 	 * @param logic
-	 * @param playerGID
+	 * @param gid
 	 */
-	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic, long playerGID) {
+	public IsoInterface(String name, final GameWorld model, final ClientMessageHandler logic, long gid) {
 		this.model = model;
 		this.logic = logic;
-		GameThing g = model.thingWithGID(playerGID);
-		if(g instanceof Player) {
-			this.me = (Player)g;
-		}
-		else {
-			throw new RuntimeException("Unabel to find player for gid "+playerGID);
+		
+		long end = System.currentTimeMillis() + 5000; // 5 sec
+		while((me = model.thingWithGID(gid)) == null && end > System.currentTimeMillis()) {
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		chatRenderer = new ChatRenderer();
-		quickBarRenderer = new QuickBarRenderer(me);
+		quickBarRenderer = new QuickBarRenderer(this);
 		
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,7 +164,7 @@ public class IsoInterface implements PlayerMessage {
 	 * @param interaction
 	 * @param thing
 	 */
-	protected void performActionOn(String interaction, GameThing thing) {
+	public void performActionOn(String interaction, GameThing thing) {
 		logic.sendMessage(new ClientMessage(new ClientMessage.Interaction(thing.gid(), interaction), -1));
 	}
 
@@ -199,5 +200,13 @@ public class IsoInterface implements PlayerMessage {
 	 */
 	private void sendChatMessage(String message) {
 		logic.sendChat(message);
+	}
+	
+	/**
+	 * Get the current player
+	 * @return
+	 */
+	public GameThing player() {
+		return me;
 	}
 }

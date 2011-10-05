@@ -67,7 +67,7 @@ public final class ServerThread {
 							System.err.println("plyr logged in");
 					//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 							parent.usrGID = plyr.gid();
-							parent.queueMessage("all" + " " + "uid " + parent.usrGID + "\n");
+							parent.queueMessage("uid " + parent.usrGID + "\n");
 						}
 						else if(temp.startsWith("cmg")){
 							String action = temp.substring(4);
@@ -122,7 +122,7 @@ public final class ServerThread {
 					
 					try { msg = parent.outqueue.poll(2, TimeUnit.SECONDS); } catch (InterruptedException e) {}
 					
-					if(msg != null && (msg.startsWith(Long.toString(parent.usrGID)+" ") || msg.startsWith("-1 "))) {
+					if(msg != null) {
 						bw.write(msg);
 						bw.flush();
 					}
@@ -142,9 +142,9 @@ public final class ServerThread {
 	}
 	
 	public void addDelta(WorldDelta d){
-			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
-			this.queueMessage(d.to() + " " + "upd" + " " + deltaupdate + "\n");
-		}
+		String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
+		this.queueMessage("upd " + deltaupdate + "\n");
+	}
 	
 	private void queueMessage(String msg) {
 		outqueue.add(msg);

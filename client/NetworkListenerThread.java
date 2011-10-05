@@ -10,7 +10,6 @@ import java.text.ParseException;
 import data.Database;
 
 import serialization.Tree;
-import ui.isometric.IsoInterface;
 
 /**
  * Handles all incoming network data
@@ -20,7 +19,7 @@ import ui.isometric.IsoInterface;
  */
 public class NetworkListenerThread extends Thread {
 	private BufferedReader reader;
-	private IsoInterface view;
+	private Client client;
 	private GameWorld world;
 	private boolean debugMode = false;
 
@@ -28,15 +27,15 @@ public class NetworkListenerThread extends Thread {
 	 * 
 	 * @param reader
 	 *            BufferedReader to receive game model updates on
-	 * @param view
-	 *            GUI to send messages to
+	 * @param client
+	 *            client to send messages to
 	 * @param world
 	 *            World to apply updates to.
 	 */
-	public NetworkListenerThread(BufferedReader reader, IsoInterface view, GameWorld world) {
+	public NetworkListenerThread(BufferedReader reader, Client client, GameWorld world) {
 		this.reader = reader;
-		this.view = view;
 		this.world = world;
+		this.client = client;
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class NetworkListenerThread extends Thread {
 				
 				if (incoming.startsWith("log")) { // if message
 					String message = incoming.substring(4);
-					view.logMessage(message);
+					client.logMessage(message);
 					if (debugMode) System.out.println("Message: " + message);
 					
 				} else if (incoming.startsWith("upd")) { // if update
@@ -67,12 +66,15 @@ public class NetworkListenerThread extends Thread {
 				} else if (incoming.startsWith("ctc")) { // if chat
 					String chatString = incoming.substring(4);
 					String[] splitString = chatString.split("::::");
-					view.incomingChat(splitString[1], new Color(Integer.parseInt(splitString[0])));
+					client.incomingChat(splitString[1], new Color(Integer.parseInt(splitString[0])));
 					
 
 				} else if (incoming.startsWith("svm")) { // if server message
 					String chatString = incoming.substring(4);
-					view.incomingChat(chatString, Color.YELLOW);
+					client.incomingChat(chatString, Color.YELLOW);
+
+				} else if (incoming.startsWith("uid")) { // if uid notif
+					client.receivedUID(Long.parseLong(incoming.substring(4)));
 
 				}
 			}
