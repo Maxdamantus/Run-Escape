@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tree>
+  <i>
+    <k>bob</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>bob</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>cordi</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>cordi</v>
+      </i>
+    </v>
+  </i>
+</tree>
