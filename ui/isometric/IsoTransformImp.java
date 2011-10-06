@@ -104,8 +104,8 @@ public class IsoTransformImp implements IsoTransform {
 				y = bottomRight.y()-pos.y();
 				break;
 			case WEST:
-				x = -topRight.x()-pos.y();
-				y = pos.x()-topRight.y();
+				x = -(pos.y()-topRight.y());
+				y = pos.x()-topRight.x();
 		}
 		
 		x += viewOrigin.x();
