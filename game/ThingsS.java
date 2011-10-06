@@ -15,6 +15,7 @@ public class ThingsS {
 		TestPickUp.makeSerializer(u, w);
 		Enemy.makeSerializer(u, w);
 		EquipmentGameThing.makeSerializer(u, w);
+		Chest.makeSerializer(u, w);
 
 		return u.serializer();
 	}	
