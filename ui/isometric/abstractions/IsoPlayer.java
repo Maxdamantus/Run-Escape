@@ -16,7 +16,6 @@ public class IsoPlayer {
 	private Container inventory;
 	private GameWorld world;
 	private GameThing thing;
-	private IsoInterface inter;
 	
 	/**
 	 * Create an IsoPlayer with a given world, player GameThing and interface
@@ -26,7 +25,6 @@ public class IsoPlayer {
 	public IsoPlayer(final GameWorld world, GameThing thing, IsoInterface inter) {
 		this.world = world;
 		this.thing = thing;
-		this.inter = inter;
 		
 		world.addDeltaWatcher(new GameWorld.DeltaWatcher() {
 			@Override
