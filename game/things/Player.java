@@ -180,6 +180,13 @@ public class Player extends Character {
 		}
 		equipment.put(g);
 	}
+	
+	public void unequip(EquipmentGameThing g) {
+		if(equipment.contains(g)){
+		equipment.remove(g);
+		inventory.put(g);
+		}
+	}
 
 	public boolean carrying(GameThing g){
 		return inventory.contains(g);
@@ -193,4 +200,6 @@ public class Player extends Character {
 		// TODO
 		System.out.println("You examined it");
 	}
+
+
 }

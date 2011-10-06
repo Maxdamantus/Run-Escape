@@ -66,16 +66,22 @@ public class EquipmentGameThing extends PickupGameThing {
 		if(location() instanceof Container){
 			List<String> out = new LinkedList<String>(super.interactions());
 			out.add("equip");
+			out.add("unequip");
 			return out;
 		}
 		return super.interactions();
 	}
 	
 	public void interact(String name, Player who){
-		if(name.equals("equip") && who.carrying(this))
+		if(name.equals("equip") && who.carrying(this)){
 			who.equip(this);
-		else
+		}
+		else if(name.equals("unequip")){
+			who.unequip(this);
+		}
+		else{
 			super.interact(name, who);
+		}
 	}
 	
 	public Slot slot(){
