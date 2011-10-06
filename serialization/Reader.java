@@ -10,5 +10,5 @@ package serialization;
  * @param <T>
  */
 public interface Reader<T> {
-	public T read(Tree in);
+	public T read(Tree in) throws ParseException ;
 }

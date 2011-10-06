@@ -35,7 +35,7 @@ public class Serializers {
 			elemSerializer = s;
 		}
 
-		public java.util.List<T> read(Tree in){
+		public java.util.List<T> read(Tree in) throws ParseException {
 			java.util.List<T> out = new ArrayList<T>();
 			for(Tree.Entry c : in.children()){
 				assert c.name().equals("i");
@@ -75,7 +75,7 @@ public class Serializers {
 			listSerializer = new List<T>(s);
 		}
 
-		public java.util.Set<T> read(Tree in){
+		public java.util.Set<T> read(Tree in) throws ParseException {
 			return new HashSet<T>(listSerializer.read(in));
 		}
 
@@ -103,7 +103,7 @@ public class Serializers {
 			elemSerializer = v;
 		}
 
-		public java.util.Map.Entry<K, V> read(Tree in){
+		public java.util.Map.Entry<K, V> read(Tree in) throws ParseException {
 			K k = null;
 			V v = null;
 			boolean kg = false, vg = false;
@@ -145,7 +145,7 @@ public class Serializers {
 			setSerializer = new Set<java.util.Map.Entry<K, V>>(new MapEntry<K, V>(k, v));
 		}
 
-		public java.util.Map<K, V> read(Tree in){
+		public java.util.Map<K, V> read(Tree in) throws ParseException {
 			// I thought there was some HashMap<K, V>(Set<Map.Entry<K, V>>) .. meh
 			java.util.Set<java.util.Map.Entry<K, V>> s = setSerializer.read(in);
 			java.util.Map<K, V> out = new java.util.HashMap<K, V>();
@@ -163,38 +163,38 @@ public class Serializers {
 		return new Map<K, V>(k, v);
 	}
 	
-	public static class JSerializable<T extends java.io.Serializable> implements Serializer<T> {
-		@SuppressWarnings("unchecked")
-		public T read(Tree in){
-			byte[] bytes = DatatypeConverter.parseBase64Binary(Database.escapeNewLines(in.value()));
-			T out = null;
-			try {
-				ObjectInputStream reader = new ObjectInputStream(new ByteArrayInputStream(bytes));
-				out = (T)reader.readObject();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			
-			return out;
-		}
-
-		public Tree write(T in) {
-			String encoded = null;
-			
-			try {
-				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-				ObjectOutputStream writer = new ObjectOutputStream(bytes);
-				writer.writeObject(in);
-				encoded = Database.escapeNewLines(DatatypeConverter.printBase64Binary(bytes.toByteArray()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			return new Tree(encoded);
-		}
-	}
+//	public static class JSerializable<T extends java.io.Serializable> implements Serializer<T> {
+//		@SuppressWarnings("unchecked")
+//		public T read(Tree in){
+//			byte[] bytes = DatatypeConverter.parseBase64Binary(Database.escapeNewLines(in.value()));
+//			T out = null;
+//			try {
+//				ObjectInputStream reader = new ObjectInputStream(new ByteArrayInputStream(bytes));
+//				out = (T)reader.readObject();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return out;
+//		}
+//
+//		public Tree write(T in) {
+//			String encoded = null;
+//			
+//			try {
+//				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//				ObjectOutputStream writer = new ObjectOutputStream(bytes);
+//				writer.writeObject(in);
+//				encoded = Database.escapeNewLines(DatatypeConverter.printBase64Binary(bytes.toByteArray()));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return new Tree(encoded);
+//		}
+//	}
 
 	public static final Serializer<String> Serializer_String = new Serializer<String>(){
 		public String read(Tree in){
@@ -271,7 +271,7 @@ public class Serializers {
 			elemSerializer = s;
 		}
 
-		public T read(Tree in){
+		public T read(Tree in) throws ParseException {
 			for(Tree.Entry c : in.children()){
 				assert c.name().equals("just");
 				return elemSerializer.read(c.tree());

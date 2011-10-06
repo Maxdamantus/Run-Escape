@@ -8,4 +8,4 @@ package serialization;
  *
  * @param <T>
  */
-public interface Serializer<T> extends Reader<T>, Writer<T> {}
+public interface Serializer<T> extends Reader<T>, Writer<T>{}
