@@ -68,10 +68,18 @@ public class InventoryRenderer extends LargePanel {
 		drawContainer(g);
 	}
 
+	/**
+	 * Draw the container view
+	 * @param g
+	 */
 	private void drawContainer(Graphics g) {
 		g.drawRect(425, 10, 150, 590);
 	}
 
+	/**
+	 * Draw the equipment
+	 * @param g
+	 */
 	private void drawEquipment(Graphics g) {
 		g.drawRect(10, 10, 400, 280);
 		g.drawImage(IsoCharacterImageLibrary.imageForCharacterName(player.characterName()), 110, 20, null);
@@ -84,6 +92,10 @@ public class InventoryRenderer extends LargePanel {
 		g.drawImage(gauntlets_slot, 50, 150, null);
 	}
 
+	/**
+	 * Draw the inventory
+	 * @param g
+	 */
 	private void drawInventory(Graphics g) {
 		int x = 10;
 		int y = 305;
