@@ -1,7 +1,9 @@
 package ui.isometric.builder;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -176,17 +178,25 @@ public class IsoInterfaceWorldBuilder {
 				}
 			}
 		});
-		frame.setSize(300, 300);
 		frame.add(canvas);
 		
 		inspector = new InspectorPanel(this);
 		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
-		inspector.setSize(200, 400);
 		inspector.getContentPane().add(Box.createVerticalGlue());
 		inspector.validate();
 		
 		library = new LibraryFrame(this);
-		library.setSize(200, 400);
+		
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		screen.height -= 100;
+		double perx = 0.3;
+		
+		library.setLocation(0, 0);
+		library.setSize((int)(screen.width*perx), (int)(screen.height*0.5));
+		inspector.setLocation(0, (int)(screen.height*0.5));
+		inspector.setSize((int)(screen.width*perx), (int)(screen.height*0.5));
+		frame.setLocation((int)(screen.width*perx), 0);
+		frame.setSize((int)(screen.width*(1-perx)), (int)(screen.height));
 	}
 	
 	/**
