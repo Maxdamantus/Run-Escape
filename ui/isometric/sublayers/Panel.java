@@ -90,8 +90,7 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 		else {
 			Point p = new Point();
 			p.setLocation(event.getPoint().x - (canvas.getWidth()*x-width/2+xPad), event.getPoint().y - (canvas.getHeight()*y-height/2+yPad));
-			event.setSource(this);
-			this.mouseDown(event, p);
+			this.mouseDown(event, p, canvas);
 		}
 	}
 	
@@ -150,6 +149,7 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	 * Note: don't rely on the MouseEvent for location info
 	 * @param e
 	 * @param p
+	 * @param canvas
 	 */
-	abstract protected void mouseDown(MouseEvent e, Point p);
+	abstract protected void mouseDown(MouseEvent e, Point p, IsoCanvas canvas);
 }

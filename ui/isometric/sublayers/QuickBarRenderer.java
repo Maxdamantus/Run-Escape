@@ -98,7 +98,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	public QuickBarRenderer(final IsoInterface inter) {
 		try {			
 			this.inter = inter;
-			this.inventoryRenderer = new InventoryRenderer(inter.player(), 0.5, 0.45);
+			this.inventoryRenderer = new InventoryRenderer(inter, 0.5, 0.45);
 			
 			weapon = Resources.readImageResourceUnfliped("/resources/ui/weapon.png");
 			spell = Resources.readImageResourceUnfliped("/resources/ui/spell.png");
