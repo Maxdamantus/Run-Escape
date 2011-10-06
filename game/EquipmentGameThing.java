@@ -26,13 +26,16 @@ public class EquipmentGameThing extends PickupGameThing {
 	}
 
 	public List<String> interactions(){
-		List<String> out = new LinkedList<String>(super.interactions());
-		out.add("equip");
-		return out;
+		if(location() instanceof Container){
+			List<String> out = new LinkedList<String>(super.interactions());
+			out.add("equip");
+			return out;
+		}
+		return super.interactions();
 	}
 	
 	public void interact(String name, Player who){
-		if(name.equals("equip"))
+		if(name.equals("equip") && who.carrying(this))
 			who.equip(this);
 		else
 			super.interact(name, who);

@@ -177,6 +177,10 @@ public class Player extends Character {
 		equipment.put(g);
 	}
 
+	public boolean carrying(GameThing g){
+		return inventory.contains(g) || equipment.contains(g);
+	}
+
 	public void examine(AbstractGameThing abstractGameThing) {
 		// TODO
 		System.out.println("You examined it");

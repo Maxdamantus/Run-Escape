@@ -52,6 +52,10 @@ public class Container implements Iterable<GameThing>, Location {
 		return this;
 	}
 
+	public boolean contains(GameThing gt){
+		return set.contains(gt);
+	}
+
 	public void remove(GameThing gt){
 		set.remove(gt);
 	}
