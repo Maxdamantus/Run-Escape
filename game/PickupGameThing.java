@@ -30,6 +30,12 @@ public abstract class PickupGameThing extends AbstractGameThing {
 			who.drop(this);
 		}
 	}
+
+	public Location location(Location l){
+		Location r = super.location(l);
+		update();
+		return r;
+	}
 	
 	@Override
 	public int renderLevel() {
