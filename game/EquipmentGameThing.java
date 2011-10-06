@@ -11,15 +11,16 @@ public class EquipmentGameThing extends PickupGameThing {
 	}
 
 	private int attack, strength, defence, delay;
-	private String renderer;
+	private String name, renderer;
 	private Slot slottype;
 
-	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String ren){
+	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String nom, String ren){
 		super(w);
 		attack = a;
 		strength = s;
 		defence = d;
 		delay = e;
+		name = nom;
 		slottype = sl;
 		this.renderer = ren;
 		
@@ -52,7 +53,6 @@ public class EquipmentGameThing extends PickupGameThing {
 
 	@Override
 	public String name() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 }
