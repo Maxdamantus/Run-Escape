@@ -182,7 +182,7 @@ public class Player extends Character {
 	}
 
 	public boolean carrying(GameThing g){
-		return inventory.contains(g) || equipment.contains(g);
+		return inventory.contains(g);
 	}
 
 	public void examine(AbstractGameThing abstractGameThing) {
