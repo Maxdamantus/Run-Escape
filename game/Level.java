@@ -2,6 +2,8 @@ package game;
 
 import util.*;
 import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
@@ -9,6 +11,8 @@ public class Level implements Iterable<GameThing> {
 	private final GameWorld world;
 	private final int level;
 	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
+	
+	private final ReentrantReadWriteLock mapLock = new ReentrantReadWriteLock();
 
 	public static class Location implements game.Location {
 		private final Level level;
@@ -155,8 +159,10 @@ public class Level implements Iterable<GameThing> {
 
 	private void put(Position p, Direction d, GameThing gt){
 		// TODO: rotate area!!!
+		mapLock.writeLock().lock();
 		for(Position bit : gt.area().translated(p))
 			map.put(bit, gt);
+		mapLock.writeLock().unlock();
 	}
 
 	private void put(Position p, GameThing gt){
@@ -165,8 +171,10 @@ public class Level implements Iterable<GameThing> {
 
 	private void remove(GameThing gt, Position pos){
 		// TODO: rotate area!!!
+		mapLock.writeLock().lock();
 		for(Position bit : gt.area().translated(pos))
 			map.remove(bit, gt);
+		mapLock.writeLock().unlock();
 	}
 
 /*
@@ -206,8 +214,10 @@ public class Level implements Iterable<GameThing> {
 
 	public Iterable<GameThing> portion(Position min, Position max){
 		Set<GameThing> res = new HashSet<GameThing>();
+		mapLock.readLock().lock();
 		for(Map.Entry<Position, GameThing> kv : map.portion(min, max))
 			res.add(kv.getValue());
+		mapLock.readLock().unlock();
 		return res;
 	}
 
@@ -217,8 +227,14 @@ public class Level implements Iterable<GameThing> {
 
 	public Iterator<GameThing> iterator(){
 		Set<GameThing> res = new HashSet<GameThing>();
+		mapLock.readLock().lock();
 		for(Map.Entry<Position, GameThing> kv : map)
 			res.add(kv.getValue());
+		mapLock.readLock().unlock();
 		return res.iterator();
+	}
+
+	public ReadWriteLock thingLock() {
+		return mapLock;
 	}
 }
