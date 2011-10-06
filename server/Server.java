@@ -163,13 +163,13 @@ public class Server{
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
 				final ServerThread newSer = new ServerThread(s,uid,game, this);
-				connections.add(newSer);
 				// MaxZ's code: send initial state
 				game.allDeltas(new DeltaWatcher(){
 					public void delta(WorldDelta d){
 						newSer.addDelta(d);
 					}
 				});
+				connections.add(newSer);
 				newSer.start();
 				uid++;; //this will add players unique identifier in future.
 			}
