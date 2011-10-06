@@ -112,9 +112,13 @@ public class Player extends Character {
 		else if(name.equals("attack"))
 			who.attack(this);
 		else if(name.equals("_showinventory") && who == this)
-			world().emitShowContainer(inventory, "Inventory");
+			showContainer(inventory, "Inventory");
 		else if(name.equals("_showequipment") && who == this)
-			world().emitShowContainer(equipment, "Equipment");
+			showContainer(equipment, "Equipment");
+	}
+
+	public void showContainer(Container c, String n){
+		world().emitShowContainer(c, n);
 	}
 	
 	public void damage(int amt, Character from){
