@@ -49,9 +49,9 @@ public class Enemy extends Character {
 		update();
 		new Runnable(){
 			public void run(){
-				Location l = start;
-				if(l instanceof Level.Location && !busy())
-					moveTo(((Level.Location)l).next(Direction.SOUTH, wanderdist*2 - wanderdist).next(Direction.EAST, wanderdist*2 - wanderdist));
+				Location l = start, ml = location();
+				if(l instanceof Level.Location && (!busy() || ((Level.Location)l).dist((Level.Location)ml) > 2*wanderdist))
+					moveTo(((Level.Location)l).next(Direction.SOUTH, (int)(Math.random()*(wanderdist*2 - wanderdist))).next(Direction.EAST, (int)(Math.random()*(wanderdist*2 - wanderdist))));
 				world().schedule(this, 100);
 			}
 		}.run();

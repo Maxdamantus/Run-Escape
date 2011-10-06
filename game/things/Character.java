@@ -2,12 +2,13 @@ package game.things;
 
 import game.*;
 
+import java.util.*;
+
 // might want to subclass Player by this later, so Player and Enemy are both "Characters".
 
 public class Character extends AbstractGameThing {
 	private String renderer;
 	private int health;
-	private final static int WALKDELAY = 50;
 
 	public Character(GameWorld world, String r){
 		super(world);
@@ -43,6 +44,14 @@ public class Character extends AbstractGameThing {
 		return health = s;
 	}
 
+	public int walkdelay(){
+		return 50;
+	}
+
+	public int escapedelay(){
+		return 250;
+	}
+
 	public boolean moveTo(final Location lwhere, final int dist, final Runnable ondone, final boolean keepfollow){
 		if(!keepfollow){
 			following = null;
@@ -58,7 +67,7 @@ public class Character extends AbstractGameThing {
 				public void run(){
 					step(where, ondone, dist, stepIdent = new Object());
 				}
-			}, WALKDELAY);
+			}, attacked()? escapedelay() : walkdelay());
 			return true;
 		}
 		return false;
@@ -95,7 +104,7 @@ public class Character extends AbstractGameThing {
 					public void run(){
 						step(where, ondone, dist, ident);
 					}
-				}, WALKDELAY);
+				}, attacked()? escapedelay() : walkdelay());
 			}
 		}
 	}
@@ -139,16 +148,27 @@ public class Character extends AbstractGameThing {
 						}
 					}
 					world().schedule(attacker, 500);
-				}
+				}else if(g instanceof Character)
+					((Character)g).stopAttackedBy(Character.this);
 			}
 		};
 		follow(g, 2);
 		world().schedule(attacker, 500);
 	}
 
+	private Set<GameThing> attackedBy = new HashSet<GameThing>();
 	public void hurt(GameThing other){
 		if(other instanceof Character)
 			((Character)other).damage(10, this);
+		attackedBy.add(other);
+	}
+
+	public boolean attacked(){
+		return !attackedBy.isEmpty();
+	}
+
+	private void stopAttackedBy(GameThing other){
+		attackedBy.remove(other);
 	}
 	
 	public void damage(int amt, Character from){
