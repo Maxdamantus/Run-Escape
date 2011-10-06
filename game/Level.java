@@ -78,7 +78,7 @@ public class Level implements Iterable<GameThing> {
 
 				public Iterable<Find.Node<Location>> next(Find.Node<Location> n){
 					List<Find.Node<Location>> out = new LinkedList<Find.Node<Location>>();
-					if(x++ < 100000)
+					if(x++ < 10000)
 						for(Direction d : Direction.values()){
 							Location p = n.value().next(d);
 							if(p.canWalkInto(d, who))

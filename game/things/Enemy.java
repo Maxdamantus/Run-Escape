@@ -52,7 +52,7 @@ public class Enemy extends Character {
 				Location l = start, ml = location();
 				if(l instanceof Level.Location && (!busy() || ((Level.Location)l).dist((Level.Location)ml) > 2*wanderdist))
 					moveTo(((Level.Location)l).next(Direction.SOUTH, (int)(Math.random()*(wanderdist*2 - wanderdist))).next(Direction.EAST, (int)(Math.random()*(wanderdist*2 - wanderdist))));
-				world().schedule(this, 100);
+				world().schedule(this, 3000);
 			}
 		}.run();
 	}
