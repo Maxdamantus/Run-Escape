@@ -1,5 +1,8 @@
 package game.things;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import serialization.Serializer;
 
 import serialization.SerializerUnion;
@@ -30,32 +33,59 @@ public class Chest extends AbstractGameThing {
 	}
 		
 	private final String renderer;
+	private boolean open;
 	private final Container cont;
 
 	
 	//For reading in (serializer to be completed)
-	public Chest(GameWorld world, String name, Container cont){
+	public Chest(GameWorld world, String name, boolean open, Container cont){
 		super(world);
 		renderer = name;
 		update();
 		this.cont = cont;
+		this.open = open;
 	}
 	
 	//For empty chest
 	public Chest(GameWorld world, String name){
 		super(world);
 		renderer = name;
+		open = false;
 		update();
 		cont = new Container(world);
 	}
-	
+
+
 	//need the default renderer for a chest, at the moment looks like a wall...
 	public Chest(GameWorld world){
-		this(world, "wallcross");
+		this(world, "chest_1");
 	}
 
 	public String renderer(){
-		return renderer;
+		return renderer + "_" + renderState();
+	}
+
+	private String renderState() {
+		if(open){
+			return "open";
+		}
+		else{
+			return "closed";
+		}
+	}
+	
+	public List<String> interactions(){
+		ArrayList<String> interactions = new ArrayList<String>();
+		if(open){
+			interactions.add("close");
+			interactions.add("view contents");
+			}	
+		else{
+			interactions.add("open");
+			}
+		interactions.add("examine");
+		return interactions;
+			
 	}
 
 	public String name(){
@@ -63,7 +93,16 @@ public class Chest extends AbstractGameThing {
 	}
 	
 	public void interact(String name, game.things.Player who){
-		super.interact(name, who);
+		if(name.equals("open")){
+			open = true;
+		}
+		else if(name.equals("close")){
+			open = false;
+		}
+		else if(name.equals("view contents")){
+			who.showContainer(cont, "Chest");
+		}
+		else super.interact(name, who);
 	}
 	
 	@Override
