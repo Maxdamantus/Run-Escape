@@ -101,6 +101,8 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 			// -1 in case of negative: rounds towards zero unfortunately.
 			l0x = minx/(CHILDREN*CHILDREN) - 1;
 			l0y = miny/(CHILDREN*CHILDREN) - 1;
+			System.out.println("DTIterator(" + ix + ", " + iy + ", " + ax + ", " + ay + ")");
+			System.out.println("l0x = " + l0x + ", l0y = " + l0y);
 		}
 
 		public void remove(){
@@ -190,15 +192,17 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 					}
 				}else{
 					do{
-						if(l0y*(CHILDREN*CHILDREN) > maxy)
-							return false;
 						if(l0x*(CHILDREN*CHILDREN) > maxx){
 							l0y++;
 							l0x = 0;
 						}
+						if(l0y*(CHILDREN*CHILDREN) > maxy)
+							return false;
 						l1o = roots.get(new Position(a0x = l0x, a0y = l0y));
 						l0x++;
 					}while(l1o == null);
+					System.out.println("l1o = (" + a0x + ", " + a0y + ")");
+					continue hasNext;
 				}
 				return false;
 			}
