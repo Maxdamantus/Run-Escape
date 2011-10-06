@@ -12,6 +12,7 @@ import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.builder.things.ThingLibrary;
 import ui.isometric.libraries.IsoRendererLibrary;
+import util.ImagePanel;
 
 /**
  * 

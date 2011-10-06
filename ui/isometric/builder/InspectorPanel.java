@@ -16,7 +16,7 @@ import util.Area;
 import game.*;
 
 /**
- * A panel for inspecting locations
+ * A self-configuring panel for inspecting locations
  * 
  * @author melby
  *

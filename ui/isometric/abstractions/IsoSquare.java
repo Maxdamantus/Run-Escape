@@ -66,9 +66,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 		}
 
 		@Override
-		public void remove() {
-			// Does nothing
-		}
+		public void remove() { }
 	}
 	
 	/**
@@ -76,7 +74,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 	 * @param image
 	 * @param level
 	 */
-	public void addImageForLevel(IsoImage image, int level) {
+	public void addImageForLevel(IsoImage image, int level) { // TODO: insert rather than sort?
 		images.add(new ImageLevel(image, level));
 		Collections.sort(images, new ImageLevelComparator());
 	}

@@ -80,7 +80,7 @@ public class IsoImage {
 	}
 	
 	/**
-	 * Get ther y-offset to renderer this image at
+	 * Get the y-offset to renderer this image at
 	 * @return
 	 */
 	public int yoffset() {

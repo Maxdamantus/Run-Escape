@@ -5,11 +5,21 @@ import java.util.Set;
 
 import ui.isometric.libraries.IsoRendererLibrary;
 
+/**
+ * A small class that can check the renderers + ThingLibrary for some coherence
+ * 
+ * @author melby
+ *
+ */
 public class ThingCreatorChecker {
 	public static void main(String[] args) {
 		check();
 	}
 	
+	/**
+	 * Check to see if there is a ThingCreator for each renderer,
+	 * and that there is no ThingCreater that doesn't have a valid renderer
+	 */
 	public static void check() {
 		Set<String> allRenderers = IsoRendererLibrary.allRendererNames();
 		Set<String> usedRenderers = new HashSet<String>();

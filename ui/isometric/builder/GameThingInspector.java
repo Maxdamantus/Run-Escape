@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import ui.isometric.abstractions.IsoImage;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
+import util.ImagePanel;
 
 /**
  * This class is an inspector for a single GameThing.

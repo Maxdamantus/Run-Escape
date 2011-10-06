@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 /**
  * A medium sized panel
+ * Note: might be removed soon
  * 
  * @author melby
  *

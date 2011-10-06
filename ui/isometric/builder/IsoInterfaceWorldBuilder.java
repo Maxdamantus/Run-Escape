@@ -40,7 +40,7 @@ import game.*;
 
 /**
  * 
- * The overall class that manages the entire user interface
+ * The overall class that manages a builder user interface
  * 
  * @author melby
  *

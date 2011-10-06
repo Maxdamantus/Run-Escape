@@ -3,6 +3,12 @@ package ui.isometric.builder;
 import game.GameWorld;
 import ui.isometric.mock.ClientMessageHandlerMock;
 
+/**
+ * Main class for the world builder
+ * 
+ * @author melby
+ *
+ */
 public class WorldBuilderMain {
 	private static GameWorld sgm = new GameWorld();
 

@@ -67,7 +67,7 @@ public class IsoTransformImp implements IsoTransform {
 	}
 
 	@Override
-	public Position transformMapPosition(Position pos) {
+	public Position transformMapToView(Position pos) {
 		int x = pos.x() - viewOrigin.x();
 		int y = pos.y() - viewOrigin.y();
 		
@@ -86,7 +86,7 @@ public class IsoTransformImp implements IsoTransform {
 	}
 	
 	@Override
-	public Position transformViewPosition(Position pos) {		
+	public Position transformViewToMap(Position pos) {		
 		int x = 0;
 		int y = 0;
 				

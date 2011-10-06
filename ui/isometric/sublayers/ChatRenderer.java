@@ -28,6 +28,14 @@ public class ChatRenderer implements UILayerRenderer {
 	private int originX = 10;
 	private int originY = 60;
 	
+	private LinkedList<Message> log = new LinkedList<Message>();
+	
+	/**
+	 * A internal data structure for a chat message
+	 * 
+	 * @author melby
+	 *
+	 */
 	private static class Message {
 		private String message;
 		private Color color;
@@ -38,8 +46,9 @@ public class ChatRenderer implements UILayerRenderer {
 		}
 	}
 	
-	private LinkedList<Message> log = new LinkedList<Message>();
-	
+	/**
+	 * Create a CharRenderer
+	 */
 	public ChatRenderer() {
 		try {
 			chatBoxImage = Resources.readImageResourceUnfliped("/resources/ui/chatbox.png");

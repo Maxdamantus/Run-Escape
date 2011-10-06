@@ -124,8 +124,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
 	
 	/**
-	 * Create a new IsoCanvas with a given interface and datasource
-	 * @param inter
+	 * Create a new IsoCanvas with a given datasource
 	 * @param dataSource
 	 */
 	public IsoCanvas(IsoDataSource dataSource) {
@@ -241,7 +240,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 					IsoRendererLibrary.maskTile().getAlphaRaster().getPixel(x, y, pixels);
 					
 					if(pixels[0] > 0) {
-						selectedSquarePosition = dataSource.transform().transformViewPosition(new Position(sx, sy));
+						selectedSquarePosition = dataSource.transform().transformViewToMap(new Position(sx, sy));
 					}
 				}
 			}

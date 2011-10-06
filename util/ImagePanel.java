@@ -1,4 +1,4 @@
-package ui.isometric.builder;
+package util;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import util.DragInfo;
 
 /**
  * A simple JPanel that renders an image proportionally into itself

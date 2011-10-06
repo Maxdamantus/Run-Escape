@@ -44,19 +44,19 @@ public class IsoInterface implements PlayerMessage {
 	private QuickBarRenderer quickBarRenderer;
 		
 	/**
-	 * Create a interface with a given GameModel and ClientMessageHandler
+	 * Create a interface with a given frame name, GameWorld, ClientMessageHandler and player gid
 	 * @param name
 	 * @param world
 	 * @param logic
-	 * @param gid
+	 * @param playerGid
 	 */
-	public IsoInterface(String name, final GameWorld world, final ClientMessageHandler logic, long gid) {
+	public IsoInterface(String name, final GameWorld world, final ClientMessageHandler logic, long playerGid) {
 		this.world = world;
 		this.logic = logic;
 		
 		long end = System.currentTimeMillis() + 5000; // 5 sec
 		GameThing me = null;
-		while((me = world.thingWithGID(gid)) == null && end > System.currentTimeMillis()) {
+		while((me = world.thingWithGID(playerGid)) == null && end > System.currentTimeMillis()) {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -166,7 +166,7 @@ public class IsoInterface implements PlayerMessage {
 	}
 	
 	/**
-	 * Send an interaction to the clienthandler
+	 * Send an interaction to the GameWorld
 	 * @param interaction
 	 * @param thing
 	 */
@@ -201,7 +201,7 @@ public class IsoInterface implements PlayerMessage {
 	
 	/**
 	 * 
-	 * Post a chat message
+	 * Post a chat message to the server
 	 * @param message
 	 */
 	private void sendChatMessage(String message) {
@@ -224,7 +224,7 @@ public class IsoInterface implements PlayerMessage {
 	}
 	
 	/**
-	 * Get the renderering canvas
+	 * Get the rendering canvas
 	 * @return
 	 */
 	public IsoCanvas canvas() {

@@ -24,14 +24,14 @@ public interface IsoTransform {
 	 * @param pos
 	 * @return
 	 */
-	public Position transformMapPosition(Position pos);
+	public Position transformMapToView(Position pos);
 	
 	/**
 	 * Transform a view position to map position
 	 * @param pos
 	 * @return
 	 */
-	public Position transformViewPosition(Position pos);
+	public Position transformViewToMap(Position pos);
 	
 	/**
 	 * Perform translation/rotation on a given relative or delta Point, eg mouse drags

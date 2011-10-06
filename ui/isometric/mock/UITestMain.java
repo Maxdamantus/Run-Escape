@@ -4,6 +4,12 @@ import ui.isometric.IsoInterface;
 import util.*;
 import game.*;
 
+/**
+ * The main class of the UI test, creates a ui without any real game logic
+ * 
+ * @author melby
+ *
+ */
 public class UITestMain {
 	private static GameWorld sgm = new GameWorld();
 

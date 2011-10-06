@@ -26,7 +26,7 @@ public interface ThingCreator {
 	public BufferedImage previewImage();
 	
 	/**
-	 * The names of the renderer that the GameThing creates uses
+	 * The names of the renderers that the GameThing this creates uses
 	 * @return
 	 */
 	public Set<String> rendererNames();

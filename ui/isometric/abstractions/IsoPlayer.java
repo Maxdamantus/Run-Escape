@@ -7,7 +7,7 @@ import game.GameWorld;
 import game.WorldDelta;
 
 /**
- * Wrapper around the needlessly complex methods of getting info about the current player
+ * Wrapper around the needlessly complex methods for getting info about the current player
  * 
  * @author melby
  *

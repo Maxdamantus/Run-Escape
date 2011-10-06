@@ -16,7 +16,7 @@ import game.*;
 
 /**
  * 
- * A class that provides data from a GameModel to an IsoCanvas
+ * A class that provides data from a GameWorld to an IsoCanvas
  * 
  * @author melby
  *
@@ -58,7 +58,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	}
 	
 	/**
-	 * Create a IsoGameModelDataSource with a given GameModel
+	 * Create a IsoGameModelDataSource with a given GameWorld
 	 * @param model
 	 */
 	public IsoGameModelDataSource(GameWorld model) {
@@ -131,7 +131,7 @@ public class IsoGameModelDataSource implements IsoDataSource {
 		for(GameThing thing : things) {
 			Location l = thing.location();
 			if(l instanceof Level.Location) {
-				Position pos = transform.transformMapPosition(((Level.Location)l).position());
+				Position pos = transform.transformMapToView(((Level.Location)l).position());
 				IsoSquare square = squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY];
 				if(square == null) {
 					square = new IsoSquare();
