@@ -34,7 +34,7 @@ public class Chest extends AbstractGameThing {
 		
 	private final String renderer;
 	private boolean open;
-	private final Container cont;
+	private final Container contents;
 
 	
 	//For reading in (serializer to be completed)
@@ -42,7 +42,7 @@ public class Chest extends AbstractGameThing {
 		super(world);
 		renderer = name;
 		update();
-		this.cont = cont;
+		this.contents = cont;
 		this.open = open;
 	}
 	
@@ -52,7 +52,7 @@ public class Chest extends AbstractGameThing {
 		renderer = name;
 		open = false;
 		update();
-		cont = new Container(world);
+		contents = new Container(world);
 	}
 
 
@@ -77,8 +77,8 @@ public class Chest extends AbstractGameThing {
 	public List<String> interactions(){
 		ArrayList<String> interactions = new ArrayList<String>();
 		if(open){
-			interactions.add("close");
 			interactions.add("view contents");
+			interactions.add("close");
 			}	
 		else{
 			interactions.add("open");
@@ -95,12 +95,14 @@ public class Chest extends AbstractGameThing {
 	public void interact(String name, game.things.Player who){
 		if(name.equals("open")){
 			open = true;
+			update();
 		}
 		else if(name.equals("close")){
 			open = false;
+			update();
 		}
 		else if(name.equals("view contents")){
-			who.showContainer(cont, "Chest");
+			who.showContainer(contents, "Chest");
 		}
 		else super.interact(name, who);
 	}

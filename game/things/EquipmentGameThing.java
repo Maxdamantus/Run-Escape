@@ -48,6 +48,7 @@ public class EquipmentGameThing extends PickupGameThing {
 	private int attack, strength, defence, delay;
 	private String name, renderer;
 	private Slot slottype;
+	public static final String SLOT = "slot";
 
 	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String nom, String ren){
 		super(w);
