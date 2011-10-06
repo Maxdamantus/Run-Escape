@@ -84,7 +84,12 @@ public class ThingLibrary {
 		
 		@Override
 		public Set<String> rendererNames() {
-			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("character_"+renderer+"_empty");}};
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;
+				{
+					add("character_"+renderer+"_empty");
+					add("character_"+renderer+"_empty_attack");
+					add("character_"+renderer+"_empty_die");
+				}};
 		}
 	}
 	

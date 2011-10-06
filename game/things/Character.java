@@ -143,7 +143,7 @@ public abstract class Character extends AbstractGameThing {
 					if(l instanceof Level.Location){
 						Location ml = location();
 						if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
-							animate(renderer() + "_punch");
+							animate(renderer() + "_attack");
 							hurt(g);
 						}
 					}

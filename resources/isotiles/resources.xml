@@ -904,11 +904,11 @@
     </v>
   </i>
   <i>
-    <k>character_cordi_empty_punch</k>
+    <k>character_cordi_empty_attack</k>
     <v>
       <i>
         <k>name</k>
-        <v>character_cordi_empty_punch</v>
+        <v>character_cordi_empty_attack</v>
       </i>
       <i>
         <k>type</k>
@@ -955,11 +955,11 @@
     </v>
   </i>
   <i>
-    <k>character_bob_empty_punch</k>
+    <k>character_bob_empty_attack</k>
     <v>
       <i>
         <k>name</k>
-        <v>character_bob_empty_punch</v>
+        <v>character_bob_empty_attack</v>
       </i>
       <i>
         <k>type</k>
