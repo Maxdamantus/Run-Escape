@@ -4,7 +4,7 @@ import serialization.*;
 
 public class WorldDelta {
 	public static interface Action {
-		public void apply(GameWorld w);
+		public void apply(GameWorld w, WorldDelta wd);
 		public Tree toTree();
 		public String type();
 	}
@@ -22,7 +22,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			Location loc = LocationS.s(world).read(in.find("location"));
 			loc.put(world.thingWithGID(gid));
@@ -65,7 +65,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			new DumbGameThing(world, gid);
 		}
@@ -103,7 +103,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("cid"));
 			new Container(world, gid);
 		}
@@ -142,7 +142,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			new DumbGameThing(world, gid);
 		}
@@ -179,7 +179,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			DumbGameThing dgt = DumbGameThing.serializer(world).read(in);
 			// assumptions ..
 			((DumbGameThing)world.thingWithGID(dgt.gid())).update(dgt);
@@ -219,7 +219,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitSay(world.thingWithGID(gid), what);
@@ -267,7 +267,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitAnimate(world.thingWithGID(gid), what);
@@ -315,13 +315,13 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long cid = Serializers.Serializer_Long.read(in.find("cid"));
 			String what = in.find("what").value();
-			world.emitShowContainer(world.containerWithCID(cid), what);
+			world.emitShowContainer(world.containerWithCID(cid), what, world.thingWithGID(wd.to));
 		}
 
-		public Container which(GameWorld world){
+		public Container which(GameWorld world, WorldDelta wd){
 			return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
 		}
 
@@ -363,7 +363,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world){
+		public void apply(GameWorld world, WorldDelta wd){
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitEmitSound(world.thingWithGID(gid), what);
@@ -415,7 +415,7 @@ public class WorldDelta {
 	}
 
 	public void apply(GameWorld w){
-		action.apply(w);
+		action.apply(w, this);
 	}
 
 	public final static Serializer<WorldDelta> SERIALIZER = new Serializer<WorldDelta>(){
