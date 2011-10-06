@@ -1,11 +1,15 @@
 package ui.isometric.sublayers;
 
+import game.Container;
+import game.GameThing;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import ui.isometric.abstractions.IsoPlayer;
 import ui.isometric.libraries.IsoCharacterImageLibrary;
+import ui.isometric.libraries.IsoEquipImageLibrary;
 import util.Resources;
 
 /**
@@ -55,9 +59,17 @@ public class InventoryRenderer extends LargePanel {
 
 	@Override
 	protected void drawContents(Graphics g) {
-		g.drawRect(10, 10, 400, 280);
+		drawEquipment(g);
+		drawInventory(g);
+		drawContainer(g);
+	}
+
+	private void drawContainer(Graphics g) {
 		g.drawRect(425, 10, 150, 590);
-		g.drawRect(10, 305, 400, 295);
+	}
+
+	private void drawEquipment(Graphics g) {
+		g.drawRect(10, 10, 400, 280);
 		g.drawImage(IsoCharacterImageLibrary.imageForCharacterName(player.characterName()), 110, 20, null);
 		g.drawImage(helmet_slot, 230, 30, null);
 		g.drawImage(cloak_slot, 120, 50, null);
@@ -66,5 +78,38 @@ public class InventoryRenderer extends LargePanel {
 		g.drawImage(sheild_slot, 270, 120, null);
 		g.drawImage(boots_slot, 260, 200, null);
 		g.drawImage(gauntlets_slot, 50, 150, null);
+	}
+
+	private void drawInventory(Graphics g) {
+		int x = 10;
+		int y = 305;
+		int width = 400;
+		int height = 295;
+		int spacing = 46;
+		
+		g.drawRect(x, y, width, height);
+		
+		x++;
+		y++;
+		
+		Container inventory = player.inventory();
+		if(inventory != null) {
+			for(GameThing thing : inventory) {
+				BufferedImage i = IsoEquipImageLibrary.imageForName(thing.renderer());
+				
+				if(i != null) { // TODO: placeholder image '?'?
+					g.drawImage(i, x, y, null);
+				}
+				else {
+					System.out.println("null image for " + thing.renderer());
+				}
+				
+				x += spacing;
+				if(x + spacing >= width) {
+					y += spacing;
+					x = 0;
+				}
+			}
+		}
 	}
 }
