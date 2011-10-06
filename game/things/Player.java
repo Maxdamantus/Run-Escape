@@ -196,6 +196,10 @@ public class Player extends Character {
 		return equipment.contains(g);
 	}
 
+	public boolean isEquipmentContainer(Container c){
+		return equipment == c;
+	}
+
 	public void examine(AbstractGameThing abstractGameThing) {
 		// TODO
 		System.out.println("You examined it");
