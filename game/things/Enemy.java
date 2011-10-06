@@ -82,7 +82,7 @@ public class Enemy extends Character {
 		attack(from);
 		if(health() <= 0){
 			LocationS.NOWHERE.put(this);
-			forget();
+			world().forget(this);
 		}
 	}
 }
