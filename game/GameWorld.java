@@ -168,7 +168,7 @@ public class GameWorld {
 		for(GameThing gt : allThings.values()){
 			dw.delta(new WorldDelta(new WorldDelta.Introduce(gt.gid()), -1));
 			dw.delta(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt)), -1));
-			emit(new WorldDelta(new WorldDelta.Put(gt.gid(), gt.location()), -1));
+			dw.delta(new WorldDelta(new WorldDelta.Put(gt.gid(), gt.location()), -1));
 		}
 	}
 
