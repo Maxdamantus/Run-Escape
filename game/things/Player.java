@@ -22,6 +22,7 @@ public class Player extends Character {
 				out.add(new Tree.Entry("name", new Tree(in.name)));
 				out.add(new Tree.Entry("location", LocationS.s(null).write(in.lastLocation == null? in.location() : in.lastLocation)));
 				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.inventory)));
+				out.add(new Tree.Entry("equipment", Container.serializer(union.serializer(), world).write(in.equipment)));
 				return out;
 			}
 
@@ -30,7 +31,8 @@ public class Player extends Character {
 					in.find("type").value(),
 					in.find("name").value(),
 					LocationS.s(world).read(in.find("location")),
-					Container.serializer(union.serializer(), world).read(in.find("inventory")));
+					Container.serializer(union.serializer(), world).read(in.find("inventory")),
+					Container.serializer(union.serializer(), world).read(in.find("equipment")));
 			}
 		});
 	}
@@ -41,8 +43,9 @@ public class Player extends Character {
 	private final String name;
 	private final static int WALKDELAY = 50;
 	private final Container inventory;
+	private final Container equipment;
 
-	private Player(GameWorld world, String t, String n, Location spawn, Container inv){
+	private Player(GameWorld world, String t, String n, Location spawn, Container inv, Container equ){
 		super(world, t);
 		type = t;
 		name = n;
@@ -51,11 +54,12 @@ public class Player extends Character {
 		update();
 		health(1000);
 		inventory = inv;
+		equipment = equ;
 	//	world.schedule(blah, 1000);
 	}
 
 	public Player(GameWorld world, String t, String n, Location spawn){
-		this(world, t, n, spawn, new Container(world));
+		this(world, t, n, spawn, new Container(world), new Container(world));
 	}
 /*
 	private Runnable blah = new Runnable(){
@@ -155,9 +159,20 @@ public class Player extends Character {
 			location().put(g);
 	}
 
-	public void equip(EquipmentGameThing equipmentGameThing) {
-		// TODO Auto-generated method stub
-		
+	public void equip(EquipmentGameThing g) {
+		EquipmentGameThing gt;
+		Iterator<GameThing> iter = equipment.contents().iterator();
+		GameThing temp = null;
+		while((temp = iter.next()) != null){
+			if(temp instanceof EquipmentGameThing){
+				gt = (EquipmentGameThing) temp;
+				if(gt.slot().equals(g.slot())){
+					iter.remove();
+					inventory.put(gt);
+				}
+			}
+		}
+		equipment.put(g);
 	}
 
 	public void examine(AbstractGameThing abstractGameThing) {
