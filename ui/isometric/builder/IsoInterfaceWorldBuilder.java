@@ -136,6 +136,14 @@ public class IsoInterfaceWorldBuilder {
 					}
 				}
 				else {
+					if(event.isAltDown()) {
+						if(i != null) {
+							Location loc = i.gameThing().location();
+							if(loc instanceof Level.Location) {
+								((Level.Location)loc).rotate(Direction.EAST).put(i.gameThing());
+							}
+						}
+					}
 					storedCreator = null;
 					inspect(l);
 				}
