@@ -175,6 +175,8 @@ public abstract class Character extends AbstractGameThing {
 		world().emitEmitSound(this, "character_" + renderer + "_ow");
 		health -= amt;
 		System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
+		if(health <= 0)
+			animate(renderer() + "_die");
 	}
 
 	public boolean moveTo(Level.Location where){
