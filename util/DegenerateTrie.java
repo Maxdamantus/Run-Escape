@@ -20,19 +20,21 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 	}
 
 	public void put(int x, int y, T v){
+		System.out.println("put(" + x + ", " + y + ", " + v + ")");
+		//System.out.println("-> " + set());
 		Position p;
 		Object[][] aa = roots.get(p = new Position(x/(CHILDREN*CHILDREN), y/(CHILDREN*CHILDREN)));
 		if(aa == null)
 			roots.put(p, aa = new Object[CHILDREN*CHILDREN][]);
 		System.out.println("roots(" + x/(CHILDREN*CHILDREN) + ", " + y/(CHILDREN*CHILDREN) + ")");
-		x %= CHILDREN*CHILDREN;
-		y %= CHILDREN*CHILDREN;
+		x = moda(x, CHILDREN*CHILDREN);
+		y = moda(y, CHILDREN*CHILDREN);
 		Object[] a = aa[CHILDREN*(y/CHILDREN) + x/CHILDREN];
 		if(a == null)
 			aa[CHILDREN*(y/CHILDREN) + x/CHILDREN] = a = new Object[CHILDREN*CHILDREN];
 		System.out.println("(" + x/CHILDREN + ", " + y/CHILDREN + ")");
-		x %= CHILDREN;
-		y %= CHILDREN;
+		x = moda(x, CHILDREN);
+		y = moda(y, CHILDREN);
 		Set<T> s = (Set<T>)a[y*CHILDREN + x];
 		if(s == null)
 			a[y*CHILDREN + x] = s = new HashSet<T>();
@@ -49,13 +51,13 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 		Object[][] aa = roots.get(p = new Position(x/(CHILDREN*CHILDREN), y/(CHILDREN*CHILDREN)));
 		if(aa == null)
 			return false;
-		int x1 = x%(CHILDREN*CHILDREN);
-		int y1 = y%(CHILDREN*CHILDREN);
+		int x1 = moda(x, CHILDREN*CHILDREN);
+		int y1 = moda(y, CHILDREN*CHILDREN);
 		Object[] a = aa[CHILDREN*(y1/CHILDREN) + x1/CHILDREN];
 		if(a == null)
 			return false;
-		int x2 = x1%CHILDREN;
-		int y2 = y1%CHILDREN;
+		int x2 = moda(x1, CHILDREN);
+		int y2 = moda(y1, CHILDREN);
 		Set<T> s = (Set<T>)a[y2*CHILDREN + x2];
 		if(s == null)
 			return false;
@@ -77,6 +79,7 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 	private class DTIterator implements Iterator<Map.Entry<Position, T>> {
 		private final boolean all;
 		private int l0x, l0y, l1x, l1y, l2x, l2y;
+		private int a0x, a0y, a1x, a1y, a2x, a2y;
 		private final int minx, miny, maxx, maxy;
 		private final Iterator<Map.Entry<Position, Object[][]>> iroots;
 		private Object[][] l1o;
@@ -104,24 +107,61 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 		}
 
 		public boolean hasNext(){
+			int x = 0;
+			int r = (int)(Math.random()*1000);
 			hasNext: for(;;){
-				System.out.println("tick");
+		//		System.out.println(r + " tick l0x = " + l0x + ", l0y = " + l0y + ", l1x = " + l1x + ", l1y = " + l1y + ", l2x = " + l2x + ", l2y = " + l2y + ", l1o = " + l1o + ", l2o = " + l2o);
 				if(iset != null && iset.hasNext())
 					return true;
 				iset = null;
-				if(l2o != null)
+				if(l2o != null){
+					if(l2x >= CHILDREN){
+						l2x = 0;
+						l2y++;
+					}
+					if(l2y >= CHILDREN){
+						l2o = null;
+						continue hasNext;
+					}
+					if(l2o[l2y*CHILDREN + l2x] != null && acceptable(a0x*(CHILDREN*CHILDREN) + a1x*CHILDREN + l2x, a0y*(CHILDREN*CHILDREN) + a1y*CHILDREN + l2y)){
+						iset = ((Set<T>)l2o[l2y*CHILDREN + l2x]).iterator();
+						a2x = l2x;
+						a2y = l2y;
+					}
+					l2x++;
+					continue hasNext;
+				}
+				if(l1o != null){
+					if(l1x >= CHILDREN){
+						l1x = 0;
+						l1y++;
+					}
+					if(l1y >= CHILDREN){
+						l1o = null;
+						continue hasNext;
+					}
+					if(l1o[l1y*CHILDREN + l1x] != null){
+						l2o = l1o[l1y*CHILDREN + l1x];
+						l2x = l2y = 0;
+						a1x = l1x;
+						a1y = l1y;
+					}
+					l1x++;
+					continue hasNext;
+				}
+				/*
 					for(; l2y < CHILDREN; l2x = 0, l2y++)
 						for(; l2x < CHILDREN; l2x++){
 							System.out.println("(l2o = " + l2o + ", l2y = " + l2y + ", l2x = " + l2x + ")");
 							if(l2o[l2y*CHILDREN + l2x] != null){
 								if(acceptable(l0x*(CHILDREN*CHILDREN) + l1x*CHILDREN + l2x, l0y*(CHILDREN*CHILDREN) + l1y*CHILDREN + l2y)){
 									iset = ((Set<T>)l2o[l2y*CHILDREN + l2x]).iterator();
-									l2x++;
+									if(++l2x >= CHILDREN)
+										l2x = 0;
 									continue hasNext;
 								}
 							}
 						}
-				if(l1o != null)
 					for(; l1y < CHILDREN; l1x = 0, l1y++)
 						for(; l1x < CHILDREN; l1x++){
 							System.out.println("(l1o = " + l1o + ", l1y = " + l1y + ", l1x = " + l1x + ")");
@@ -133,6 +173,7 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 								continue hasNext;
 							}
 						}
+						*/
 				if(all){
 					System.out.println("if(all)");
 					if(iroots.hasNext()){
@@ -140,17 +181,24 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 						System.out.println(kv);
 						l0x = kv.getKey().x();
 						l0y = kv.getKey().y();
+						a0x = l0x;
+						a0y = l0y;
 						l1x = l1y = 0;
 						l1o = kv.getValue();
 						continue hasNext;
 					}
-				}else
-					for(; l0y <= maxy; l0y++)
-						for(; l0x <= maxx; l0x++){
-							l1o = roots.get(new Position(l0x, l0y));
-							if(l1o != null)
-								continue hasNext;
-						}
+				}else{
+					if(l0y*(CHILDREN*CHILDREN) > maxy)
+						return false;
+					if(l0x*(CHILDREN*CHILDREN) > maxx){
+						l0y++;
+						l0x = 0;
+					}
+					l1o = roots.get(new Position(l0x, l0y));
+					a0x = l0x;
+					a0y = l0y;
+					l0x++;
+				}
 				return false;
 			}
 		}
@@ -164,7 +212,7 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 		public Map.Entry<Position, T> next(){
 			if(!hasNext())
 				throw new NoSuchElementException();
-			return new AbstractMap.SimpleEntry<Position, T>(new Position(l0x*(CHILDREN*CHILDREN) + l1x*CHILDREN + l2x, l0y*(CHILDREN*CHILDREN) + l1y*CHILDREN + l2y), iset.next());
+			return new AbstractMap.SimpleEntry<Position, T>(new Position(a0x*(CHILDREN*CHILDREN) + a1x*CHILDREN + a2x, a0y*(CHILDREN*CHILDREN) + a1y*CHILDREN + a2y), iset.next());
 		}
 	}
 
@@ -173,10 +221,19 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 	}
 
 	public Iterable<Map.Entry<Position, T>> portion(final Position min, final Position max){
+//		if(5 == 5)
+//			return this;
 		return new Iterable<Map.Entry<Position, T>>(){
 			public Iterator<Map.Entry<Position, T>> iterator(){
 				return new DTIterator(min.x(), min.y(), max.x(), max.y());
 			}
 		};
+	}
+
+	public Set<Map.Entry<Position, T>> set(){
+		Set<Map.Entry<Position, T>> out = new HashSet<Map.Entry<Position, T>>();
+		for(Map.Entry<Position, T> kv : this)
+			out.add(kv);
+		return out;
 	}
 }
