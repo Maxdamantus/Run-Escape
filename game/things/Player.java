@@ -118,7 +118,7 @@ public class Player extends Character {
 	}
 
 	public void showContainer(Container c, String n){
-		world().emitShowContainer(c, n);
+		world().emitShowContainer(c, n, this);
 	}
 	
 	public void damage(int amt, Character from){

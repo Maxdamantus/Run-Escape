@@ -130,8 +130,8 @@ public class GameWorld {
 		emit(new WorldDelta(new WorldDelta.Animate(gt.gid(), what), -1));
 	}
 
-	public void emitShowContainer(Container ct, String name){
-		emit(new WorldDelta(new WorldDelta.ShowContainer(ct.cid(), name), -1));
+	public void emitShowContainer(Container ct, String name, GameThing gt){
+		emit(new WorldDelta(new WorldDelta.ShowContainer(ct.cid(), name), gt.gid()));
 	}
 
 	public void emitEmitSound(GameThing gt, String what){
