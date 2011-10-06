@@ -46,11 +46,34 @@ public class InventoryRenderer extends LargePanel {
 	private Set<ClickArea> permAreas = new HashSet<ClickArea>();
 	private Set<ClickArea> dynmAreas = new HashSet<ClickArea>();
 	
+	/**
+	 * Private data structure for storing click areas
+	 * 
+	 * @author melby
+	 *
+	 */
 	private static class ClickArea {
+		/**
+		 * An action to be performed when a ClickArea is selected
+		 * 
+		 * @author melby
+		 *
+		 */
 		private static interface ClickAction {
+			/**
+			 * A default ClickAction that deals with GameThings
+			 * This will show a popup with interactions etc
+			 * 
+			 * @author melby
+			 *
+			 */
 			static class GameThingAction implements ClickAction {
 				private GameThing thing;
 				
+				/**
+				 * Create a GameThingAction with a given GameThing
+				 * @param thing
+				 */
 				public GameThingAction(GameThing thing) {
 					this.thing = thing;
 				}
@@ -79,6 +102,12 @@ public class InventoryRenderer extends LargePanel {
 				}
 			}
 			
+			/**
+			 * Perform this action
+			 * @param e - the event that caused this action
+			 * @param p - the point in the InventoryRenderer this happened
+			 * @param inven - the InventoryRenderer that this action is in
+			 */
 			void perform(MouseEvent e, Point p, InventoryRenderer inven);
 		}
 		
@@ -88,6 +117,14 @@ public class InventoryRenderer extends LargePanel {
 		private int h;
 		private ClickAction action;
 		
+		/**
+		 * Create a ClickArea with a given rect and action
+		 * @param x
+		 * @param y
+		 * @param w
+		 * @param h
+		 * @param action
+		 */
 		public ClickArea(int x, int y, int w, int h, ClickAction action) {
 			this.x = x;
 			this.y = y;
@@ -96,16 +133,40 @@ public class InventoryRenderer extends LargePanel {
 			this.action = action;
 		}
 		
+		/**
+		 * Get the x coord
+		 * @return
+		 */
 		public int x() { return x; }
 		
+		/**
+		 * Get the y coord
+		 * @return
+		 */
 		public int y() { return y; };
 		
+		/**
+		 * Get the width
+		 * @return
+		 */
 		public int width() { return w; }
 		
+		/**
+		 * Get the height
+		 * @return
+		 */
 		public int height() { return h; }
 		
+		/**
+		 * Perform the action this ClickArea contains
+		 * @param e
+		 * @param p
+		 * @param inven
+		 */
 		public void perform(MouseEvent e, Point p, InventoryRenderer inven) {
-			action.perform(e, p, inven);
+			if(action != null) {
+				action.perform(e, p, inven);
+			}
 		}
 	}
 	
@@ -282,6 +343,10 @@ public class InventoryRenderer extends LargePanel {
 		}
 	}
 	
+	/**
+	 * Get the IsoInterface that is managing this Object
+	 * @return
+	 */
 	private IsoInterface ui() {
 		return inter;
 	}
