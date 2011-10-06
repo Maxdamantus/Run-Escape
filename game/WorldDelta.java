@@ -321,7 +321,7 @@ public class WorldDelta {
 			world.emitShowContainer(world.containerWithCID(cid), what, world.thingWithGID(wd.to));
 		}
 
-		public Container which(GameWorld world, WorldDelta wd){
+		public Container which(GameWorld world){
 			return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
 		}
 
