@@ -196,7 +196,7 @@ public class InventoryRenderer extends LargePanel {
 	}
 
 	@Override
-	protected void drawContents(Graphics g) {
+	protected void drawContents(Graphics g) { // TODO: add scrolling / clipping
 		dynmAreas.clear();
 		
 		drawEquipment(g);
