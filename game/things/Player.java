@@ -165,7 +165,7 @@ public class Player extends Character {
 		EquipmentGameThing gt;
 		Iterator<GameThing> iter = equipment.contents().iterator();
 		GameThing temp = null;
-		while((temp = iter.next()) != null){
+		while(iter.hasNext() && (temp = iter.next()) != null){
 			if(temp instanceof EquipmentGameThing){
 				gt = (EquipmentGameThing) temp;
 				if(gt.slot().equals(g.slot())){
