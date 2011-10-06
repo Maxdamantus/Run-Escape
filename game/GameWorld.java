@@ -151,8 +151,9 @@ public class GameWorld {
 		watchers.remove(dw);
 	}
 
+	private final Timer timer = new Timer();
 	public void schedule(final Runnable r, long d){
-		new Timer().schedule(new TimerTask(){
+		timer.schedule(new TimerTask(){
 			public void run(){
 				double a = Math.random();
 				synchronized(GameWorld.this){
