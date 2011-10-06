@@ -1,6 +1,7 @@
-package game;
+package game.things;
 
-import game.things.Player;
+import game.Container;
+import game.GameWorld;
 
 import java.util.LinkedList;
 import java.util.List;
