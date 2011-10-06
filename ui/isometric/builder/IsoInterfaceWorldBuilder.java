@@ -144,8 +144,10 @@ public class IsoInterfaceWorldBuilder {
 							}
 						}
 					}
-					storedCreator = null;
-					inspect(l);
+					else {
+						storedCreator = null;
+						inspect(l);
+					}
 				}
 			}
 		});
