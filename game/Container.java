@@ -39,7 +39,7 @@ public class Container implements Iterable<GameThing>, Location {
 	}
 		
 	public Iterator<GameThing> iterator(){
-		return Collections.unmodifiableSet(set).iterator();
+		return set.iterator();
 	}
 
 	public void put(GameThing gt){
