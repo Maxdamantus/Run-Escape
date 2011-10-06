@@ -5,6 +5,7 @@ import game.Container;
 import game.GameThing;
 import game.GameWorld;
 import game.WorldDelta;
+import game.things.EquipmentGameThing;
 
 /**
  * Wrapper around the needlessly complex methods for getting info about the current player
@@ -14,6 +15,7 @@ import game.WorldDelta;
  */
 public class IsoPlayer {
 	private Container inventory;
+	private Container equipment;
 	private GameWorld world;
 	private GameThing thing;
 	
@@ -35,11 +37,15 @@ public class IsoPlayer {
 					if(show.what().equals("Inventory")) {
 						inventory = show.which(world);
 					}
+					if(show.what().equals("Equipment")) {
+						equipment = show.which(world);
+					}
 				}
 			}
 		});
 		
 		inter.performActionOn("_showinventory", thing);
+		inter.performActionOn("_showequipment", thing);
 	}
 	
 	/**
@@ -48,6 +54,35 @@ public class IsoPlayer {
 	 */
 	public Container inventory() {
 		return inventory;
+	}
+	
+	/**
+	 * Get the GameThing for a given slot
+	 * @param slot
+	 * @return
+	 */
+	public GameThing getEquipmentForSlot(EquipmentGameThing.Slot slot) {
+		if(equipment != null) {
+			for(GameThing g : equipment) {
+				String value = g.info().get(EquipmentGameThing.SLOT);
+				if(value != null) {
+					EquipmentGameThing.Slot got = EquipmentGameThing.Slot.valueOf(value);
+					if(got.equals(slot)) {
+						return g;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * This players equipment
+	 * @return
+	 */
+	public Container equipment() {
+		return equipment;
 	}
 	
 	/**

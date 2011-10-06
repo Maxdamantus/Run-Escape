@@ -2,6 +2,7 @@ package ui.isometric.sublayers;
 
 import game.Container;
 import game.GameThing;
+import game.things.EquipmentGameThing;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -40,6 +41,8 @@ public class InventoryRenderer extends LargePanel {
 	private static BufferedImage boots_slot = null;
 	private static BufferedImage cloak_slot = null;
 	private static BufferedImage shield_slot = null;
+	
+	private static BufferedImage empty_slot = null;
 	
 	private static int imageSize = 44;
 	
@@ -189,63 +192,64 @@ public class InventoryRenderer extends LargePanel {
 					boots_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_boots.png");
 					cloak_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_cloak.png");
 					shield_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_shield.png");
+					empty_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_empty.png");
 					
-					permAreas.add(new ClickArea(230, 30, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Helmet");
-						}
-						
-					})); // Helmet
-					permAreas.add(new ClickArea(120, 50, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Cloak");
-						}
-						
-					})); // Cloak
-					permAreas.add(new ClickArea(100, 100, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Armour");
-						}
-						
-					})); // Armour
-					permAreas.add(new ClickArea(110, 150, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Weapon");
-						}
-						
-					})); // Weapon
-					permAreas.add(new ClickArea(270, 120, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Shield");
-						}
-						
-					})); // Shield
-					permAreas.add(new ClickArea(260, 200, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Boots");
-						}
-						
-					})); // Boots
-					permAreas.add(new ClickArea(50, 150, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-						@Override
-						public void perform(MouseEvent e, Point p,
-								InventoryRenderer inven) {
-							System.out.println("Gauntlets");
-						}
-						
-					})); // Gauntlets
+//					permAreas.add(new ClickArea(230, 30, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Helmet");
+//						}
+//						
+//					})); // Helmet
+//					permAreas.add(new ClickArea(120, 50, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Cloak");
+//						}
+//						
+//					})); // Cloak
+//					permAreas.add(new ClickArea(100, 100, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Armour");
+//						}
+//						
+//					})); // Armour
+//					permAreas.add(new ClickArea(110, 150, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Weapon");
+//						}
+//						
+//					})); // Weapon
+//					permAreas.add(new ClickArea(270, 120, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Shield");
+//						}
+//						
+//					})); // Shield
+//					permAreas.add(new ClickArea(260, 200, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Boots");
+//						}
+//						
+//					})); // Boots
+//					permAreas.add(new ClickArea(50, 150, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
+//						@Override
+//						public void perform(MouseEvent e, Point p,
+//								InventoryRenderer inven) {
+//							System.out.println("Gauntlets");
+//						}
+//						
+//					})); // Gauntlets
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -278,15 +282,73 @@ public class InventoryRenderer extends LargePanel {
 	 * @param g
 	 */
 	private void drawEquipment(Graphics g) {
+		GameThing thing;
+		
 		g.drawRect(10, 10, 400, 280);
 		g.drawImage(IsoCharacterImageLibrary.imageForCharacterName(player.characterName()), 110, 20, null);
-		g.drawImage(helmet_slot, 230, 30, null);
-		g.drawImage(cloak_slot, 120, 50, null);
-		g.drawImage(armour_slot, 100, 100, null);
-		g.drawImage(weapon_slot, 110, 150, null);
-		g.drawImage(shield_slot, 270, 120, null);
-		g.drawImage(boots_slot, 260, 200, null);
-		g.drawImage(gauntlets_slot, 50, 150, null);
+		
+		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.HELMET);
+		if(thing != null) {
+			g.drawImage(empty_slot, 230, 30, null);
+			this.drawThingAt(g, thing, 231, 31);
+		}
+		else {
+			g.drawImage(helmet_slot, 230, 30, null);
+		}
+		
+//		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.CLOAK);
+//		if(thing != null) {
+//			g.drawImage(empty_slot, 230, 30, null);
+//			this.drawThingAt(g, thing, 121, 51);
+//		}
+//		else {
+//			g.drawImage(cloak_slot, 120, 50, null);
+//		}
+		
+		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.ARMOUR);
+		if(thing != null) {
+			g.drawImage(empty_slot, 100, 100, null);
+			this.drawThingAt(g, thing, 101, 101);
+		}
+		else {
+			g.drawImage(armour_slot, 100, 100, null);
+		}
+		
+		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.WEAPON);
+		if(thing != null) {
+			g.drawImage(empty_slot, 110, 150, null);
+			this.drawThingAt(g, thing, 111, 151);
+		}
+		else {
+			g.drawImage(weapon_slot, 110, 150, null);
+		}
+		
+		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.SHIELD);
+		if(thing != null) {
+			g.drawImage(empty_slot, 270, 120, null);
+			this.drawThingAt(g, thing, 271, 121);
+		}
+		else {
+			g.drawImage(shield_slot, 270, 120, null);
+		}
+		
+		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.BOOTS);
+		if(thing != null) {
+			g.drawImage(empty_slot, 260, 200, null);
+			this.drawThingAt(g, thing, 261, 201);
+		}
+		else {
+			g.drawImage(boots_slot, 260, 200, null);
+		}
+		
+		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.GAUNTLET);
+		if(thing != null) {
+			g.drawImage(empty_slot, 50, 150, null);
+			this.drawThingAt(g, thing, 51, 151);
+		}
+		else {
+			g.drawImage(gauntlets_slot, 50, 150, null);
+		}
 	}
 
 	/**
@@ -308,15 +370,7 @@ public class InventoryRenderer extends LargePanel {
 		Container inventory = player.inventory();
 		if(inventory != null) {
 			for(GameThing thing : inventory) {
-				BufferedImage i = IsoInventoryImageLibrary.imageForName(thing.renderer());
-				
-				if(i != null) { // TODO: placeholder image '?'?
-					g.drawImage(i, x, y, null);
-					dynmAreas.add(new ClickArea(x, y, imageSize, imageSize, new ClickArea.ClickAction.GameThingAction(thing)));
-				}
-				else {
-					System.out.println("null image for " + thing.renderer());
-				}
+				this.drawThingAt(g, thing, x, y);
 				
 				x += spacing;
 				if(x + spacing >= width) {
@@ -327,15 +381,27 @@ public class InventoryRenderer extends LargePanel {
 		}
 	}
 
+	private void drawThingAt(Graphics g, GameThing thing, int x, int y) {
+		BufferedImage i = IsoInventoryImageLibrary.imageForName(thing.renderer());
+		
+		if(i != null) { // TODO: placeholder image '?'?
+			g.drawImage(i, x, y, null);
+			dynmAreas.add(new ClickArea(x, y, imageSize, imageSize, new ClickArea.ClickAction.GameThingAction(thing)));
+		}
+		else {
+			System.out.println("null image for " + thing.renderer());
+		}
+	}
+
 	@Override
 	protected void mouseDown(MouseEvent e, Point p, IsoCanvas canvas) {
-		for(ClickArea a : permAreas) {
+		for(ClickArea a : dynmAreas) {
 			if(this.pointInRect(p, a.x(), a.y(), a.width(), a.height())) {
 				a.perform(e, p, this);
 				return;
 			}
 		}
-		for(ClickArea a : dynmAreas) {
+		for(ClickArea a : permAreas) {
 			if(this.pointInRect(p, a.x(), a.y(), a.width(), a.height())) {
 				a.perform(e, p, this);
 				return;
