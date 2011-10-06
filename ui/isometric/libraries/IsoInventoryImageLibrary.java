@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import data.Database;
 
@@ -14,26 +13,26 @@ import serialization.Serializers;
 import util.Resources;
 
 /**
- * A class for accessing character images
+ * A class for accessing inventory images for GameThings
  * 
  * @author melby
  *
  */
-public class IsoCharacterImageLibrary {
+public class IsoInventoryImageLibrary {
 	private static Map<String, BufferedImage> images = null;
 	
 	/**
 	 * Load all the images from disk into our internal data structures
 	 */
 	private static void loadImages() {
-		synchronized(IsoCharacterImageLibrary.class) {
+		synchronized(IsoInventoryImageLibrary.class) {
 			if(images == null) {
 				images = new HashMap<String, BufferedImage>();
 				
 				Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				Map<String, String> names = null;
 				try {
-					names = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/characters/resources.xml")));
+					names = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/inventory/resources.xml")));
 				} catch (IOException e) {
 					System.err.println("Unable to load resource declerations");
 					e.printStackTrace();
@@ -41,9 +40,9 @@ public class IsoCharacterImageLibrary {
 				
 				for(String key : names.keySet()) {
 					try {
-						images.put(key, Resources.readImageResourceUnfliped("/resources/characters/"+names.get(key)+".png"));
+						images.put(key, Resources.readImageResourceUnfliped("/resources/inventory/"+names.get(key)+".png"));
 					} catch (IOException e) {
-						System.err.println("Unable to load character resource named: "+names.get(key));
+						System.err.println("Unable to load inventory image named: "+names.get(key));
 						e.printStackTrace();
 					}
 				}
@@ -52,31 +51,17 @@ public class IsoCharacterImageLibrary {
 	}
 	
 	/**
-	 * Get the image for a given character name
+	 * Get the image for a given renderer name
 	 * @param name
 	 * @return
 	 */
-	public static BufferedImage imageForCharacterName(String name) {
-		synchronized(IsoCharacterImageLibrary.class) {
+	public static BufferedImage imageForName(String name) {
+		synchronized(IsoInventoryImageLibrary.class) {
 			if(images == null) {
 				loadImages();
 			}
 		}
 		
 		return images.get(name);
-	}
-	
-	/**
-	 * Get a list of all characters
-	 * @return
-	 */
-	public static Set<String> getAllCharacters() { // TODO: more consistancy checks
-		synchronized(IsoCharacterImageLibrary.class) {
-			if(images == null) {
-				loadImages();
-			}
-		}
-		
-		return images.keySet();
 	}
 }

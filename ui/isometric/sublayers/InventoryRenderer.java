@@ -20,7 +20,7 @@ import ui.isometric.IsoCanvas;
 import ui.isometric.IsoInterface;
 import ui.isometric.abstractions.IsoPlayer;
 import ui.isometric.libraries.IsoCharacterImageLibrary;
-import ui.isometric.libraries.IsoEquipImageLibrary;
+import ui.isometric.libraries.IsoInventoryImageLibrary;
 import util.Resources;
 
 /**
@@ -308,7 +308,7 @@ public class InventoryRenderer extends LargePanel {
 		Container inventory = player.inventory();
 		if(inventory != null) {
 			for(GameThing thing : inventory) {
-				BufferedImage i = IsoEquipImageLibrary.imageForName(thing.renderer());
+				BufferedImage i = IsoInventoryImageLibrary.imageForName(thing.renderer());
 				
 				if(i != null) { // TODO: placeholder image '?'?
 					g.drawImage(i, x, y, null);

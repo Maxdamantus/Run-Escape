@@ -2,20 +2,10 @@
 <tree>
   <i>
     <k>bob</k>
-    <v>
-      <i>
-        <k>name</k>
-        <v>bob</v>
-      </i>
-    </v>
+    <v>bob</v>
   </i>
   <i>
     <k>cordi</k>
-    <v>
-      <i>
-        <k>name</k>
-        <v>cordi</v>
-      </i>
-    </v>
+    <v>cordi</v>
   </i>
 </tree>
