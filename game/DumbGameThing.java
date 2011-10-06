@@ -8,20 +8,21 @@ import serialization.*;
 public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	private List<String> interactions;
 	private String defaultInteraction, renderer, name;
-	private Map<String, Serializable> userArguments;
+	private Map<String, String> info;
 	private int renderLevel;
 
-	public DumbGameThing(long g, List<String> i, String d, String r, String n, int l){
-		this(null, g, i, d, r, n, l);
+	public DumbGameThing(long g, List<String> i, String d, String r, String n, int l, Map<String, String> inf){
+		this(null, g, i, d, r, n, l, inf);
 	}
 
-	public DumbGameThing(GameWorld w, long g, List<String> i, String d, String r, String n, int l){
+	public DumbGameThing(GameWorld w, long g, List<String> i, String d, String r, String n, int l, Map<String, String> inf){
 		super(w, g);
 		interactions = i;
 		defaultInteraction = d;
 		renderer = r;
 		name = n;
 		renderLevel = l;
+		info = inf;
 		if(w != null)
 			w.introduce(this, gid());
 	}
@@ -42,11 +43,11 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	}
 
 	public DumbGameThing(GameWorld w, long g){
-		this(w, g, null, null, null, null, 0);
+		this(w, g, null, null, null, null, 0, null);
 	}
 
 	public DumbGameThing(GameThing gt){
-		this(gt.gid(), gt.interactions(), gt.defaultInteraction(), gt.renderer(), gt.name(), gt.renderLevel());
+		this(gt.gid(), gt.interactions(), gt.defaultInteraction(), gt.renderer(), gt.name(), gt.renderLevel(), gt.info());
 	}
 
 	public void update(DumbGameThing o){
@@ -54,18 +55,22 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 			interactions = o.interactions;
 		if(o.defaultInteraction != null)
 			defaultInteraction = o.defaultInteraction;
-		if(o.userArguments != null)
-			userArguments = o.userArguments;
 		if(o.renderer != null)
 			renderer = o.renderer;
 		if(o.name != null)
 			name = o.name;
 		if(o.renderLevel != -1)
 			renderLevel = o.renderLevel;
+		if(o.info != null)
+			info = o.info;
 	}
 
 	public String renderer() {
 		return renderer != null? renderer : "null";
+	}
+
+	public Map<String, String> info(){
+		return info;
 	}
 
 	public static Serializer<DumbGameThing> serializer(final GameWorld w){
@@ -82,6 +87,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				out.add(new Tree.Entry("renderer", nullStringS.write(in.renderer)));
 				out.add(new Tree.Entry("name", nullStringS.write(in.name)));
 				out.add(new Tree.Entry("renderLevel", Serializers.Serializer_Integer.write(in.renderLevel())));
+				out.add(new Tree.Entry("info", Serializers.map(Serializers.Serializer_String, Serializers.Serializer_String).write(in.info())));
 				return out;
 			}
 
@@ -92,7 +98,8 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 					nullStringS.read(in.find("defaultinteraction")),
 					nullStringS.read(in.find("renderer")),
 					nullStringS.read(in.find("name")),
-					Serializers.Serializer_Integer.read(in.find("renderLevel")));
+					Serializers.Serializer_Integer.read(in.find("renderLevel")),
+					Serializers.map(Serializers.Serializer_String, Serializers.Serializer_String).read(in.find("info")));
 			}
 		};
 	}

@@ -131,6 +131,10 @@ public abstract class AbstractGameThing implements GameThing {
 			world.emitUpdate(this);
 	}
 
+	public Map<String, String> info(){
+		return Collections.emptyMap();
+	}
+
 	public String toString(){
 		return "(" + renderer() + ")";
 	}

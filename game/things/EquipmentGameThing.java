@@ -82,6 +82,12 @@ public class EquipmentGameThing extends PickupGameThing {
 		return this.slottype;
 	}
 
+	public Map<String, String> info(){
+		Map<String, String> map = new HashMap<String, String>(super.info());
+		map.put(SLOT, slottype.toString());
+		return map;
+	}
+
 	@Override
 	public String renderer() {
 		return renderer;
