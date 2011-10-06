@@ -71,6 +71,15 @@ public class Level implements Iterable<GameThing> {
 		}
 
 		public Location nextTo(final Location where, final game.things.Character who, final int dist){
+		/*
+			try{
+				java.io.FileWriter fw = new java.io.FileWriter("dbg.g");
+				where.level.map.toDot(fw);
+				fw.close();
+			}catch(java.io.IOException e){}
+			if(5 == 5)
+				throw new RuntimeException("halting");
+				*/
 			if(where.equals(this))
 				return this;
 			Find.Node<Location> cur = Find.dijkstra(this, new Find.Nextator<Location>(){

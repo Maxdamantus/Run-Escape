@@ -182,6 +182,29 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 		return "QuadTree(" + root + ")";
 	}
 
+	public void toDot(Appendable out, String path, Node n) throws java.io.IOException {
+		out.append("  ");
+		out.append(path);
+		out.append(" [ label = \"(" + n.x + ", " + n.y + ")\" ];\n");
+		for(int x = 0; x < 4; x++)
+			if(n.children[x] != null){
+				out.append("  ");
+				out.append(path);
+				out.append(" -> ");
+				out.append(path);
+				out.append("_" + x);
+				out.append(" [ label = \"" + x + "\" ];\n");
+				toDot(out, path + "_" + x, n.children[x]);
+			}
+	}
+
+	public void toDot(Appendable out) throws java.io.IOException {
+		out.append("digraph G {\n");
+		if(root != null)
+			toDot(out, "r", root);
+		out.append("}\n");
+	}
+
 	public static void main(String[] argv){
 		QuadTree<Integer> qt = new QuadTree<Integer>();
 		Set<Map.Entry<Position, Integer>> test = new HashSet<Map.Entry<Position, Integer>>();
