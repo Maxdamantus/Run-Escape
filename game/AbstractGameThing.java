@@ -71,13 +71,9 @@ public abstract class AbstractGameThing implements GameThing {
 		return singleSpot;
 	}
 
-	public String renderer(){
-		return "null";
-	}
+	abstract public String renderer();
 
-	public String name(){
-		return "thing";
-	}
+	abstract public String name();
 
 	public long gid(){
 		return gid;

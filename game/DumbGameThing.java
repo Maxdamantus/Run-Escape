@@ -38,7 +38,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 
 	@Override
 	public String name(){
-		return name != null? name : super.name();
+		return name != null? name : "null";
 	}
 
 	public DumbGameThing(GameWorld w, long g){
@@ -65,7 +65,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 	}
 
 	public String renderer() {
-		return renderer != null? renderer : super.renderer();
+		return renderer != null? renderer : "null";
 	}
 
 	public static Serializer<DumbGameThing> serializer(final GameWorld w){

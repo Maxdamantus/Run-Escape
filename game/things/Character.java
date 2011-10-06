@@ -6,7 +6,7 @@ import java.util.*;
 
 // might want to subclass Player by this later, so Player and Enemy are both "Characters".
 
-public class Character extends AbstractGameThing {
+public abstract class Character extends AbstractGameThing {
 	private String renderer;
 	private int health;
 
@@ -189,4 +189,5 @@ public class Character extends AbstractGameThing {
 	public int renderLevel() {
 		return ui.isometric.abstractions.IsoSquare.CHARACTER;
 	}
+
 }
