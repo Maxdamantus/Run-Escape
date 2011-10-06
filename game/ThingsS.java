@@ -14,6 +14,7 @@ public class ThingsS {
 		SpawnPoint.makeSerializer(u, w);
 		TestPickUp.makeSerializer(u, w);
 		Enemy.makeSerializer(u, w);
+		EquipmentGameThing.makeSerializer(u, w);
 
 		return u.serializer();
 	}	
