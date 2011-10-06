@@ -163,6 +163,9 @@ public class Player extends Character {
 	public void drop(GameThing g){
 		if(g.location() == inventory)
 			location().put(g);
+		if(g.location() == equipment)
+			unequip((EquipmentGameThing) g);
+			location().put(g);
 	}
 
 	public void equip(EquipmentGameThing g) {
@@ -178,13 +181,15 @@ public class Player extends Character {
 				}
 			}
 		}
+		g.setEquip();
 		equipment.put(g);
 	}
 	
 	public void unequip(EquipmentGameThing g) {
 		if(equipment.contains(g)){
-		equipment.remove(g);
-		inventory.put(g);
+			g.setEquip();
+			equipment.remove(g);
+			inventory.put(g);	
 		}
 	}
 

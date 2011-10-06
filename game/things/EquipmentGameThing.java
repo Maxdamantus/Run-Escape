@@ -25,6 +25,7 @@ public class EquipmentGameThing extends PickupGameThing {
 				out.add(new Tree.Entry("slot", new Tree(in.slottype.toString())));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
 				out.add(new Tree.Entry("renderer", new Tree(in.renderer)));
+				out.add(new Tree.Entry("equipped", new Tree(Boolean.toString(in.equipped))));
 				return out;
 			}
 
@@ -36,7 +37,7 @@ public class EquipmentGameThing extends PickupGameThing {
 					Serializers.Serializer_Integer.read(in.find("delay")),
 					Slot.valueOf(in.find("slot").value()),
 					in.find("name").value(),
-					in.find("renderer").value());
+					in.find("renderer").value(),Boolean.valueOf(in.find("equip").value()));
 			}
 		});
 	}
@@ -49,8 +50,9 @@ public class EquipmentGameThing extends PickupGameThing {
 	private String name, renderer;
 	private Slot slottype;
 	public static final String SLOT = "slot";
+	private boolean equipped;
 
-	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String nom, String ren){
+	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String nom, String ren, boolean eq){
 		super(w);
 		attack = a;
 		strength = s;
@@ -59,14 +61,20 @@ public class EquipmentGameThing extends PickupGameThing {
 		name = nom;
 		slottype = sl;
 		this.renderer = ren;
+		equipped = eq;
 		
 	}
 
 	public List<String> interactions(){
 		if(location() instanceof Container){
 			List<String> out = new LinkedList<String>(super.interactions());
-			out.add("equip");
-			out.add("unequip");
+			if(equipped){
+				out.add("unequip");
+			}
+			else{
+				out.add("equip");
+			}
+			out.add("examine");
 			return out;
 		}
 		return super.interactions();
@@ -103,4 +111,13 @@ public class EquipmentGameThing extends PickupGameThing {
 	public String name() {
 		return name;
 	}
+
+	public void setEquip() {
+		// TODO Auto-generated method stub
+		if(equipped)
+			equipped = false;
+		else
+			equipped = true;
+	}
+	
 }
