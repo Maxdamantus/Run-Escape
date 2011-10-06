@@ -12,7 +12,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,7 +21,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
 
 import data.Database;
@@ -37,7 +35,6 @@ import util.Direction;
 import util.Resources;
 
 import game.*;
-import game.things.Player;
 
 /**
  * 
@@ -58,6 +55,8 @@ public class IsoInterfaceWorldBuilder {
 	private IsoDataSource dataSource;
 	
 	private static final String EXTENTION = "wblrd";
+	
+	private ThingCreator storedCreator = null;
 	
 	/**
 	 * Create a world builder interface with a given GameWorld and ClientMessageHandler
@@ -97,43 +96,47 @@ public class IsoInterfaceWorldBuilder {
 			@Override
 			public void selected(final IsoImage i, final Location l, MouseEvent event) {
 				if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
-					if(i != null) {
-						if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
-							JPopupMenu popup = new JPopupMenu();
-							for(GameThing t : i.gameThing().location().contents()) {
-								JMenuItem n = new JMenuItem(t.name());
-								n.setEnabled(false);
-								popup.add(n);
-								
-								List<String> interactions = t.interactions();
-								
-								for(String intr : interactions) {									
-									JMenuItem item = new JMenuItem("   "+intr);
-									item.setName(t.gid()+"");
-									item.addActionListener(new ActionListener() {
-										@Override
-										public void actionPerformed(ActionEvent e) {
-											Object s = e.getSource();
-											
-											if(s instanceof JMenuItem) {
-												JMenuItem m = (JMenuItem)s;
-												for(GameThing t : dataSource.level()) {
-													if(t instanceof Player) {
-														world.thingWithGID(Long.parseLong(m.getName())).interact(m.getText().substring(3), (Player)t);
-														break;
-													}
-												}
-											}
-										}
-									});
-									popup.add(item);
-								}
-							}
-							popup.show(canvas, event.getPoint().x, event.getPoint().y);
-						}
+//					if(i != null) {
+//						JPopupMenu popup = new JPopupMenu();
+//						for(GameThing t : i.gameThing().location().contents()) {
+//							JMenuItem n = new JMenuItem(t.name());
+//							n.setEnabled(false);
+//							popup.add(n);
+//							
+//							List<String> interactions = t.interactions();
+//							
+//							for(String intr : interactions) {									
+//								JMenuItem item = new JMenuItem("   "+intr);
+//								item.setName(t.gid()+"");
+//								item.addActionListener(new ActionListener() {
+//									@Override
+//									public void actionPerformed(ActionEvent e) {
+//										Object s = e.getSource();
+//										
+//										if(s instanceof JMenuItem) {
+//											JMenuItem m = (JMenuItem)s;
+//											for(GameThing t : dataSource.level()) {
+//												if(t instanceof Player) {
+//													world.thingWithGID(Long.parseLong(m.getName())).interact(m.getText().substring(3), (Player)t);
+//													break;
+//												}
+//											}
+//										}
+//									}
+//								});
+//								popup.add(item);
+//							}
+//						}
+//						popup.show(canvas, event.getPoint().x, event.getPoint().y);
+//					}
+					
+					if(storedCreator != null) {
+						canvas.calculateTypesAtAtPoint(event.getPoint());
+						dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH).put(storedCreator.createThing(world));
 					}
 				}
 				else {
+					storedCreator = null;
 					inspect(l);
 				}
 			}
@@ -142,6 +145,7 @@ public class IsoInterfaceWorldBuilder {
 			@Override
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(onto instanceof IsoCanvas) {
+					storedCreator = creator;
 					IsoCanvas canvas = (IsoCanvas)onto;
 					canvas.calculateTypesAtAtPoint(location);
 					dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH).put(creator.createThing(world));
