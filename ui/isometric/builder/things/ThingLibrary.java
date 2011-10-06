@@ -267,6 +267,13 @@ public class ThingLibrary {
 				
 				creators.add(new DoorCreator("wall_grey_1_door_closed", "wall_grey_1_door_open", false));
 				
+				creators.add(new WallCreator("wall_grey_2_corner"));
+				creators.add(new WallCreator("wall_grey_2_x"));
+				creators.add(new WallCreator("wall_grey_2_t"));
+				creators.add(new WallCreator("wall_grey_2_straight"));
+				
+				creators.add(new DoorCreator("wall_grey_2_door_closed", "wall_grey_2_door_open", false));
+				
 				creators.add(new SpawnPointCreator());
 				
 				ThingCreatorChecker.check();
