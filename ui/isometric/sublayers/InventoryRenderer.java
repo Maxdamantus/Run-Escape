@@ -4,6 +4,8 @@ import game.Container;
 import game.GameThing;
 
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -28,6 +30,8 @@ public class InventoryRenderer extends LargePanel {
 	private static BufferedImage boots_slot = null;
 	private static BufferedImage cloak_slot = null;
 	private static BufferedImage sheild_slot = null;
+	
+	private static int imageSize = 44;
 	
 	/**
 	 * Create an InventoryRenderer with a given player and percentage x/y coord
@@ -110,6 +114,13 @@ public class InventoryRenderer extends LargePanel {
 					x = 0;
 				}
 			}
+		}
+	}
+
+	@Override
+	protected void mouseDown(MouseEvent e, Point p) {
+		if(this.pointInRect(p, 230, 30, imageSize, imageSize)) {
+			System.out.println("Helmet");
 		}
 	}
 }

@@ -27,6 +27,9 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	
 	private static BufferedImage close = null;
 	
+	private static final int xPad = 20;
+	private static final int yPad = 20;
+	
 	/**
 	 * Create a panel centered in the view by the given %
 	 * @param x - 0-1, distance from right side
@@ -60,19 +63,15 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 		
 		g.drawImage(bgimage, 0, 0, null);
 		g.drawImage(close, width-20, 0, null);
-		this.drawContents(g.create(20, 20, width-40, height-40));
+		this.drawContents(g.create(xPad, yPad, width-xPad*2, height-yPad*2));
 	}
 
 	@Override
 	public boolean doSelectionPass(Point selectionPoint, IsoCanvas isoCanvas) { // TODO: close button
 		removeFrom = false;
 		
-		if(selectionPoint.x > isoCanvas.getWidth()*x-width/2 &&
-				selectionPoint.x < isoCanvas.getWidth()*x+width/2 &&
-				selectionPoint.y > isoCanvas.getHeight()*y-height/2 &&
-				selectionPoint.y < isoCanvas.getHeight()*y+height/2) {
-			if(selectionPoint.x > isoCanvas.getWidth()*x+width/2-20 &&
-					selectionPoint.y < isoCanvas.getHeight()*y-height/2+20) {
+		if(this.pointInRect(selectionPoint, isoCanvas.getWidth()*x-width/2, isoCanvas.getHeight()*y-height/2, width, height)) {
+			if(this.pointInRect(selectionPoint, isoCanvas.getWidth()*x+width/2-20, isoCanvas.getHeight()*y-height/2, 20, 20)) {
 				removeFrom = true;
 			}
 			
@@ -87,6 +86,12 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	public void wasClicked(MouseEvent event, IsoCanvas canvas) {
 		if(removeFrom) {
 			this.removeFromSuperview();
+		}
+		else {
+			Point p = new Point();
+			p.setLocation(event.getPoint().x - (canvas.getWidth()*x-width/2+xPad), event.getPoint().y - (canvas.getHeight()*y-height/2+yPad));
+			event.setSource(this);
+			this.mouseDown(event, p);
 		}
 	}
 	
@@ -112,6 +117,22 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	}
 	
 	/**
+	 * Is the given point in a given rectangle
+	 * @param p
+	 * @param x
+	 * @param y
+	 * @param w
+	 * @param h
+	 * @return
+	 */
+	protected boolean pointInRect(Point p, double x, double y, double w, double h) {
+		return p.x > x &&
+		p.x < x+w &&
+		p.y > y &&
+		p.y < y+h;
+	}
+	
+	/**
 	 * Get the name of the image to use for the background.
 	 * Note, this may be removed soon
 	 * @return
@@ -123,4 +144,12 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	 * @param g
 	 */
 	abstract protected void drawContents(Graphics g);
+	
+	/**
+	 * Mouse was clicked somewhere in the view
+	 * Note: don't rely on the MouseEvent for location info
+	 * @param e
+	 * @param p
+	 */
+	abstract protected void mouseDown(MouseEvent e, Point p);
 }
