@@ -11,6 +11,7 @@ public class Level implements Iterable<GameThing> {
 	private final GameWorld world;
 	private final int level;
 	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
+//	private final DegenerateTrie<GameThing> map = new DegenerateTrie<GameThing>();
 	
 	private final ReentrantReadWriteLock mapLock = new ReentrantReadWriteLock();
 
@@ -75,6 +76,7 @@ public class Level implements Iterable<GameThing> {
 		}
 
 		public Location nextTo(final Location where, final game.things.Character who, final int dist){
+			System.out.println("nextTo(" + where.position + ", ..): " + where.contents());
 		/*
 			try{
 				java.io.FileWriter fw = new java.io.FileWriter("dbg.g");
@@ -126,6 +128,8 @@ public class Level implements Iterable<GameThing> {
 			for(GameThing gt : contents())
 				if(!gt.canWalkInto(d, w))
 					return false;
+				else
+					System.out.println(gt + ".canWalkInto(..) = true; " + position);
 			return second || next(d.compose(Direction.SOUTH)).canWalkInto(d.compose(Direction.SOUTH), w, true);
 		}
 
@@ -236,5 +240,17 @@ public class Level implements Iterable<GameThing> {
 
 	public ReadWriteLock thingLock() {
 		return mapLock;
+	}
+
+	public boolean equals(Object o){
+		if(o instanceof Level){
+			Level l = (Level)o;
+			return l.level == level && l.world == world;
+		}
+		return false;
+	}
+
+	public int hashCode(){
+		return world.hashCode() ^ level ^ 0xabcde123;
 	}
 }
