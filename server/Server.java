@@ -19,6 +19,7 @@ import javax.swing.filechooser.FileFilter;
 import data.Database;
 
 
+import serialization.ParseException;
 import ui.isometric.builder.IsoInterfaceWorldBuilder;
 import ui.isometric.mock.ClientMessageHandlerMock;
 import util.Direction;
@@ -106,7 +107,12 @@ public class Server{
 			return null;
 		}
 		GameWorld world = new GameWorld(); 
-		world.fromTree(Database.xmlToTree(loaded));
+		try {
+			world.fromTree(Database.xmlToTree(loaded));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "Error loading file");
+		}
 		return world;
 	}
 	

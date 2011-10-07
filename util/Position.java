@@ -13,7 +13,7 @@ public class Position {
 			return out;
 		}
 
-		public Position read(Tree in){
+		public Position read(Tree in) throws ParseException {
 			return new Position(
 				serialization.Serializers.Serializer_Integer.read(in.find("x")),
 				serialization.Serializers.Serializer_Integer.read(in.find("y")));

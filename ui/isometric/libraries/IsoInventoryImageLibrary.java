@@ -8,6 +8,7 @@ import java.util.Map;
 
 import data.Database;
 
+import serialization.ParseException;
 import serialization.Serializer;
 import serialization.Serializers;
 import util.Resources;
@@ -34,6 +35,9 @@ public class IsoInventoryImageLibrary {
 				try {
 					names = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/inventory/resources.xml")));
 				} catch (IOException e) {
+					System.err.println("Unable to load resource declerations");
+					e.printStackTrace();
+				} catch (ParseException e) {
 					System.err.println("Unable to load resource declerations");
 					e.printStackTrace();
 				}

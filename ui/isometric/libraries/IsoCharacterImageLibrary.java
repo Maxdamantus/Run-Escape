@@ -9,6 +9,7 @@ import java.util.Set;
 
 import data.Database;
 
+import serialization.ParseException;
 import serialization.Serializer;
 import serialization.Serializers;
 import util.Resources;
@@ -35,6 +36,9 @@ public class IsoCharacterImageLibrary {
 				try {
 					names = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/characters/resources.xml")));
 				} catch (IOException e) {
+					System.err.println("Unable to load resource declerations");
+					e.printStackTrace();
+				} catch (ParseException e) {
 					System.err.println("Unable to load resource declerations");
 					e.printStackTrace();
 				}

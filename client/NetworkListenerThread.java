@@ -5,10 +5,10 @@ import game.*;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.ParseException;
 
 import data.Database;
 
+import serialization.ParseException;
 import serialization.Tree;
 
 /**

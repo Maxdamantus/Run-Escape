@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileFilter;
 
 import data.Database;
 
+import serialization.ParseException;
 import ui.isometric.IsoCanvas;
 import ui.isometric.IsoDataSource;
 import ui.isometric.IsoGameModelDataSource;
@@ -287,7 +288,12 @@ public class IsoInterfaceWorldBuilder {
 			return;
 		}
 		
-		world.fromTree(Database.xmlToTree(loaded));
+		try {
+			world.fromTree(Database.xmlToTree(loaded));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "Error loading file");
+		}
 	}
 	
 	/**

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import serialization.ParseException;
 import serialization.Serializer;
 import serialization.Serializers;
 import serialization.Tree;
@@ -159,7 +160,7 @@ public class IsoRendererLibrary {
 		 */
 		protected static class Serializer implements serialization.Serializer<ImageType> {
 			@Override
-			public ImageType read(Tree in) {
+			public ImageType read(Tree in) throws ParseException {
 				serialization.Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
 				Map<String, String> store = deserializer.read(in);
 				
@@ -294,6 +295,9 @@ public class IsoRendererLibrary {
 				try {
 					types = deserializer.read(Database.xmlToTree(Resources.loadTextResource("/resources/isotiles/resources.xml")));
 				} catch (IOException e) {
+					System.err.println("Unable to load resource declerations");
+					e.printStackTrace();
+				} catch (ParseException e) {
 					System.err.println("Unable to load resource declerations");
 					e.printStackTrace();
 				}
