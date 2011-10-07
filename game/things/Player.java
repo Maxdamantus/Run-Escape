@@ -93,6 +93,11 @@ public class Player extends Character {
 	}
 
 	public void login(){
+		if(lastLocation == LocationS.NOWHERE){
+			SpawnPoint sp = world().getSpawnPoint();
+			if(sp != null)
+			lastLocation = sp.location();
+		}
 		lastLocation.put(this);
 		lastLocation = null;
 	}

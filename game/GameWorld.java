@@ -245,8 +245,10 @@ public class GameWorld {
 		}
 		allThings.clear();
 		allThingsLock.writeLock().unlock();
-		for(Level l : levels.values())
-			l.clear();
+//		for(Level l : levels.values())
+//			l.clear();
+		levels.clear();
+		spawnpoints.clear();
 		levelsLock.writeLock().unlock();
 		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
 		for(Map.Entry<Location, GameThing> lgt : new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(this), gts)).read(in))

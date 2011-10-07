@@ -15,9 +15,11 @@ public class Level implements Iterable<GameThing> {
 	
 	private final ReentrantReadWriteLock mapLock = new ReentrantReadWriteLock();
 
+/*
 	public void clear(){
 		map = new QuadTree<GameThing>();
 	}
+	*/
 
 	public static class Location implements game.Location {
 		private final Level level;
@@ -232,7 +234,7 @@ public class Level implements Iterable<GameThing> {
 	}
 
 	public Iterable<GameThing> portion(Position min, Position max){
-		Set<GameThing> res = new HashSet<GameThing>();
+		List<GameThing> res = new LinkedList<GameThing>();
 		mapLock.readLock().lock();
 		for(Map.Entry<Position, GameThing> kv : map.portion(min, max))
 			res.add(kv.getValue());
