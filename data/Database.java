@@ -3,7 +3,6 @@ package data;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.text.ParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,6 +27,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import serialization.ParseException;
 import serialization.Tree;
 
 
@@ -48,7 +48,7 @@ public class Database {
 	 * Creates a new Document using dom library. The document will get called by the internal methods.
 	 * @return Document
 	 */
-	public static Document newDocument(){
+	public static Document newDocument() {
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		} catch (ParserConfigurationException e) {
@@ -116,7 +116,7 @@ public class Database {
 	 * @param indent
 	 * @return String XML file
 	 */
-	public static String documentToString(Node doc, boolean indent){
+	public static String documentToString(Node doc, boolean indent) {
 		StringWriter sw = new StringWriter();
 		try {
 			TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -141,7 +141,7 @@ public class Database {
 	 * @param String XML
 	 * @return Tree
 	 */
-	public static Tree xmlToTree(String XML){
+	public static Tree xmlToTree(String XML) throws ParseException{
 		//set up the factory
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -149,7 +149,7 @@ public class Database {
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			throw new ParseException(e);
 		}
 		//provide the XML input
 		InputSource is = new InputSource( new StringReader( XML ) );
@@ -157,9 +157,9 @@ public class Database {
 		try {
 			d = builder.parse( is );
 		} catch (SAXException e) {
-			e.printStackTrace();
+			throw new ParseException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ParseException(e);
 		}
 		
 		Node node = d.getChildNodes().item(0);
@@ -173,7 +173,7 @@ public class Database {
 	 * This method will get rid of the indentations of the the XML file
 	 * @param root node
 	 */
-	private static void stripEmptyNodes(Node node) {
+	private static void stripEmptyNodes(Node node) throws ParseException {
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		// XPath to find empty text nodes.
 		XPathExpression xpathExp;
@@ -182,7 +182,7 @@ public class Database {
 			xpathExp = xpathFactory.newXPath().compile("//text()[normalize-space(.) = '']");
 			emptyTextNodes = (NodeList)xpathExp.evaluate(node, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
-			e.printStackTrace();
+			throw new ParseException(e);
 		}
 
 		// Remove each empty text node from document.
@@ -234,13 +234,10 @@ public class Database {
 	 * A helper method which calls tree.fromString(str).
 	 * @param str
 	 * @return
+	 * @throws ParseException 
 	 */
-	public Tree treeFromString(String str){
-		try {
-			return Tree.fromString(str);
-		} catch (ParseException e) {
-			throw new RuntimeException("Parse exception: " + e.getMessage()); // TODO: wtf
-		}
+	public Tree treeFromString(String str) throws ParseException{
+		return Tree.fromString(str);
 	}
 	
 	/**

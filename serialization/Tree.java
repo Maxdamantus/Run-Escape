@@ -2,8 +2,9 @@ package serialization;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.text.ParseException;
 import java.util.*;
+
+import serialization.ParseException;
 
 /**
  * A control that displays a set of hierarchical data as an outline.

@@ -1,5 +1,7 @@
 package serialization;
 
+import serialization.ParseException;
+
 /**
  *
  * An interface which then get called by Serializers class.
@@ -10,5 +12,5 @@ package serialization;
  * @param <T>
  */
 public interface Reader<T> {
-	public T read(Tree in) throws ParseException ;
+	public T read(Tree in) throws ParseException;
 }

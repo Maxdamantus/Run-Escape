@@ -34,7 +34,7 @@ public class SerializerUnion<T> {
 				return out;
 			}
 
-			public T read(Tree in){
+			public T read(Tree in) throws ParseException{
 				String type = in.find("type").value();
 				return readers.get(type).read(in.find("value"));
 			}
