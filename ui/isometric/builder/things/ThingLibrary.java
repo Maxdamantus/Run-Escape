@@ -288,6 +288,19 @@ public class ThingLibrary {
 				
 				creators.add(new DoorCreator("wall_grey_4_door_closed", "wall_grey_4_door_open", false));
 				
+				creators.add(new GroundCreator("ground_grey_tile_2_corner"));
+				creators.add(new GroundCreator("ground_grey_tile_2_one_side"));
+				creators.add(new GroundCreator("ground_grey_tile_2_two_sides"));
+				creators.add(new GroundCreator("ground_grey_tile_2_loose_1"));
+				creators.add(new GroundCreator("ground_grey_tile_2_loose_2"));
+				creators.add(new GroundCreator("ground_tile_2"));
+				creators.add(new GroundCreator("ground_tile_2_2"));
+				creators.add(new GroundCreator("ground_tile_2_greenish_1"));
+				creators.add(new GroundCreator("ground_tile_2_trash_1"));
+				creators.add(new GroundCreator("ground_tile_2_gravel_1"));
+				creators.add(new GroundCreator("ground_tile_2_green_dots_1"));
+				creators.add(new GroundCreator("ground_tile_2_red_dots_1"));
+				
 				creators.add(new SpawnPointCreator());
 				
 				ThingCreatorChecker.check();
