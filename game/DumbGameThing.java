@@ -91,7 +91,7 @@ public class DumbGameThing extends AbstractGameThing.AbstractDumbGameThing {
 				return out;
 			}
 
-			public DumbGameThing read(Tree in){				
+			public DumbGameThing read(Tree in) throws ParseException {				
 				return new DumbGameThing(
 					Serializers.Serializer_Long.read(in.find("gid")),
 					interS.read(in.find("interactions")),

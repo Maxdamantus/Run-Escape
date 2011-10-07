@@ -30,7 +30,7 @@ public class LocationS {
 			}
 			
 			// will think of making a general union type serializer helper thing later
-			public Location read(Tree in){
+			public Location read(Tree in) throws ParseException {
 				String type = in.find("type").value();
 				if(type.equals("nowhere"))
 					return NOWHERE;

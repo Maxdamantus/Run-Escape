@@ -30,7 +30,7 @@ public class ClientMessage {
 					return out;
 				}
 
-				public Interaction read(Tree in){
+				public Interaction read(Tree in) throws ParseException {
 					return new Interaction(
 						Serializers.Serializer_Long.read(in.find("gid")),
 						in.find("name").value());
@@ -69,7 +69,7 @@ public class ClientMessage {
 				return out;
 			}
 
-			public ClientMessage read(Tree in){
+			public ClientMessage read(Tree in) throws ParseException {
 				Reader<? extends Action> as = null;
 				String type = in.find("type").value();
 				if(type.equals("interaction"))
