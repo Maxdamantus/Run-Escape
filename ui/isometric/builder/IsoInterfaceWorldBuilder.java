@@ -138,7 +138,7 @@ public class IsoInterfaceWorldBuilder {
 					}
 				}
 				else {
-					if(event.isAltDown()) {
+					if(event.isShiftDown()) {
 						if(i != null) {
 							Location loc = i.gameThing().location();
 							if(loc instanceof Level.Location) {
