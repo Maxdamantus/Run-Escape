@@ -96,8 +96,10 @@ public class Level implements Iterable<GameThing> {
 					if(x++ < 10000)
 						for(Direction d : Direction.values()){
 							Location p = n.value().next(d);
-							if(p.canWalkInto(d, who))
+							if(p.canWalkInto(d, who)){
+								System.out.println(p.position + ".canWalkInto(..): " + p.contents());
 								out.add(n.next(p, 1 + Math.abs(n.value().position.x() - where.position.x()) + Math.abs(n.value().position.y() - where.position.y())));
+							}
 						}
 					return out;
 				}
