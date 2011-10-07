@@ -36,7 +36,7 @@ public class Level implements Iterable<GameThing> {
 					return out;
 				}
 
-				public Location read(Tree in){
+				public Location read(Tree in) throws ParseException {
 					return new Location(
 						w.level(Serializers.Serializer_Integer.read(in.find("level"))),
 						Position.SERIALIZER.read(in.find("position")),

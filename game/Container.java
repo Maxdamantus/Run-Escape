@@ -13,7 +13,7 @@ public class Container implements Iterable<GameThing>, Location {
 				return Serializers.set(gts).write(in.set);
 			}
 
-			public Container read(Tree in){
+			public Container read(Tree in) throws ParseException {
 				Container c = new Container(w);
 				for(GameThing gt : Serializers.set(gts).read(in))
 					c.put(gt);

@@ -26,7 +26,7 @@ public class Player extends Character {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new Player(world,
 					in.find("type").value(),
 					in.find("name").value(),

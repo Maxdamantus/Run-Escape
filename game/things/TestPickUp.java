@@ -23,7 +23,7 @@ public class TestPickUp extends PickupGameThing {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new TestPickUp(world, in.find("name").value());
 			}
 		});

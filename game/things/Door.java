@@ -27,7 +27,7 @@ public class Door extends AbstractGameThing {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new Door(world, in.find("close").value(), in.find("open").value(), Serializers.Serializer_Boolean.read(in.find("state")));
 			}
 		});

@@ -28,7 +28,7 @@ public class EquipmentGameThing extends PickupGameThing {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new EquipmentGameThing(world,
 					Serializers.Serializer_Integer.read(in.find("attack")),
 					Serializers.Serializer_Integer.read(in.find("strength")),

@@ -236,7 +236,7 @@ public class GameWorld {
 		return new Serializers.List<Map.Entry<Location, GameThing>>(Serializers.mapEntry(LocationS.s(null), gts)).write(map);
 	}
 
-	public void fromTree(Tree in){
+	public void fromTree(Tree in) throws ParseException {
 		levelsLock.writeLock().lock();
 		allThingsLock.writeLock().lock();
 		for(GameThing gt : allThings.values()){

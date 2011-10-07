@@ -105,11 +105,11 @@ public class Tree{
 	 * @param String s
 	 * @return Entry with the name s
 	 */
-	public Tree find(String s){
+	public Tree find(String s) throws ParseException {
 		for(Entry e : children)
 			if(e.name().equals(s))
 				return e.tree();
-		return null;
+		throw new ParseException("Can't find child called `s'", this);
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class GroundTile extends AbstractGameThing {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new GroundTile(world, in.find("type").value(), Serializers.Serializer_Boolean.read(in.find("block")));
 			}
 		});

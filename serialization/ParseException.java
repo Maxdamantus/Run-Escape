@@ -19,4 +19,8 @@ public class ParseException extends Exception {
 	public ParseException(String string, Object o) {
 		super(string + " " + o);
 	}
+
+	public ParseException(){
+		super();
+	}
 }

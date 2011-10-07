@@ -4,7 +4,7 @@ import serialization.*;
 
 public class WorldDelta {
 	public static interface Action {
-		public void apply(GameWorld w, WorldDelta wd);
+		public void apply(GameWorld w, WorldDelta wd) throws ParseException;
 		public Tree toTree();
 		public String type();
 	}
@@ -22,7 +22,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			Location loc = LocationS.s(world).read(in.find("location"));
 			loc.put(world.thingWithGID(gid));
@@ -65,7 +65,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			new DumbGameThing(world, gid);
 		}
@@ -103,7 +103,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("cid"));
 			new Container(world, gid);
 		}
@@ -142,7 +142,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			new DumbGameThing(world, gid);
 		}
@@ -179,7 +179,7 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			DumbGameThing dgt = DumbGameThing.serializer(world).read(in);
 			// assumptions ..
 			((DumbGameThing)world.thingWithGID(dgt.gid())).update(dgt);
@@ -219,18 +219,26 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitSay(world.thingWithGID(gid), what);
 		}
 
 		public long who(){
-			return Serializers.Serializer_Long.read(in.find("gid"));
+			try{
+				return Serializers.Serializer_Long.read(in.find("gid"));
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public String what(){
-			return in.find("what").value();
+			try{
+				return in.find("what").value();
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public final static Serializer<Say> serializer(){
@@ -267,18 +275,26 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitAnimate(world.thingWithGID(gid), what);
 		}
 
 		public GameThing which(GameWorld world){
-			return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
+			try{
+				return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public String what(){
-			return in.find("what").value();
+			try{
+				return in.find("what").value();
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public final static Serializer<Animate> serializer(){
@@ -315,18 +331,26 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long cid = Serializers.Serializer_Long.read(in.find("cid"));
 			String what = in.find("what").value();
 			world.emitShowContainer(world.containerWithCID(cid), what, world.thingWithGID(wd.to));
 		}
 
 		public Container which(GameWorld world){
-			return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
+			try{
+				return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public String what(){
-			return in.find("what").value();
+			try{
+				return in.find("what").value();
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public final static Serializer<ShowContainer> serializer(){
@@ -363,18 +387,26 @@ public class WorldDelta {
 			in = t;
 		}
 
-		public void apply(GameWorld world, WorldDelta wd){
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
 			long gid = Serializers.Serializer_Long.read(in.find("gid"));
 			String what = in.find("what").value();
 			world.emitEmitSound(world.thingWithGID(gid), what);
 		}
 
 		public GameThing which(GameWorld world){
-			return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
+			try{
+				return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public String what(){
-			return in.find("what").value();
+			try{
+				return in.find("what").value();
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
 		}
 
 		public final static Serializer<EmitSound> serializer(){
@@ -414,7 +446,7 @@ public class WorldDelta {
 		to = target;
 	}
 
-	public void apply(GameWorld w){
+	public void apply(GameWorld w) throws ParseException {
 		action.apply(w, this);
 	}
 
@@ -427,7 +459,7 @@ public class WorldDelta {
 			return out;
 		}
 
-		public WorldDelta read(Tree in){
+		public WorldDelta read(Tree in) throws ParseException {
 			Reader<? extends Action> as = null;
 			String type = in.find("type").value();
 			long target = Serializers.Serializer_Long.read(in.find("to"));
@@ -449,6 +481,8 @@ public class WorldDelta {
 				as = ShowContainer.serializer();
 			else if(type.equals("emitsound"))
 				as = EmitSound.serializer();
+			if(as == null)
+				throw new ParseException();
 			return new WorldDelta(as.read(in.find("action")), target);
 		}
 	};

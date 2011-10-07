@@ -105,6 +105,12 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 			System.out.println("l0x = " + l0x + ", l0y = " + l0y);
 		}
 
+		public DTIterator(int ix, int iy, int ax, int ay, boolean _){
+			all = true;
+			iroots = roots.entrySet().iterator();
+			minx = ix; miny = iy; maxx = ax; maxy = ay;
+		}
+
 		public void remove(){
 			throw new UnsupportedOperationException();
 		}
@@ -209,8 +215,8 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 		}
 
 		public boolean acceptable(int x, int y){
-			if(all)
-				return true;
+//			if(all)
+//				return true;
 			return x >= minx && x <= maxx && y >= miny && y <= maxy;
 		}
 
@@ -230,7 +236,7 @@ public class DegenerateTrie<T> implements Iterable<Map.Entry<Position, T>> {
 //			return this;
 		return new Iterable<Map.Entry<Position, T>>(){
 			public Iterator<Map.Entry<Position, T>> iterator(){
-				return new DTIterator(min.x(), min.y(), max.x(), max.y());
+				return new DTIterator(min.x(), min.y(), max.x(), max.y(), false);
 			}
 		};
 	}

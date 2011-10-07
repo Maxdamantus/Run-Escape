@@ -21,7 +21,7 @@ public class Wall extends AbstractGameThing {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new Wall(world, in.find("type").value());
 			}
 		});
