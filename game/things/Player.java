@@ -55,6 +55,8 @@ public class Player extends Character {
 		health(1000);
 		inventory = inv;
 		equipment = equ;
+		inv.owner(this);
+		equ.owner(this);
 	//	world.schedule(blah, 1000);
 	}
 
@@ -182,13 +184,11 @@ public class Player extends Character {
 				}
 			}
 		}
-		g.setEquip();
 		equipment.put(g);
 	}
 	
 	public void unequip(EquipmentGameThing g) {
 		if(equipment.contains(g)){
-			g.setEquip();
 			equipment.remove(g);
 			inventory.put(g);	
 		}
@@ -200,10 +200,6 @@ public class Player extends Character {
 
 	public boolean equipped(GameThing g){
 		return equipment.contains(g);
-	}
-
-	public boolean isEquipmentContainer(Container c){
-		return equipment == c;
 	}
 
 	public void examine(AbstractGameThing abstractGameThing) {

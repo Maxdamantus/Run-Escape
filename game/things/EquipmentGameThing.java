@@ -25,7 +25,6 @@ public class EquipmentGameThing extends PickupGameThing {
 				out.add(new Tree.Entry("slot", new Tree(in.slottype.toString())));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
 				out.add(new Tree.Entry("renderer", new Tree(in.renderer)));
-				out.add(new Tree.Entry("equipped", new Tree(Boolean.toString(in.equipped))));
 				return out;
 			}
 
@@ -37,7 +36,7 @@ public class EquipmentGameThing extends PickupGameThing {
 					Serializers.Serializer_Integer.read(in.find("delay")),
 					Slot.valueOf(in.find("slot").value()),
 					in.find("name").value(),
-					in.find("renderer").value(),Boolean.valueOf(in.find("equip").value()));
+					in.find("renderer").value());
 			}
 		});
 	}
@@ -50,9 +49,8 @@ public class EquipmentGameThing extends PickupGameThing {
 	private String name, renderer;
 	private Slot slottype;
 	public static final String SLOT = "slot";
-	private boolean equipped;
 
-	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String nom, String ren, boolean eq){
+	public EquipmentGameThing(GameWorld w, int a, int s, int d, int e, Slot sl, String nom, String ren/*, boolean eq*/){
 		super(w);
 		attack = a;
 		strength = s;
@@ -61,14 +59,14 @@ public class EquipmentGameThing extends PickupGameThing {
 		name = nom;
 		slottype = sl;
 		this.renderer = ren;
-		equipped = eq;
 		
 	}
 
 	public List<String> interactions(){
 		if(location() instanceof Container){
 			List<String> out = new LinkedList<String>(super.interactions());
-			if(equipped){
+			Location ml = location();
+			if(ml instanceof Container && ((Container)ml).owner() != null && ((Container)ml).owner().equipped(this)){
 				out.add("unequip");
 			}
 			else{
@@ -84,7 +82,7 @@ public class EquipmentGameThing extends PickupGameThing {
 		if(name.equals("equip") && who.carrying(this)){
 			who.equip(this);
 		}
-		else if(name.equals("unequip")){
+		else if(name.equals("unequip") && who.equipped(this)){
 			who.unequip(this);
 		}
 		else{
@@ -111,13 +109,4 @@ public class EquipmentGameThing extends PickupGameThing {
 	public String name() {
 		return name;
 	}
-
-	public void setEquip() {
-		// TODO Auto-generated method stub
-		if(equipped)
-			equipped = false;
-		else
-			equipped = true;
-	}
-	
 }
