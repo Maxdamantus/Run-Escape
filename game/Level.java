@@ -90,7 +90,7 @@ public class Level implements Iterable<GameThing> {
 		}
 
 		public Location nextTo(final Location where, final game.things.Character who, final int dist){
-			System.out.println("nextTo(" + where.position + ", ..): " + where.contents());
+//			System.out.println("nextTo(" + where.position + ", ..): " + where.contents());
 		/*
 			try{
 				java.io.FileWriter fw = new java.io.FileWriter("dbg.g");
@@ -111,8 +111,8 @@ public class Level implements Iterable<GameThing> {
 						for(Direction d : Direction.values()){
 							Location p = n.value().next(d);
 							if(p.canWalkInto(d, who)){
-								System.out.println(p.position + ".canWalkInto(..): " + p.contents());
-								System.out.println("where.contents() = " + where.contents() + ", (where.level == p.level): " + (where.level == p.level));
+//								System.out.println(p.position + ".canWalkInto(..): " + p.contents());
+//								System.out.println("where.contents() = " + where.contents() + ", (where.level == p.level): " + (where.level == p.level));
 								out.add(n.next(p, 1 + Math.abs(n.value().position.x() - where.position.x()) + Math.abs(n.value().position.y() - where.position.y())));
 							}
 						}
@@ -145,8 +145,8 @@ public class Level implements Iterable<GameThing> {
 			for(GameThing gt : contents())
 				if(!gt.canWalkInto(d, w))
 					return false;
-				else
-					System.out.println(gt + ".canWalkInto(..) = true; " + position);
+//				else
+//					System.out.println(gt + ".canWalkInto(..) = true; " + position);
 			return second || next(d.compose(Direction.SOUTH)).canWalkInto(d.compose(Direction.SOUTH), w, true);
 		}
 
