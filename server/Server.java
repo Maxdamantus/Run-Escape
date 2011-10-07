@@ -229,7 +229,7 @@ public class Server{
 		
 		//sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_brown_1_door_closed", "wall_brown_1_door_open", false));
 		sgm.level(0).location(new Position(-15, -15), Direction.EAST).put(new game.things.TestPickUp(sgm));
-		sgm.level(0).location(new Position(-15,-14), Direction.NORTH).put(new game.things.EquipmentGameThing(sgm, 1, 1, 1, 1, Slot.WEAPON, "Short sword", "sword_1", false));
+		sgm.level(0).location(new Position(-15,-14), Direction.NORTH).put(new game.things.EquipmentGameThing(sgm, 1, 1, 1, 1, Slot.WEAPON, "Short sword", "sword_1"));
 		sgm.level(0).location(new Position(-15,-14), Direction.NORTH).put(new game.things.GroundTile(sgm));
 		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.SpawnPoint(sgm));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
