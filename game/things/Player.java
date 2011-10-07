@@ -87,6 +87,11 @@ public class Player extends Character {
 		this(world, t, "<insert name here>");
 	}
 
+	public void clear(){
+		logout();
+		lastLocation = LocationS.NOWHERE;
+	}
+
 	public void logout(){
 		lastLocation = location();
 		LocationS.NOWHERE.put(this);
