@@ -67,7 +67,8 @@ public class GroundTile extends AbstractGameThing {
 		}
 	}
 
-	public boolean canWalkInto(Direction d, Player who){
+	@Override
+	public boolean canWalkInto(Direction d, Character who){
 		return !willBlock;
 	}
 
