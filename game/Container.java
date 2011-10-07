@@ -1,5 +1,7 @@
 package game;
 
+import game.things.*;
+
 import java.util.*;
 
 import serialization.*;
@@ -22,6 +24,7 @@ public class Container implements Iterable<GameThing>, Location {
 
 	private final long cid;
 	private final Set<GameThing> set = new HashSet<GameThing>(); 
+	private Player owner;
 
 	public Container(GameWorld w){
 		cid = w.introduceContainer(this);
@@ -58,5 +61,13 @@ public class Container implements Iterable<GameThing>, Location {
 
 	public void remove(GameThing gt){
 		set.remove(gt);
+	}
+
+	public Player owner(){
+		return owner;
+	}
+
+	public Player owner(Player s){
+		return owner = s;
 	}
 }
