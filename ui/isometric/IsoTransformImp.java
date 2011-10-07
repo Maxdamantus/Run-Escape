@@ -31,18 +31,18 @@ public class IsoTransformImp implements IsoTransform {
 	 * @param height - the pixel height of the view
 	 * @param direction - the direction the view is being viewed towards
 	 */
-	public IsoTransformImp(int xOrigin, int yOrigin, int width, int height, Direction direction) {
+	public IsoTransformImp(int xOrigin, int yOrigin, int width, int height, Direction direction) { // TODO: sort out maths
 		int minyy = -height/IsoCanvas.TILE_Y;
-		int maxyy = width/IsoCanvas.TILE_X + 1;
+		int minyx = height/IsoCanvas.TILE_Y;
+		int maxyy = width/IsoCanvas.TILE_X;
+		int maxyx = width/IsoCanvas.TILE_X;
 		int maxxx = width/IsoCanvas.TILE_X + height/IsoCanvas.TILE_Y;
 		int maxxy = width/IsoCanvas.TILE_X - height/IsoCanvas.TILE_Y;
-		int maxyx = width/IsoCanvas.TILE_X;
-		int minyx = height/IsoCanvas.TILE_Y;
 		
 		bottomRight = new Position(maxxx, maxxy);
 		topRight = new Position(maxyx, maxyy);
 		bottomLeft = new Position(minyx, minyy);
-		
+				
 		int xDivide;
 		int yDivide;
 		if(direction == Direction.NORTH || direction == Direction.SOUTH) {
@@ -86,7 +86,7 @@ public class IsoTransformImp implements IsoTransform {
 	}
 	
 	@Override
-	public Position transformViewToMap(Position pos) {		
+	public Position transformViewToMap(Position pos) {	// :/
 		int x = 0;
 		int y = 0;
 				
