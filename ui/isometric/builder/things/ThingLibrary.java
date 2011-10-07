@@ -305,6 +305,8 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_tile_1_tile_2_one_side"));
 				creators.add(new GroundCreator("ground_tile_1_tile_2_two_sides"));
 				
+				// TODO: stairs creator
+				
 				creators.add(new SpawnPointCreator());
 				
 				ThingCreatorChecker.check();

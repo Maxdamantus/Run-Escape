@@ -1273,6 +1273,58 @@
       </i>
     </v>
   </i>
+  <i>
+    <k>stairs_brown_1</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>stairs_brown_1</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>stairs_grey_1</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>stairs_grey_1</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>stairs_grey_2</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>stairs_grey_2</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>stairs_grey_3</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>stairs_grey_3</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
   
   <i>
     <k>mask_tile</k>
