@@ -10,10 +10,14 @@ import serialization.*;
 public class Level implements Iterable<GameThing> {
 	private final GameWorld world;
 	private final int level;
-	private final QuadTree<GameThing> map = new QuadTree<GameThing>();
+	private QuadTree<GameThing> map = new QuadTree<GameThing>();
 //	private final DegenerateTrie<GameThing> map = new DegenerateTrie<GameThing>();
 	
 	private final ReentrantReadWriteLock mapLock = new ReentrantReadWriteLock();
+
+	public void clear(){
+		map = new QuadTree<GameThing>();
+	}
 
 	public static class Location implements game.Location {
 		private final Level level;
@@ -98,6 +102,7 @@ public class Level implements Iterable<GameThing> {
 							Location p = n.value().next(d);
 							if(p.canWalkInto(d, who)){
 								System.out.println(p.position + ".canWalkInto(..): " + p.contents());
+								System.out.println("where.contents() = " + where.contents() + ", (where.level == p.level): " + (where.level == p.level));
 								out.add(n.next(p, 1 + Math.abs(n.value().position.x() - where.position.x()) + Math.abs(n.value().position.y() - where.position.y())));
 							}
 						}
