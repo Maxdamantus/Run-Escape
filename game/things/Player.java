@@ -106,6 +106,7 @@ public class Player extends Character {
 		return out;
 	}
 
+	//Change to not let you follow or attack yourself, maybe put out a log message to inform of this.
 	public void interact(String name, Player who){
 		if(name.equals("follow"))
 			who.follow(this);
