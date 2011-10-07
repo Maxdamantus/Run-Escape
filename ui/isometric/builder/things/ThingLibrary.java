@@ -89,6 +89,9 @@ public class ThingLibrary {
 					add("character_"+renderer+"_empty");
 					add("character_"+renderer+"_empty_attack");
 					add("character_"+renderer+"_empty_die");
+					add("character_"+renderer+"_sword");
+					add("character_"+renderer+"_sword_attack");
+					add("character_"+renderer+"_sword_die");
 				}};
 		}
 	}
@@ -304,6 +307,17 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_tile_1_tile_2_corner"));
 				creators.add(new GroundCreator("ground_tile_1_tile_2_one_side"));
 				creators.add(new GroundCreator("ground_tile_1_tile_2_two_sides"));
+				
+				creators.add(new WallCreator("plant_1"));
+				creators.add(new WallCreator("plant_2"));
+				creators.add(new WallCreator("plant_3"));
+				creators.add(new WallCreator("plant_4"));
+				creators.add(new WallCreator("plant_5"));
+				creators.add(new WallCreator("plant_6"));
+				
+				creators.add(new WallCreator("stake_skull_1"));
+				creators.add(new WallCreator("stake_skull_2"));
+				creators.add(new WallCreator("stake_skull_3"));
 				
 				// TODO: stairs creator
 				
