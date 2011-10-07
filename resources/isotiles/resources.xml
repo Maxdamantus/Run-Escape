@@ -1234,6 +1234,45 @@
       </i>
     </v>
   </i>
+  <i>
+    <k>ground_tile_1_tile_2_corner</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>ground_tile_1_tile_2_corner</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>ground_tile_1_tile_2_one_side</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>ground_tile_1_tile_2_one_side</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
+  <i>
+    <k>ground_tile_1_tile_2_two_sides</k>
+    <v>
+      <i>
+        <k>name</k>
+        <v>ground_tile_1_tile_2_two_sides</v>
+      </i>
+      <i>
+        <k>type</k>
+        <v>IMAGE4</v>
+      </i>
+    </v>
+  </i>
   
   <i>
     <k>mask_tile</k>

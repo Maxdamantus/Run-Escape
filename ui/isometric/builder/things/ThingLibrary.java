@@ -301,6 +301,10 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_tile_2_green_dots_1"));
 				creators.add(new GroundCreator("ground_tile_2_red_dots_1"));
 				
+				creators.add(new GroundCreator("ground_tile_1_tile_2_corner"));
+				creators.add(new GroundCreator("ground_tile_1_tile_2_one_side"));
+				creators.add(new GroundCreator("ground_tile_1_tile_2_two_sides"));
+				
 				creators.add(new SpawnPointCreator());
 				
 				ThingCreatorChecker.check();
