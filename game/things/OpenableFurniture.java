@@ -1,12 +1,9 @@
 package game.things;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import serialization.Serializer;
+import serialization.*;
 
-import serialization.SerializerUnion;
-import serialization.Tree;
 import util.Direction;
 import game.*;
 
@@ -29,7 +26,7 @@ public class OpenableFurniture extends AbstractGameThing {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new OpenableFurniture(world, in.find("type").value(), Boolean.parseBoolean(in.find("open").value()), 
 						Container.serializer(union.serializer(), world).read(in.find("contents")));
 			}

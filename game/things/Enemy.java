@@ -26,7 +26,7 @@ public class Enemy extends Character {
 				return out;
 			}
 
-			public GameThing read(Tree in){
+			public GameThing read(Tree in) throws ParseException {
 				return new Enemy(world,
 					in.find("type").value(),
 					in.find("name").value(),
