@@ -182,12 +182,14 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		if(!selectionRender) {
 			jgraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 			
+			graphics.setColor(Color.BLACK);
 			graphics.setBackground(new Color(0, 0, 0, 0));
 			graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
 			oc = graphics.getComposite();
 			if(lightMask != null && lightPoint != null) {
 				graphics.drawImage(lightMask, lightPoint.x, lightPoint.y, null);
 				graphics.setComposite(AlphaComposite.SrcAtop);
+				graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}
 		}
 		
