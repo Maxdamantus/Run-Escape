@@ -1,6 +1,7 @@
 package ui.isometric.sublayers;
 
 import game.*;
+import game.things.EquipmentGameThing;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -22,11 +23,7 @@ import util.Resources;
  *
  */
 public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
-	private BufferedImage weapon = null;
 	private BufferedImage spell = null;
-	private BufferedImage background = null;
-	private BufferedImage disabled_tile = null;
-	private BufferedImage default_tile = null;
 	private BufferedImage open_inventory = null;
 	
 	private int tileWidth = 0;
@@ -34,11 +31,10 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private int tileSpacing = 2;
 	private int bottomPadding = 5;
 	
-	private Button[] buttons = new Button[10];
+	private Button[] buttons = new Button[2];
 	
-	private static int BUTTON_WEAPON = 0;
-	private static int BUTTON_SPELL = 1;
-	private static int BUTTON_INVENTORY = 9;
+	private static int BUTTON_SPELL = 0;
+	private static int BUTTON_INVENTORY = 1;
 	
 	private IsoInterface inter;
 	
@@ -101,21 +97,12 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			this.inter = inter;
 			this.inventoryRenderer = new InventoryRenderer(inter, 0.5, 0.45);
 			
-			weapon = Resources.readImageResourceUnfliped("/resources/ui/weapon.png");
 			spell = Resources.readImageResourceUnfliped("/resources/ui/spell.png");
-			background = Resources.readImageResourceUnfliped("/resources/ui/tile_background.png");
-			disabled_tile = Resources.readImageResourceUnfliped("/resources/ui/disabled_tile.png");
-			default_tile = Resources.readImageResourceUnfliped("/resources/ui/default_tile.png");
 			open_inventory = Resources.readImageResourceUnfliped("/resources/ui/open_inventory.png");
 			
-			tileWidth = weapon.getWidth();
-			tileHeight = weapon.getHeight();
+			tileWidth = spell.getWidth();
+			tileHeight = spell.getHeight();
 			
-			for(int n = 0; n < buttons.length; n++) {
-				buttons[n] = new Button(background, null, null, null);
-			}
-			
-			buttons[BUTTON_WEAPON] = new Button(weapon, null, null, null);
 			buttons[BUTTON_SPELL] = new Button(spell, null, null, null);
 			buttons[BUTTON_INVENTORY] = new Button(open_inventory, null, null, new Runnable() {
 				@Override
