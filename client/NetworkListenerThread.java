@@ -73,15 +73,15 @@ public class NetworkListenerThread extends Thread {
 					String chatString = incoming.substring(4);
 					client.incomingChat(chatString, Color.YELLOW);
 
-				} else if (incoming.startsWith("uid")) { // if uid notif
+				} else if (incoming.startsWith("uid")) { // if uid notification
 					client.receivedUID(Long.parseLong(incoming.substring(4)));
 
 				}
 			}
-			Client.exit("Connection to server lost");
+			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
 
 		} catch (IOException e) {
-			Client.exit("Connection to server lost");
+			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
 		}
 
 	}
