@@ -276,8 +276,9 @@ public class InventoryRenderer extends LargePanel {
 	 * Draw the container view
 	 * @param g
 	 */
-	private void drawContainer(Graphics g) {		
-		int x = 425;
+	private void drawContainer(Graphics g) {
+		int origx = 425;
+		int x = origx;
 		int y = 10;
 		int width = 150;
 		int height = 590;
@@ -294,9 +295,9 @@ public class InventoryRenderer extends LargePanel {
 				this.drawThingAt(g, thing, x, y);
 				
 				x += spacing;
-				if(x + spacing >= width) {
+				if(x >= origx + width) {
 					y += spacing;
-					x = 0;
+					x = origx;
 				}
 			}
 		}
@@ -381,7 +382,8 @@ public class InventoryRenderer extends LargePanel {
 	 * @param g
 	 */
 	private void drawInventory(Graphics g) {
-		int x = 10;
+		int xorig = 10;
+		int x = xorig;
 		int y = 305;
 		int width = 400;
 		int height = 295;
@@ -398,9 +400,9 @@ public class InventoryRenderer extends LargePanel {
 				this.drawThingAt(g, thing, x, y);
 				
 				x += spacing;
-				if(x + spacing >= width) {
+				if(x >= xorig + width) {
 					y += spacing;
-					x = 0;
+					x = xorig;
 				}
 			}
 		}
