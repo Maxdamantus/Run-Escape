@@ -95,7 +95,9 @@ public class OpenableFurniture extends AbstractGameThing {
 	
 	public Map<String,Container> getContainer(){
 		Map<String,Container> returnmap = new HashMap<String,Container>();
-		returnmap.put("contents", contents);
+		if(contents != null){
+			returnmap.put("contents", contents);
+		}
 		return returnmap;
 	}
 	

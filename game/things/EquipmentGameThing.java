@@ -109,4 +109,25 @@ public class EquipmentGameThing extends PickupGameThing {
 	public String name() {
 		return name;
 	}
+	
+	public int attack(){
+		return attack;
+	}
+	
+	public int strength(){
+		return strength;
+	}
+	
+	public int defence(){
+		return defence;
+	}
+	
+	public int delay(){
+		return delay;
+	}
+
+	public int[] getStats() {
+		int[] returnarray  = {attack,strength,defence,delay};
+		return returnarray;
+	}
 }

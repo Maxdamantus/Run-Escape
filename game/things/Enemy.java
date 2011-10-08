@@ -47,6 +47,7 @@ public class Enemy extends Character {
 		wanderdist = wd;
 		health(1000);
 		update();
+		setStats(12,12,12,12);
 		new Runnable(){
 			public void run(){
 				Location l = start, ml = location();

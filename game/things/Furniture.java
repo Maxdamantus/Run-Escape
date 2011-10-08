@@ -35,7 +35,6 @@ public class Furniture extends AbstractGameThing {
 	}
 		
 	private final String renderer;
-	private boolean open;
 
 
 	

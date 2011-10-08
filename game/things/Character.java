@@ -10,7 +10,10 @@ import util.*;
 
 public abstract class Character extends AbstractGameThing {
 	private String renderer;
-	private int health;
+	protected int health;
+	protected int attack;
+	protected int strength;
+	protected int defence, delay;
 
 	public Character(GameWorld world, String r){
 		super(world);
@@ -34,6 +37,13 @@ public abstract class Character extends AbstractGameThing {
 		return "empty";
 	}
 
+	public void setStats(int at, int st, int de, int dl){
+		attack = at;
+		strength = st;
+		defence = de;
+		delay = dl;
+	}
+	
 	public String type(){
 		return renderer;
 	}
@@ -167,8 +177,11 @@ public abstract class Character extends AbstractGameThing {
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
 	public void hurt(GameThing other){
+		int maxamt = 10 * (1 + strength / 100);
+		int minamt = 30 * (1 + strength / 100);
+		int damageamt = minamt + 1/attack * (maxamt - minamt);
 		if(other instanceof Character)
-			((Character)other).damage(10, this);
+			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
 	}
 
@@ -182,7 +195,7 @@ public abstract class Character extends AbstractGameThing {
 	
 	public void damage(int amt, Character from){
 		world().emitEmitSound(this, "character_" + renderer + "_ow");
-		health -= amt;
+		health -= amt - (10*(1+defence/100));
 		System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 		if(health <= 0)
 			animate(renderer() + "_die");

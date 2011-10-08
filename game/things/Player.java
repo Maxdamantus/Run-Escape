@@ -40,7 +40,6 @@ public class Player extends Character {
 
 	private Location lastLocation;
 	private String type;
-	private int health;
 	private final String name;
 	private final static int WALKDELAY = 50;
 	private final Container inventory;
@@ -58,6 +57,7 @@ public class Player extends Character {
 		equipment = equ;
 		inv.owner(this);
 		equ.owner(this);
+		setStats(10,10,10,10);
 	//	world.schedule(blah, 1000);
 	}
 
@@ -209,16 +209,34 @@ public class Player extends Character {
 			}
 		}
 		equipment.put(g);
+		addStats(g.getStats());
 		update();
 	}
 	
+	private void addStats(int[] stats) {
+		attack += stats[0];
+		strength += stats[1];
+		defence += stats[2];
+		delay += stats[3];
+	}
+	
+	private void remStats(int[] stats) {
+		attack -= stats[0];
+		strength -= stats[1];
+		defence -= stats[2];
+		delay -= stats[3];	
+	}
+
 	public void unequip(EquipmentGameThing g) {
 		if(equipment.contains(g)){
 			equipment.remove(g);
 			inventory.put(g);	
 		}
+		remStats(g.getStats());
 		update();
 	}
+
+
 
 	public boolean carrying(GameThing g){
 		return inventory.contains(g);
