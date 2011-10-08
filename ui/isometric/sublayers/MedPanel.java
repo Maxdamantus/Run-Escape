@@ -1,6 +1,6 @@
 package ui.isometric.sublayers;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * A medium sized panel
@@ -21,15 +21,10 @@ abstract public class MedPanel extends Panel {
 	}
 
 	@Override
-	public int level() {
-		return 100;
-	}
-
-	@Override
 	protected String imageName() {
 		return "/resources/ui/panel_med.png";
 	}
 
 	@Override
-	abstract protected void drawContents(Graphics g);
+	abstract protected void drawContents(Graphics2D g);
 }

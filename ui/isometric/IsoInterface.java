@@ -1,6 +1,7 @@
 package ui.isometric;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -112,7 +113,7 @@ public class IsoInterface implements PlayerMessage {
 				}
 			}
 		});
-		canvas.addKeyListener(new KeyListener() {
+		canvas.addKeyListener(new KeyListener() { // TODO: key listeners in renderer layers?
 			private boolean chat = false;
 			private String message = "";
 			
@@ -149,6 +150,9 @@ public class IsoInterface implements PlayerMessage {
 				}
 				else if(arg0.getKeyChar() == 'r') {
 					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
+				}
+				else if(arg0.getKeyChar() == 'l') { // TODO: just temporary
+					canvas.setLightPoint((canvas.lightPoint() == null)?new Point(255, 255):null);
 				}
 				
 				chatRenderer.setMessage(message);

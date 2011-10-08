@@ -5,7 +5,7 @@ import game.GameThing;
 import game.things.EquipmentGameThing;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -265,7 +265,7 @@ public class InventoryRenderer extends LargePanel {
 	}
 
 	@Override
-	protected void drawContents(Graphics g) { // TODO: add scrolling / clipping
+	protected void drawContents(Graphics2D g) { // TODO: add scrolling / clipping
 		dynmAreas.clear();
 		g.setColor(Color.BLACK);
 		
@@ -278,7 +278,7 @@ public class InventoryRenderer extends LargePanel {
 	 * Draw the container view
 	 * @param g
 	 */
-	private void drawContainer(Graphics g) {
+	private void drawContainer(Graphics2D g) {
 		int origx = 425;
 		int x = origx;
 		int y = 10;
@@ -309,7 +309,7 @@ public class InventoryRenderer extends LargePanel {
 	 * Draw the equipment
 	 * @param g
 	 */
-	private void drawEquipment(Graphics g) {
+	private void drawEquipment(Graphics2D g) {
 		GameThing thing;
 		
 		g.drawRect(10, 10, 400, 280);
@@ -383,7 +383,7 @@ public class InventoryRenderer extends LargePanel {
 	 * Draw the inventory
 	 * @param g
 	 */
-	private void drawInventory(Graphics g) {
+	private void drawInventory(Graphics2D g) {
 		int xorig = 10;
 		int x = xorig;
 		int y = 305;
@@ -410,7 +410,14 @@ public class InventoryRenderer extends LargePanel {
 		}
 	}
 
-	private void drawThingAt(Graphics g, GameThing thing, int x, int y) {
+	/**
+	 * Draw a GameThing at the given coords
+	 * @param g
+	 * @param thing
+	 * @param x
+	 * @param y
+	 */
+	private void drawThingAt(Graphics2D g, GameThing thing, int x, int y) {
 		BufferedImage i = IsoInventoryImageLibrary.imageForName(thing.renderer());
 		
 		if(i != null) { // TODO: placeholder image '?'?
@@ -444,5 +451,10 @@ public class InventoryRenderer extends LargePanel {
 	 */
 	private IsoInterface ui() {
 		return inter;
+	}
+
+	@Override
+	public int level() {
+		return 1000;
 	}
 }

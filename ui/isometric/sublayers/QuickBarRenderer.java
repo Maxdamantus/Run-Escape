@@ -2,7 +2,7 @@ package ui.isometric.sublayers;
 
 import game.*;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -127,7 +127,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	}
 
 	@Override
-	public void render(Graphics g, IsoCanvas into) {
+	public void render(Graphics2D g, IsoCanvas into) {
 		int x = into.getWidth()/2-tileWidth*buttons.length/2-tileSpacing*(buttons.length/2-1);
 		int y = into.getHeight()-tileHeight-bottomPadding;
 		

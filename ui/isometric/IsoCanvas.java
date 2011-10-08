@@ -2,14 +2,19 @@ package ui.isometric;
 
 import game.Location;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +27,7 @@ import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 import util.Position;
+import util.Resources;
 
 
 /**
@@ -56,6 +62,11 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	
 	private boolean draggingOk = true;
 	
+	private BufferedImage backbuffer;
+	private Graphics2D graphics;
+	private Image lightMask;
+	private Point lightPoint;
+	
 	/**
 	 * An interface for rendering extra content on top of the IsoCanvas
 	 * 
@@ -74,7 +85,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		 * @param g
 		 * @param into
 		 */
-		public void render(Graphics g, IsoCanvas into);
+		public void render(Graphics2D g, IsoCanvas into);
 
 		/**
 		 * Can use this to figure out what was under the mouse.
@@ -144,23 +155,42 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			}
 		}).start();
 		this.setFocusable(true);
+		
+		backbuffer = new BufferedImage(2560, 2560, BufferedImage.TYPE_INT_ARGB_PRE); // TODO: Max view size
+		graphics = backbuffer.createGraphics();
+		try {
+			graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		}
+		catch(Exception e) {} // Stupid java bug when not on windows
+		
+		try {
+			lightMask = Resources.readImageResourceUnfliped("/resources/test/light_mask.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void paint(Graphics g) {
-		try {
-			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		} catch(Exception e) { } // Stupid java bug when not on windows
-		
+	public void paint(Graphics jgraphics) {
 		dataSource.setViewableRect((int)origin.getX(), (int)origin.getY(), this.getWidth(), this.getHeight(), viewDirection);
 		dataSource.update();
 		
 		Point smoothing = dataSource.transform().smoothOrigin(origin);
 		
+		Composite oc = null;
+		
 		if(!selectionRender) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			jgraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+			
+			graphics.setBackground(new Color(0, 0, 0, 0));
+			graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+			oc = graphics.getComposite();
+			if(lightMask != null && lightPoint != null) {
+				graphics.drawImage(lightMask, lightPoint.x, lightPoint.y, null);
+				graphics.setComposite(AlphaComposite.SrcAtop);
+			}
 		}
+		
 		
 		int rowY = TILE_Y/2;
 		int tileCountY = this.getHeight()/rowY+5;
@@ -174,7 +204,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 				int xg = (row%2 == 0)?row/2:(row-1)/2;
 				int x = ((row%2 == 0)?TILE_X/2:0)-TILE_X;
 				for(;x<tileCountX*TILE_X;x+=TILE_X) {
-					this.drawSquareAt(g, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
+					this.drawSquareAt(graphics, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
 					yg++;
 					xg++;
 				}
@@ -183,9 +213,13 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		}
 		
 		if(!selectionRender) {
+			graphics.setComposite(oc);
+			
 			for(UILayerRenderer ren : extraRenderers) {
-				ren.render(g, this);
+				ren.render(graphics, this);
 			}
+			
+			jgraphics.drawImage(backbuffer, 0, 0, null);
 		}
 		else {
 			for(UILayerRenderer ren : extraRenderers) {
@@ -204,7 +238,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	 * @param sx
 	 * @param sy
 	 */
-	private void drawSquareAt(Graphics g, int dx, int dy, int sx, int sy) {
+	private void drawSquareAt(Graphics2D g, int dx, int dy, int sx, int sy) {
 		IsoSquare square = dataSource.squareAt(sx, sy);
 		
 		if(square.numberOfImages() > 0) {
@@ -409,5 +443,21 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	public void removeLayerRenderer(UILayerRenderer renderer) {
 		extraRenderers.remove(renderer);
 		renderer.setSuperview(null);
+	}
+	
+	/**
+	 * Get the light position
+	 * @return
+	 */
+	public Point lightPoint() {
+		return lightPoint;
+	}
+	
+	/**
+	 * Set the light position
+	 * @param point
+	 */
+	public void setLightPoint(Point point) {
+		lightPoint = point;
 	}
 }

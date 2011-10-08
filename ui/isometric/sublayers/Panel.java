@@ -1,6 +1,6 @@
 package ui.isometric.sublayers;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -58,12 +58,12 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	abstract public int level();
 
 	@Override
-	final public void render(Graphics g, IsoCanvas into) {
-		g = g.create((int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2), width, height);
+	final public void render(Graphics2D g, IsoCanvas into) {
+		g = (Graphics2D) g.create((int)(into.getWidth()*x-width/2), (int)(into.getHeight()*y-height/2), width, height);
 		
 		g.drawImage(bgimage, 0, 0, null);
 		g.drawImage(close, width-20, 0, null);
-		this.drawContents(g.create(xPad, yPad, width-xPad*2, height-yPad*2));
+		this.drawContents((Graphics2D) g.create(xPad, yPad, width-xPad*2, height-yPad*2));
 	}
 
 	@Override
@@ -142,7 +142,7 @@ abstract public class Panel implements IsoCanvas.UILayerRenderer {
 	 * Override to draw the contents of the panel
 	 * @param g
 	 */
-	abstract protected void drawContents(Graphics g);
+	abstract protected void drawContents(Graphics2D g);
 	
 	/**
 	 * Mouse was clicked somewhere in the view

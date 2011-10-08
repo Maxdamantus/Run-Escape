@@ -1,7 +1,7 @@
 package ui.isometric.sublayers;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -63,7 +63,7 @@ public class ChatRenderer implements UILayerRenderer {
 	}
 
 	@Override
-	public void render(Graphics g, IsoCanvas into) {
+	public void render(Graphics2D g, IsoCanvas into) {
 		if(visible) {
 			g.setColor(Color.WHITE);
 			g.drawImage(chatBoxImage, originX, into.getHeight()-originY-chatBoxImage.getHeight(null), originX+chatBoxImage.getWidth(null), into.getHeight()-originY, 0, 0, chatBoxImage.getWidth(null), chatBoxImage.getHeight(null), null);
