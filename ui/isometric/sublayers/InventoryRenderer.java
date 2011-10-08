@@ -4,6 +4,7 @@ import game.Container;
 import game.GameThing;
 import game.things.EquipmentGameThing;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -266,6 +267,7 @@ public class InventoryRenderer extends LargePanel {
 	@Override
 	protected void drawContents(Graphics g) { // TODO: add scrolling / clipping
 		dynmAreas.clear();
+		g.setColor(Color.BLACK);
 		
 		drawEquipment(g);
 		drawInventory(g);
