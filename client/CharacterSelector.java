@@ -19,18 +19,6 @@ public class CharacterSelector extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			CharacterSelector dialog = new CharacterSelector();
-			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			dialog.setSize(new Dimension(640,400));
-			dialog.setVisible(true);
-			System.out.println(dialog.getCharacterName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 
 	private String name = null;
 	private ButtonGroup radioGroup;

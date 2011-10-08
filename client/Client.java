@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import data.Database;
 
 import ui.isometric.IsoInterface;
+import util.GUI;
 
 import game.*;
 
@@ -100,6 +101,7 @@ public class Client implements ClientMessageHandler {
 			CharacterSelector dialog = new CharacterSelector();
 			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			dialog.setSize(new Dimension(640,400));
+			GUI.centerWindow(dialog);
 			dialog.setVisible(true);
 			
 			// sending name
@@ -192,7 +194,7 @@ public class Client implements ClientMessageHandler {
 			userGID = uid;
 
 			// showing GUI
-			view = new IsoInterface("Run,Escape!", world, this, userGID);
+			view = new IsoInterface("Run, Escape!", world, this, userGID);
 			view.show();
 		}
 	}
