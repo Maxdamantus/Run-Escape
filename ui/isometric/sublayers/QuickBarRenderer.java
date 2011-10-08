@@ -1,7 +1,6 @@
 package ui.isometric.sublayers;
 
 import game.*;
-import game.things.EquipmentGameThing;
 
 import java.awt.Graphics;
 import java.awt.Point;
