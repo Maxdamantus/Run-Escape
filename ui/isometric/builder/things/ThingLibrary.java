@@ -319,6 +319,14 @@ public class ThingLibrary {
 				creators.add(new WallCreator("stake_skull_2"));
 				creators.add(new WallCreator("stake_skull_3"));
 				
+				creators.add(new WallCreator("ground_grey_obelisk_1"));
+				creators.add(new WallCreator("ground_grey_obelisk_2"));
+				creators.add(new WallCreator("ground_grey_tree_1"));
+				creators.add(new WallCreator("ground_grey_tree_2"));
+				creators.add(new WallCreator("ground_grey_tree_3"));
+				creators.add(new WallCreator("ground_grey_tree_4"));
+				creators.add(new WallCreator("ground_grey_tree_5"));
+				
 				// TODO: stairs creator
 				
 				creators.add(new SpawnPointCreator());
