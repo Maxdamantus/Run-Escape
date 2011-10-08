@@ -1364,11 +1364,11 @@
     <v>
       <i>
         <k>name</k>
-        <v>plant_2</v>
+        <v>plant_3</v>
       </i>
       <i>
         <k>type</k>
-        <v>IMAGE3</v>
+        <v>IMAGE1</v>
       </i>
       <i>
         <k>y-offset</k>
@@ -1919,11 +1919,11 @@
     </v>
   </i>
   <i>
-    <k>character_sword_empty</k>
+    <k>character_cordi_sword</k>
     <v>
       <i>
         <k>name</k>
-        <v>character_sword_empty</v>
+        <v>character_cordi_sword</v>
       </i>
       <i>
         <k>type</k>
@@ -2070,4 +2070,5 @@
         <v>6</v>
       </i>
     </v>
+  </i>
 </tree>
