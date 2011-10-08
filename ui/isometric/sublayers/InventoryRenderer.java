@@ -273,8 +273,30 @@ public class InventoryRenderer extends LargePanel {
 	 * Draw the container view
 	 * @param g
 	 */
-	private void drawContainer(Graphics g) {
-		g.drawRect(425, 10, 150, 590);
+	private void drawContainer(Graphics g) {		
+		int x = 425;
+		int y = 10;
+		int width = 150;
+		int height = 590;
+		int spacing = 46;
+		
+		g.drawRect(x, y, width, height);
+		
+		x++;
+		y++;
+		
+		Container container = player.openContainer();
+		if(container != null) {
+			for(GameThing thing : container) {
+				this.drawThingAt(g, thing, x, y);
+				
+				x += spacing;
+				if(x + spacing >= width) {
+					y += spacing;
+					x = 0;
+				}
+			}
+		}
 	}
 
 	/**

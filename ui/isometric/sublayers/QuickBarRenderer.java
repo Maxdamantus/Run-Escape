@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import ui.isometric.IsoCanvas;
 import ui.isometric.IsoInterface;
+import ui.isometric.abstractions.IsoPlayer;
 import util.Resources;
 
 /**
@@ -122,6 +123,13 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 					showHideInventory();
 				}
 			});
+			
+			inter.player().addShowContainerListener(new IsoPlayer.ShowContainerListener() {
+				@Override
+				public void showContainer(Container show) {
+					showInventory();
+				}
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -176,14 +184,32 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	}
 	
 	/**
+	 * Show the inventory
+	 */
+	private void showInventory() {
+		if(inventoryRenderer.superview() == null) {
+			inter.canvas().addLayerRenderer(inventoryRenderer);
+		}
+	}
+	
+	/**
+	 * Hide the inventory
+	 */
+	private void hideInventory() {
+		if(inventoryRenderer.superview() != null) {
+			inventoryRenderer.removeFromSuperview();
+		}
+	}
+	
+	/**
 	 * Show/hide the inventory panel
 	 */
 	private void showHideInventory() {
 		if(inventoryRenderer.superview() == null) {
-			inter.canvas().addLayerRenderer(inventoryRenderer);
+			showInventory();
 		}
 		else {
-			inventoryRenderer.removeFromSuperview();
+			hideInventory();
 		}
 	}
 }

@@ -1,5 +1,8 @@
 package ui.isometric.abstractions;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ui.isometric.IsoInterface;
 import game.Container;
 import game.GameThing;
@@ -16,8 +19,24 @@ import game.things.EquipmentGameThing;
 public class IsoPlayer {
 	private Container inventory;
 	private Container equipment;
+	private Container openContainer;
 	private GameWorld world;
 	private GameThing thing;
+	private Set<ShowContainerListener> listeners = new HashSet<ShowContainerListener>();
+	
+	/**
+	 * An interface for receiving notifications about showing containers
+	 * 
+	 * @author ruarusmelb
+	 *
+	 */
+	public static interface ShowContainerListener {
+		/**
+		 * A give container has been requested to be shown
+		 * @param which
+		 */
+		void showContainer(Container show);
+	}
 	
 	/**
 	 * Create an IsoPlayer with a given world, player GameThing and interface
@@ -37,8 +56,14 @@ public class IsoPlayer {
 					if(show.what().equals("Inventory")) {
 						inventory = show.which(world);
 					}
-					if(show.what().equals("Equipment")) {
+					else if(show.what().equals("Equipment")) {
 						equipment = show.which(world);
+					}
+					else {
+						for(ShowContainerListener l : listeners) {
+							openContainer = show.which(world);
+							l.showContainer(openContainer);
+						}
 					}
 				}
 			}
@@ -86,6 +111,14 @@ public class IsoPlayer {
 	}
 	
 	/**
+	 * This players open container
+	 * @return
+	 */
+	public Container openContainer() {
+		return openContainer;
+	}
+	
+	/**
 	 * The raw GameThing that backs this
 	 * @return
 	 */
@@ -108,5 +141,21 @@ public class IsoPlayer {
 	public String characterName() {
 		// TODO: actually get this to work
 		return "bob";
+	}
+	
+	/**
+	 * Add a ShowContainerListener
+	 * @param l
+	 */
+	public void addShowContainerListener(ShowContainerListener l) {
+		listeners.add(l);
+	}
+	
+	/**
+	 * Remove a given ShowContainerListener
+	 * @param l
+	 */
+	public void removeShowContainerListener(ShowContainerListener l) {
+		listeners.remove(l);
 	}
 }
