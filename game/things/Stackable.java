@@ -7,6 +7,8 @@ import java.util.*;
 public abstract class Stackable extends AbstractGameThing {
 	private int amount;
 
+	abstract public Object type();
+
 	public Stackable(GameWorld w, int a){
 		super(w);
 		amount = a;

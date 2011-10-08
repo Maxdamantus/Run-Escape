@@ -17,6 +17,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 	public static final int WALL = 1000;
 	public static final int SPAWN_POINT = 1500;
 	public static final int CHARACTER = 2000;
+	public static final int DROP = 100;
 	
 	private ArrayList<ImageLevel> images = new ArrayList<ImageLevel>();
 	
