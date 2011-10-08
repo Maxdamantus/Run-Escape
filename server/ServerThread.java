@@ -50,7 +50,6 @@ public final class ServerThread {
 				InputStreamReader input = new InputStreamReader(parent.socket.getInputStream());
 				BufferedReader rd = new BufferedReader(input);
 				while(!parent.exit) {
-					String xmlupdate = "";
 					String temp;
 					
 					temp = rd.readLine();
@@ -60,9 +59,10 @@ public final class ServerThread {
 					
 					try {
 						if((temp.startsWith("uid"))) {
-							xmlupdate+= temp;
-							parent.usrName = xmlupdate.substring(4);
-							plyr = parent.model.getPlayer(parent.usrName);
+							String[] xmlupdate = temp.split("::::");
+							parent.usrName = xmlupdate[1];
+							String character = xmlupdate[2];
+							plyr = parent.model.getPlayer(parent.usrName, character);
 							plyr.login();
 							System.err.println("plyr logged in");
 					//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
