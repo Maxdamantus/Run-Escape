@@ -41,18 +41,17 @@ public class Server{
 		boolean fromSave = false;		
 		
 		int port = DEFAULT_PORT;
-		String choice = "null";
-		while(!(choice.equals("NewGame") || choice.equals("LoadGame"))){
-			Object[] possibilities = {"NewGame", "LoadGame"};
-			choice = (String)JOptionPane.showInputDialog(
+		String choice = "NewGame";
+		Object[] possibilities = {"NewGame", "LoadGame"};
+		choice = (String)JOptionPane.showInputDialog(
 			                    null,
 			                    "Start new, or load from file?",
-			                    "Customized Dialog",
+			                    "New or Load Game",
 			                    JOptionPane.PLAIN_MESSAGE,
 			                    null,
 			                    possibilities,
 			                    "NewGame");
-		}
+		
 		if(choice.equals("LoadGame")){
 			fromSave = true;
 			

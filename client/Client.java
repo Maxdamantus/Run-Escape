@@ -183,7 +183,7 @@ public class Client implements ClientMessageHandler {
 			userGID = uid;
 
 			// showing GUI
-			view = new IsoInterface("Run-Escape", world, this, userGID);
+			view = new IsoInterface("Run,Escape!", world, this, userGID);
 			view.show();
 		}
 	}
