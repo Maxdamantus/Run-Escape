@@ -4,7 +4,7 @@ import game.*;
 
 import java.util.*;
 
-public abstract class Stackable extends AbstractGameThing {
+public abstract class Stackable extends PickupGameThing {
 	private int amount;
 
 	abstract public Object type();
