@@ -180,6 +180,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		Composite oc = null;
 		
 		if(!selectionRender) {
+			jgraphics.setColor(Color.BLACK);
 			jgraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 			
 			graphics.setColor(Color.BLACK);
