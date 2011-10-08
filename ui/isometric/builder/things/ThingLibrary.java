@@ -195,6 +195,47 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * A class that generates openable furniture
+	 * @author melby
+	 *
+	 */
+	public static class OpenableFurnitureCreator implements ThingCreator {
+		private String renderer;
+		private boolean open;
+		
+		/**
+		 * Create a OpenableFurnitureCreator with the given renderer and open state
+		 * @param renderer
+		 * @param open
+		 */
+		public OpenableFurnitureCreator(String renderer, boolean open) {
+			this.renderer = renderer;
+			this.open = open;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w) {
+			game.things.OpenableFurniture spawn = new game.things.OpenableFurniture(w, renderer, open, null);
+			return spawn;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName(renderer+"_closed", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;
+				{
+					add(renderer+"_open");
+					add(renderer+"_closed");
+				}
+			};
+		}
+	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -330,6 +371,16 @@ public class ThingLibrary {
 				creators.add(new WallCreator("ground_grey_tree_3"));
 				creators.add(new WallCreator("ground_grey_tree_4"));
 				creators.add(new WallCreator("ground_grey_tree_5"));
+				
+				creators.add(new OpenableFurnitureCreator("barrel_1", false));
+				creators.add(new OpenableFurnitureCreator("chest_1", false));
+				creators.add(new OpenableFurnitureCreator("chest_2", false));
+				creators.add(new OpenableFurnitureCreator("chest_3", false));
+				creators.add(new OpenableFurnitureCreator("box_1", false));
+				creators.add(new OpenableFurnitureCreator("cupboard_1", false));
+				
+				creators.add(new WallCreator("barrel_2"));
+				creators.add(new WallCreator("barrel_3"));
 				
 				// TODO: stairs creator
 				
