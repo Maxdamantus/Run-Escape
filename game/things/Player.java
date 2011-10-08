@@ -246,6 +246,10 @@ public class Player extends Character {
 		return equipment.contains(g);
 	}
 
+	public Container inventory(){
+		return inventory;
+	}
+
 	public void examine(AbstractGameThing abstractGameThing) {
 		// TODO
 		System.out.println("You examined it");

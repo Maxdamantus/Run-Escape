@@ -37,6 +37,14 @@ public abstract class Stackable extends PickupGameThing {
 		return amount = s;
 	}
 
+	public int add(int s){
+		return amount(amount() + s);
+	}
+
+	public int subtract(int s){
+		return add(-s);
+	}
+
 	public boolean merge(Stackable s){
 		if(s.type() == type()){
 			amount(amount() + s.amount());
