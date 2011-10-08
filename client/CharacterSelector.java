@@ -9,7 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JRadioButton;
 import java.awt.GridLayout;
+import java.util.Set;
+
 import javax.swing.JScrollPane;
+
+import ui.isometric.libraries.IsoCharacterImageLibrary;
+import util.ImagePanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CharacterSelector extends JDialog {
 
@@ -30,6 +37,22 @@ public class CharacterSelector extends JDialog {
 	 * Create the dialog.
 	 */
 	public CharacterSelector() {
+		String[] charNames = IsoCharacterImageLibrary.getAllCharacters().toArray(new String[0]);
+		if (charNames.length < 8) {
+			int i = 0;
+			String[] replacementArray = new String[8];
+			while (i < charNames.length) {
+				replacementArray[i] = charNames[i++];
+			}
+			while (i < 8) {
+				replacementArray[i++] = charNames[0];
+			}
+			charNames = replacementArray;
+			
+		}
+		charNames.toString();
+		
+		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		{
@@ -38,6 +61,11 @@ public class CharacterSelector extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -64,9 +92,8 @@ public class CharacterSelector extends JDialog {
 						panel_1.add(rdbtnNewRadioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel1 = new JPanel();
+						ImagePanel charPanel1 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[0]));
 						panel_1.add(charPanel1, BorderLayout.CENTER);
-						charPanel1.setLayout(null);
 					}
 				}
 				{
@@ -78,8 +105,7 @@ public class CharacterSelector extends JDialog {
 						panel_2.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel2 = new JPanel();
-						charPanel2.setLayout(null);
+						ImagePanel charPanel2 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[1]));
 						panel_2.add(charPanel2, BorderLayout.CENTER);
 					}
 				}
@@ -92,8 +118,7 @@ public class CharacterSelector extends JDialog {
 						panel_3.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel3 = new JPanel();
-						charPanel3.setLayout(null);
+						ImagePanel charPanel3 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[2]));
 						panel_3.add(charPanel3, BorderLayout.CENTER);
 					}
 				}
@@ -106,8 +131,7 @@ public class CharacterSelector extends JDialog {
 						panel_4.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel4 = new JPanel();
-						charPanel4.setLayout(null);
+						ImagePanel charPanel4 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[3]));
 						panel_4.add(charPanel4, BorderLayout.CENTER);
 					}
 				}
@@ -120,8 +144,7 @@ public class CharacterSelector extends JDialog {
 						panel_5.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel5 = new JPanel();
-						charPanel5.setLayout(null);
+						ImagePanel charPanel5 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[4]));
 						panel_5.add(charPanel5, BorderLayout.CENTER);
 					}
 				}
@@ -134,8 +157,7 @@ public class CharacterSelector extends JDialog {
 						panel_6.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel6 = new JPanel();
-						charPanel6.setLayout(null);
+						ImagePanel charPanel6 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[5]));
 						panel_6.add(charPanel6, BorderLayout.CENTER);
 					}
 				}
@@ -148,8 +170,7 @@ public class CharacterSelector extends JDialog {
 						panel_7.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel7 = new JPanel();
-						charPanel7.setLayout(null);
+						ImagePanel charPanel7 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[6]));
 						panel_7.add(charPanel7, BorderLayout.CENTER);
 					}
 				}
@@ -162,8 +183,7 @@ public class CharacterSelector extends JDialog {
 						panel_8.add(radioButton, BorderLayout.SOUTH);
 					}
 					{
-						JPanel charPanel8 = new JPanel();
-						charPanel8.setLayout(null);
+						ImagePanel charPanel8 = new ImagePanel(IsoCharacterImageLibrary.imageForCharacterName(charNames[7]));
 						panel_8.add(charPanel8, BorderLayout.CENTER);
 					}
 				}
