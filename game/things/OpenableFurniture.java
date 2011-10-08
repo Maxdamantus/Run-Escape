@@ -42,9 +42,9 @@ public class OpenableFurniture extends AbstractGameThing {
 	public OpenableFurniture(GameWorld world, String name, boolean open, Container cont){
 		super(world);
 		renderer = name;
-		update();
 		this.contents = cont;
 		this.open = open;
+		update();
 	}
 	
 	//For empty chest
@@ -52,8 +52,8 @@ public class OpenableFurniture extends AbstractGameThing {
 		super(world);
 		renderer = name;
 		open = false;
-		update();
 		contents = new Container(world);
+		update();
 	}
 
 
@@ -103,7 +103,7 @@ public class OpenableFurniture extends AbstractGameThing {
 			update();
 		}
 		else if(name.equals("view contents")){
-			who.showContainer(contents, "Chest");
+			who.showContainer(contents, renderer);
 		}
 		else super.interact(name, who);
 	}
