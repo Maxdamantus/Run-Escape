@@ -101,7 +101,10 @@ public class InventoryRenderer extends LargePanel {
 							popup.add(item);
 						}
 						popup.show(inven.superview(), e.getPoint().x, e.getPoint().y);
-					} // TODO: left click
+					}
+					else {
+						inven.ui().performActionOn(thing.defaultInteraction(), thing);
+					}
 				}
 			}
 			
