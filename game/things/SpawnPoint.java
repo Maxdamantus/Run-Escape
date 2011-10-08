@@ -28,11 +28,6 @@ public class SpawnPoint extends AbstractGameThing {
 		world.addSpawnPoint(this);
 	}
 
-	public SpawnPoint(){
-		super(null);
-		System.out.println("Err, wrong interface");
-	}
-
 	public String renderer(){
 		return "spawn_point";
 	}
