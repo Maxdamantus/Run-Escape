@@ -98,17 +98,16 @@ public class IsoGameModelDataSource implements IsoDataSource {
 
 	@Override
 	public void setViewableRect(int xOrigin, int yOrigin, int width, int height, Direction direction) {
-		cacheChange.writeLock().lock();
-		
 		transform = new IsoTransformImp(xOrigin, yOrigin, width, height, direction);
 		viewDirection = direction;
 		Area oldArea = querryArea;
 		querryArea = transform.querryArea();
 		
 		if(oldArea == null || !oldArea.equals(querryArea)) {
+			cacheChange.writeLock().lock();
 			this.clearCache();
+			cacheChange.writeLock().unlock();
 		}
-		cacheChange.writeLock().unlock();
 	}
 	
 	/**
