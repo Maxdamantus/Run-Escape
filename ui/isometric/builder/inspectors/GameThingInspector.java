@@ -1,4 +1,4 @@
-package ui.isometric.builder;
+package ui.isometric.builder.inspectors;
 
 import game.*;
 
@@ -10,21 +10,22 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ui.isometric.abstractions.IsoImage;
+import ui.isometric.builder.InspectorPanel;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 import util.ImagePanel;
 
 /**
- * This class is an inspector for a single GameThing.
+ * This class is the base class for a single GameThing inspector.
  * It is a self-configuring JPanel and can be added to many interfaces
  * @author melby
  *
  */
-public class GameThingInspector extends JPanel {
+abstract public class GameThingInspector<T extends GameThing> extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private ImagePanel image;
-	private GameThing thing;
+	private T thing;
 	private IsoImage isoImage;
 
 	private InspectorPanel panel;
@@ -34,7 +35,7 @@ public class GameThingInspector extends JPanel {
 	 * @param t - any GameThing
 	 * @param inspectorPanel - the InspectorPanel managing this GameThingInspector
 	 */
-	public GameThingInspector(GameThing t, InspectorPanel inspectorPanel) {
+	public GameThingInspector(T t, InspectorPanel inspectorPanel) {
 		this.thing = t;
 		this.isoImage = IsoRendererLibrary.newImageFromGameThing(null, t, Direction.NORTH);
 		panel = inspectorPanel;
@@ -79,14 +80,14 @@ public class GameThingInspector extends JPanel {
 	/**
 	 * Notify any inspectors of changes
 	 */
-	private void refresh() {
+	protected void refresh() {
 		InspectorPanel.signalUpdate();
 	}
 	
 	/**
 	 * Rotate the GameThing CW
 	 */
-	private void rotateCW() {
+	protected void rotateCW() {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			((Level.Location)l).rotate(Direction.EAST).put(thing);
@@ -100,7 +101,7 @@ public class GameThingInspector extends JPanel {
 	/**
 	 * Rotate the GameThing CCW
 	 */
-	private void rotateCCW() {
+	protected void rotateCCW() {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			((Level.Location)l).rotate(Direction.WEST).put(thing);
@@ -114,9 +115,17 @@ public class GameThingInspector extends JPanel {
 	/**
 	 * Remove the GameThing
 	 */
-	private void remove() {
+	protected void remove() {
 		game.LocationS.NOWHERE.put(thing);
 		panel.builder().gameWorld().forget(thing);
 		this.refresh();
+	}
+	
+	/**
+	 * Get the game thing
+	 * @return
+	 */
+	protected T thing() {
+		return thing;
 	}
 }

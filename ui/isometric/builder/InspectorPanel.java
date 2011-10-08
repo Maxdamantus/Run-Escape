@@ -9,11 +9,16 @@ import java.util.Set;
 import javax.swing.Box;
 import javax.swing.JFrame;
 
+import ui.isometric.builder.inspectors.DoorInspector;
+import ui.isometric.builder.inspectors.GameThingInspector;
+import ui.isometric.builder.inspectors.GenericInspector;
+import ui.isometric.builder.inspectors.OpenableFurnitureInspector;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Area;
 
 import game.*;
+import game.things.Door;
 import game.things.OpenableFurniture;
 
 /**
@@ -88,12 +93,15 @@ public class InspectorPanel extends JFrame {
 				Iterable<game.GameThing> things = ((Level.Location) l).level().portion(new Area(((Level.Location)l).position(), 1, 1));
 				
 				for(game.GameThing t : things) {
-					GameThingInspector ins;
+					GameThingInspector<?> ins;
 					if(t instanceof OpenableFurniture) {
 						ins = new OpenableFurnitureInspector((OpenableFurniture)t, this);
 					}
+					else if(t instanceof Door) {
+						ins = new DoorInspector((Door)t, this);
+					}
 					else {
-						ins = new GameThingInspector(t, this);
+						ins = new GenericInspector(t, this);
 					}
 					getContentPane().add(ins);
 				}

@@ -1,4 +1,4 @@
-package ui.isometric.builder;
+package ui.isometric.builder.inspectors;
 
 import java.awt.Component;
 import java.awt.GridLayout;

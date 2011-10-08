@@ -1,4 +1,4 @@
-package ui.isometric.builder;
+package ui.isometric.builder.inspectors;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
 import java.util.Map;
 
 import javax.swing.JButton;
+
+import ui.isometric.builder.InspectorPanel;
 
 import game.Container;
 import game.things.OpenableFurniture;
@@ -17,7 +19,7 @@ import game.things.OpenableFurniture;
  * @author ruarusmelb
  *
  */
-public class OpenableFurnitureInspector extends GameThingInspector {
+public class OpenableFurnitureInspector extends GameThingInspector<OpenableFurniture> {
 	private static final long serialVersionUID = 1L;
 	
 	private ContainerInspector window;
@@ -50,6 +52,15 @@ public class OpenableFurnitureInspector extends GameThingInspector {
 			}
 		});
 		this.add(inspectContainer);
+		JButton button = new JButton("Toggle Open");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				thing.toggle();
+				refresh();
+			}
+		});
+		this.add(button);
 	}
 	
 	/**
