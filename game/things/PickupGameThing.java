@@ -21,7 +21,7 @@ public abstract class PickupGameThing extends AbstractGameThing {
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>();
 		// assuming if it's not in a level, it must be droppable.
-		out.add(location() instanceof Level.Location? "pick up" : "drop");
+		out.add(location() instanceof Level.Location || location() instanceof game.things.OpenableFurniture? "pick up" : "drop");
 		return out;
 	}
 	

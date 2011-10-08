@@ -106,16 +106,24 @@ public class OpenableFurniture extends AbstractGameThing {
 		return returnmap;
 	}
 	
+	public void walkAndSet(final boolean s, Player p){
+		Location l = location();
+		if(l instanceof Level.Location)
+			p.moveTo((Level.Location)l, 1, new Runnable(){
+				public void run(){
+					open = s;
+					update();
+				}
+			});
+	}
+	
 	public void interact(String name, game.things.Player who){
-		if(name.equals("open")){
-			open = true;
-			update();
-		}
-		else if(name.equals("close")){
-			open = false;
-			update();
-		}
+		if(name.equals("close"))
+			walkAndSet(false, who);
+		else if(name.equals("open"))
+			walkAndSet(true, who);
 		else if(name.equals("view contents")){
+			walkAndSet(true,who);
 			who.showContainer(contents, renderer);
 		}
 		else super.interact(name, who);

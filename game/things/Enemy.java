@@ -40,6 +40,7 @@ public class Enemy extends Character {
 	private final Location start;
 	private final int wanderdist;
 
+
 	public Enemy(GameWorld world, String t, String n, Location sl, int wd){
 		super(world, t);
 		name = n;
@@ -79,11 +80,16 @@ public class Enemy extends Character {
 	}
 
 	public void damage(int amt, Character from){
-		super.damage(amt, from);
-		attack(from);
-		if(health() <= 0){
-			LocationS.NOWHERE.put(this);
-			world().forget(this);
+		if(!dying){
+			super.damage(amt, from);
+			attack(from);
+		}
+		if(health() <= 0 && dying){
+			final Enemy g = this;
+			world().schedule(new Runnable(){public void run(){
+			LocationS.NOWHERE.put(g);
+			world().forget(g);}
+			}, 1500);
 		}
 	}
 }

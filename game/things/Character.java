@@ -14,6 +14,8 @@ public abstract class Character extends AbstractGameThing {
 	protected int attack;
 	protected int strength;
 	protected int defence, delay;
+	protected boolean dying = false; /*couldnt work around the scheduling issues with attacking,
+	so boolean was the best way to stop animate being scheduled over*/
 
 	public Character(GameWorld world, String r){
 		super(world);
@@ -146,33 +148,36 @@ public abstract class Character extends AbstractGameThing {
 	private Object attackIdent;
 	private Runnable attacker;
 	public void attack(final GameThing g){
-		final Object ident = new Object();
-		attackIdent = ident;
-		attacker = new Runnable(){
-			public void run(){
-				if(attackIdent == ident){
-					Location l = g.location();
-					if(l instanceof Level.Location){
-						Location ml = location();
-						if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
-							Level.Location closest = null;
-							for(Direction d : Direction.values()){
-								Level.Location p = ((Level.Location)ml).next(d);
-								if(closest == null || p.dist((Level.Location)l) < p.dist(closest))
-									closest = p;
+			final Character thischar = this;
+			final Object ident = new Object();
+			attackIdent = ident;
+			attacker = new Runnable(){
+				public void run(){
+					if(attackIdent == ident){
+						Location l = g.location();
+						if(l instanceof Level.Location){
+							Location ml = location();
+							if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
+								Level.Location closest = null;
+								for(Direction d : Direction.values()){
+									Level.Location p = ((Level.Location)ml).next(d);
+									if(closest == null || p.dist((Level.Location)l) < p.dist(closest))
+										closest = p;
+								}
+								location(((Level.Location)ml).direct(closest.direction()));
+								if((g instanceof Character) && ((Character) g).health() > 0 && thischar.health > 0){
+									animate(renderer() + "_attack");
+									hurt(g);
+								}
 							}
-							location(((Level.Location)ml).direct(closest.direction()));
-							animate(renderer() + "_attack");
-							hurt(g);
 						}
-					}
-					world().schedule(attacker, 500);
-				}else if(g instanceof Character)
-					((Character)g).stopAttackedBy(Character.this);
-			}
-		};
-		follow(g, 2);
-		world().schedule(attacker, 500);
+						world().schedule(attacker, delay*50);
+					}else if(g instanceof Character)
+						((Character)g).stopAttackedBy(Character.this);
+				}
+			};
+			follow(g, 2);
+			world().schedule(attacker, 500);
 	}
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
@@ -180,7 +185,6 @@ public abstract class Character extends AbstractGameThing {
 		int maxamt = (int) (10 * (double)(1 + strength / 100));
 		int minamt = (int) (30 * (double)(1 + strength / 100));
 		int damageamt = (int) (minamt + (double)1/attack * (maxamt - minamt));
-		if(other instanceof Character)
 			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
 	}
@@ -194,11 +198,15 @@ public abstract class Character extends AbstractGameThing {
 	}
 	
 	public void damage(int amt, Character from){
-		world().emitEmitSound(this, "character_" + renderer + "_ow");
-		health -= (int)(amt - (10*(double)(1+defence/100)));
-		System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
-		if(health <= 0)
-			animate(renderer() + "_die");
+		if(!dying){
+			world().emitEmitSound(this, "character_" + renderer + "_ow");
+			health -= (int)(amt - (10*(double)(1+defence/100)));
+			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
+			if(health <= 0){
+				dying = true;
+				animate(renderer() + "_die");
+			}
+		}
 	}
 
 	public boolean moveTo(Level.Location where){
