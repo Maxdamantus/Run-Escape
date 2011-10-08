@@ -64,7 +64,7 @@ public class IsoInterface implements PlayerMessage {
 			}
 		}
 		
-		this.player = new IsoPlayer(world, me, this);
+		this.player = new IsoPlayer(world, me, this, logic.getCharacterName());
 		
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -22,6 +22,7 @@ public class IsoPlayer {
 	private Container openContainer;
 	private GameWorld world;
 	private GameThing thing;
+	private String name;
 	private Set<ShowContainerListener> listeners = new HashSet<ShowContainerListener>();
 	
 	/**
@@ -39,13 +40,16 @@ public class IsoPlayer {
 	}
 	
 	/**
-	 * Create an IsoPlayer with a given world, player GameThing and interface
+	 * Create an IsoPlayer with a given world, player GameThing, interface and character name
 	 * @param world
 	 * @param thing
+	 * @param inter
+	 * @param name - the character, not user name
 	 */
-	public IsoPlayer(final GameWorld world, GameThing thing, IsoInterface inter) {
+	public IsoPlayer(final GameWorld world, GameThing thing, IsoInterface inter, String name) {
 		this.world = world;
 		this.thing = thing;
+		this.name = name;
 		
 		world.addDeltaWatcher(new GameWorld.DeltaWatcher() {
 			@Override
@@ -139,8 +143,7 @@ public class IsoPlayer {
 	 * @return
 	 */
 	public String characterName() {
-		// TODO: actually get this to work
-		return "bob";
+		return name;
 	}
 	
 	/**
