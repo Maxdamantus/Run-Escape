@@ -217,6 +217,7 @@ public class Player extends Character {
 			equipment.remove(g);
 			inventory.put(g);	
 		}
+		update();
 	}
 
 	public boolean carrying(GameThing g){

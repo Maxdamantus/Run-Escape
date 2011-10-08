@@ -32,11 +32,11 @@ public class GameWorld {
 		playersLock.writeLock().unlock();
 	}
 
-	public game.things.Player getPlayer(String name){
+	public game.things.Player getPlayer(String name, String character){
 		game.things.Player player;
 		
 		if(!players.containsKey(name)){
-			player = new game.things.Player(this, "cordi", name);
+			player = new game.things.Player(this, character , name);
 		}
 		
 		player = players.get(name);
