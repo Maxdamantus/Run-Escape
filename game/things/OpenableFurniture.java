@@ -7,7 +7,7 @@ import serialization.*;
 import util.Direction;
 import game.*;
 
-public class OpenableFurniture extends AbstractGameThing {
+public class OpenableFurniture extends AbstractGameThing implements Togglable {
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -137,5 +137,10 @@ public class OpenableFurniture extends AbstractGameThing {
 	@Override
 	public int renderLevel() {
 		return ui.isometric.abstractions.IsoSquare.FURNATURE;
+	}
+
+	public void toggle(){
+		open ^= true;
+		update();
 	}
 }
