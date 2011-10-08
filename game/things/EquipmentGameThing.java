@@ -64,7 +64,7 @@ public class EquipmentGameThing extends PickupGameThing {
 
 	public List<String> interactions(){
 		if(location() instanceof Container){
-			List<String> out = new LinkedList<String>(super.interactions());
+			List<String> out = new LinkedList<String>();
 			Location ml = location();
 			if(ml instanceof Container && ((Container)ml).owner() != null && ((Container)ml).owner().equipped(this)){
 				out.add("unequip");
@@ -72,6 +72,7 @@ public class EquipmentGameThing extends PickupGameThing {
 			else{
 				out.add("equip");
 			}
+			out.addAll(super.interactions());
 			out.add("examine");
 			return out;
 		}
