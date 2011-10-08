@@ -34,7 +34,11 @@ public class ThingLibrary {
 			renderer = rendererName;
 			willBlock = block;
 		}
-
+		
+		/**
+		 * Create a GroundCreator with a given renderer name
+		 * @param rendererName
+		 */
 		public GroundCreator(String rendererName) {
 			this(rendererName, false);
 		}
