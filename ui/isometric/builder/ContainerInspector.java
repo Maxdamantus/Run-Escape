@@ -27,11 +27,23 @@ import util.Direction;
 import util.GUI;
 import util.ImagePanel;
 
+/**
+ * A container inspector, allows you to add or remove items from a container
+ * 
+ * @author ruarusmelb
+ *
+ */
 public class ContainerInspector extends JFrame implements WindowListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 	private Container container;
 	private Timer t;
 	
+	/**
+	 * Create a ContainerInspector for a given container and frame name
+	 * 
+	 * @param c
+	 * @param name
+	 */
 	public ContainerInspector(Container c, String name) {
 		super(name +" inspector");
 		container = c;
@@ -59,7 +71,10 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 		})));
 	}
 	
-	public void refreshContainer() {
+	/**
+	 * Refresh the container, this is called ever 5th of a second
+	 */
+	private void refreshContainer() {
 		this.getContentPane().removeAll();
 		for(GameThing g : container) {
 			ImagePanel panel = new ImagePanel(IsoRendererLibrary.imageForRendererName(g.renderer(), Direction.NORTH).image());

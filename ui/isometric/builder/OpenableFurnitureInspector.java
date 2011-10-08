@@ -11,25 +11,37 @@ import javax.swing.JButton;
 import game.Container;
 import game.things.OpenableFurniture;
 
+/**
+ * A inspector for OpenableFurniture, allows you to inspect the contents
+ * 
+ * @author ruarusmelb
+ *
+ */
 public class OpenableFurnitureInspector extends GameThingInspector {
 	private static final long serialVersionUID = 1L;
 	
 	private ContainerInspector window;
 	
-	public OpenableFurnitureInspector(final OpenableFurniture t, InspectorPanel inspectorPanel) {
-		super(t, inspectorPanel);
+	/**
+	 * create a OpenableFurnitureInspector with a given thing and InspectorPanel
+	 * 
+	 * @param thing
+	 * @param inspectorPanel
+	 */
+	public OpenableFurnitureInspector(final OpenableFurniture thing, InspectorPanel inspectorPanel) {
+		super(thing, inspectorPanel);
 		
 		JButton inspectContainer = new JButton("Inspect Contents");
 		inspectContainer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Map<String, Container> map = t.getContainer();
+				Map<String, Container> map = thing.getContainer();
 				if(map.values().size() == 0) {
 					System.err.println("No container...");
 				}
 				for(Container c : map.values()) {
 					if(c != null) {
-						showContainer(c, t.name());
+						showContainer(c, thing.name());
 						break;
 					}
 					
@@ -40,6 +52,11 @@ public class OpenableFurnitureInspector extends GameThingInspector {
 		this.add(inspectContainer);
 	}
 	
+	/**
+	 * Show the container window for this item
+	 * @param c
+	 * @param name
+	 */
 	private void showContainer(Container c, String name) {
 		if(window == null) {
 			window = new ContainerInspector(c, name);
