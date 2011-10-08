@@ -22,10 +22,13 @@ public class SpawnPoint extends AbstractGameThing {
 			}
 		});
 	}
+
+	private final GameWorld world;
 	
-	public SpawnPoint(GameWorld world){
+	public SpawnPoint(GameWorld w){
 		super(null);
-		world.addSpawnPoint(this);
+		world = w;
+		w.addSpawnPoint(this);
 	}
 
 	public String renderer(){
@@ -34,6 +37,12 @@ public class SpawnPoint extends AbstractGameThing {
 
 	public String name(){
 		return "Spawn Point";
+	}
+
+	public Location location(Location s){
+		if(s == LocationS.NOWHERE)
+			world.removeSpawnPoint(this);
+		return super.location(s);
 	}
 	
 	@Override

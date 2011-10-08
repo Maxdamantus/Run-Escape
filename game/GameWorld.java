@@ -59,6 +59,13 @@ public class GameWorld {
 		return spawnpoint;
 	}
 
+	public boolean removeSpawnPoint(game.things.SpawnPoint sp){
+		spawnpointsLock.writeLock().lock();
+		boolean r = spawnpoints.remove(sp);
+		spawnpointsLock.writeLock().unlock();
+		return r;
+	}
+
 	public GameThing thingWithGID(long gid){
 		return allThings.get(gid);
 	}
