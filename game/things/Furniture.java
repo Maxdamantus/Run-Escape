@@ -47,17 +47,9 @@ public class Furniture extends AbstractGameThing {
 	}
 
 	public String renderer(){
-		return renderer + "_" + renderState();
+		return renderer;
 	}
 
-	private String renderState() {
-		if(open){
-			return "open";
-		}
-		else{
-			return "closed";
-		}
-	}
 	
 	public List<String> interactions(){
 		ArrayList<String> interactions = new ArrayList<String>();
