@@ -22,4 +22,11 @@ public interface ClientMessageHandler {
 	 *            chat text to be sent
 	 */
 	public void sendChat(String chatText);
+	
+	
+	/**
+	 * Gets the name of the character object being played by the user
+	 * @return the name of the character
+	 */
+	public String getCharacterName();
 }
