@@ -25,14 +25,17 @@ public class Container implements Iterable<GameThing>, Location {
 	private final long cid;
 	private final Set<GameThing> set = new HashSet<GameThing>(); 
 	private Player owner;
+	private final GameWorld world;
 
 	public Container(GameWorld w){
+		world = w;
 		cid = w.introduceContainer(this);
 		w.emitIntroduceContainer(this);
 	}
 
 	public Container(GameWorld w, long g){
 		cid = g;
+		world = w;
 		w.introduceContainer(this, g);
 		w.emitIntroduceContainer(this);
 	}
@@ -69,5 +72,9 @@ public class Container implements Iterable<GameThing>, Location {
 
 	public Player owner(Player s){
 		return owner = s;
+	}
+
+	public GameWorld world(){
+		return world;
 	}
 }
