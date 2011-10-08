@@ -9,7 +9,7 @@ import serialization.*;
 
 import game.*;
 
-public class Door extends AbstractGameThing {
+public class Door extends AbstractGameThing implements Togglable {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -97,5 +97,10 @@ public class Door extends AbstractGameThing {
 	@Override
 	public int renderLevel() {
 		return ui.isometric.abstractions.IsoSquare.WALL;
+	}
+
+	public void toggle(){
+		open ^= true;
+		update();
 	}
 }

@@ -1,16 +1,10 @@
 package game.things;
 
-import game.AbstractGameThing;
-import game.GameWorld;
-import game.Level;
-import game.Location;
+import game.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-import serialization.Serializer;
-import serialization.SerializerUnion;
-import serialization.Tree;
+import serialization.*;
 
 public abstract class PickupGameThing extends AbstractGameThing {
 	public PickupGameThing(GameWorld w) {
@@ -21,7 +15,7 @@ public abstract class PickupGameThing extends AbstractGameThing {
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>();
 		// assuming if it's not in a level, it must be droppable.
-		out.add(location() instanceof Level.Location || location() instanceof game.Container? "pick up" : "drop");
+		out.add(location() instanceof Level.Location || location() instanceof game.Container && ((Container)location()).owner() == null? "pick up" : "drop");
 		return out;
 	}
 	
