@@ -69,7 +69,7 @@ public class EquipmentGameThing extends PickupGameThing {
 			if(ml instanceof Container && ((Container)ml).owner() != null && ((Container)ml).owner().equipped(this)){
 				out.add("unequip");
 			}
-			else{
+			else if(ml instanceof Container && ((Container)ml).owner() instanceof Player){
 				out.add("equip");
 			}
 			out.addAll(super.interactions());
