@@ -42,7 +42,12 @@ public class OpenableFurniture extends AbstractGameThing {
 	public OpenableFurniture(GameWorld world, String name, boolean open, Container cont){
 		super(world);
 		renderer = name;
-		this.contents = cont;
+		if(cont != null){
+			this.contents = cont;
+		}
+		else{
+			this.contents = new Container(world);
+		}
 		this.open = open;
 		update();
 	}
