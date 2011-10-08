@@ -216,8 +216,8 @@ public class ThingLibrary {
 		
 		@Override
 		public GameThing createThing(GameWorld w) {
-			game.things.OpenableFurniture spawn = new game.things.OpenableFurniture(w, renderer, open, null);
-			return spawn;
+			game.things.OpenableFurniture fur = new game.things.OpenableFurniture(w, renderer, open, null);
+			return fur;
 		}
 
 		@Override
@@ -233,6 +233,57 @@ public class ThingLibrary {
 					add(renderer+"_closed");
 				}
 			};
+		}
+	}
+	
+	/**
+	 * A class that generates equipment
+	 * @author melby
+	 *
+	 */
+	public static class EquipmentCreator implements ThingCreator {
+		private String renderer;
+		private int attack;
+		private game.things.EquipmentGameThing.Slot type;
+		private int strength;
+		private int defense;
+		private int delay;
+		private String name;
+		
+		/**
+		 * Create an EquipmentCreator with the given parameters
+		 * @param renderer
+		 * @param attack
+		 * @param strength
+		 * @param defense
+		 * @param delay
+		 * @param name
+		 * @param type
+		 */
+		public EquipmentCreator(String renderer, int attack, int strength, int defense, int delay, String name, game.things.EquipmentGameThing.Slot type) {
+			this.renderer = renderer;
+			this.attack = attack;
+			this.strength = strength;
+			this.defense = defense;
+			this.delay = delay;
+			this.name = name;
+			this.type = type;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w) {
+			game.things.EquipmentGameThing equip = new game.things.EquipmentGameThing(w, attack, strength, defense, delay, type, name, renderer);
+			return equip;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
 		}
 	}
 	
@@ -381,6 +432,8 @@ public class ThingLibrary {
 				
 				creators.add(new WallCreator("barrel_2"));
 				creators.add(new WallCreator("barrel_3"));
+				
+				creators.add(new EquipmentCreator("sword_1", 5, 0, 0, 1500, "Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
 				
 				// TODO: stairs creator
 				
