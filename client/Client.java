@@ -1,11 +1,13 @@
 package client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import data.Database;
@@ -23,6 +25,7 @@ import game.*;
 public class Client implements ClientMessageHandler {
 	private Socket skt;
 	private String userName;
+	private String characterName = null;
 	private long userGID = -1;
 	private InputStreamReader in;
 	private BufferedReader reader;
@@ -94,8 +97,14 @@ public class Client implements ClientMessageHandler {
 			
 			NetworkListenerThread updater = new NetworkListenerThread(reader, this, world);
 
+			CharacterSelector dialog = new CharacterSelector();
+			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			dialog.setSize(new Dimension(640,400));
+			dialog.setVisible(true);
+			
 			// sending name
-			writer.write("uid::::" + uid + "::::bob\n");
+			characterName = dialog.getCharacterName();
+			writer.write("uid::::" + uid + "::::"+characterName+"\n");
 			updater.start();
 			writer.flush();
 
@@ -198,5 +207,9 @@ public class Client implements ClientMessageHandler {
 		if(view != null) {
 			view.incomingChat(message, color);
 		}
+	}
+	
+	public String getCharacterName() {
+		return characterName;
 	}
 }
