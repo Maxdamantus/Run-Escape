@@ -194,9 +194,12 @@ public class GameWorld {
 	public void schedule(final Runnable r, long d){
 		timer.schedule(new TimerTask(){
 			public void run(){
-				double a = Math.random();
-				synchronized(GameWorld.this){
-					r.run();
+				try{
+					synchronized(GameWorld.this){
+						r.run();
+					}
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 			}
 		}, d);
