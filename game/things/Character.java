@@ -177,9 +177,9 @@ public abstract class Character extends AbstractGameThing {
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
 	public void hurt(GameThing other){
-		int maxamt = 10 * (1 + strength / 100);
-		int minamt = 30 * (1 + strength / 100);
-		int damageamt = minamt + 1/attack * (maxamt - minamt);
+		int maxamt = (int) (10 * (double)(1 + strength / 100));
+		int minamt = (int) (30 * (double)(1 + strength / 100));
+		int damageamt = (int) (minamt + (double)1/attack * (maxamt - minamt));
 		if(other instanceof Character)
 			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
@@ -195,7 +195,7 @@ public abstract class Character extends AbstractGameThing {
 	
 	public void damage(int amt, Character from){
 		world().emitEmitSound(this, "character_" + renderer + "_ow");
-		health -= amt - (10*(1+defence/100));
+		health -= (int)(amt - (10*(double)(1+defence/100)));
 		System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 		if(health <= 0)
 			animate(renderer() + "_die");
