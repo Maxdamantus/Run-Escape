@@ -102,7 +102,8 @@ public class Level implements Iterable<GameThing> {
 				*/
 			if(where.equals(this))
 				return this;
-			Find.Node<Location> cur = Find.dijkstra(this, new Find.Nextator<Location>(){
+			Find.Nextator<Location> nextator;
+			Find.Node<Location> cur = Find.dijkstra(this, nextator = new Find.Nextator<Location>(){
 				private int x = 0;
 
 				public Iterable<Find.Node<Location>> next(Find.Node<Location> n){
@@ -130,6 +131,17 @@ public class Level implements Iterable<GameThing> {
 				return this;
 			while(!cur.from().value().equals(this))
 				cur = cur.from();
+				/*
+			if(!where.equals(cur.value())){
+				Location closest = null;
+				for(Direction d : Direction.values()){
+					Location p = cur.value().next(d);
+					if(closest == null || where.dist(p) < where.dist(closest))
+						closest = p;
+				}
+				return cur.value().direct(closest.direction());
+			}
+			*/
 			return cur.value();
 		}
 

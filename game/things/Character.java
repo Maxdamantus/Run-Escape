@@ -4,6 +4,8 @@ import game.*;
 
 import java.util.*;
 
+import util.*;
+
 // might want to subclass Player by this later, so Player and Enemy are both "Characters".
 
 public abstract class Character extends AbstractGameThing {
@@ -143,6 +145,13 @@ public abstract class Character extends AbstractGameThing {
 					if(l instanceof Level.Location){
 						Location ml = location();
 						if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
+							Level.Location closest = null;
+							for(Direction d : Direction.values()){
+								Level.Location p = ((Level.Location)ml).next(d);
+								if(closest == null || p.dist((Level.Location)l) < p.dist(closest))
+									closest = p;
+							}
+							location(((Level.Location)ml).direct(closest.direction()));
 							animate(renderer() + "_attack");
 							hurt(g);
 						}
