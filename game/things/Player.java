@@ -1,6 +1,7 @@
 package game.things;
 
 import game.*;
+import game.things.EquipmentGameThing.Slot;
 
 import serialization.*;
 
@@ -110,6 +111,19 @@ public class Player extends Character {
 	public String name(){
 		return name;
 	}
+	
+	
+	@Override
+	public String rendererState() { // TODO: depends on equipped state
+		if(equipment != null){
+			for(GameThing gt: equipment){
+				if(((EquipmentGameThing)gt).slot().equals(Slot.WEAPON)){
+					return "sword";
+				}
+			}
+		}
+		return "empty";
+	}
 
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>(super.interactions());
@@ -195,6 +209,7 @@ public class Player extends Character {
 			}
 		}
 		equipment.put(g);
+		update();
 	}
 	
 	public void unequip(EquipmentGameThing g) {

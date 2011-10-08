@@ -28,7 +28,7 @@ public abstract class Character extends AbstractGameThing {
 		return "character_" + renderer + "_" + rendererState();
 	}
 	
-	private String rendererState() { // TODO: depends on equipped state
+	public String rendererState() { // TODO: depends on equipped state
 		return "empty";
 	}
 
