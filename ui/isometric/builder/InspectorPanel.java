@@ -14,6 +14,7 @@ import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Area;
 
 import game.*;
+import game.things.OpenableFurniture;
 
 /**
  * A self-configuring panel for inspecting locations
@@ -87,7 +88,13 @@ public class InspectorPanel extends JFrame {
 				Iterable<game.GameThing> things = ((Level.Location) l).level().portion(new Area(((Level.Location)l).position(), 1, 1));
 				
 				for(game.GameThing t : things) {
-					GameThingInspector ins = new GameThingInspector(t, this);
+					GameThingInspector ins;
+					if(t instanceof OpenableFurniture) {
+						ins = new OpenableFurnitureInspector((OpenableFurniture)t, this);
+					}
+					else {
+						ins = new GameThingInspector(t, this);
+					}
 					getContentPane().add(ins);
 				}
 			}
