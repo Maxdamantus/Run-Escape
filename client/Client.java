@@ -98,15 +98,8 @@ public class Client implements ClientMessageHandler {
 			
 			NetworkListenerThread updater = new NetworkListenerThread(reader, this, world);
 
-			CharacterSelector dialog = new CharacterSelector();
-			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			dialog.setSize(new Dimension(640,400));
-			GUI.centerWindow(dialog);
-			dialog.setVisible(true);
 			
-			// sending name
-			characterName = dialog.getCharacterName();
-			writer.write("uid::::" + uid + "::::"+characterName+"\n");
+			writer.write("uid" + uid + "\n");
 			updater.start();
 			writer.flush();
 
@@ -213,5 +206,15 @@ public class Client implements ClientMessageHandler {
 	
 	public String getCharacterName() {
 		return characterName;
+	}
+
+	public void setCharacterName(String charName) {
+		try {
+			writer.write("cid " + charName+"\n");
+		} catch (IOException e) {
+			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
+		}
+		characterName = charName;
+		
 	}
 }

@@ -3,13 +3,17 @@ package client;
 import game.*;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
+
+import javax.swing.JDialog;
 
 import data.Database;
 
 import serialization.ParseException;
 import serialization.Tree;
+import util.GUI;
 
 /**
  * Handles all incoming network data
@@ -74,8 +78,18 @@ public class NetworkListenerThread extends Thread {
 					client.incomingChat(chatString, Color.YELLOW);
 
 				} else if (incoming.startsWith("uid")) { // if uid notification
+					String[] incomingStrings = incoming.substring(4).split("::::");
 					client.receivedUID(Long.parseLong(incoming.substring(4)));
 
+				} else if (incoming.startsWith("noid")) {
+					CharacterSelector dialog = new CharacterSelector();
+					dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+					dialog.setSize(new Dimension(640,400));
+					GUI.centerWindow(dialog);
+					dialog.setVisible(true);
+					
+					// sending name
+					client.setCharacterName(dialog.getCharacterName());
 				}
 			}
 			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
