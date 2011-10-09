@@ -19,4 +19,18 @@ public class ThingsS {
 
 		return u.serializer();
 	}	
+
+	public ShopItem.Generator<GameThing> makeGenerator(GameThing g){
+		final Serializer<GameThing> ser = makeSerializer(g.world());
+		final Tree tree = ser.write(g);
+		return new ShopItem.Generator<GameThing>(){
+			public GameThing create(){
+				try{
+					return ser.read(tree);
+				}catch(ParseException e){
+					throw new RuntimeException("wtf");
+				}
+			}
+		};
+	}
 }
