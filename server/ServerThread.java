@@ -54,7 +54,7 @@ public final class ServerThread {
 					String temp;
 					
 					temp = rd.readLine();
-					System.out.println(temp);
+					//System.out.println(temp);
 					if(temp == null) { // End of stream
 						break;
 					}
@@ -160,7 +160,7 @@ public final class ServerThread {
 	public void addDelta(WorldDelta d){
 		if(d.to() == usrGID || d.to() == -1){
 			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
-			System.out.print(deltaupdate);
+			//System.out.print(deltaupdate);
 			if(d.action() instanceof Say)
 				this.queueMessage("ctc " + deltaupdate + "\n");
 			else

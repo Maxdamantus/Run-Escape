@@ -13,6 +13,9 @@ import ui.isometric.libraries.IsoCharacterImageLibrary;
 import util.ImagePanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CharacterSelector extends JDialog {
 
@@ -39,7 +42,9 @@ public class CharacterSelector extends JDialog {
 	public CharacterSelector() {
 		this.setTitle("Please choose a character...");
 		radioGroup = new ButtonGroup();
-		charNames = IsoCharacterImageLibrary.getAllCharacters().toArray(new String[0]);
+		List<String> tempList = new ArrayList<String>(IsoCharacterImageLibrary.getAllCharacters());
+		Collections.sort(tempList);
+		charNames = tempList.toArray(new String[0]);
 		if (charNames.length < 8) {
 			int i = 0;
 			String[] replacementArray = new String[8];
@@ -52,7 +57,7 @@ public class CharacterSelector extends JDialog {
 			charNames = replacementArray;
 			
 		}
-		charNames.toString();
+		
 		
 		
 		setBounds(100, 100, 450, 300);
