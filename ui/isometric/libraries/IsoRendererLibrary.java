@@ -160,40 +160,37 @@ public class IsoRendererLibrary {
 		 */
 		protected static class Serializer implements serialization.Serializer<ImageType> {
 			@Override
-			public ImageType read(Tree in) throws ParseException {
-				serialization.Serializer<Map<String, String>> deserializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
-				Map<String, String> store = deserializer.read(in);
-				
+			public ImageType read(Tree in) throws ParseException {				
 				int off = 0;
-				String l = store.get(Y_OFFSET);
-				if(l != null && l.length() > 0) {
+				try {
+					String l = in.find(Y_OFFSET).value();
 					off = Integer.parseInt(l);
 				}
+				catch(ParseException e) {};
 				
 				int frames = 0;
-				String f = store.get(FRAME_COUNT);
-				if(f != null && f.length() > 0) {
+				try {
+					String f = in.find(FRAME_COUNT).value();
 					frames = Integer.parseInt(f);
 				}
+				catch(ParseException e) {};
 				
-				return new ImageType(store.get(NAME), Type.valueOf(store.get(TYPE)), off, frames);
+				return new ImageType(in.find(NAME).value(), Type.valueOf(in.find(TYPE).value()), off, frames);
 			}
 
 			@Override
 			public Tree write(ImageType in) {
-				HashMap<String, String> store = new HashMap<String, String>();
-				store.put(NAME, in.imageName);
-				store.put(TYPE, in.type.name());
+				Tree out = new Tree();
+				out.add(new Tree.Entry(NAME, new Tree(in.imageName)));
+				out.add(new Tree.Entry(TYPE, new Tree(in.type.name())));
 				if(in.offset != 0) {
-					store.put(Y_OFFSET, in.offset+"");
+					out.add(new Tree.Entry(Y_OFFSET, new Tree(in.offset+"")));
 				}
 				if(in.frames != 0) {
-					store.put(Y_OFFSET, in.frames+"");
+					out.add(new Tree.Entry(FRAME_COUNT, new Tree(in.frames+"")));
 				}
 				
-				serialization.Serializer<Map<String, String>> serializer = new Serializers.Map<String, String>(Serializers.Serializer_String, Serializers.Serializer_String);
-				
-				return serializer.write(store);
+				return out;
 			}
 		}
 		
@@ -306,7 +303,7 @@ public class IsoRendererLibrary {
 					renderers.put(key, types.get(key).load());
 					offsets.put(key, types.get(key).yoffset());
 				}
-				
+								
 				maskTile = imageForRendererName(MASK_TILE_NAME, Direction.NORTH).image();
 			}
 		}
