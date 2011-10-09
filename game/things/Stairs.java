@@ -6,7 +6,7 @@ import java.util.*;
 import util.*;
 
 public class Stairs extends AbstractGameThing {
-	private final int up, down;
+	private int up, down;
 	private final String renderer;
 
 	public Stairs(GameWorld w, String r, int u, int d){
@@ -62,6 +62,11 @@ public class Stairs extends AbstractGameThing {
 	public boolean canWalkInto(Direction d, Character c){
 		return false;
 	}
+
+	public int up(){ return up; }
+	public int up(int s){ return up = s; }
+	public int down(){ return down; }
+	public int down(int s){ return down = s; }
 
 	public int renderLevel(){
 		return ui.isometric.abstractions.IsoSquare.WALL;
