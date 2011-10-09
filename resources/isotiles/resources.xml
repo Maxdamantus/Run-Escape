@@ -112,9 +112,9 @@
     </v>
   </i>
   <i>
-    <k>stairs_grey_1</k>
+    <k>stairs_grey_up_1</k>
     <v>
-      <name>stairs_grey_1</name>
+      <name>stairs_grey_up_1</name>
       <type>IMAGE4</type>
     </v>
   </i>
@@ -133,9 +133,9 @@
     </v>
   </i>
   <i>
-    <k>stairs_grey_2</k>
+    <k>stairs_grey_up_2</k>
     <v>
-      <name>stairs_grey_2</name>
+      <name>stairs_grey_up_2</name>
       <type>IMAGE4</type>
     </v>
   </i>
@@ -155,9 +155,9 @@
     </v>
   </i>
   <i>
-    <k>stairs_grey_3</k>
+    <k>stairs_grey_up_3</k>
     <v>
-      <name>stairs_grey_3</name>
+      <name>stairs_grey_up_3</name>
       <type>IMAGE4</type>
     </v>
   </i>
@@ -751,9 +751,9 @@
     </v>
   </i>
   <i>
-    <k>stairs_brown_1</k>
+    <k>stairs_brown_up_1</k>
     <v>
-      <name>stairs_brown_1</name>
+      <name>stairs_brown_up_1</name>
       <type>IMAGE4</type>
     </v>
   </i>
