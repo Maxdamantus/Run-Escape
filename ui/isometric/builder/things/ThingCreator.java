@@ -2,6 +2,7 @@ package ui.isometric.builder.things;
 
 import game.GameThing;
 import game.GameWorld;
+import game.Location;
 
 import java.awt.image.BufferedImage;
 import java.util.Set;
@@ -13,11 +14,12 @@ import java.util.Set;
  */
 public interface ThingCreator {
 	/**
-	 * Create a new GameThing
+	 * Create a new GameThing with a given world and location
 	 * @param w
+	 * @param l 
 	 * @return
 	 */
-	public GameThing createThing(GameWorld w);
+	public GameThing createThing(GameWorld w, Location l);
 	
 	/**
 	 * A preview image of the thing this will create

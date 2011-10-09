@@ -135,7 +135,7 @@ public class IsoInterfaceWorldBuilder {
 					
 					if(storedCreator != null) {
 						canvas.calculateTypesAtAtPoint(event.getPoint());
-						dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH).put(storedCreator.createThing(world));
+						l.put(storedCreator.createThing(world, l));
 					}
 				}
 				else {
@@ -161,7 +161,8 @@ public class IsoInterfaceWorldBuilder {
 					storedCreator = creator;
 					IsoCanvas canvas = (IsoCanvas)onto;
 					canvas.calculateTypesAtAtPoint(location);
-					dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH).put(creator.createThing(world));
+					Location l = dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH);
+					l.put(creator.createThing(world, l));
 				}
 			}
 		})));

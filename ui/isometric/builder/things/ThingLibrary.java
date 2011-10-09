@@ -2,6 +2,7 @@ package ui.isometric.builder.things;
 
 import game.GameThing;
 import game.GameWorld;
+import game.Location;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -45,7 +46,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			return new game.things.GroundTile(w, renderer, willBlock);
 		}
 
@@ -82,7 +83,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.Player player = new game.things.Player(w, characterName);
 			return player;
 		}
@@ -128,7 +129,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.Wall wall = new game.things.Wall(w, renderer);
 			return wall;
 		}
@@ -172,7 +173,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.Door door = new game.things.Door(w, closedR, openR, open);
 			return door;
 		}
@@ -200,7 +201,7 @@ public class ThingLibrary {
 	 */
 	public static class SpawnPointCreator implements ThingCreator {
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.SpawnPoint spawn = new game.things.SpawnPoint(w);
 			return spawn;
 		}
@@ -241,7 +242,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.OpenableFurniture fur = new game.things.OpenableFurniture(w, renderer, open, null);
 			return fur;
 		}
@@ -302,7 +303,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.EquipmentGameThing equip = new game.things.EquipmentGameThing(w, attack, strength, defense, delay, type, name, renderer);
 			return equip;
 		}
@@ -346,7 +347,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.PickupGameThing pick = new game.things.Valuable(w, name, renderer, value);
 			return pick;
 		}
@@ -384,7 +385,7 @@ public class ThingLibrary {
 		}
 		
 		@Override
-		public GameThing createThing(GameWorld w) {
+		public GameThing createThing(GameWorld w, Location l) {
 			game.things.Coins coin = new game.things.Coins(w, amount);
 			return coin;
 		}
@@ -411,45 +412,49 @@ public class ThingLibrary {
 		}
 	}
 	
-//	/**
-//	 * A class that Creates NPC's
-//	 * @author melby
-//	 *
-//	 */
-//	public static class NPCCreator implements ThingCreator {		
-//		/**
-//		 * Create a NPCCreator
-//		 */
-//		public NPCCreator() {
-//		}
-//		
-//		@Override
-//		public GameThing createThing(GameWorld w) {
-//			game.things.Coins coin = new game.things.Coins(w, amount);
-//			return coin;
-//		}
-//
-//		@Override
-//		public BufferedImage previewImage() {
-//			return IsoRendererLibrary.imageForRendererName("coins_gold", Direction.NORTH).image();
-//		}
-//		
-//		@Override
-//		public Set<String> rendererNames() {
-//			return new HashSet<String>(){private static final long serialVersionUID = 1L;
-//				{
-//					add("coins_gold");
-//					add("coins_bronze");
-//					add("coins_silver");
-//				}
-//			};
-//		}
-//
-//		@Override
-//		public String description() {
-//			return amount+" "+(amount>1?"coins":"coin");
-//		}
-//	}
+	/**
+	 * A class that Creates NPC's
+	 * @author melby
+	 *
+	 */
+	public static class NPCCreator implements ThingCreator {		
+		private String renderer;
+		private String name;
+		private int distance;
+
+		public NPCCreator(String renderer, String name, int distance) {
+			this.renderer = renderer;
+			this.name = name;
+			this.distance = distance;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			game.things.Enemy enemy = new game.things.Enemy(w, renderer, name, l, distance);
+			return enemy;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;
+				{
+					add("character_"+renderer+"_empty");
+					add("character_"+renderer+"_empty_atack");
+					add("character_"+renderer+"_empty_die");
+				}
+			};
+		}
+
+		@Override
+		public String description() {
+			return "NPC: "+name;
+		}
+	}
 	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
@@ -644,6 +649,8 @@ public class ThingLibrary {
 				creators.add(new ValuableThingCreator("amber", "Amber", 0));
 				
 				creators.add(new CoinThingCreator(1));
+				
+				creators.add(new NPCCreator("bob", "Sir Robert", 10));
 				
 				creators.add(new SpawnPointCreator());
 				

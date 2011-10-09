@@ -67,7 +67,7 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 		this.setDropTarget(new DropTarget(this, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {
 			@Override
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
-				GameThing thing = creator.createThing(container.world());
+				GameThing thing = creator.createThing(container.world(), container);
 				if(thing instanceof PickupGameThing) {
 					container.put(thing);
 				}

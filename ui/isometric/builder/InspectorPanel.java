@@ -74,7 +74,7 @@ public class InspectorPanel extends JFrame {
 			@Override
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(loc != null) {
-					loc.put(creator.createThing(builder.gameWorld()));
+					loc.put(creator.createThing(builder.gameWorld(), loc));
 					signalUpdate();
 				}
 			}
