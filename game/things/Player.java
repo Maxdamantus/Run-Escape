@@ -269,4 +269,6 @@ public class Player extends Character {
 		out.put("luminance", "50");
 		return out;
 	}
+
+
 }
