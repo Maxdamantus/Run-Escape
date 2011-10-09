@@ -3,6 +3,7 @@ package game.things;
 import game.*;
 
 import java.util.*;
+import util.*;
 
 public class Stairs extends AbstractGameThing {
 	private final int up, down;
@@ -30,14 +31,17 @@ public class Stairs extends AbstractGameThing {
 	}
 
 	public void walkAndGo(final boolean goup, final Player p){
-		final Location l = location();
+		Location l = location();
 		if(l instanceof Level.Location)
 			p.moveTo((Level.Location)l, 1, new Runnable(){
 				public void run(){
-					if(goup)
-						((Level.Location)l).above(up).put(p);
-					else
-						((Level.Location)l).below(down).put(p);
+					Location pl = p.location();
+					if(pl instanceof Level.Location){
+						if(goup)
+							((Level.Location)pl).above(up).put(p);
+						else
+							((Level.Location)pl).below(down).put(p);
+					}
 				}
 			});
 	}
@@ -53,6 +57,10 @@ public class Stairs extends AbstractGameThing {
 
 	public String name(){
 		return "Stairs";
+	}
+
+	public boolean canWalkInto(Direction d, Character c){
+		return false;
 	}
 
 	public int renderLevel(){
