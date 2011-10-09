@@ -39,6 +39,7 @@ public class LibraryFrame extends JFrame {
 		
 		for(ThingCreator g : ThingLibrary.creators()) {
 			ImagePanel panel = new ImagePanel(g.previewImage());
+			panel.setToolTipText(g.description());
 			panel.addMouseListener(new MouseAdapter() {
 				@Override()
 			    public void mousePressed(MouseEvent e) {			        

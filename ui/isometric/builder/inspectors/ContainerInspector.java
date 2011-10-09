@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -85,9 +86,15 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 		container.lock().readLock().lock();
 		try {
 			for(GameThing g : container) {
-				ImagePanel panel = new ImagePanel(IsoInventoryImageLibrary.imageForName(g.renderer()));
-				panel.setDragObject(g);
-				this.getContentPane().add(panel);
+				BufferedImage image = IsoInventoryImageLibrary.imageForName(g.renderer());
+				if(image != null) {
+					ImagePanel panel = new ImagePanel(image);
+					panel.setDragObject(g);
+					this.getContentPane().add(panel);
+				}
+				else {
+					System.err.println("Null image for "+g.renderer());
+				}
 			}
 		}
 		finally {

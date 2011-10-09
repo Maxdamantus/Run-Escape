@@ -6,6 +6,7 @@ import game.GameWorld;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
+import ui.isometric.libraries.IsoInventoryImageLibrary;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 
@@ -57,6 +58,11 @@ public class ThingLibrary {
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
 		}
+
+		@Override
+		public String description() {
+			return "Ground: "+renderer;
+		}
 	}
 	
 	/**
@@ -65,38 +71,43 @@ public class ThingLibrary {
 	 *
 	 */
 	public static class PlayerCreator implements ThingCreator {
-		private String renderer;
+		private String characterName;
 		
 		/**
 		 * Create a player with a given renderer
-		 * @param rendererName
+		 * @param characterName
 		 */
-		public PlayerCreator(String rendererName) {
-			renderer = rendererName;
+		public PlayerCreator(String characterName) {
+			this.characterName = characterName;
 		}
 		
 		@Override
 		public GameThing createThing(GameWorld w) {
-			game.things.Player player = new game.things.Player(w, renderer);
+			game.things.Player player = new game.things.Player(w, characterName);
 			return player;
 		}
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image();
+			return IsoRendererLibrary.imageForRendererName("character_"+characterName+"_empty", Direction.NORTH).image();
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;
 				{
-					add("character_"+renderer+"_empty");
-					add("character_"+renderer+"_empty_attack");
-					add("character_"+renderer+"_empty_die");
-					add("character_"+renderer+"_sword");
-					add("character_"+renderer+"_sword_attack");
-					add("character_"+renderer+"_sword_die");
+					add("character_"+characterName+"_empty");
+					add("character_"+characterName+"_empty_attack");
+					add("character_"+characterName+"_empty_die");
+					add("character_"+characterName+"_sword");
+					add("character_"+characterName+"_sword_attack");
+					add("character_"+characterName+"_sword_die");
 				}};
+		}
+
+		@Override
+		public String description() {
+			return "Player: "+characterName;
 		}
 	}
 	
@@ -130,6 +141,11 @@ public class ThingLibrary {
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
+		}
+
+		@Override
+		public String description() {
+			return "Wall: "+renderer;
 		}
 	}
 	
@@ -170,6 +186,11 @@ public class ThingLibrary {
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(openR);add(closedR);}};
 		}
+
+		@Override
+		public String description() {
+			return "Door ("+(open?"open":"closed")+"): "+openR;
+		}
 	}
 	
 	/**
@@ -192,6 +213,11 @@ public class ThingLibrary {
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("spawn_point");}};
+		}
+
+		@Override
+		public String description() {
+			return "Spawn Point";
 		}
 	}
 	
@@ -233,6 +259,11 @@ public class ThingLibrary {
 					add(renderer+"_closed");
 				}
 			};
+		}
+
+		@Override
+		public String description() {
+			return "Openable Furniture ("+(open?"open":"closed")+"): "+renderer;
 		}
 	}
 	
@@ -278,12 +309,17 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
+			return IsoInventoryImageLibrary.imageForName(renderer);
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
+		}
+
+		@Override
+		public String description() {
+			return name+" (attack:"+attack+" strength:"+strength+" defense:"+defense+" delay:"+((float)defense/1000.0f)+"s)";
 		}
 	}
 	
@@ -323,6 +359,55 @@ public class ThingLibrary {
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
+		}
+
+		@Override
+		public String description() {
+			return name+" worth "+value;
+		}
+	}
+	
+	/**
+	 * A class that generates Coins
+	 * @author melby
+	 *
+	 */
+	public static class CoinThingCreator implements ThingCreator {
+		private int amount;
+		
+		/**
+		 * Create a CoinThingCreator with the amount of coins
+		 * @param amount
+		 */
+		public CoinThingCreator(int amount) {
+			this.amount = amount;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w) {
+			game.things.Coins coin = new game.things.Coins(w, amount);
+			return coin;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("coins_gold", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;
+				{
+					add("coins_gold");
+					add("coins_bronze");
+					add("coins_silver");
+				}
+			};
+		}
+
+		@Override
+		public String description() {
+			return amount+" "+(amount>1?"coins":"coin");
 		}
 	}
 	
@@ -512,12 +597,15 @@ public class ThingLibrary {
 				creators.add(new ValuableThingCreator("herbs_1", "Herbs", 0));
 				creators.add(new ValuableThingCreator("herbs_2", "Herbs", 0));
 				creators.add(new ValuableThingCreator("herbs_3", "Herbs", 0));
-				creators.add(new ValuableThingCreator("rope", "Rope", 0));
 				creators.add(new ValuableThingCreator("ruby", "Ruby", 0));
 				creators.add(new ValuableThingCreator("bar_gold", "Gold Bar", 0));
 				creators.add(new ValuableThingCreator("bar_steel", "Steel Bar", 0));
 				creators.add(new ValuableThingCreator("emerald", "Emerald", 0));
 				creators.add(new ValuableThingCreator("amber", "Amber", 0));
+				
+				creators.add(new CoinThingCreator(1));
+				creators.add(new CoinThingCreator(5));
+				creators.add(new CoinThingCreator(10));
 				
 				creators.add(new SpawnPointCreator());
 				

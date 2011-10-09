@@ -30,4 +30,10 @@ public interface ThingCreator {
 	 * @return
 	 */
 	public Set<String> rendererNames();
+
+	/**
+	 * Get the description of this creator and what it creates
+	 * @return
+	 */
+	public String description();
 }

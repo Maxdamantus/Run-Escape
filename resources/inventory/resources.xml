@@ -180,4 +180,16 @@
     <k>sword_12</k>
     <v>sword_12</v>
   </i>
+  <i>
+    <k>coins_bronze</k>
+    <v>coins_bronze</v>
+  </i>
+  <i>
+    <k>coins_silver</k>
+    <v>coins_silver</v>
+  </i>
+  <i>
+    <k>coins_gold</k>
+    <v>coins_gold</v>
+  </i>
 </tree>
