@@ -255,5 +255,9 @@ public class Player extends Character {
 		System.out.println("You examined it");
 	}
 
-
+	public Map<String, String> info(){
+		Map<String, String> out = new HashMap<String, String>(super.info());
+		out.put("luminance", "50");
+		return out;
+	}
 }
