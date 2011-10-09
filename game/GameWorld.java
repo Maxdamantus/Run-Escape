@@ -189,8 +189,11 @@ public class GameWorld { // TODO: try/finally for locks
 		emit(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt)), -1));
 	}
 
-	public void emitSay(GameThing gt, String what){
-		emit(new WorldDelta(new WorldDelta.Say(gt.gid(), what), -1));
+	public void emitSay(GameThing gt, GameThing dest, String what){
+		if(gt == null || dest == null)
+			emit(new WorldDelta(new WorldDelta.Say(-1, what), -1));
+		else
+			emit(new WorldDelta(new WorldDelta.Say(gt.gid(), what), dest.gid()));
 	}
 
 	public void emitAnimate(GameThing gt, String what){

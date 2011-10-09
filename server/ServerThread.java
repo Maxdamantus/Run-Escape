@@ -5,6 +5,7 @@ package server;
 import game.ClientMessage;
 import game.GameWorld;
 import game.WorldDelta;
+import game.WorldDelta.Say;
 import game.things.Player;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -88,15 +89,17 @@ public final class ServerThread {
 							ClientMessage msg = (ClientMessage.serializer(parent.model, parent.usrGID)).read(Tree.fromString(action));
 							msg.apply(parent.model);
 						}
+						//hopefully shouldnt be reached
 						else if(temp.startsWith("cts")) {
 							String chat = temp.substring(4);
-							final String msg = "ctc "+chat+"\n";
+/*							final String msg = "ctc "+chat+"\n";
 							parent.server.toAllPlayers(new Server.ClientMessenger() {
 								@Override
 								public void doTo(ServerThread client) {
 									client.queueMessage(msg);
 								}
-							});
+							})*/
+							parent.model.emitSay(null, null, chat);;
 						}
 					}
 					catch (Exception e) { // Catch everything while processing message
@@ -157,7 +160,11 @@ public final class ServerThread {
 	public void addDelta(WorldDelta d){
 		if(d.to() == usrGID || d.to() == -1){
 			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
-			this.queueMessage("upd " + deltaupdate + "\n");
+			System.out.print(deltaupdate);
+			if(d.action() instanceof Say)
+				this.queueMessage("ctc " + deltaupdate + "\n");
+			else
+				this.queueMessage("upd " + deltaupdate + "\n");
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package client;
 
 import game.*;
+import game.WorldDelta.Action;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -67,9 +68,14 @@ public class NetworkListenerThread extends Thread {
 					}
 
 				} else if (incoming.startsWith("ctc")) { // if chat
-					String chatString = incoming.substring(4);
-					String[] splitString = chatString.split("::::");
-					client.incomingChat(splitString[1], new Color(Integer.parseInt(splitString[0])));
+					String update = Database.unescapeNewLines(incoming.substring(4));
+					try {
+						WorldDelta.Action act = WorldDelta.SERIALIZER.read(Tree.fromString(update)).action();
+						client.incomingChat(((WorldDelta.Say)act).what(), Color.BLACK);
+					} catch (ParseException e) {
+						System.out.println("Tree fromString broke");
+					}
+					
 					
 
 				} else if (incoming.startsWith("svm")) { // if server message

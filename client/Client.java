@@ -126,47 +126,48 @@ public class Client implements ClientMessageHandler {
 
 
 	public void sendChat(String chatText) {
-		try {
-			if (debugMode)
-				System.out.print("Sent chat: " + chatText);
-			if (chatText.startsWith("/me"))
-				chatText = "*" + userName + " " + chatText.substring(4);
-			else if (chatText.startsWith("/color")) {
-				Color newColor = null;
-				if (chatText.substring(7).startsWith("#")) 
-						newColor = Color.decode("0x"+chatText.substring(8));
-				else {
-					//code from http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
-					Field field;
-					try {
-						field = Class.forName("java.awt.Color").getField(chatText.substring(7));
-						int rgb = ((Color)field.get(null)).getRGB();
-						newColor = new Color(rgb);
-					} catch (NoSuchFieldException e) {
-						view.incomingChat("GAME: Color \"" + chatText.substring(7) + "\" not found", Color.RED);
-					} catch (Exception e) {
-						if (debugMode) {
-							System.err.println("That's what you get for using reflection");
-							e.printStackTrace();
-						}
+		if (debugMode)
+			System.out.print("Sent chat: " + chatText);
+		if (chatText.startsWith("/me"))
+			chatText = "*" + userName + " " + chatText.substring(4);
+		else if (chatText.startsWith("/color")) {
+			Color newColor = null;
+			if (chatText.substring(7).startsWith("#")) 
+					newColor = Color.decode("0x"+chatText.substring(8));
+			else {
+				//code from http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
+				Field field;
+				try {
+					field = Class.forName("java.awt.Color").getField(chatText.substring(7));
+					int rgb = ((Color)field.get(null)).getRGB();
+					newColor = new Color(rgb);
+				} catch (NoSuchFieldException e) {
+					view.incomingChat("GAME: Color \"" + chatText.substring(7) + "\" not found", Color.RED);
+				} catch (Exception e) {
+					if (debugMode) {
+						System.err.println("That's what you get for using reflection");
+						e.printStackTrace();
 					}
-					
 				}
-				if (newColor != null) chatTextColor = newColor;
-				return;
-			} else if (chatText.startsWith("/resetcolor")) {
-				chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
-				return;
-			} else
-				chatText = userName + ": " + chatText;
+				
+			}
+			if (newColor != null) chatTextColor = newColor;
+			return;
+		} else if (chatText.startsWith("/resetcolor")) {
+			chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
+			return;
+		} else
+			chatText = userName + ": " + chatText;
 			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
-			writer.write(send);
-			writer.flush();
-		} catch (IOException e) {
-			Client.exit("Connection to server lost");
-		}
+			try {
+				writer.write(send);
+				writer.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 	}
-
 
 	/**
 	 * Exits the application with a Message Dialog explaining what happened

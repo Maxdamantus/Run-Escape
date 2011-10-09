@@ -241,7 +241,7 @@ public class Server{
 		lp.put(new game.things.OpenableFurniture(sgm,"cupboard_1"));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
 		ll.put(new game.things.GroundTile(sgm));
-		ll.put(new game.things.OpenableFurniture(sgm));
+		ll.put(new game.things.ChattyNPC(sgm, "bob", "Chatty Bob", "YOYOYOYO"));
 		ll.next(Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_north"));
 		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
 		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
