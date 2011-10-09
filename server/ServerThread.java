@@ -78,7 +78,7 @@ public final class ServerThread {
 							plyr.login();
 							System.err.println("plyr logged in");
 							parent.usrGID = plyr.gid();
-							parent.queueMessage("uid " + parent.usrGID + "\n");
+							parent.queueMessage("uid " + parent.usrGID + "::::" + character + "\n");
 						}
 						else if(temp.startsWith("cmg")){
 							String action = temp.substring(4);
