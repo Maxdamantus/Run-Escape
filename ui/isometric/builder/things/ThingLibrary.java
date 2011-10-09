@@ -470,7 +470,7 @@ public class ThingLibrary {
 	}
 	
 	/**
-	 * A class that Creates Shopkeepers
+	 * A class that creates Shopkeepers
 	 * @author melby
 	 *
 	 */
@@ -507,6 +507,49 @@ public class ThingLibrary {
 		@Override
 		public String description() {
 			return "Shopkeeper: "+name;
+		}
+	}
+	
+	/**
+	 * A class that creates Stairs
+	 * @author melby
+	 *
+	 */
+	public static class StairCreator implements ThingCreator {		
+		private String renderer;
+		private int levels;
+
+		/**
+		 * Create a StairCreator with a given renderer and number of levels
+		 * @param renderer
+		 * @param levels
+		 */
+		public StairCreator(String renderer, int levels) {
+			this.renderer = renderer;
+			this.levels = levels;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			int up = levels>0?levels:0;
+			int down = levels<0?-levels:0;
+			game.things.Stairs stair = new game.things.Stairs(w, renderer, up, down);
+			return stair;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
+		}
+
+		@Override
+		public String description() {
+			return "Stairs: "+renderer;
 		}
 	}
 	
@@ -706,6 +749,15 @@ public class ThingLibrary {
 				
 				creators.add(new NPCCreator("bob", "Sir Robert", 10));
 				creators.add(new ShopkeeperCreator("bob", "Shop Keeper"));
+				
+				creators.add(new StairCreator("stairs_brown_up_1", 1));
+				creators.add(new StairCreator("stairs_brown_down_1", -1));
+				creators.add(new StairCreator("stairs_grey_up_1", 1));
+				creators.add(new StairCreator("stairs_grey_down_1", -1));
+				creators.add(new StairCreator("stairs_grey_up_2", 1));
+				creators.add(new StairCreator("stairs_grey_down_2", -1));
+				creators.add(new StairCreator("stairs_grey_up_3", 1));
+				creators.add(new StairCreator("stairs_grey_down_3", -1));
 				
 				creators.add(new SpawnPointCreator());
 				
