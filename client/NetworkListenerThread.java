@@ -50,7 +50,6 @@ public class NetworkListenerThread extends Thread {
 			// read from the reader continuously
 			while (true) {
 				String incoming = reader.readLine();
-				System.out.println(incoming);
 				if (incoming == null) break;// indicates connection lost
 				
 				if (incoming.startsWith("log")) { // if message
