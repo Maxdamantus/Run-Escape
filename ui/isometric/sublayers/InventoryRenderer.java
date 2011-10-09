@@ -422,6 +422,10 @@ public class InventoryRenderer extends LargePanel {
 		
 		if(i != null) { // TODO: placeholder image '?'?
 			g.drawImage(i, x, y, null);
+			String amount = thing.info().get("stackcount");
+			if(amount != null) {
+				g.drawString(amount, 0, 0);
+			}
 			dynmAreas.add(new ClickArea(x, y, imageSize, imageSize, new ClickArea.ClickAction.GameThingAction(thing)));
 		}
 		else {
