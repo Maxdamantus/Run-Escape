@@ -7,7 +7,7 @@ import util.*;
 
 import serialization.*;
 
-public class Enemy extends Character {
+public class Enemy extends Character implements Namable {
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -36,7 +36,7 @@ public class Enemy extends Character {
 		});
 	}
 
-	private final String name;
+	private String name;
 	private final Location start;
 	private final int wanderdist;
 
@@ -62,6 +62,10 @@ public class Enemy extends Character {
 
 	public String name(){
 		return name;
+	}
+
+	public String name(String s){
+		return name = s;
 	}
 
 	public List<String> interactions(){

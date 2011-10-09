@@ -151,9 +151,11 @@ public class Player extends Character {
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
 		if(health() <= 0){
-			SpawnPoint sp = world().getSpawnPoint();
-			if(sp != null)
+			SpawnPoint sp = world().getSpawnPoint(location(), this);
+			if(sp != null){
+				System.out.println("sp != null");
 				sp.location().put(this);
+			}
 			health(1000);
 		}
 	}
