@@ -21,6 +21,7 @@ public class ShopKeeper extends Character implements Containable, Namable {
 	public Container addPart(String name){
 		Container c = new Container(world());
 		parts.put(name, c);
+		update();
 		return c;
 	}
 
