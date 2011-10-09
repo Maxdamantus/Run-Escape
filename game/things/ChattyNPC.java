@@ -6,6 +6,7 @@ import game.Level;
 import game.Location;
 import game.LocationS;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ChattyNPC extends Character {
 				Tree out = new Tree();
 				out.add(new Tree.Entry("type", new Tree(in.type())));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
-				out.add(new Tree.Entry("response", new Tree(in.response)));
+				out.add(new Tree.Entry("response", Serializers.list(Serializers.Serializer_String).write(response)));
 				return out;
 			}
 
@@ -39,21 +40,24 @@ public class ChattyNPC extends Character {
 				return new ChattyNPC(world,
 					in.find("type").value(),
 					in.find("name").value(),
-					in.find("response").value());
+					Serializers.list(Serializers.Serializer_String).read(in.find("response")));
 			}
 		});
 	}
 
 	private final String name;
-	private final String response;
+	private static List<String> response;
+	private boolean talked;
+	private int i;
 
-	public ChattyNPC(GameWorld world, String t, String n, String resp){
+	public ChattyNPC(GameWorld world, String t, String n, List<String> resp){
 		super(world, t);
 		name = n;
 		response = resp;
 		health(1000);
 		setStats(1,1,1,1);
 		update();
+		i = 0;
 
 	}
 
@@ -69,8 +73,22 @@ public class ChattyNPC extends Character {
 	}
 
 	public void interact(String name, Player who){
-		if(name.equals("talk"))
-			world().emitSay(this, who, name()+": "+response);
+		if(name.equals("talk")){
+			if(talked == false){
+				world().emitSay(this, who, name()+": "+response.get(response.size()-2));
+				talked = true;
+				i++;
+			}
+			else if(i < 20){
+				world().emitSay(this, who, name()+": "+response.get((int)(Math.random()*response.size()-2)));
+				i++;
+			}
+			else{
+				world().emitSay(this, who, name()+": "+response.get(response.size()-1));
+				i=0;
+			}
+			
+		}
 		else super.interact(name, who);
 	}
 }

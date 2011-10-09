@@ -241,7 +241,13 @@ public class Server{
 		lp.put(new game.things.OpenableFurniture(sgm,"cupboard_1"));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
 		ll.put(new game.things.GroundTile(sgm));
-		ll.put(new game.things.ChattyNPC(sgm, "bob", "Chatty Bob", "YOYOYOYO"));
+		List<String> spoken = new ArrayList<String>();
+		spoken.add(0,"Hmm, this isnt a very nice place is it");
+		spoken.add(1,"You need to get out of here? Try the towers");
+		spoken.add(2,"Those doors will need keys");
+		spoken.add(3,"Hi, my name is Bob, nice to meet you");
+		spoken.add(4,"Your such a bender, stop stalking me");
+		ll.put(new game.things.ChattyNPC(sgm, "bob", "Chatty Bob", spoken));
 		ll.next(Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_north"));
 		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
 		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
