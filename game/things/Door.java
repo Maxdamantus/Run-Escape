@@ -69,13 +69,16 @@ public class Door extends AbstractGameThing implements Togglable {
 		}
 	}
 
-	public void walkAndSet(final boolean s, Player p){
+	
+	public void walkAndSetOpen(final boolean s, final Player p, final String say){
 		Location l = location();
+		final GameThing g = this;
 		if(l instanceof Level.Location)
 			p.moveTo((Level.Location)l, 1, new Runnable(){
 				public void run(){
 					open = s;
 					update();
+					world().emitSay(g, p, say);
 				}
 			});
 	}
@@ -83,22 +86,19 @@ public class Door extends AbstractGameThing implements Togglable {
 	@Override
 	public void interact(String inter, Player who) {
 		if(inter.equals("close"))
-			walkAndSet(false, who);
+			walkAndSetOpen(false, who, "You close the door");
 		else if(inter.equals("open")){
 			if(doorcode != null){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
-						walkAndSet(true, who);
-						world().emitSay(this, who, "You unlock the door");
+						walkAndSetOpen(true, who, "You unlock & open the door");
 						return;
 					}
 				}
-				walkAndSet(false, who);
-				world().emitSay(this, who, "You cant open the "+doorcode+" door, its locked");
+				walkAndSetOpen(false, who, "You cant open the "+doorcode+" door, its locked");
 			}
 			else{
-				walkAndSet(true, who);
-				world().emitSay(this, who, "You unlock the door");
+				walkAndSetOpen(true, who, "You unlock the door");
 			}
 		}
 		else super.interact(inter, who);

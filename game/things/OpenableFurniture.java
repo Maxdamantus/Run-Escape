@@ -117,35 +117,40 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		return returnmap;
 	}
 	
-	public void walkAndSet(final boolean s, Player p){
+	public void walkAndSetOpen(final boolean s, final Player p, final String say){
 		Location l = location();
+		final GameThing g = this;
 		if(l instanceof Level.Location)
 			p.moveTo((Level.Location)l, 1, new Runnable(){
 				public void run(){
 					open = s;
 					update();
+					world().emitSay(g, p, say);
 				}
 			});
 	}
 	
+
+	
 	public void interact(String name, game.things.Player who){
 		if(name.equals("close"))
-			walkAndSet(false, who);
+			walkAndSetOpen(false, who, "You close the chest");
 		else if(name.equals("open")){
 			if(doorcode != null){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
-						walkAndSet(true, who);
-						world().emitSay(this, who, "You open the chest");
+						walkAndSetOpen(true, who, "You unlock & open the chest");
 						return;
 					}
 				}
-				walkAndSet(false, who);
-				world().emitSay(this, who, "You cant open the "+doorcode+" chest, its locked");
+				walkAndSetOpen(false, who, "You cant open the "+doorcode+" chest, its locked");
+			}
+			else{
+				walkAndSetOpen(true, who, "You open the chest");
 			}
 		}
 		else if(name.equals("view contents")){
-			walkAndSet(true,who);
+			walkAndSetOpen(true,who, "You peer inside");
 			who.showContainer(contents, renderer);
 		}
 		else super.interact(name, who);
