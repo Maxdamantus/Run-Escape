@@ -5,6 +5,7 @@ import game.GameThing;
 import game.things.EquipmentGameThing;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -424,7 +425,10 @@ public class InventoryRenderer extends LargePanel {
 			g.drawImage(i, x, y, null);
 			String amount = thing.info().get("stackcount");
 			if(amount != null) {
-				g.drawString(amount, 0, 0);
+				Font f = g.getFont();
+				g.setFont(new Font("Helvetica", Font.PLAIN, 9));
+				g.drawString(amount, x+1, y+g.getFontMetrics().getHeight()+1);
+				g.setFont(f);
 			}
 			dynmAreas.add(new ClickArea(x, y, imageSize, imageSize, new ClickArea.ClickAction.GameThingAction(thing)));
 		}
