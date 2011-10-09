@@ -129,7 +129,7 @@ public class Client implements ClientMessageHandler {
 		if (debugMode)
 			System.out.print("Sent chat: " + chatText);
 		if (chatText.startsWith("/me"))
-			chatText = "*" + userName + " " + chatText.substring(4);
+			if (chatText.length() > 4) chatText = "*" + userName + " " + chatText.substring(4);
 		else if (chatText.startsWith("/color")) {
 			Color newColor = null;
 			if (chatText.substring(7).startsWith("#")) 
