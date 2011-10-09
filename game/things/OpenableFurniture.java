@@ -7,7 +7,7 @@ import serialization.*;
 import util.Direction;
 import game.*;
 
-public class OpenableFurniture extends AbstractGameThing implements Togglable {
+public class OpenableFurniture extends AbstractGameThing implements Togglable, Containable {
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -98,7 +98,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable {
 		return renderer;
 	}
 	
-	public Map<String,Container> getContainer(){
+	public Map<String,Container> getContainers(){
 		Map<String,Container> returnmap = new HashMap<String,Container>();
 		if(contents != null){
 			returnmap.put("contents", contents);
