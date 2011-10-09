@@ -444,7 +444,7 @@ public class ThingLibrary {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;
 				{
 					add("character_"+renderer+"_empty");
-					add("character_"+renderer+"_empty_atack");
+					add("character_"+renderer+"_empty_attack");
 					add("character_"+renderer+"_empty_die");
 				}
 			};
