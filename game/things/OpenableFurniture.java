@@ -22,13 +22,14 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 				out.add(new Tree.Entry("type", new Tree(in.renderer)));
 				out.add(new Tree.Entry("state", new Tree(Boolean.toString(in.open))));
 				out.add(new Tree.Entry("contents", Container.serializer(union.serializer(), world).write(in.contents)));
-				
+				out.add(new Tree.Entry("doorcode", new Tree(in.doorcode)));
 				return out;
 			}
 
 			public GameThing read(Tree in) throws ParseException {
 				return new OpenableFurniture(world, in.find("type").value(), Boolean.parseBoolean(in.find("open").value()), 
-						Container.serializer(union.serializer(), world).read(in.find("contents")));
+						Container.serializer(union.serializer(), world).read(in.find("contents")),
+						in.find("doorcode").value());
 			}
 		});
 	}
@@ -36,10 +37,11 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 	private final String renderer;
 	private boolean open;
 	private final Container contents;
+	private String doorcode;
 
 	
 	//For reading in (serializer to be completed)
-	public OpenableFurniture(GameWorld world, String name, boolean open, Container cont){
+	public OpenableFurniture(GameWorld world, String name, boolean open, Container cont, String doorcode){
 		super(world);
 		renderer = name;
 		if(cont != null){
@@ -49,6 +51,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 			this.contents = new Container(world);
 		}
 		this.open = open;
+		this.doorcode = doorcode;
 		update();
 	}
 	
@@ -120,8 +123,19 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 	public void interact(String name, game.things.Player who){
 		if(name.equals("close"))
 			walkAndSet(false, who);
-		else if(name.equals("open"))
-			walkAndSet(true, who);
+		else if(name.equals("open")){
+			if(doorcode != null){
+				for(GameThing gt : who.inventory().contents()){
+					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
+						walkAndSet(true, who);
+						world().emitSay(this, who, "You open the chest");
+						return;
+					}
+				}
+				walkAndSet(false, who);
+				world().emitSay(this, who, "You cant open the "+doorcode+" chest, its locked");
+			}
+		}
 		else if(name.equals("view contents")){
 			walkAndSet(true,who);
 			who.showContainer(contents, renderer);
