@@ -12,12 +12,11 @@ public abstract class Stackable extends PickupGameThing {
 	public Location location(Location l){
 		if(l != LocationS.NOWHERE)
 			for(GameThing g : l.contents())
-				if(g != this && g instanceof Stackable && ((Stackable)g).merge(this)){
-					LocationS.NOWHERE.put(this);
+				if(g != this && g instanceof Stackable && merge((Stackable)g)){
+					LocationS.NOWHERE.put(g);
 					forget();
-					return super.location(LocationS.NOWHERE);
+					break;
 				}
-		System.out.println("super.location(" + l + ")");
 		return super.location(l);
 	}
 
