@@ -71,7 +71,8 @@ public class NetworkListenerThread extends Thread {
 					String update = Database.unescapeNewLines(incoming.substring(4));
 					try {
 						WorldDelta.Action act = WorldDelta.SERIALIZER.read(Tree.fromString(update)).action();
-						client.incomingChat(((WorldDelta.Say)act).what(), Color.WHITE);
+						String[] chat = ((WorldDelta.Say)act).what().split("::::");
+						client.incomingChat(chat[1], new Color(Integer.parseInt(chat[0])));
 					} catch (ParseException e) {
 						System.out.println("Tree fromString broke");
 					}

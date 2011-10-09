@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <tree>
   <i>
+    <k>amy</k>
+    <v>amy</v>
+  </i>
+  <i>
     <k>bob</k>
     <v>bob</v>
   </i>
