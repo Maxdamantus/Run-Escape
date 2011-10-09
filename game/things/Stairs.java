@@ -8,12 +8,14 @@ import util.*;
 public class Stairs extends AbstractGameThing {
 	private int up, down;
 	private final String renderer;
+	private final Direction allow;
 
-	public Stairs(GameWorld w, String r, int u, int d){
+	public Stairs(GameWorld w, String r, int u, int d, Direction a){
 		super(w);
 		up = u;
 		down = d;
 		renderer = r;
+		allow = a;
 	}
 
 	public String renderer(){
@@ -33,7 +35,7 @@ public class Stairs extends AbstractGameThing {
 	public void walkAndGo(final boolean goup, final Player p){
 		Location l = location();
 		if(l instanceof Level.Location)
-			p.moveTo((Level.Location)l, 1, new Runnable(){
+			p.moveTo(((Level.Location)l).next(allow), 0, new Runnable(){
 				public void run(){
 					Location pl = p.location();
 					if(pl instanceof Level.Location){

@@ -11,6 +11,7 @@ import util.*;
 public abstract class Character extends AbstractGameThing {
 	private String renderer;
 	private int health;
+	private int maxhealth;
 	private int attack;
 	private int strength;
 	private int defence, delay;
@@ -49,13 +50,10 @@ public abstract class Character extends AbstractGameThing {
 		return renderer;
 	}
 
-	public int health(){
-		return health;
-	}
-
-	public int health(int s){
-		return health = s;
-	}
+	public int health(){ return health; }
+	public int health(int s){ return health = s; }
+	public int maxhealth(){ return maxhealth; }
+	public int maxhealth(int s){ return maxhealth = s; }
 
 	public int walkdelay(){
 		return 50;
@@ -205,6 +203,7 @@ public abstract class Character extends AbstractGameThing {
 				dying(true);
 				animate(renderer() + "_die");
 			}
+			update();
 		}
 	}
 
@@ -232,4 +231,11 @@ public abstract class Character extends AbstractGameThing {
 		return ui.isometric.abstractions.IsoSquare.CHARACTER;
 	}
 
+	public Map<String, String> info(){
+		if(maxhealth() <= health())
+			return super.info();
+		Map<String, String> out = new HashMap<String, String>(super.info());
+		out.put("health", String.valueOf((double)health/maxhealth));
+		return out;
+	}
 }
