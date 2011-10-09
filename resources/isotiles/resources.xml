@@ -1453,4 +1453,32 @@
       <y-offset>7</y-offset>
     </v>
   </i>
+  <i>
+    <k>stairs_brown_down_1</k>
+    <v>
+      <name>stairs_brown_down_1</name>
+      <type>IMAGE4</type>
+    </v>
+  </i>
+  <i>
+    <k>stairs_grey_down_1</k>
+    <v>
+      <name>stairs_grey_down_1</name>
+      <type>IMAGE4</type>
+    </v>
+  </i>
+  <i>
+    <k>stairs_grey_down_2</k>
+    <v>
+      <name>stairs_grey_down_2</name>
+      <type>IMAGE4</type>
+    </v>
+  </i>
+  <i>
+    <k>stairs_grey_down_3</k>
+    <v>
+      <name>stairs_grey_down_3</name>
+      <type>IMAGE4</type>
+    </v>
+  </i>
 </tree>
