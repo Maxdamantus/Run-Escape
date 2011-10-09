@@ -41,7 +41,7 @@ public class Server{
 		boolean fromSave = false;		
 		
 		int port = DEFAULT_PORT;
-		String choice = "NewGame";
+		String choice;
 		Object[] possibilities = {"NewGame", "LoadGame"};
 		choice = (String)JOptionPane.showInputDialog(
 			                    null,
@@ -51,6 +51,8 @@ public class Server{
 			                    null,
 			                    possibilities,
 			                    "NewGame");
+		if(choice == null)
+			choice = "NewGame";
 		
 		if(choice.equals("LoadGame")){
 			fromSave = true;
@@ -225,8 +227,8 @@ public class Server{
 				sgm.level(0).location(new Position(x, y + 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_1"));
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
-				String name = ll.position().equals(new Position(0, 2))? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
-				ll.rotate(ll.position().equals(new Position(0, 2))? Direction.WEST : Direction.EAST).put(new game.things.Wall(sgm, name));
+				String name = ll.position().equals(new Position(0, 0)) && false? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
+				ll.rotate(ll.position().equals(new Position(0, 0))? Direction.WEST : Direction.EAST).put(new game.things.Wall(sgm, name));
 				ll = ll.next(ll.direction());
 			}
 			ll = ll.rotate(Direction.EAST);
@@ -236,7 +238,9 @@ public class Server{
 		sgm.level(0).location(new Position(-15, -15), Direction.EAST).put(new game.things.TestPickUp(sgm));
 		sgm.level(0).location(new Position(-15,-14), Direction.NORTH).put(new game.things.EquipmentGameThing(sgm, 3, 3, 3, 3, Slot.WEAPON, "Short sword", "sword_1"));
 		sgm.level(0).location(new Position(-15,-14), Direction.NORTH).put(new game.things.GroundTile(sgm));
-		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.SpawnPoint(sgm));
+		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_grey_1_door_open", "wall_grey_1_door_closed", false, "hello"));
+		sgm.level(0).location(new Position(1, 1), Direction.EAST).put(new game.things.SpawnPoint(sgm));
+		sgm.level(0).location(new Position(1, 1), Direction.EAST).put(new game.things.Key(sgm,"ruby","hello"));
 		game.Level.Location lp = sgm.level(0).location(new Position(14, 15), Direction.NORTH);
 		lp.put(new game.things.OpenableFurniture(sgm,"cupboard_1"));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);

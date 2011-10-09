@@ -159,22 +159,25 @@ public class ThingLibrary {
 		private String openR;
 		private String closedR;
 		private boolean open;
+		private String doorcode;
 		
 		/**
 		 * Create a door with given renderer + open state
 		 * @param closedR - closed renderer
 		 * @param openR - open renderer
 		 * @param open - open state
+		 * @param doorcode - unlock code
 		 */
-		public DoorCreator(String closedR, String openR, boolean open) {
+		public DoorCreator(String closedR, String openR, boolean open, String doorcode) {
 			this.openR = openR;
 			this.closedR = closedR;
 			this.open = open;
+			this.doorcode = doorcode;
 		}
 		
 		@Override
 		public GameThing createThing(GameWorld w, Location l) {
-			game.things.Door door = new game.things.Door(w, closedR, openR, open);
+			game.things.Door door = new game.things.Door(w, closedR, openR, open, doorcode);
 			return door;
 		}
 
@@ -570,35 +573,35 @@ public class ThingLibrary {
 				creators.add(new WallCreator("wall_brown_1_t"));
 				creators.add(new WallCreator("wall_brown_1_straight"));
 				
-				creators.add(new DoorCreator("wall_brown_1_door_closed", "wall_brown_1_door_open", false));
+				creators.add(new DoorCreator("wall_brown_1_door_closed", "wall_brown_1_door_open", false, null));
 				
 				creators.add(new WallCreator("wall_grey_1_corner"));
 				creators.add(new WallCreator("wall_grey_1_x"));
 				creators.add(new WallCreator("wall_grey_1_t"));
 				creators.add(new WallCreator("wall_grey_1_straight"));
 				
-				creators.add(new DoorCreator("wall_grey_1_door_closed", "wall_grey_1_door_open", false));
+				creators.add(new DoorCreator("wall_grey_1_door_closed", "wall_grey_1_door_open", false, null));
 				
 				creators.add(new WallCreator("wall_grey_2_corner"));
 				creators.add(new WallCreator("wall_grey_2_x"));
 				creators.add(new WallCreator("wall_grey_2_t"));
 				creators.add(new WallCreator("wall_grey_2_straight"));
 				
-				creators.add(new DoorCreator("wall_grey_2_door_closed", "wall_grey_2_door_open", false));
+				creators.add(new DoorCreator("wall_grey_2_door_closed", "wall_grey_2_door_open", false, null));
 				
 				creators.add(new WallCreator("wall_grey_3_corner"));
 				creators.add(new WallCreator("wall_grey_3_x"));
 				creators.add(new WallCreator("wall_grey_3_t"));
 				creators.add(new WallCreator("wall_grey_3_straight"));
 				
-				creators.add(new DoorCreator("wall_grey_3_door_closed", "wall_grey_3_door_open", false));
+				creators.add(new DoorCreator("wall_grey_3_door_closed", "wall_grey_3_door_open", false, null));
 				
 				creators.add(new WallCreator("wall_grey_4_corner"));
 				creators.add(new WallCreator("wall_grey_4_x"));
 				creators.add(new WallCreator("wall_grey_4_t"));
 				creators.add(new WallCreator("wall_grey_4_straight"));
 				
-				creators.add(new DoorCreator("wall_grey_4_door_closed", "wall_grey_4_door_open", false));
+				creators.add(new DoorCreator("wall_grey_4_door_closed", "wall_grey_4_door_open", false, null));
 				
 				creators.add(new GroundCreator("ground_grey_tile_2_corner"));
 				creators.add(new GroundCreator("ground_grey_tile_2_one_side"));

@@ -24,23 +24,28 @@ public class Door extends AbstractGameThing implements Togglable {
 				out.add(new Tree.Entry("open", new Tree(in.openRenderer)));
 				out.add(new Tree.Entry("close", new Tree(in.closedRenderer)));
 				out.add(new Tree.Entry("state", Serializers.Serializer_Boolean.write(in.open)));
+				out.add(new Tree.Entry("doorcode", new Tree(in.openRenderer)));
 				return out;
 			}
 
 			public GameThing read(Tree in) throws ParseException {
-				return new Door(world, in.find("close").value(), in.find("open").value(), Serializers.Serializer_Boolean.read(in.find("state")));
+				return new Door(world, in.find("close").value(), in.find("open").value(),
+						Serializers.Serializer_Boolean.read(in.find("state")),
+						in.find("doorcode").value());
 			}
 		});
 	}
 	private final String openRenderer;
 	private final String closedRenderer;
+	private final String doorcode;
 	private boolean open;
 
-	public Door(GameWorld world, String closedRenderer, String openRenderer, boolean open){
+	public Door(GameWorld world, String closedRenderer, String openRenderer, boolean open, String drcd){
 		super(world);
 		this.openRenderer = openRenderer;
 		this.closedRenderer = closedRenderer;
 		this.open = open;
+		this.doorcode = drcd;
 		update();
 	}
 
@@ -79,8 +84,23 @@ public class Door extends AbstractGameThing implements Togglable {
 	public void interact(String inter, Player who) {
 		if(inter.equals("close"))
 			walkAndSet(false, who);
-		else if(inter.equals("open"))
-			walkAndSet(true, who);
+		else if(inter.equals("open")){
+			if(doorcode != null){
+				for(GameThing gt : who.inventory().contents()){
+					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
+						walkAndSet(true, who);
+						world().emitSay(this, who, "You unlock the door");
+						return;
+					}
+				}
+				walkAndSet(false, who);
+				world().emitSay(this, who, "You cant open the "+doorcode+" door, its locked");
+			}
+			else{
+				walkAndSet(true, who);
+				world().emitSay(this, who, "You unlock the door");
+			}
+		}
 		else super.interact(inter, who);
 	}
 
