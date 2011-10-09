@@ -213,18 +213,19 @@ public class Player extends Character {
 		update();
 	}
 	
-	private void addStats(int[] stats) {
-		attack += stats[0];
-		strength += stats[1];
-		defence += stats[2];
-		delay += stats[3];
+	private void addStats(int[] stats){
+		addStats(stats, 1);
+	}
+
+	private void addStats(int[] stats, int m) {
+		attack(attack() + stats[0]*m);
+		strength(strength() + stats[1]*m);
+		defence(defence() + stats[2]*m);
+		delay(delay() + stats[3]*m);
 	}
 	
 	private void remStats(int[] stats) {
-		attack -= stats[0];
-		strength -= stats[1];
-		defence -= stats[2];
-		delay -= stats[3];	
+		addStats(stats, -1);
 	}
 
 	public void unequip(EquipmentGameThing g) {

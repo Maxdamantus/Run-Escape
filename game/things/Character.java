@@ -10,11 +10,11 @@ import util.*;
 
 public abstract class Character extends AbstractGameThing {
 	private String renderer;
-	protected int health;
-	protected int attack;
-	protected int strength;
-	protected int defence, delay;
-	protected boolean dying = false; /*couldnt work around the scheduling issues with attacking,
+	private int health;
+	private int attack;
+	private int strength;
+	private int defence, delay;
+	private boolean dying = false; /*couldnt work around the scheduling issues with attacking,
 	so boolean was the best way to stop animate being scheduled over*/
 
 	public Character(GameWorld world, String r){
@@ -198,12 +198,12 @@ public abstract class Character extends AbstractGameThing {
 	}
 	
 	public void damage(int amt, Character from){
-		if(!dying){
+		if(!dying()){
 			world().emitEmitSound(this, "character_" + renderer + "_ow");
 			health -= (int)(amt - (10*(double)(1+defence/100)));
 			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 			if(health <= 0){
-				dying = true;
+				dying(true);
 				animate(renderer() + "_die");
 			}
 		}
@@ -216,7 +216,18 @@ public abstract class Character extends AbstractGameThing {
 	public void interact(String name, game.things.Player who){
 		super.interact(name, who);
 	}
-	
+
+	public boolean dying(){ return dying; }
+	public boolean dying(boolean s){ return dying = s; }
+	public int attack(){ return attack; }
+	public int attack(int s){ return attack = s; }
+	public int strength(){ return strength; }
+	public int strength(int s){ return strength = s; }
+	public int defence(){ return attack; }
+	public int defence(int s){ return attack = s; }
+	public int delay(){ return attack; }
+	public int delay(int s){ return attack = s; }
+
 	@Override
 	public int renderLevel() {
 		return ui.isometric.abstractions.IsoSquare.CHARACTER;

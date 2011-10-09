@@ -80,11 +80,11 @@ public class Enemy extends Character {
 	}
 
 	public void damage(int amt, Character from){
-		if(!dying){
+		if(!dying()){
 			super.damage(amt, from);
 			attack(from);
 		}
-		if(health() <= 0 && dying){
+		if(health() <= 0 && dying()){
 			final Enemy g = this;
 			world().schedule(new Runnable(){public void run(){
 			LocationS.NOWHERE.put(g);
