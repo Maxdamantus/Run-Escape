@@ -37,7 +37,7 @@ public class OpenableFurnitureInspector extends GameThingInspector<OpenableFurni
 		inspectContainer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Map<String, Container> map = thing.getContainer();
+				Map<String, Container> map = thing.getContainers();
 				if(map.values().size() == 0) {
 					System.err.println("No container...");
 				}
