@@ -9,7 +9,7 @@ import java.util.*;
  * @author melby
  *
  */
-public class IsoSquare implements Iterable<IsoImage> {
+public class IsoSquare implements Iterable<IsoObject> {
 
 	public static final int GROUND = 0;
 	public static final int PICKUP_ITEM = 100;
@@ -27,10 +27,10 @@ public class IsoSquare implements Iterable<IsoImage> {
 	 *
 	 */
 	private class ImageLevel {
-		private IsoImage image;
+		private IsoObject image;
 		private int level;
 		
-		private ImageLevel(IsoImage image, int level) {
+		private ImageLevel(IsoObject image, int level) {
 			this.image = image;
 			this.level = level;
 		}
@@ -53,7 +53,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 	 * @author melby
 	 *
 	 */
-	private class ImageIterator implements Iterator<IsoImage> {
+	private class ImageIterator implements Iterator<IsoObject> {
 		Iterator<ImageLevel> iterator = images.iterator();
 		
 		@Override
@@ -62,7 +62,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 		}
 
 		@Override
-		public IsoImage next() {
+		public IsoObject next() {
 			return iterator.next().image;
 		}
 
@@ -75,7 +75,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 	 * @param image
 	 * @param level
 	 */
-	public void addImageForLevel(IsoImage image, int level) { // TODO: insert rather than sort?
+	public void addImageForLevel(IsoObject image, int level) { // TODO: insert rather than sort?
 		images.add(new ImageLevel(image, level));
 		Collections.sort(images, new ImageLevelComparator());
 	}
@@ -84,7 +84,7 @@ public class IsoSquare implements Iterable<IsoImage> {
 	 * Iterate through the images on a square in level order from bottom to top
 	 */
 	@Override
-	public Iterator<IsoImage> iterator() {
+	public Iterator<IsoObject> iterator() {
 		return new ImageIterator();
 	}
 	

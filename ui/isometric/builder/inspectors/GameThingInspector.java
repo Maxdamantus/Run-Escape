@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoObject;
 import ui.isometric.builder.InspectorPanel;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
@@ -26,7 +26,7 @@ abstract public class GameThingInspector<T extends GameThing> extends JPanel {
 	
 	private ImagePanel image;
 	private T thing;
-	private IsoImage isoImage;
+	private IsoObject isoImage;
 
 	private InspectorPanel panel;
 

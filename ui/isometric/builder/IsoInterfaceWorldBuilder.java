@@ -29,7 +29,7 @@ import data.Database;
 
 import serialization.ParseException;
 import ui.isometric.IsoCanvas;
-import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoObject;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.datasource.IsoChangeLevelDataSource;
@@ -96,7 +96,7 @@ public class IsoInterfaceWorldBuilder {
 		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
-			public void selected(final IsoImage i, final Location l, MouseEvent event) {
+			public void selected(final IsoObject i, final Location l, MouseEvent event) {
 				if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
 					if(storedCreator != null) {
 						canvas.calculateTypesAtAtPoint(event.getPoint());

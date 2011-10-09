@@ -25,7 +25,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoObject;
 import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.datasource.IsoDataSource;
 import ui.isometric.libraries.IsoRendererLibrary;
@@ -55,7 +55,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private Point origin = new Point(0, 0);
 	
 	private boolean selectionRender = false;
-	private IsoImage selectedImage;
+	private IsoObject selectedImage;
 	private Position selectedSquarePosition;
 	private Point selectionPoint = new Point(0, 0);
 	private UILayerRenderer selectedRenderer;
@@ -136,7 +136,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		 * @param loc - the location under the mouse
 		 * @param event
 		 */
-		public void selected(IsoImage image, Location loc, MouseEvent event);
+		public void selected(IsoObject image, Location loc, MouseEvent event);
 	}
 	
 	/**
@@ -252,7 +252,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		IsoSquare square = dataSource.squareAt(sx, sy);
 		
 		if(square.numberOfImages() > 0) {
-			for(IsoImage i : square) {
+			for(IsoObject i : square) {
 				if(!selectionRender) {
 					g.drawImage(i.image(), dx-i.width()/2, dy-i.height()-i.yoffset(), i.width(), i.height(), null, this);
 				}
@@ -309,7 +309,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		this.calculateTypesAtAtPoint(arg0.getPoint());
-		final IsoImage i = this.getCachedSelectedImage();
+		final IsoObject i = this.getCachedSelectedImage();
 		final Position s = this.getCachedSelectedSquarePosition();
 		final UILayerRenderer r = this.getCachedSelectedRenderer();
 		
@@ -350,7 +350,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	 * should only be called directly after calculateTypesAtAtPoint
 	 * @return
 	 */
-	public IsoImage getCachedSelectedImage() {
+	public IsoObject getCachedSelectedImage() {
 		return selectedImage;
 	}
 	

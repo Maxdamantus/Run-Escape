@@ -8,31 +8,33 @@ import ui.isometric.libraries.IsoRendererLibrary.RendererImage;
 
 /**
  * 
- * An image abstraction for isometric rendering
+ * A GameThing/Image abstraction for isometric rendering
  * 
  * @author melby
  *
  */
-public class IsoImage {
+public class IsoObject {
 	private RendererImage image;
 	private GameThing gameThing = null;
 	private IsoSquare square;
 	private int yoffset = 0;
 
 	/**
-	 * Create an IsoImage with an existing image, square it is on and y-offset
+	 * Create an IsoObject with a image, an existing image, square it is on and y-offset
+	 * @param thing
 	 * @param rendererImage
 	 * @param square
 	 * @param yoff
 	 */
-	public IsoImage(RendererImage rendererImage, IsoSquare square, int yoff) {
+	public IsoObject(GameThing thing, RendererImage rendererImage, IsoSquare square, int yoff) {
 		this.square = square;
 		this.image = rendererImage;
 		this.yoffset = yoff;
+		this.gameThing = thing;
 	}
 
 	/**
-	 * Get the image that this IsoImage wraps
+	 * Get the image that this IsoObject wraps
 	 * @return
 	 */
 	public BufferedImage image() {
@@ -40,7 +42,7 @@ public class IsoImage {
 	}
 	
 	/**
-	 * Get the width that this image should be displayed at
+	 * Get the width that this object should be displayed at
 	 * @return
 	 */
 	public int width() {
@@ -48,7 +50,7 @@ public class IsoImage {
 	}
 	
 	/**
-	 * Get the height this image should be displayed at
+	 * Get the height this object should be displayed at
 	 * @return
 	 */
 	public int height() {
@@ -56,23 +58,15 @@ public class IsoImage {
 	}
 
 	/**
-	 * Get the GameThing that this IsoImage represents
+	 * Get the GameThing that this IsoObject represents
 	 * @return
 	 */
 	public GameThing gameThing() {
 		return gameThing;
 	}
-	
-	/**
-	 * Set the GameThing that this IsoImage represents
-	 * @param thing
-	 */
-	public void setGameThing(GameThing thing) {
-		gameThing = thing;
-	}
 
 	/**
-	 * Get the IsoSquare that this image is on
+	 * Get the IsoObject that this image is on
 	 * @return
 	 */
 	public IsoSquare square() {
@@ -80,7 +74,7 @@ public class IsoImage {
 	}
 	
 	/**
-	 * Get the y-offset to renderer this image at
+	 * Get the y-offset to renderer this object at
 	 * @return
 	 */
 	public int yoffset() {
@@ -88,7 +82,7 @@ public class IsoImage {
 	}
 	
 	/**
-	 * Get the RendererImage that backs this IsoImage
+	 * Get the RendererImage that backs this IsoObject
 	 * @return
 	 */
 	protected RendererImage rawImage() {

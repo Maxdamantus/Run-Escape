@@ -10,8 +10,8 @@ import serialization.ParseException;
 import serialization.Serializer;
 import serialization.Serializers;
 import serialization.Tree;
-import ui.isometric.abstractions.IsoAnimatedImage;
-import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoAnimatedObject;
+import ui.isometric.abstractions.IsoObject;
 import ui.isometric.abstractions.IsoSquare;
 import util.Direction;
 import util.ImageEdit;
@@ -450,8 +450,8 @@ public class IsoRendererLibrary {
 	 * @param viewDirection
 	 * @return
 	 */
-	public static IsoImage newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection) {
-		IsoImage tmp = null;
+	public static IsoObject newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection) {
+		IsoObject tmp = null;
 		
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
@@ -459,8 +459,7 @@ public class IsoRendererLibrary {
 			if(image == null) { // TODO: make IsoImage cope with null images?
 				throw new RuntimeException("Invalid renderer name ("+thing.renderer()+") on thing: "+thing+" ("+thing.getClass()+")");
 			}
-			tmp = new IsoImage(image, square, offsetForRendererName(thing.renderer()));
-			tmp.setGameThing(thing);
+			tmp = new IsoObject(thing, image, square, offsetForRendererName(thing.renderer()));
 		}
 		if(l == null) {
 			throw new RuntimeException("Null location for: "+thing);
@@ -478,8 +477,8 @@ public class IsoRendererLibrary {
 	 * @param animationFrame
 	 * @return
 	 */
-	public static IsoImage newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection, String rendererName, int animationFrame) {
-		IsoImage tmp = null;
+	public static IsoObject newImageFromGameThing(IsoSquare square, GameThing thing, Direction viewDirection, String rendererName, int animationFrame) {
+		IsoObject tmp = null;
 		
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
@@ -488,8 +487,7 @@ public class IsoRendererLibrary {
 				throw new RuntimeException("Invalid renderer name: "+rendererName);
 			}
 			
-			tmp = new IsoAnimatedImage(image, square, offsetForRendererName(thing.renderer()), animationFrame);
-			tmp.setGameThing(thing);
+			tmp = new IsoAnimatedObject(thing, image, square, offsetForRendererName(thing.renderer()), animationFrame);
 		}
 		
 		return tmp;

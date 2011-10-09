@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import ui.isometric.abstractions.IsoImage;
+import ui.isometric.abstractions.IsoObject;
 import ui.isometric.abstractions.IsoPlayer;
 import ui.isometric.datasource.IsoDataSource;
 import ui.isometric.datasource.IsoPlayerDataSource;
@@ -77,7 +77,7 @@ public class IsoInterface implements PlayerMessage {
 		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
-			public void selected(final IsoImage i, final Location l, MouseEvent event) {
+			public void selected(final IsoObject i, final Location l, MouseEvent event) {
 				if(i != null) {			
 					if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
 						JPopupMenu popup = new JPopupMenu();
