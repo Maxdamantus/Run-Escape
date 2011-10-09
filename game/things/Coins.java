@@ -18,7 +18,7 @@ public class Coins extends Stackable {
 	}
 
 	public String renderer(){
-		return "coins";
+		return "coins_gold";
 	}
 
 	public int renderLevel(){
