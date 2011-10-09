@@ -60,7 +60,8 @@ public final class ServerThread {
 					
 					try {
 						if(temp.startsWith("uid")) {
-							String name = temp.substring(4);
+							String name = temp.substring(3);
+							parent.usrName = name;
 							if(parent.model.checkPlayer(parent.usrName)){
 								plyr = parent.model.getPlayer(parent.usrName, null);
 								plyr.login();
@@ -134,7 +135,7 @@ public final class ServerThread {
 					
 					try { msg = parent.outqueue.poll(2, TimeUnit.SECONDS); } catch (InterruptedException e) {}
 					
-					if(msg != null) {
+					if(msg != null && (msg.startsWith(Long.toString(parent.usrGID)+" ") || msg.startsWith("-1 ") || Character.isLetter(msg.charAt(0)))) {
 						bw.write(msg);
 						bw.flush();
 					}

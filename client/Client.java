@@ -99,7 +99,7 @@ public class Client implements ClientMessageHandler {
 			NetworkListenerThread updater = new NetworkListenerThread(reader, this, world);
 
 			
-			writer.write("uid" + uid + "\n");
+			writer.write("uid " + uid + "\n");
 			updater.start();
 			writer.flush();
 

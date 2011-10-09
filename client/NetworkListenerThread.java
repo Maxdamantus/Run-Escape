@@ -80,8 +80,8 @@ public class NetworkListenerThread extends Thread {
 				} else if (incoming.startsWith("uid")) { // if uid notification
 					
 					String[] incomingStrings = incoming.substring(4).split("::::");
-					client.setCharacterName(incomingStrings[2]);
-					client.receivedUID(Long.parseLong(incomingStrings[1]));
+					client.setCharacterName(incomingStrings[1]);
+					client.receivedUID(Long.parseLong(incomingStrings[0]));
 
 				} else if (incoming.startsWith("noid")) {
 					CharacterSelector dialog = new CharacterSelector();
