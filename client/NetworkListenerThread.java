@@ -50,7 +50,7 @@ public class NetworkListenerThread extends Thread {
 			// read from the reader continuously
 			while (true) {
 				String incoming = reader.readLine();
-				
+				System.out.println(incoming);
 				if (incoming == null) break;// indicates connection lost
 				
 				if (incoming.startsWith("log")) { // if message
@@ -78,6 +78,7 @@ public class NetworkListenerThread extends Thread {
 					client.incomingChat(chatString, Color.YELLOW);
 
 				} else if (incoming.startsWith("uid")) { // if uid notification
+					
 					String[] incomingStrings = incoming.substring(4).split("::::");
 					client.setCharacterName(incomingStrings[2]);
 					client.receivedUID(Long.parseLong(incomingStrings[1]));

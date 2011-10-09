@@ -211,6 +211,7 @@ public class Client implements ClientMessageHandler {
 	public void setAndSendCharacterName(String charName) {
 		try {
 			writer.write("cid " + charName+"\n");
+			writer.flush();
 		} catch (IOException e) {
 			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
 		}
