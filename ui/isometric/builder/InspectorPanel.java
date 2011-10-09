@@ -16,6 +16,7 @@ import ui.isometric.builder.inspectors.NPCInspector;
 import ui.isometric.builder.inspectors.OpenableFurnitureInspector;
 import ui.isometric.builder.inspectors.ShopKeeperInspector;
 import ui.isometric.builder.inspectors.StackableInspector;
+import ui.isometric.builder.inspectors.StairInspector;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Area;
@@ -26,6 +27,7 @@ import game.things.Enemy;
 import game.things.OpenableFurniture;
 import game.things.ShopKeeper;
 import game.things.Stackable;
+import game.things.Stairs;
 
 /**
  * A self-configuring panel for inspecting locations
@@ -114,6 +116,9 @@ public class InspectorPanel extends JFrame {
 					}
 					else if(t instanceof ShopKeeper) {
 						ins = new ShopKeeperInspector((ShopKeeper)t, this);
+					}
+					else if(t instanceof Stairs) {
+						ins = new StairInspector((Stairs)t, this);
 					}
 					else {
 						ins = new GenericInspector(t, this);
