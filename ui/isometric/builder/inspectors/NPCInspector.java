@@ -38,7 +38,7 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 				label.setText(name);
 			}
 		});
-		this.add(name);
+		this.add(name); // TODO: set stats
 		this.add(label);
 	}
 }
