@@ -287,6 +287,45 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * A class that generates Valuable game things
+	 * @author melby
+	 *
+	 */
+	public static class ValuableThingCreator implements ThingCreator {
+		private String renderer;
+		private String name;
+		private int value;
+		
+		/**
+		 * Create a ValuableThingCreator with the given renderer, name and value
+		 * @param renderer
+		 * @param name
+		 * @param value
+		 */
+		public ValuableThingCreator(String renderer, String name, int value) {
+			this.renderer = renderer;
+			this.name = name;
+			this.value = value;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w) {
+			game.things.PickupGameThing pick = new game.things.Valuable(w, name, renderer, value);
+			return pick;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName(renderer, Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add(renderer);}};
+		}
+	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -348,9 +387,6 @@ public class ThingLibrary {
 				creators.add(new GroundCreator("ground_grey_tile_1_two_sides_1"));
 				creators.add(new GroundCreator("ground_tile_1"));
 				creators.add(new GroundCreator("ground_tile_1_greenish_1"));
-				
-				creators.add(new PlayerCreator("cordi"));
-				creators.add(new PlayerCreator("bob"));
 				
 				creators.add(new WallCreator("wall_brown_1_corner"));
 				creators.add(new WallCreator("wall_brown_1_x"));
@@ -471,6 +507,17 @@ public class ThingLibrary {
 				creators.add(new EquipmentCreator("armour_tunic", 0, 0, 5, 1500, "Tunic", game.things.EquipmentGameThing.Slot.ARMOUR));
 				
 				// TODO: stairs creator
+				
+				creators.add(new ValuableThingCreator("crystal_green", "Green Crystal", 0));
+				creators.add(new ValuableThingCreator("herbs_1", "Herbs", 0));
+				creators.add(new ValuableThingCreator("herbs_2", "Herbs", 0));
+				creators.add(new ValuableThingCreator("herbs_3", "Herbs", 0));
+				creators.add(new ValuableThingCreator("rope", "Rope", 0));
+				creators.add(new ValuableThingCreator("ruby", "Ruby", 0));
+				creators.add(new ValuableThingCreator("bar_gold", "Gold Bar", 0));
+				creators.add(new ValuableThingCreator("bar_steel", "Steel Bar", 0));
+				creators.add(new ValuableThingCreator("emerald", "Emerald", 0));
+				creators.add(new ValuableThingCreator("amber", "Amber", 0));
 				
 				creators.add(new SpawnPointCreator());
 				
