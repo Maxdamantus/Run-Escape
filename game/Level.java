@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
-public class Level implements Iterable<GameThing> {
+public class Level implements Iterable<GameThing> { // TODO: try/finally for locks
 	private final GameWorld world;
 	private final int level;
 	private QuadTree<GameThing> map = new QuadTree<GameThing>();

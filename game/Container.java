@@ -3,6 +3,8 @@ package game;
 import game.things.*;
 
 import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
@@ -26,6 +28,7 @@ public class Container implements Iterable<GameThing>, Location {
 	private final Set<GameThing> set = new HashSet<GameThing>(); 
 	private Player owner;
 	private final GameWorld world;
+	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 	public Container(GameWorld w){
 		world = w;
@@ -50,7 +53,9 @@ public class Container implements Iterable<GameThing>, Location {
 
 	public void put(GameThing gt){
 		gt.location().remove(gt);
-		set.add(gt);
+		lock.writeLock().lock();
+		try { set.add(gt); }
+		finally { lock.writeLock().unlock(); }
 		gt.location(this);
 	}
 
@@ -63,7 +68,9 @@ public class Container implements Iterable<GameThing>, Location {
 	}
 
 	public void remove(GameThing gt){
-		set.remove(gt);
+		lock.writeLock().lock();
+		try { set.remove(gt); }
+		finally { lock.writeLock().unlock(); }
 	}
 
 	public Player owner(){
@@ -76,5 +83,9 @@ public class Container implements Iterable<GameThing>, Location {
 
 	public GameWorld world(){
 		return world;
+	}
+	
+	public ReadWriteLock lock() {
+		return lock;
 	}
 }

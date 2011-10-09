@@ -7,7 +7,7 @@ import serialization.*;
 import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.libraries.IsoRendererLibrary;
 
-public class GameWorld {
+public class GameWorld { // TODO: try/finally for locks
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
 	private final Map<Long, Container> allContainers = new HashMap<Long, Container>();
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();

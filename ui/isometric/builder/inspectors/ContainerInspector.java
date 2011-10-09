@@ -22,8 +22,7 @@ import javax.swing.JPopupMenu;
 
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
-import ui.isometric.libraries.IsoRendererLibrary;
-import util.Direction;
+import ui.isometric.libraries.IsoInventoryImageLibrary;
 import util.GUI;
 import util.ImagePanel;
 
@@ -76,10 +75,16 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 	 */
 	private void refreshContainer() {
 		this.getContentPane().removeAll();
-		for(GameThing g : container) {
-			ImagePanel panel = new ImagePanel(IsoRendererLibrary.imageForRendererName(g.renderer(), Direction.NORTH).image());
-			panel.setDragObject(g);
-			this.getContentPane().add(panel);
+		container.lock().readLock().lock();
+		try {
+			for(GameThing g : container) {
+				ImagePanel panel = new ImagePanel(IsoInventoryImageLibrary.imageForName(g.renderer()));
+				panel.setDragObject(g);
+				this.getContentPane().add(panel);
+			}
+		}
+		finally {
+			container.lock().readLock().unlock();
 		}
 		this.getContentPane().validate();
 		this.getContentPane().repaint();
