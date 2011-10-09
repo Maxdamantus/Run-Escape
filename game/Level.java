@@ -297,6 +297,10 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 		return false;
 	}
 
+	public int z(){
+		return level;
+	}
+
 	public int hashCode(){
 		return world.hashCode() ^ level ^ 0xabcde123;
 	}
