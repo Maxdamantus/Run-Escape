@@ -4,9 +4,9 @@ import game.*;
 
 import java.util.*;
 
-public class ShopKeeper extends Character implements Containable {
+public class ShopKeeper extends Character implements Containable, Namable {
 	private final Map<String, Container> parts = new HashMap<String, Container>();
-	private final String name;
+	private String name;
 
 	public ShopKeeper(GameWorld world, String r, String n){
 		super(world, r);
@@ -37,6 +37,10 @@ public class ShopKeeper extends Character implements Containable {
 			if(name.equals("buy " + kv.getKey()))
 				who.showContainer(kv.getValue(), "Buying " + kv.getKey());
 		super.interact(name, who);
+	}
+
+	public String name(String s){
+		return name = s;
 	}
 
 	public Map<String, Container> getContainers(){
