@@ -99,40 +99,6 @@ public class IsoInterfaceWorldBuilder {
 			@Override
 			public void selected(final IsoImage i, final Location l, MouseEvent event) {
 				if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
-//					if(i != null) {
-//						JPopupMenu popup = new JPopupMenu();
-//						for(GameThing t : i.gameThing().location().contents()) {
-//							JMenuItem n = new JMenuItem(t.name());
-//							n.setEnabled(false);
-//							popup.add(n);
-//							
-//							List<String> interactions = t.interactions();
-//							
-//							for(String intr : interactions) {									
-//								JMenuItem item = new JMenuItem("   "+intr);
-//								item.setName(t.gid()+"");
-//								item.addActionListener(new ActionListener() {
-//									@Override
-//									public void actionPerformed(ActionEvent e) {
-//										Object s = e.getSource();
-//										
-//										if(s instanceof JMenuItem) {
-//											JMenuItem m = (JMenuItem)s;
-//											for(GameThing t : dataSource.level()) {
-//												if(t instanceof Player) {
-//													world.thingWithGID(Long.parseLong(m.getName())).interact(m.getText().substring(3), (Player)t);
-//													break;
-//												}
-//											}
-//										}
-//									}
-//								});
-//								popup.add(item);
-//							}
-//						}
-//						popup.show(canvas, event.getPoint().x, event.getPoint().y);
-//					}
-					
 					if(storedCreator != null) {
 						canvas.calculateTypesAtAtPoint(event.getPoint());
 						l.put(storedCreator.createThing(world, l));
