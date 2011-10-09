@@ -208,12 +208,17 @@ public class Client implements ClientMessageHandler {
 		return characterName;
 	}
 
-	public void setCharacterName(String charName) {
+	public void setAndSendCharacterName(String charName) {
 		try {
 			writer.write("cid " + charName+"\n");
 		} catch (IOException e) {
 			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
 		}
+		characterName = charName;
+		
+	}
+	
+	public void setCharacterName(String charName) {
 		characterName = charName;
 		
 	}

@@ -79,7 +79,8 @@ public class NetworkListenerThread extends Thread {
 
 				} else if (incoming.startsWith("uid")) { // if uid notification
 					String[] incomingStrings = incoming.substring(4).split("::::");
-					client.receivedUID(Long.parseLong(incoming.substring(4)));
+					client.setCharacterName(incomingStrings[2]);
+					client.receivedUID(Long.parseLong(incomingStrings[1]));
 
 				} else if (incoming.startsWith("noid")) {
 					CharacterSelector dialog = new CharacterSelector();
@@ -89,7 +90,7 @@ public class NetworkListenerThread extends Thread {
 					dialog.setVisible(true);
 					
 					// sending name
-					client.setCharacterName(dialog.getCharacterName());
+					client.setAndSendCharacterName(dialog.getCharacterName());
 				}
 			}
 			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
