@@ -59,11 +59,9 @@ public final class ServerThread {
 					
 					try {
 						if((temp.startsWith("uid"))) {
-							String[] xmlupdate = temp.split("::::");
-							parent.usrName = xmlupdate[1];
-							String character = xmlupdate[2];
+							String name = temp.substring(4);
 							if(parent.model.checkPlayer(parent.usrName)){
-								plyr = parent.model.getPlayer(parent.usrName, character);
+								plyr = parent.model.getPlayer(parent.usrName, null);
 								plyr.login();
 								System.err.println("plyr logged in");
 						//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
