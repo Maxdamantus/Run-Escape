@@ -83,6 +83,14 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		}
 	}
 	
+	public String doorcode(){
+		return doorcode;
+	}
+	
+	public void setDoorcode(String drcd){
+		this.doorcode = drcd;
+	}
+	
 	public List<String> interactions(){
 		ArrayList<String> interactions = new ArrayList<String>();
 		if(open){
