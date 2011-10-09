@@ -518,22 +518,25 @@ public class ThingLibrary {
 	public static class StairCreator implements ThingCreator {		
 		private String renderer;
 		private int levels;
+		private Direction direction;
 
 		/**
-		 * Create a StairCreator with a given renderer and number of levels
+		 * Create a StairCreator with a given renderer, number of levels and direction to enter from
 		 * @param renderer
 		 * @param levels
+		 * @param direction
 		 */
-		public StairCreator(String renderer, int levels) {
+		public StairCreator(String renderer, int levels, Direction direction) {
 			this.renderer = renderer;
 			this.levels = levels;
+			this.direction = direction;
 		}
 		
 		@Override
 		public GameThing createThing(GameWorld w, Location l) {
 			int up = levels>0?levels:0;
 			int down = levels<0?-levels:0;
-			game.things.Stairs stair = new game.things.Stairs(w, renderer, up, down);
+			game.things.Stairs stair = new game.things.Stairs(w, renderer, up, down, direction);
 			return stair;
 		}
 
@@ -750,14 +753,14 @@ public class ThingLibrary {
 				creators.add(new NPCCreator("bob", "Sir Robert", 10));
 				creators.add(new ShopkeeperCreator("bob", "Shop Keeper"));
 				
-				creators.add(new StairCreator("stairs_brown_up_1", 1));
-				creators.add(new StairCreator("stairs_brown_down_1", -1));
-				creators.add(new StairCreator("stairs_grey_up_1", 1));
-				creators.add(new StairCreator("stairs_grey_down_1", -1));
-				creators.add(new StairCreator("stairs_grey_up_2", 1));
-				creators.add(new StairCreator("stairs_grey_down_2", -1));
-				creators.add(new StairCreator("stairs_grey_up_3", 1));
-				creators.add(new StairCreator("stairs_grey_down_3", -1));
+				creators.add(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_brown_down_1", -1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_grey_up_1", 1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_grey_down_1", -1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_grey_up_2", 1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_grey_down_2", -1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_grey_up_3", 1, Direction.SOUTH));
+				creators.add(new StairCreator("stairs_grey_down_3", -1, Direction.SOUTH));
 				
 				creators.add(new SpawnPointCreator());
 				
