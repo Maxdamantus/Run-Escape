@@ -89,7 +89,11 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 			return Math.abs(l.position().x() - position.x()) + Math.abs(l.position().y() - position.y());
 		}
 
-		public Location nextTo(final Location where, final game.things.Character who, final int dist){
+		public Location nextTo(Location where, game.things.Character who, int dest){
+			return nextTo(where, who, dest, null);
+		}
+
+		public Location nextTo(final Location where, final game.things.Character who, final int dist, int[] len){
 //			System.out.println("nextTo(" + where.position + ", ..): " + where.contents());
 		/*
 			try{
@@ -126,6 +130,8 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 			});
 			if(cur == null)
 				return null;
+			if(len != null)
+				len[0] = cur.length();
 			// eh .. someone's going to be put back in teh same place. Meh.
 			if(cur.value().equals(this))
 				return this;

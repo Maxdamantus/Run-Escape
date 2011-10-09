@@ -66,6 +66,26 @@ public class GameWorld { // TODO: try/finally for locks
 		return spawnpoint;
 	}
 
+	public game.things.SpawnPoint getSpawnPoint(Location l, game.things.Player who){
+		if(!(l instanceof Level.Location))
+			return getSpawnPoint();
+		Level.Location ll = (Level.Location)l;
+		game.things.SpawnPoint closest = null;
+		int dist = 42;
+		int[] tmp = new int[1];
+		for(game.things.SpawnPoint sp : spawnpoints){
+			Location sl = sp.location();
+			if(sl instanceof Level.Location){
+				Level.Location sll = (Level.Location)sl;
+				if(ll.nextTo(sll, who, 0, tmp) != null && (closest == null || tmp[0] < dist)){
+					closest = sp;
+					dist = tmp[0];
+				}
+			}
+		}
+		return closest == null? getSpawnPoint() : closest;
+	}
+
 	public boolean removeSpawnPoint(game.things.SpawnPoint sp){
 		spawnpointsLock.writeLock().lock();
 		boolean r = spawnpoints.remove(sp);
