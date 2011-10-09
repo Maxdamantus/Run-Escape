@@ -61,6 +61,10 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 			return level;
 		}
 
+		public int z(){
+			return level.level;
+		}
+
 		public Location direct(Direction d){
 			return new Location(level, position, d);
 		}
