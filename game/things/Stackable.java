@@ -12,11 +12,12 @@ public abstract class Stackable extends PickupGameThing {
 	public Location location(Location l){
 		if(l != LocationS.NOWHERE)
 			for(GameThing g : l.contents())
-				if(g instanceof Stackable && ((Stackable)g).merge(this)){
+				if(g != this && g instanceof Stackable && ((Stackable)g).merge(this)){
 					LocationS.NOWHERE.put(this);
 					forget();
 					return super.location(LocationS.NOWHERE);
 				}
+		System.out.println("super.location(" + l + ")");
 		return super.location(l);
 	}
 
@@ -47,7 +48,7 @@ public abstract class Stackable extends PickupGameThing {
 
 	public boolean merge(Stackable s){
 		if(s.type() == type()){
-			amount(amount() + s.amount());
+			add(s.amount());
 			return true;
 		}
 		return false;
