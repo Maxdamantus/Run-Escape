@@ -33,7 +33,6 @@ import ui.isometric.abstractions.IsoImage;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.datasource.IsoChangeLevelDataSource;
-import ui.isometric.datasource.IsoDataSource;
 import util.Direction;
 import util.Resources;
 
@@ -55,7 +54,7 @@ public class IsoInterfaceWorldBuilder {
 	private IsoCanvas canvas;
 	
 	private GameWorld world;
-	private IsoDataSource dataSource;
+	private IsoChangeLevelDataSource dataSource;
 	
 	private static final String EXTENTION = "wblrd";
 	
@@ -143,6 +142,12 @@ public class IsoInterfaceWorldBuilder {
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() == 'r') {
 					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
+				}
+				else if(arg0.getKeyChar() == 'u') {
+					dataSource.goUp();
+				}
+				else if(arg0.getKeyChar() == 'd') {
+					dataSource.goDown();
 				}
 			}
 		});

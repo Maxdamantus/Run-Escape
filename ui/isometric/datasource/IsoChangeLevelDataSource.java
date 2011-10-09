@@ -36,6 +36,14 @@ public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 	public Level level() {
 		return level;
 	}
+	
+	/**
+	 * Get the level number
+	 * @return
+	 */
+	public int levelNumber() {
+		return level.z();
+	}
 
 	/**
 	 * Set the level to display
@@ -51,5 +59,19 @@ public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 	 */
 	public void setLevel(int l) {
 		level = world.level(l);
+	}
+	
+	/**
+	 * Move the renderer up a level
+	 */
+	public void goUp() {
+		setLevel(levelNumber()+1);
+	}
+	
+	/**
+	 * Move the renderer down a level
+	 */
+	public void goDown() {
+		setLevel(levelNumber()-1);
 	}
 }
