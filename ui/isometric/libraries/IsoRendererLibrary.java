@@ -457,7 +457,7 @@ public class IsoRendererLibrary {
 		if(l instanceof Level.Location) {
 			RendererImage image = imageForRendererName(thing.renderer(), ((Level.Location)l).direction().compose(viewDirection.inverse()));
 			if(image == null) { // TODO: make IsoImage cope with null images?
-				throw new RuntimeException("Invalid renderer name ("+thing.renderer()+") on thing: "+thing);
+				throw new RuntimeException("Invalid renderer name ("+thing.renderer()+") on thing: "+thing+" ("+thing.getClass()+")");
 			}
 			tmp = new IsoImage(image, square, offsetForRendererName(thing.renderer()));
 			tmp.setGameThing(thing);
