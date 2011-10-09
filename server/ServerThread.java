@@ -53,12 +53,13 @@ public final class ServerThread {
 					String temp;
 					
 					temp = rd.readLine();
+					System.out.println(temp);
 					if(temp == null) { // End of stream
 						break;
 					}
 					
 					try {
-						if((temp.startsWith("uid"))) {
+						if(temp.startsWith("uid")) {
 							String name = temp.substring(4);
 							if(parent.model.checkPlayer(parent.usrName)){
 								plyr = parent.model.getPlayer(parent.usrName, null);
@@ -69,7 +70,7 @@ public final class ServerThread {
 								parent.queueMessage("uid " + parent.usrGID + "::::" + parent.usrName + "\n");
 							}
 							else{
-								parent.queueMessage("noid");
+								parent.queueMessage("noid\n");
 							}
 						}
 						else if(temp.startsWith("cid")){
