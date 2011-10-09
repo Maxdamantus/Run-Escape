@@ -138,30 +138,7 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 					square = new IsoSquare();
 				}
 				
-				animationsLock.readLock().lock();
-				Animation animate = animations.get(thing.gid());
-				animationsLock.readLock().unlock();
-				if(animate == null) {
-					IsoObject image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection);
-					square.addImageForLevel(image, thing.renderLevel());
-				}
-				else {
-					IsoRendererLibrary.RendererImage animation = IsoRendererLibrary.imageForRendererName(animate.renderer(), viewDirection);
-										
-					if(animate.startTime() < System.currentTimeMillis() - (animation.frameCount() / ANIMATION_FPS * 1000.0)) {						
-						IsoObject image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection);
-						square.addImageForLevel(image, thing.renderLevel());
-						
-						animationsLock.writeLock().lock(); // Animation stopped
-						animations.remove(thing);
-						animationsLock.writeLock().unlock();
-					}
-					else {
-						int frame = (int) ((System.currentTimeMillis() - animate.startTime()) / 1000.0 * ANIMATION_FPS);
-						IsoObject image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection, animate.renderer(), frame);
-						square.addImageForLevel(image, thing.renderLevel());
-					}
-				}
+				this.configureSquare(square, thing);
 				
 				squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY] = square;
 			}
@@ -169,6 +146,41 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 		cacheChange.writeLock().unlock();
 	}
 	
+	/**
+	 * Configure a square with a given thing.
+	 * Note: default just adds the thing to the square,
+	 * manages animations etc, so be sure to call
+	 * super in subclasses
+	 * @param square
+	 * @param thing
+	 */
+	protected void configureSquare(IsoSquare square, GameThing thing) {
+		animationsLock.readLock().lock();
+		Animation animate = animations.get(thing.gid());
+		animationsLock.readLock().unlock();
+		if(animate == null) {
+			IsoObject image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection);
+			square.addImageForLevel(image, thing.renderLevel());
+		}
+		else {
+			IsoRendererLibrary.RendererImage animation = IsoRendererLibrary.imageForRendererName(animate.renderer(), viewDirection);
+								
+			if(animate.startTime() < System.currentTimeMillis() - (animation.frameCount() / ANIMATION_FPS * 1000.0)) {						
+				IsoObject image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection);
+				square.addImageForLevel(image, thing.renderLevel());
+				
+				animationsLock.writeLock().lock(); // Animation stopped
+				animations.remove(thing);
+				animationsLock.writeLock().unlock();
+			}
+			else {
+				int frame = (int) ((System.currentTimeMillis() - animate.startTime()) / 1000.0 * ANIMATION_FPS);
+				IsoObject image = IsoRendererLibrary.newImageFromGameThing(square, thing, viewDirection, animate.renderer(), frame);
+				square.addImageForLevel(image, thing.renderLevel());
+			}
+		}
+	}
+
 	@Override
 	public IsoTransform transform() {
 		return transform;

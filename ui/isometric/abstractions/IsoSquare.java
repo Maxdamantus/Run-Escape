@@ -12,6 +12,7 @@ import java.util.*;
 public class IsoSquare implements Iterable<IsoObject> {
 
 	public static final int GROUND = 0;
+	public static final int GROUND_HIGHLIGHT = 50;
 	public static final int PICKUP_ITEM = 100;
 	public static final int FURNATURE = 200;
 	public static final int WALL = 1000;

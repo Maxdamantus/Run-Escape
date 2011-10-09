@@ -1068,6 +1068,13 @@
       <type>IMAGE1</type>
     </v>
   </i>
+  <i>
+    <k>player_highlight</k>
+    <v>
+      <name>spawn_point</name>
+      <type>IMAGE1</type>
+    </v>
+  </i>
   
   <i>
     <k>amber</k>
