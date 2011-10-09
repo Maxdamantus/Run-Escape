@@ -43,6 +43,13 @@ public class GameWorld { // TODO: try/finally for locks
 		
 		return player;
 	}
+	
+	public boolean checkPlayer(String name) {
+		if(players.containsKey(name))
+			return true;
+		else
+			return false;
+	}
 
 	public void addSpawnPoint(game.things.SpawnPoint sp){
 		spawnpointsLock.writeLock().lock();
@@ -266,4 +273,6 @@ public class GameWorld { // TODO: try/finally for locks
 		for(Map.Entry<Location, GameThing> lgt : new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(this), gts)).read(in))
 			lgt.getKey().put(lgt.getValue());
 	}
+
+
 }
