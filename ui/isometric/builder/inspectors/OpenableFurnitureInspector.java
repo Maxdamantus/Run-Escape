@@ -65,7 +65,7 @@ public class OpenableFurnitureInspector extends GameThingInspector<OpenableFurni
 	 */
 	private void showContainer(Container c, String name) {
 		if(window == null) {
-			window = new ContainerInspector(c, name);
+			window = new ContainerInspector(c, name, null);
 			window.addWindowListener(new WindowListener() {
 				@Override
 				public void windowOpened(WindowEvent e) {}

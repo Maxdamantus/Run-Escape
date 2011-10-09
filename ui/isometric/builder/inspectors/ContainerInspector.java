@@ -40,12 +40,28 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 	private Timer t;
 	
 	/**
+	 * An interface for wrapping drops
+	 * @author melby
+	 *
+	 */
+	public interface DropWrapper {
+		/**
+		 * Configure/wrap a given game thing
+		 * @param g
+		 * @param c
+		 * @return
+		 */
+		public GameThing wrap(PickupGameThing g, Container c);
+	}
+	
+	/**
 	 * Create a ContainerInspector for a given container and frame name
 	 * 
 	 * @param c
 	 * @param name
+	 * @param wrapper - may be null
 	 */
-	public ContainerInspector(Container c, String name) {
+	public ContainerInspector(Container c, String name, final DropWrapper wrapper) {
 		super(name +" inspector");
 		container = c;
 		
@@ -69,6 +85,9 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				GameThing thing = creator.createThing(container.world(), container);
 				if(thing instanceof PickupGameThing) {
+					if(wrapper != null) {
+						thing = wrapper.wrap((PickupGameThing)thing, container);
+					}
 					container.put(thing);
 				}
 				else {

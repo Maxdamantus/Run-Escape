@@ -74,7 +74,7 @@ public class ShopKeeperInspector extends GameThingInspector<ShopKeeper> {
 	 */
 	private void showContainer(Container c, final String name) {
 		if(windows.get(name) == null) {
-			ContainerInspector temp = new ContainerInspector(c, name);
+			ContainerInspector temp = new ContainerInspector(c, name, null); // TODO: use DropWrapper
 			temp.addWindowListener(new WindowListener() {
 				@Override
 				public void windowOpened(WindowEvent e) {}
