@@ -11,6 +11,7 @@ import game.Level;
 
 /**
  * A IsoGameModelDataSource that shows the level of the current player
+ * and highlights it in the world
  * 
  * @author melby
  *
