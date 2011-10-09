@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import game.things.Door;
 import ui.isometric.builder.InspectorPanel;
@@ -25,14 +27,32 @@ public class DoorInspector extends GameThingInspector<Door> {
 	public DoorInspector(final Door t, InspectorPanel inspectorPanel) {
 		super(t, inspectorPanel);
 		
-		JButton button = new JButton("Toggle Open");
-		button.addActionListener(new ActionListener() {
+		String key = t.doorcode();
+		final JLabel label = new JLabel(key==null?"No key":key);
+		
+		JButton openButton = new JButton("Toggle Open");
+		openButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				t.toggle();
 				refresh();
 			}
 		});
-		this.add(button);
+		this.add(openButton);
+		JButton setPasskey = new JButton("Set Passkey");
+		setPasskey.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String key = JOptionPane.showInputDialog("Enter Passkey");
+				if(key == null) return;
+				if(key.length() == 0) {
+					key = null;
+				}
+				t.setDoorcode(key);
+				label.setText(key==null?"No key":key);
+			}
+		});
+		this.add(setPasskey);
+		this.add(label);
 	}
 }

@@ -35,6 +35,7 @@ public class StackableInspector extends GameThingInspector<Stackable> {
 				int amount = -1;
 				while(amount < 1) {
 					String string = JOptionPane.showInputDialog("Enter amount");
+					if(string == null) return;
 					try {
 						amount = Integer.parseInt(string);
 					}

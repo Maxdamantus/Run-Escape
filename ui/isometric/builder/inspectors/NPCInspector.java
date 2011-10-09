@@ -34,6 +34,7 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String name = JOptionPane.showInputDialog("Enter name");
+				if(name == null) return;
 				t.name(name);
 				label.setText(name);
 			}
