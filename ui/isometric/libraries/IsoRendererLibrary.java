@@ -459,11 +459,13 @@ public class IsoRendererLibrary {
 			if(image == null) { // TODO: make IsoImage cope with null images?
 				throw new RuntimeException("Invalid renderer name: "+thing.renderer());
 			}
-			
 			tmp = new IsoImage(image, square, offsetForRendererName(thing.renderer()));
 			tmp.setGameThing(thing);
 		}
-		
+		if(l == null) {
+			throw new RuntimeException("Null location for: "+thing);
+		}
+				
 		return tmp;
 	}
 	

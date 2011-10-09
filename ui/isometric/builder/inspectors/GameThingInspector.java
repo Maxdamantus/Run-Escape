@@ -38,6 +38,9 @@ abstract public class GameThingInspector<T extends GameThing> extends JPanel {
 	public GameThingInspector(T t, InspectorPanel inspectorPanel) {
 		this.thing = t;
 		this.isoImage = IsoRendererLibrary.newImageFromGameThing(null, t, Direction.NORTH);
+		if(isoImage == null) {
+			throw new RuntimeException("Null image from inspector: "+t.renderer());
+		}
 		panel = inspectorPanel;
 		
 		this.setSize(0, 50);
