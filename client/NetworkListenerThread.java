@@ -72,8 +72,9 @@ public class NetworkListenerThread extends Thread {
 					try {
 						WorldDelta.Action act = WorldDelta.SERIALIZER.read(Tree.fromString(update)).action();
 						String[] chat = ((WorldDelta.Say)act).what().split("::::");
-						client.incomingChat(chat[1], new Color(Integer.parseInt(chat[0])));
-					} catch (ParseException e) {}//whoops
+						if (chat.length == 2)client.incomingChat(chat[1], new Color(Integer.parseInt(chat[0])));
+						else client.incomingChat(chat[0], Color.YELLOW);
+					} catch (ParseException e) {}
 					
 					
 

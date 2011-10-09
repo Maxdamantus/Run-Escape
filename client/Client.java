@@ -20,7 +20,7 @@ import game.*;
 /**
  * Main class for the client.
  * 
- * @author greenwthom
+ * @author greenwthom (300122757)
  * 
  */
 public class Client implements ClientMessageHandler {
@@ -136,6 +136,7 @@ public class Client implements ClientMessageHandler {
 					newColor = Color.decode("0x"+chatText.substring(8));
 			else {
 				//code from http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
+				//This allows a color to be selected with 
 				Field field;
 				try {
 					field = Class.forName("java.awt.Color").getField(chatText.substring(7));
@@ -182,7 +183,10 @@ public class Client implements ClientMessageHandler {
 		System.exit(0);
 	}
 	
-	
+	/**
+	 * Creates the UI with the player's GID
+	 * @param uid the GID of the player for the UI
+	 */
 	public void receivedUID(long uid) {
 		if(userGID == -1) {
 			userGID = uid;
@@ -193,22 +197,39 @@ public class Client implements ClientMessageHandler {
 		}
 	}
 
+	/**
+	 * calls the logMessage on the UI
+	 * @param message message to be logged
+	 */
 	public void logMessage(String message) {
 		if(view != null) {
 			view.logMessage(message);
 		}
 	}
 
+	/**
+	 * gives a chat message to the UI
+	 * @param message message to be shown
+	 * @param color color of the message
+	 */
 	public void incomingChat(String message, Color color) {
 		if(view != null) {
 			view.incomingChat(message, color);
 		}
 	}
 	
+	/**
+	 * gets the character's name
+	 */
 	public String getCharacterName() {
 		return characterName;
 	}
 
+	
+	/**
+	 * sets the character's name, and sends it to the server
+	 * @param charName
+	 */
 	public void setAndSendCharacterName(String charName) {
 		try {
 			writer.write("cid " + charName+"\n");
@@ -220,6 +241,10 @@ public class Client implements ClientMessageHandler {
 		
 	}
 	
+	/**
+	 * sets the character's name without sending it to the server
+	 * @param charName
+	 */
 	public void setCharacterName(String charName) {
 		characterName = charName;
 		
