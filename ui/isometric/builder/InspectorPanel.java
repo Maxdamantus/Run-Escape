@@ -13,6 +13,7 @@ import ui.isometric.builder.inspectors.DoorInspector;
 import ui.isometric.builder.inspectors.GameThingInspector;
 import ui.isometric.builder.inspectors.GenericInspector;
 import ui.isometric.builder.inspectors.OpenableFurnitureInspector;
+import ui.isometric.builder.inspectors.StackableInspector;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Area;
@@ -20,6 +21,7 @@ import util.Area;
 import game.*;
 import game.things.Door;
 import game.things.OpenableFurniture;
+import game.things.Stackable;
 
 /**
  * A self-configuring panel for inspecting locations
@@ -99,6 +101,9 @@ public class InspectorPanel extends JFrame {
 					}
 					else if(t instanceof Door) {
 						ins = new DoorInspector((Door)t, this);
+					}
+					else if(t instanceof Stackable) {
+						ins = new StackableInspector((Stackable)t, this);
 					}
 					else {
 						ins = new GenericInspector(t, this);

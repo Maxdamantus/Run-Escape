@@ -411,6 +411,46 @@ public class ThingLibrary {
 		}
 	}
 	
+//	/**
+//	 * A class that Creates NPC's
+//	 * @author melby
+//	 *
+//	 */
+//	public static class NPCCreator implements ThingCreator {		
+//		/**
+//		 * Create a NPCCreator
+//		 */
+//		public NPCCreator() {
+//		}
+//		
+//		@Override
+//		public GameThing createThing(GameWorld w) {
+//			game.things.Coins coin = new game.things.Coins(w, amount);
+//			return coin;
+//		}
+//
+//		@Override
+//		public BufferedImage previewImage() {
+//			return IsoRendererLibrary.imageForRendererName("coins_gold", Direction.NORTH).image();
+//		}
+//		
+//		@Override
+//		public Set<String> rendererNames() {
+//			return new HashSet<String>(){private static final long serialVersionUID = 1L;
+//				{
+//					add("coins_gold");
+//					add("coins_bronze");
+//					add("coins_silver");
+//				}
+//			};
+//		}
+//
+//		@Override
+//		public String description() {
+//			return amount+" "+(amount>1?"coins":"coin");
+//		}
+//	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -604,8 +644,6 @@ public class ThingLibrary {
 				creators.add(new ValuableThingCreator("amber", "Amber", 0));
 				
 				creators.add(new CoinThingCreator(1));
-				creators.add(new CoinThingCreator(5));
-				creators.add(new CoinThingCreator(10));
 				
 				creators.add(new SpawnPointCreator());
 				
