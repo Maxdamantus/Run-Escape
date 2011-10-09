@@ -160,17 +160,23 @@ public class Player extends Character {
 
 	public void pickup(final GameThing g){
 		System.out.println("pickup(" + g + ")");
-		if(!moveTo(g.location(), new Runnable(){
-			public void run(){
-				inventory.put(g);
-				//for testing
-				for(GameThing gt : inventory.contents()){
-					System.out.println(gt.name());
+		if(g.location() instanceof game.Container){
+			((Container)g.location()).remove(g);
+			inventory.put(g);
+		}
+		else{
+			if(!moveTo(g.location(), new Runnable(){
+				public void run(){
+					inventory.put(g);
+					//for testing
+					for(GameThing gt : inventory.contents()){
+						System.out.println(gt.name());
+					}
 				}
-			}
-		})){
+			})){
 			// printing to the wrong place
 			System.out.println("I can't reach that");
+			}
 		}
 	}
 	
