@@ -5,11 +5,14 @@ import game.Location;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -37,7 +40,7 @@ import util.Resources;
  * @author melby
  *
  */
-public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListener {
+public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListener, ComponentListener {
 	private static final long serialVersionUID = 1L;
 	
 	public static final int TILE_X = 64;
@@ -66,6 +69,9 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private Graphics2D graphics;
 	private Image lightMask;
 	private Point lightPoint;
+	
+	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
+	private Dimension oldsize = null;
 	
 	/**
 	 * An interface for rendering extra content on top of the IsoCanvas
@@ -132,8 +138,6 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		public void selected(IsoImage image, Location loc, MouseEvent event);
 	}
 	
-	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
-	
 	/**
 	 * Create a new IsoCanvas with a given datasource
 	 * @param dataSource
@@ -168,6 +172,8 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		this.addComponentListener(this);
 	}
 	
 	@Override
@@ -463,4 +469,23 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	public void setLightPoint(Point point) {
 		lightPoint = point;
 	}
+
+	@Override
+	public void componentHidden(ComponentEvent arg0) {}
+
+	@Override
+	public void componentMoved(ComponentEvent arg0) {}
+
+	@Override
+	public void componentResized(ComponentEvent event) {
+		if(oldsize != null) {
+			origin.x += (oldsize.width - this.getWidth())/2;
+			origin.y -= (oldsize.height - this.getHeight())/2;
+		}
+		
+		oldsize = this.getSize();
+	}
+
+	@Override
+	public void componentShown(ComponentEvent arg0) {}
 }
