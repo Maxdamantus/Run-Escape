@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import ui.isometric.builder.InspectorPanel;
 
@@ -33,6 +35,9 @@ public class OpenableFurnitureInspector extends GameThingInspector<OpenableFurni
 	public OpenableFurnitureInspector(final OpenableFurniture thing, InspectorPanel inspectorPanel) {
 		super(thing, inspectorPanel);
 		
+		String key = thing.doorcode();
+		final JLabel label = new JLabel(key==null?"No key":key);
+		
 		JButton inspectContainer = new JButton("Inspect Contents");
 		inspectContainer.addActionListener(new ActionListener() {
 			@Override
@@ -56,6 +61,21 @@ public class OpenableFurnitureInspector extends GameThingInspector<OpenableFurni
 			}
 		});
 		this.add(button);
+		JButton setPasskey = new JButton("Set Passkey");
+		setPasskey.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String key = JOptionPane.showInputDialog("Enter Passkey");
+				if(key == null) return;
+				if(key.length() == 0) {
+					key = null;
+				}
+				thing.setDoorcode(key);
+				label.setText(key==null?"No key":key);
+			}
+		});
+		this.add(setPasskey);
+		this.add(label);
 	}
 	
 	/**
