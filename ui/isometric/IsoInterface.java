@@ -33,7 +33,7 @@ import game.*;
  * @author melby
  *
  */
-public class IsoInterface implements PlayerMessage {
+public class IsoInterface implements PlayerMessage { // TODO: remove PlayerMessage
 	private JFrame frame;
 	private IsoCanvas canvas;
 	private IsoInterface isoInterface = this;
@@ -188,17 +188,17 @@ public class IsoInterface implements PlayerMessage {
 	}
 
 	@Override
-	public void logMessage(String message) {
+	public void logMessage(String message) { // TODO: remove
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void showContainer(String name, List<GameThing> contents) {
+	public void showContainer(String name, List<GameThing> contents) { // TODO: remove
 		// TODO Auto-generated method stub
 	}
 	
 	/**
-	 * An incoming chat message from a player via the server
+	 * An incoming chat message from the server
 	 * @param message
 	 */
 	public void incomingChat(String message, Color color) {
