@@ -37,7 +37,7 @@ public class Door extends AbstractGameThing implements Togglable {
 	}
 	private final String openRenderer;
 	private final String closedRenderer;
-	private final String doorcode;
+	private String doorcode;
 	private boolean open;
 
 	public Door(GameWorld world, String closedRenderer, String openRenderer, boolean open, String drcd){
@@ -117,6 +117,14 @@ public class Door extends AbstractGameThing implements Togglable {
 	@Override
 	public int renderLevel() {
 		return ui.isometric.abstractions.IsoSquare.WALL;
+	}
+	
+	public String doorcode(){
+		return doorcode;
+	}
+	
+	public void setDoorcode(String drcd){
+		this.doorcode = drcd;
 	}
 
 	public void toggle(){
