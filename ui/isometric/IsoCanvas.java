@@ -255,6 +255,10 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			for(IsoObject i : square) {
 				if(!selectionRender) {
 					g.drawImage(i.image(), dx-i.width()/2, dy-i.height()-i.yoffset(), i.width(), i.height(), null, this);
+					if(i.hasHealth()) { // Draw health
+						g.setColor(Color.WHITE);
+						g.drawString((i.health()*100)+"%", dx, dy-i.height()-i.yoffset()); // TODO: bar
+					}
 				}
 				else {
 					if(selectionPoint.x > dx-i.width()/2 && selectionPoint.x < dx+i.width()/2) { // Check x
