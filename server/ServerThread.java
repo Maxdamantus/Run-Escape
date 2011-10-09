@@ -112,7 +112,7 @@ public final class ServerThread {
 				parent.exit = true;
 				if(plyr != null){
 				plyr.logout();
-				System.err.println("plyr logedout");
+				System.err.println(parent.usrName + " logged out");
 				
 				}
 			}
@@ -135,7 +135,7 @@ public final class ServerThread {
 					
 					try { msg = parent.outqueue.poll(2, TimeUnit.SECONDS); } catch (InterruptedException e) {}
 					
-					if(msg != null && (msg.startsWith(Long.toString(parent.usrGID)+" ") || msg.startsWith("-1 ") || Character.isLetter(msg.charAt(0)))) {
+					if(msg != null) {
 						bw.write(msg);
 						bw.flush();
 					}
@@ -155,8 +155,10 @@ public final class ServerThread {
 	}
 	
 	public void addDelta(WorldDelta d){
-		String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
-		this.queueMessage("upd " + deltaupdate + "\n");
+		if(d.to() == usrGID || d.to() == -1){
+			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
+			this.queueMessage("upd " + deltaupdate + "\n");
+		}
 	}
 	
 	private void queueMessage(String msg) {
