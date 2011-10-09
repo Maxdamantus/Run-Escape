@@ -15,7 +15,7 @@ import ui.isometric.libraries.IsoRendererLibrary.RendererImage;
  */
 public class IsoObject {
 	private RendererImage image;
-	private GameThing gameThing = null;
+	private GameThing thing = null;
 	private IsoSquare square;
 	private int yoffset = 0;
 
@@ -30,7 +30,7 @@ public class IsoObject {
 		this.square = square;
 		this.image = rendererImage;
 		this.yoffset = yoff;
-		this.gameThing = thing;
+		this.thing = thing;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class IsoObject {
 	 * @return
 	 */
 	public GameThing gameThing() {
-		return gameThing;
+		return thing;
 	}
 
 	/**
@@ -87,5 +87,37 @@ public class IsoObject {
 	 */
 	protected RendererImage rawImage() {
 		return image;
+	}
+	
+	/**
+	 * Does this IsoObject have a health attribute
+	 * @return
+	 */
+	public boolean hasHealth() {
+		if(thing != null) {
+			if(thing.info().get("health") != null) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * How much health this object has
+	 * @return
+	 */
+	public double health() {
+		if(thing != null) {
+			String value = thing.info().get("health");
+			if(value != null) {
+				try {
+					return Double.valueOf(value);
+				}
+				catch(NumberFormatException e) {};
+			}
+		}
+		
+		return 1;
 	}
 }
