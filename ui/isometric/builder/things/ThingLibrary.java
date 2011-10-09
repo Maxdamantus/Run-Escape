@@ -422,6 +422,12 @@ public class ThingLibrary {
 		private String name;
 		private int distance;
 
+		/**
+		 * Create a NPCCreator
+		 * @param renderer
+		 * @param name
+		 * @param distance
+		 */
 		public NPCCreator(String renderer, String name, int distance) {
 			this.renderer = renderer;
 			this.name = name;
@@ -436,7 +442,7 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image();
+			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image(); // TODO: fix naming
 		}
 		
 		@Override
@@ -453,6 +459,47 @@ public class ThingLibrary {
 		@Override
 		public String description() {
 			return "NPC: "+name;
+		}
+	}
+	
+	/**
+	 * A class that Creates Shopkeepers
+	 * @author melby
+	 *
+	 */
+	public static class ShopkeeperCreator implements ThingCreator {		
+		private String renderer;
+		private String name;
+
+		/**
+		 * Create a ShopkeeperCreator with a given renderer and name
+		 * @param renderer
+		 * @param name
+		 */
+		public ShopkeeperCreator(String renderer, String name) {
+			this.renderer = renderer;
+			this.name = name;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			game.things.ShopKeeper shop = new game.things.ShopKeeper(w, renderer, name);
+			return shop;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image(); // TODO: fix naming
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("character_"+renderer+"_empty");}};
+		}
+
+		@Override
+		public String description() {
+			return "Shopkeeper: "+name;
 		}
 	}
 	
@@ -651,6 +698,7 @@ public class ThingLibrary {
 				creators.add(new CoinThingCreator(1));
 				
 				creators.add(new NPCCreator("bob", "Sir Robert", 10));
+				creators.add(new ShopkeeperCreator("bob", "Shop Keeper"));
 				
 				creators.add(new SpawnPointCreator());
 				

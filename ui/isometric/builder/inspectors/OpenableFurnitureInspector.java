@@ -38,16 +38,11 @@ public class OpenableFurnitureInspector extends GameThingInspector<OpenableFurni
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Map<String, Container> map = thing.getContainers();
-				if(map.values().size() == 0) {
-					System.err.println("No container...");
-				}
 				for(Container c : map.values()) {
 					if(c != null) {
 						showContainer(c, thing.name());
 						break;
 					}
-					
-					System.err.println("Null container..." + c);
 				}
 			}
 		});

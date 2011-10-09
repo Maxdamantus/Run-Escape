@@ -14,6 +14,7 @@ import ui.isometric.builder.inspectors.GameThingInspector;
 import ui.isometric.builder.inspectors.GenericInspector;
 import ui.isometric.builder.inspectors.NPCInspector;
 import ui.isometric.builder.inspectors.OpenableFurnitureInspector;
+import ui.isometric.builder.inspectors.ShopKeeperInspector;
 import ui.isometric.builder.inspectors.StackableInspector;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
@@ -23,6 +24,7 @@ import game.*;
 import game.things.Door;
 import game.things.Enemy;
 import game.things.OpenableFurniture;
+import game.things.ShopKeeper;
 import game.things.Stackable;
 
 /**
@@ -109,6 +111,9 @@ public class InspectorPanel extends JFrame {
 					}
 					else if(t instanceof Enemy) {
 						ins = new NPCInspector((Enemy)t, this);
+					}
+					else if(t instanceof ShopKeeper) {
+						ins = new ShopKeeperInspector((ShopKeeper)t, this);
 					}
 					else {
 						ins = new GenericInspector(t, this);
