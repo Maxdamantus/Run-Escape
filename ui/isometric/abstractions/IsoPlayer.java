@@ -7,6 +7,8 @@ import ui.isometric.IsoInterface;
 import game.Container;
 import game.GameThing;
 import game.GameWorld;
+import game.Level;
+import game.Location;
 import game.WorldDelta;
 import game.things.EquipmentGameThing;
 
@@ -160,5 +162,19 @@ public class IsoPlayer {
 	 */
 	public void removeShowContainerListener(ShowContainerListener l) {
 		listeners.remove(l);
+	}
+	
+	/**
+	 * Get the location of this player, throws a RuntimeException if this doesn't exist
+	 * @return
+	 */
+	public Level.Location location() {
+		Location l = thing.location();
+		if(l instanceof Level.Location) {
+			return (Level.Location)l;
+		}
+		else {
+			throw new RuntimeException("No Level.Location for Player");
+		}
 	}
 }

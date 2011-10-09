@@ -29,11 +29,11 @@ import data.Database;
 
 import serialization.ParseException;
 import ui.isometric.IsoCanvas;
-import ui.isometric.IsoDataSource;
-import ui.isometric.IsoGameModelDataSource;
 import ui.isometric.abstractions.IsoImage;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
+import ui.isometric.datasource.IsoChangeLevelDataSource;
+import ui.isometric.datasource.IsoDataSource;
 import util.Direction;
 import util.Resources;
 
@@ -93,7 +93,7 @@ public class IsoInterfaceWorldBuilder {
 		
 		frame = new JFrame(name);
 		frame.setJMenuBar(bar);
-		dataSource = new IsoGameModelDataSource(this.world);
+		dataSource = new IsoChangeLevelDataSource(this.world);
 		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override

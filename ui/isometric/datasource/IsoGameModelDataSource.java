@@ -1,10 +1,12 @@
-package ui.isometric;
+package ui.isometric.datasource;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import ui.isometric.IsoTransform;
+import ui.isometric.IsoTransformImp;
 import ui.isometric.abstractions.IsoImage;
 import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.libraries.IsoRendererLibrary;
@@ -21,7 +23,7 @@ import game.*;
  * @author melby
  *
  */
-public class IsoGameModelDataSource implements IsoDataSource {
+abstract public class IsoGameModelDataSource implements IsoDataSource {
 	private GameWorld gameWorld;
 	private IsoSquare[][] squares = null;
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
@@ -173,7 +175,5 @@ public class IsoGameModelDataSource implements IsoDataSource {
 	}
 
 	@Override
-	public Level level() {
-		return gameWorld.level(0);
-	}
+	abstract public Level level();
 }

@@ -18,6 +18,8 @@ import javax.swing.JPopupMenu;
 
 import ui.isometric.abstractions.IsoImage;
 import ui.isometric.abstractions.IsoPlayer;
+import ui.isometric.datasource.IsoDataSource;
+import ui.isometric.datasource.IsoPlayerDataSource;
 import ui.isometric.sublayers.ChatRenderer;
 import ui.isometric.sublayers.QuickBarRenderer;
 import util.Direction;
@@ -70,7 +72,7 @@ public class IsoInterface implements PlayerMessage {
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		IsoDataSource dataSource = new IsoGameModelDataSource(this.world);
+		IsoDataSource dataSource = new IsoPlayerDataSource(this.world, player);
 		
 		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
