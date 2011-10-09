@@ -62,10 +62,23 @@ public final class ServerThread {
 							String[] xmlupdate = temp.split("::::");
 							parent.usrName = xmlupdate[1];
 							String character = xmlupdate[2];
+							if(parent.model.checkPlayer(parent.usrName)){
+								plyr = parent.model.getPlayer(parent.usrName, character);
+								plyr.login();
+								System.err.println("plyr logged in");
+						//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
+								parent.usrGID = plyr.gid();
+								parent.queueMessage("uid " + parent.usrGID + "\n");
+							}
+							else{
+								parent.queueMessage("noid");
+							}
+						}
+						else if(temp.startsWith("cid")){
+							String character = temp.substring(4);
 							plyr = parent.model.getPlayer(parent.usrName, character);
 							plyr.login();
 							System.err.println("plyr logged in");
-					//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
 							parent.usrGID = plyr.gid();
 							parent.queueMessage("uid " + parent.usrGID + "\n");
 						}
