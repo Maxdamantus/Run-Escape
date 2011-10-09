@@ -15,6 +15,7 @@ import java.util.TimerTask;
 
 import game.Container;
 import game.GameThing;
+import game.things.PickupGameThing;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -65,7 +66,13 @@ public class ContainerInspector extends JFrame implements WindowListener, MouseL
 		this.setDropTarget(new DropTarget(this, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {
 			@Override
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
-				container.put(creator.createThing(container.world()));
+				GameThing thing = creator.createThing(container.world());
+				if(thing instanceof PickupGameThing) {
+					container.put(thing);
+				}
+				else {
+					container.world().forget(thing);
+				}
 			}
 		})));
 	}
