@@ -169,7 +169,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		catch(Exception e) {} // Stupid java bug when not on windows
 		
 		try {
-			lightMask = Resources.readImageResourceUnfliped("/resources/test/light_mask.png");
+			lightMask = Resources.readImageResourceUnfliped("/resources/lights/light_mask_512.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
