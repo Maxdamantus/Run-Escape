@@ -4,22 +4,19 @@ import game.*;
 
 import java.util.*;
 
-public class ShopItem extends Stackable {
-	public static interface Generator<T> {
-		public T create();
-	}
+import serialization.*;
 
+public class ShopItem extends Stackable {
+	private final Serializer<GameThing> reader;
+	private final Tree tree;
 	private final DumbGameThing prototype;
-	private final Generator<? extends GameThing> generator;
 	private int cost;
 
-	public ShopItem(GameWorld w, Generator<? extends GameThing> g, int a){
+	public ShopItem(GameWorld w, GameThing g, int a){
 		super(w, a);
-		generator = g;
-		GameThing t = g.create();
-		prototype = new DumbGameThing(t);
-		LocationS.NOWHERE.put(t);
-		t.forget();
+		reader = ThingsS.makeSerializer(w);
+		tree = reader.write(g);
+		prototype = new DumbGameThing(g);
 	}
 
 	public int cost(){
@@ -56,7 +53,11 @@ public class ShopItem extends Stackable {
 						break;
 					}
 			if(okay){
-				who.inventory().put(generator.create());
+				try{
+					who.inventory().put(reader.read(tree));
+				}catch(ParseException e){
+					throw new RuntimeException("wtf");
+				}
 				update();
 			}
 		}
