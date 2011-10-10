@@ -33,8 +33,7 @@ public class Client implements ClientMessageHandler {
 	private IsoInterface view;
 	private GameWorld world = new GameWorld();
 	private boolean debugMode;
-	private Color chatTextColor = Color
-			.getHSBColor((float) Math.random(), 1, 1);
+	private Color chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
 	private static boolean clientRunning = false;
 
 	public static void main(String[] args) {
@@ -50,12 +49,10 @@ public class Client implements ClientMessageHandler {
 			port = Integer.parseInt(args[1]);
 			username = args[2];
 		} else { // user input dialogs to get server and player information
-			String server = JOptionPane
-					.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
+			String server = JOptionPane.showInputDialog("Please enter a server ( [hostname]:[port] or [hostname] )");
 			if (server == null)
 				System.exit(0); // closes if cancel is pressed
-			username = JOptionPane
-					.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
+			username = JOptionPane.showInputDialog("Please pick a username (if you have previously connected, please use the same name)");
 			if (username == null)
 				System.exit(0);// closes if cancel is pressed
 			if (username.equals(""))
@@ -97,8 +94,7 @@ public class Client implements ClientMessageHandler {
 
 			// creating GUI
 
-			NetworkListenerThread updater = new NetworkListenerThread(reader,
-					this, world);
+			NetworkListenerThread updater = new NetworkListenerThread(reader, this, world);
 
 			writer.write("uid " + uid + "\n");
 			updater.start();
@@ -114,10 +110,7 @@ public class Client implements ClientMessageHandler {
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = "cmg "
-					+ Database.escapeNewLines(Database
-							.treeToString(ClientMessage.serializer(world, 0)
-									.write(message))) + "\n";
+			String send = "cmg " + Database.escapeNewLines(Database.treeToString(ClientMessage.serializer(world, 0).write(message))) + "\n";
 			if (debugMode)
 				System.out.print("Sent: " + send);
 			writer.write(send);
@@ -130,56 +123,60 @@ public class Client implements ClientMessageHandler {
 
 	public void sendChat(String chatText) {
 		if (debugMode)
-			System.out.print("Sent chat: " + chatText);
-		if (chatText.startsWith("/me"))
-			if (chatText.length() > 4)
+			System.out.println("Sent chat: " + chatText);
+		if (chatText.startsWith("/me")) {
+			if (chatText.length() > 4) {
 				chatText = "*" + userName + " " + chatText.substring(4);
-			else if (chatText.startsWith("/color") || chatText.startsWith("/colour")) {
-				if (chatText.startsWith("/colour")) chatText = chatText.substring(1); //removes a letter from NZ/UK spelling of color to make method still work
-				Color newColor = null;
-				if (chatText.substring(7).startsWith("#"))
-					newColor = Color.decode("0x" + chatText.substring(8));
-				else {
-					// code from
-					// http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
-					// This allows a color to be selected with
-					Field field;
-					try {
-						field = Class.forName("java.awt.Color").getField(
-								chatText.substring(7));
-						int rgb = ((Color) field.get(null)).getRGB();
-						newColor = new Color(rgb);
-					} catch (NoSuchFieldException e) {
-						view.incomingChat(
-								"GAME: Color \"" + chatText.substring(7)
-										+ "\" not found", Color.RED);
-					} catch (Exception e) {
-						if (debugMode) {
-							System.err
-									.println("That's what you get for using reflection");
-							e.printStackTrace();
-						}
+			}
+		} else if (chatText.startsWith("/color") || chatText.startsWith("/colour") || chatText.startsWith("/setcolor") || chatText.startsWith("/setcolour")) {
+			if (chatText.startsWith("/colour")) {
+				chatText = chatText.substring(1);// removes a letter from NZ/UK spelling of color to make method still work
+			}else if (chatText.startsWith("/setcolor")) {
+				chatText = chatText.substring(3);// removes the "/se" from the beginning so the code works with as if it were /color
+			}else if (chatText.startsWith("/setcolour")) {
+				chatText = chatText.substring(4);// removes the "/set" from the beginning so the code works with as if it were /color
+			}
+
+			Color newColor = null;
+			if (chatText.substring(7).startsWith("#"))
+				newColor = Color.decode("0x" + chatText.substring(8));
+			else {
+				// code from
+				// http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
+				// This allows a color to be selected with
+				Field field;
+				try {
+					field = Class.forName("java.awt.Color").getField(chatText.substring(7));
+					int rgb = ((Color) field.get(null)).getRGB();
+					newColor = new Color(rgb);
+				} catch (NoSuchFieldException e) {
+					view.incomingChat("GAME: Color \"" + chatText.substring(7) + "\" not found", Color.RED);
+				} catch (Exception e) {
+					if (debugMode) {
+						System.err.println("That's what you get for using reflection");
+						e.printStackTrace();
 					}
-
 				}
-				if (newColor != null)
-					chatTextColor = newColor;
-				return;
-			} else if (chatText.startsWith("/resetcolor")) {
-				chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
-				return;
-			} else
-				chatText = userName + ": " + chatText;
-		String send = "cts " + chatTextColor.getRGB() + "::::" + chatText
-				+ "\n";
-		try {
-			writer.write(send);
-			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
+			}
+			if (newColor != null)
+				chatTextColor = newColor;
+			return;
+		} else if (chatText.startsWith("/resetcolor") || chatText.startsWith("/resetcolour")) {
+			chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
+			return;
+		} else {
+			chatText = userName + ": " + chatText;
+			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
+			try {
+				writer.write(send);
+				writer.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 	}
 
 	/**
@@ -262,6 +259,7 @@ public class Client implements ClientMessageHandler {
 
 	/**
 	 * Returns weather the client is currently running or not
+	 * 
 	 * @return
 	 */
 	public static boolean isRunning() {
