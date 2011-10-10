@@ -154,6 +154,7 @@ public abstract class Character extends AbstractGameThing {
 			attacker = new Runnable(){
 				public void run(){
 					if(attackIdent == ident){
+						System.out.println(ident);
 						Location l = g.location();
 						if(l instanceof Level.Location){
 							Location ml = location();
@@ -210,6 +211,7 @@ public abstract class Character extends AbstractGameThing {
 			if(health <= 0){
 				dying(true);
 				animate(renderer() + "_die");
+				attackIdent = null;
 			}
 			update();
 		}
