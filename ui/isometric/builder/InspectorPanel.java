@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import ui.isometric.builder.inspectors.DoorInspector;
 import ui.isometric.builder.inspectors.GameThingInspector;
 import ui.isometric.builder.inspectors.GenericInspector;
+import ui.isometric.builder.inspectors.KeyInspector;
 import ui.isometric.builder.inspectors.LightInspector;
 import ui.isometric.builder.inspectors.NPCInspector;
 import ui.isometric.builder.inspectors.OpenableFurnitureInspector;
@@ -25,6 +26,7 @@ import util.Area;
 import game.*;
 import game.things.Door;
 import game.things.Enemy;
+import game.things.Key;
 import game.things.Light;
 import game.things.OpenableFurniture;
 import game.things.ShopKeeper;
@@ -124,6 +126,9 @@ public class InspectorPanel extends JFrame {
 					}
 					else if(t instanceof Light) {
 						ins = new LightInspector((Light)t, this);
+					}
+					else if(t instanceof Key) {
+						ins = new KeyInspector((Key)t, this);
 					}
 					else {
 						ins = new GenericInspector(t, this);
