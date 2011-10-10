@@ -59,9 +59,9 @@ public abstract class AbstractGameThing implements GameThing {
 	public Location location(Location s){
 		Location lo = location;
 		location = s;
+		if(world != null)
+			world.emitPut(this, s);
 		if(!s.equals(lo)){
-			if(world != null)
-				world.emitPut(this, s);
 			List<Runnable> old = trackers;
 			trackers = new LinkedList<Runnable>();
 			for(Runnable r : old)
