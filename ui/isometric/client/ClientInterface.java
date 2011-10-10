@@ -1,6 +1,7 @@
 package ui.isometric.client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,6 +24,7 @@ import ui.isometric.datasource.IsoPlayerDataSource;
 import ui.isometric.sublayers.ChatRenderer;
 import ui.isometric.sublayers.QuickBarRenderer;
 import util.Direction;
+import util.GUI;
 
 import game.*;
 
@@ -170,7 +172,9 @@ public class ClientInterface implements IsoInterface {
 		canvas.addLayerRenderer(chatRenderer);
 		canvas.addLayerRenderer(quickBarRenderer);
 		
-		frame.setSize(300, 300);
+		frame.setSize(650, 770);
+		frame.setMinimumSize(new Dimension(650, 770));
+		GUI.centerWindow(frame);
 		frame.add(canvas);
 	}
 	
