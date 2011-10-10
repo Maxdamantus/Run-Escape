@@ -52,6 +52,7 @@ public class BuilderInterface implements IsoInterface {
 	private JFrame frame;
 	private InspectorPanel inspector;
 	private LibraryFrame library;
+	private LevelInspector levels;
 	private String frameName;
 	
 	private IsoCanvas canvas;
@@ -92,6 +93,10 @@ public class BuilderInterface implements IsoInterface {
 			}
 		});
 		bar.add(file);
+		
+		levels = new LevelInspector(world);
+		levels.setSize(300, 200);
+		levels.setVisible(true);
 		
 		frame = new JFrame(name);
 		frame.setJMenuBar(bar);
