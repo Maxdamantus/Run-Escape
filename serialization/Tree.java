@@ -111,6 +111,18 @@ public class Tree{
 				return e.tree();
 		throw new ParseException("Can't find child called `s'", this);
 	}
+	
+	/**
+	 * Will find the String s in the tree, used for things that may not exist yet, e.g. door code.
+	 * @param String s
+	 * @return Entry with the name s, or null if it doesn't exist
+	 */
+	public Tree findNull(String s){
+		for(Entry e : children)
+			if(e.name().equals(s))
+				return e.tree();
+		return new Tree.Entry(null, this).tree();
+	}
 
 	/**
 	 *  Leaf representation:
