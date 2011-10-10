@@ -180,8 +180,6 @@ public abstract class Character extends AbstractGameThing {
 	}
 	
 	public void face(Location l){
-		System.out.println("** START");
-		new RuntimeException("taoehaoe").printStackTrace();
 		Location ml = location();
 		Level.Location closest = null;
 		for(Direction d : Direction.values()){
@@ -189,9 +187,7 @@ public abstract class Character extends AbstractGameThing {
 			if(closest == null || p.dist((Level.Location)l) < ((Level.Location)l).dist(closest))
 				closest = p;
 		}
-		System.out.println("face: closest = " + closest);
 		location(((Level.Location)ml).direct(closest.direction()));
-		System.out.println("** END");
 	}
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
