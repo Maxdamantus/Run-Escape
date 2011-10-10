@@ -21,6 +21,7 @@ public abstract class Character extends AbstractGameThing {
 	public Character(GameWorld world, String r){
 		super(world);
 		renderer = r;
+		maxhealth(1000);
 	//	world.schedule(blah, 1000);
 	}
 /*
