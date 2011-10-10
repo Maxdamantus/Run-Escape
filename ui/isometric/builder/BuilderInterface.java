@@ -1,5 +1,6 @@
 package ui.isometric.builder;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -8,8 +9,6 @@ import java.awt.Toolkit;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,12 +17,14 @@ import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 
 import data.Database;
@@ -52,8 +53,8 @@ public class BuilderInterface implements IsoInterface {
 	private JFrame frame;
 	private InspectorPanel inspector;
 	private LibraryFrame library;
-	private LevelInspector levels;
 	private String frameName;
+	private ToolPanel tools;
 	
 	private IsoCanvas canvas;
 	
@@ -65,6 +66,55 @@ public class BuilderInterface implements IsoInterface {
 	private ThingCreator storedCreator = null;
 	
 	/**
+	 * The tool panel at the top of the WorldBuilder
+	 * @author ruarusmelb
+	 *
+	 */
+	private class ToolPanel extends JPanel {
+		private static final long serialVersionUID = 1L;
+		private LevelPanel level;
+		
+		/**
+		 * Create a default ToolPanel
+		 */
+		public ToolPanel() {
+			JButton up = new JButton("Up a Level");
+			up.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					levelUp();
+				}
+			});
+			this.add(up);
+			JButton down = new JButton("Down a Level");
+			down.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					levelDown();
+				}
+			});
+			this.add(down);
+			JButton rotate = new JButton("Rotate");
+			rotate.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					rotate();
+				}
+			});
+			this.add(rotate);
+			level = new LevelPanel(dataSource.level());
+			this.add(level);
+		}
+		
+		/**
+		 * Notify this toolpanel that the level has changed
+		 */
+		public void refreshLevel() {
+			level.setLevel(dataSource.level());
+		}
+	}
+	
+	/**
 	 * Create a world builder interface with a given GameWorld and ClientMessageHandler
 	 * @param name
 	 * @param world
@@ -73,6 +123,10 @@ public class BuilderInterface implements IsoInterface {
 	public BuilderInterface(String name, final GameWorld world, ClientMessageHandler logic) {
 		this.world = world;
 		this.frameName = name;
+		
+		dataSource = new IsoChangeLevelDataSource(this.world);
+		
+		frame = new JFrame(name);
 		
 		JMenuBar bar = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -93,14 +147,13 @@ public class BuilderInterface implements IsoInterface {
 			}
 		});
 		bar.add(file);
-		
-		levels = new LevelInspector(world);
-		levels.setSize(300, 200);
-		levels.setVisible(true);
-		
-		frame = new JFrame(name);
 		frame.setJMenuBar(bar);
-		dataSource = new IsoChangeLevelDataSource(this.world);
+		
+		frame.setLayout(new BorderLayout());
+		
+		tools = new ToolPanel();
+		frame.add(tools, BorderLayout.NORTH);
+		
 		canvas = new IsoCanvas(dataSource);
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
@@ -139,27 +192,7 @@ public class BuilderInterface implements IsoInterface {
 				}
 			}
 		})));
-		canvas.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				if(arg0.getKeyChar() == 'r') {
-					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
-				}
-				else if(arg0.getKeyChar() == 'u') {
-					dataSource.goUp();
-				}
-				else if(arg0.getKeyChar() == 'd') {
-					dataSource.goDown();
-				}
-			}
-		});
-		frame.add(canvas);
+		frame.add(canvas, BorderLayout.CENTER);
 		
 		inspector = new InspectorPanel(this);
 		inspector.getContentPane().setLayout(new BoxLayout(inspector.getContentPane(), BoxLayout.Y_AXIS));
@@ -178,6 +211,29 @@ public class BuilderInterface implements IsoInterface {
 		inspector.setSize((int)(screen.width*perx), (int)(screen.height*0.5));
 		frame.setLocation((int)(screen.width*perx), 0);
 		frame.setSize((int)(screen.width*(1-perx)), (int)(screen.height));
+	}
+	
+	/**
+	 * Move up a level
+	 */
+	private void levelUp() {
+		dataSource.goUp();
+		tools.refreshLevel();
+	}
+	
+	/**
+	 * Move down a level
+	 */
+	private void levelDown() {
+		dataSource.goDown();
+		tools.refreshLevel();
+	}
+	
+	/**
+	 * Rotate
+	 */
+	private void rotate() {
+		canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
 	}
 	
 	@Override
