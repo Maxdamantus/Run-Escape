@@ -7,7 +7,7 @@ public class Main {
 
 
 	public static void main(String[] args) throws IOException {
-		new Server().run();
+		new Server(args).run();
 		System.exit(0);
 	}
 }

@@ -34,17 +34,40 @@ public class Server{
 
 	public static final int DEFAULT_PORT = 32765;
 	private static final String EXTENTION = "wblrd";
+	private boolean CLI = false;
+	private String filename;
+	private boolean fromSave;
 	
 	private ArrayList<ServerThread> connections = new ArrayList<ServerThread>(10);
 	
+	public Server(String[] args){
+		if(args.length == 2) {
+		    try {
+		    	if(args[0].toLowerCase().equals("cli"))
+		    		CLI = true;
+		    	else
+		    		CLI = false;
+		    	filename = args[1];
+		    	fromSave = true;
+		    } catch (Exception e) {
+		        System.err.println("Arguments must be {CLI/Server,Filename} with no ','");
+		        System.exit(1);
+		    }
+		}
+		else
+			CLI = false;
+			fromSave = false;
+
+	}
+	
 	public void run() throws IOException {
-		//Main Class for server	
-		boolean fromSave = false;		
-		
+		//Main Class for server
+		GameWorld model = null;
 		int port = DEFAULT_PORT;
-		String choice;
-		Object[] possibilities = {"NewGame", "LoadGame"};
-		choice = (String)JOptionPane.showInputDialog(
+		if(CLI){	
+			String choice;
+			Object[] possibilities = {"NewGame", "LoadGame"};
+			choice = (String)JOptionPane.showInputDialog(
 			                    null,
 			                    "Start new, or load from file?",
 			                    "New or Load Game",
@@ -52,29 +75,58 @@ public class Server{
 			                    null,
 			                    possibilities,
 			                    "NewGame");
-		if(choice == null)
-			choice = "NewGame";
+			if(choice == null)
+				choice = "NewGame";
 		
-		if(choice.equals("LoadGame")){
-			fromSave = true;
+			if(choice.equals("LoadGame")){
+				fromSave = true;		
+			}
 			
+			if(fromSave){
+				model = load();
+				if(model == null){
+					System.out.println("No file given, giving default gameworld");
+					model = defaultworld();
+				}
+			}
+			else{
+				model = defaultworld();
+			}
 		}
-		GameWorld model = null;
-		if(fromSave){
-			model = load();
+		else{
+			model = loadCLI(filename);
 			if(model == null){
 				System.out.println("No file given, giving default gameworld");
 				model = defaultworld();
 			}
 		}
-		else{
-			model = defaultworld();
-		}
-
 		BuilderInterface view = new BuilderInterface("Server", model, new ClientMessageHandlerMock());
 		view.show();
 		runServer(port,model);	
 		System.exit(0);
+	}
+	
+	public GameWorld loadCLI(String name){
+		File load = new File(name);
+		JFrame frame = new JFrame();
+		String loaded = null;
+		try {
+			loaded = Resources.loadTextFile(load.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(loaded == null) {
+			JOptionPane.showMessageDialog(frame, "Error loading file");
+			return null;
+		}
+		GameWorld world = new GameWorld(); 
+		try {
+			world.fromTree(Database.xmlToTree(loaded));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "Error loading file");
+		}
+		return world;
 	}
 	
 	public GameWorld load() {
