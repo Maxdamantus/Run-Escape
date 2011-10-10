@@ -149,6 +149,36 @@ public class ThingLibrary {
 			return "Wall: "+renderer;
 		}
 	}
+
+	/**
+	 * A class that generates Game of Life controllers.
+	 * @author maz
+	 *
+	 */
+	public static class GoltrollerCreator implements ThingCreator {
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			return new game.things.GOL.Controller(w);
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("chest_3_open", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			Set<String> out = new HashSet<String>();
+			out.add("chest_3_open");
+			out.add("armour_tunic");
+			return out;
+		}
+
+		@Override
+		public String description() {
+			return "Goltroller";
+		}
+	}
 	
 	/**
 	 * A class that generates doors
@@ -833,6 +863,8 @@ public class ThingLibrary {
 				creators.add(new KeysCreator());
 				
 				creators.add(new SpawnPointCreator());
+
+				creators.add(new GoltrollerCreator());
 				
 				ThingCreatorChecker.check();
 			}

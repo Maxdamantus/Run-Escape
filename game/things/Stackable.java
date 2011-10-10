@@ -14,7 +14,7 @@ public abstract class Stackable extends PickupGameThing {
 			for(GameThing g : l.contents())
 				if(g != this && g instanceof Stackable && merge((Stackable)g)){
 					LocationS.NOWHERE.put(g);
-					forget();
+					world().forget(this);
 					break;
 				}
 		return super.location(l);
@@ -34,7 +34,9 @@ public abstract class Stackable extends PickupGameThing {
 	}
 
 	public int amount(int s){
-		return amount = s;
+		amount = s;
+		update();
+		return s;
 	}
 
 	public int add(int s){
