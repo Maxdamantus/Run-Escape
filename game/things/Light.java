@@ -12,6 +12,7 @@ public class Light extends AbstractGameThing implements Luminant {
 		super(w);
 		renderer = r;
 		luminance = l;
+		update();
 	}
 
 	public String name(){
