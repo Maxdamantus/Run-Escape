@@ -84,6 +84,7 @@ public class ShopItem extends Stackable {
 				}
 				update();
 			}
+			world().emitSay(this, who, "Can't afford that!");
 		}
 	}
 
