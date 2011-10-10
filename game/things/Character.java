@@ -191,8 +191,8 @@ public abstract class Character extends AbstractGameThing {
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
 
 	public void hurt(GameThing other){
-		int maxamt = (int) (10 * (1 + ((double)strength) / 100.0));
-		int minamt = (int) (30 * (1 + ((double)strength) / 100.0));
+		int maxamt = (int) (30 * (1 + ((double)strength) / 100.0));
+		int minamt = (int) (10 * (1 + ((double)strength) / 100.0));
 		int damageamt = (int) (minamt + 1.0/((double)attack) * (maxamt - minamt));
 			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
