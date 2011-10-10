@@ -594,6 +594,34 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * A class that creates Keys
+	 * @author melby
+	 *
+	 */
+	public static class KeysCreator implements ThingCreator {
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			game.things.Key key = new game.things.Key(w, "key", "key");
+			return key;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("key", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("key");}};
+		}
+
+		@Override
+		public String description() {
+			return "Key";
+		}
+	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -801,6 +829,8 @@ public class ThingLibrary {
 				creators.add(new StairCreator("stairs_grey_down_3", -1, Direction.SOUTH));
 				
 				creators.add(new LightCreator(1));
+				
+				creators.add(new KeysCreator());
 				
 				creators.add(new SpawnPointCreator());
 				

@@ -1791,4 +1791,12 @@
       <frame-count>10</frame-count>
     </v>
   </i>
+  <i>
+    <k>key</k>
+    <v>
+      <name>key</name>
+      <type>IMAGE1</type>
+      <y-offset>7</y-offset>
+    </v>
+  </i>
 </tree>

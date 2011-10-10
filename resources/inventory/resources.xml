@@ -192,4 +192,8 @@
     <k>coins_gold</k>
     <v>coins_gold</v>
   </i>
+  <i>
+    <k>key</k>
+    <v>key</v>
+  </i>
 </tree>
