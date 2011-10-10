@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import game.GameThing;
-import game.PlayerMessage;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -33,7 +32,7 @@ import game.*;
  * @author melby
  *
  */
-public class IsoInterface implements PlayerMessage { // TODO: remove PlayerMessage
+public class IsoInterface {
 	private JFrame frame;
 	private IsoCanvas canvas;
 	private IsoInterface isoInterface = this;
@@ -185,16 +184,6 @@ public class IsoInterface implements PlayerMessage { // TODO: remove PlayerMessa
 	 */
 	public void show() {
 		frame.setVisible(true);
-	}
-
-	@Override
-	public void logMessage(String message) { // TODO: remove
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void showContainer(String name, List<GameThing> contents) { // TODO: remove
-		// TODO Auto-generated method stub
 	}
 	
 	/**
