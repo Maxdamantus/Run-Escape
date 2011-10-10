@@ -14,7 +14,7 @@ public abstract class Stackable extends PickupGameThing {
 			for(GameThing g : l.contents())
 				if(g != this && g instanceof Stackable && merge((Stackable)g)){
 					LocationS.NOWHERE.put(g);
-					world().forget(this);
+					world().forget(g);
 					break;
 				}
 		return super.location(l);
