@@ -932,7 +932,14 @@
   <i>
     <k>empty_tile</k>
     <v>
-      <name>empty_tile</name>
+      <name>invisible</name>
+      <type>IMAGE1</type>
+    </v>
+  </i>
+  <i>
+    <k>invisible</k>
+    <v>
+      <name>invisible</name>
       <type>IMAGE1</type>
     </v>
   </i>
