@@ -17,11 +17,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Character selector 
+ * @author greenwthom - 300122757
+ *
+ */
 public class CharacterSelector extends JDialog {
 
-	/**
-	 * Launch the application.
-	 */
+
 
 	private String name = null;
 	private ButtonGroup radioGroup;
@@ -41,7 +44,9 @@ public class CharacterSelector extends JDialog {
 	 */
 	public CharacterSelector() {
 		this.setTitle("Please choose a character...");
-		radioGroup = new ButtonGroup();
+		radioGroup = new ButtonGroup();//buttongroup makes it so only one radio can be active at once
+		
+		//Gets character names and sorts them
 		List<String> tempList = new ArrayList<String>(IsoCharacterImageLibrary.getAllCharacters());
 		Collections.sort(tempList);
 		charNames = tempList.toArray(new String[0]);
@@ -59,7 +64,7 @@ public class CharacterSelector extends JDialog {
 		}
 		
 		
-		
+		//UI construction. Made with a swing builder, hence the funny nesting
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		{
@@ -203,6 +208,10 @@ public class CharacterSelector extends JDialog {
 		}
 	}
 	
+	/**
+	 * gets the character name from the character selector and closes the window. The method will not return until a selection has been made
+	 * @return the name of the character that was selected
+	 */
 	public String getCharacterName() {
 		while (name == null) {
 			try {
@@ -214,6 +223,9 @@ public class CharacterSelector extends JDialog {
 		
 	} 
 	
+	/**
+	 * works out which button is selected, and then sets the name field
+	 */
 	public void setCharacterName() {
 		if (radioButton1.isSelected()) name = charNames[0];
 		if (radioButton2.isSelected()) name = charNames[1];

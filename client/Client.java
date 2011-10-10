@@ -18,7 +18,7 @@ import game.*;
 /**
  * Main class for the client.
  * 
- * @author greenwthom (300122757)
+ * @author greenwthom - 300122757
  * 
  */
 public class Client implements ClientMessageHandler {
@@ -33,13 +33,14 @@ public class Client implements ClientMessageHandler {
 	private IsoInterface view;
 	private GameWorld world = new GameWorld();
 	private boolean debugMode;
-	private Color chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
+	private Color chatTextColor = Color
+			.getHSBColor((float) Math.random(), 1, 1);
 
 	public static void main(String[] args) {
 		boolean debugMode = false;
 		String host = "localhost";
 		String username = "";
-		
+
 		int port = 32765;
 		// take command line server and info
 		if (args.length == 3) {
@@ -93,10 +94,10 @@ public class Client implements ClientMessageHandler {
 			writer = new BufferedWriter(out);
 
 			// creating GUI
-			
-			NetworkListenerThread updater = new NetworkListenerThread(reader, this, world);
 
-			
+			NetworkListenerThread updater = new NetworkListenerThread(reader,
+					this, world);
+
 			writer.write("uid " + uid + "\n");
 			updater.start();
 			writer.flush();
@@ -111,7 +112,10 @@ public class Client implements ClientMessageHandler {
 
 	public void sendMessage(ClientMessage message) {
 		try {
-			String send = "cmg " + Database.escapeNewLines(Database.treeToString(ClientMessage.serializer(world, 0).write(message))) + "\n";
+			String send = "cmg "
+					+ Database.escapeNewLines(Database
+							.treeToString(ClientMessage.serializer(world, 0)
+									.write(message))) + "\n";
 			if (debugMode)
 				System.out.print("Sent: " + send);
 			writer.write(send);
@@ -122,50 +126,57 @@ public class Client implements ClientMessageHandler {
 
 	}
 
-
 	public void sendChat(String chatText) {
 		if (debugMode)
 			System.out.print("Sent chat: " + chatText);
 		if (chatText.startsWith("/me"))
-			if (chatText.length() > 4) chatText = "*" + userName + " " + chatText.substring(4);
-		else if (chatText.startsWith("/color")) {
-			Color newColor = null;
-			if (chatText.substring(7).startsWith("#")) 
-					newColor = Color.decode("0x"+chatText.substring(8));
-			else {
-				//code from http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
-				//This allows a color to be selected with 
-				Field field;
-				try {
-					field = Class.forName("java.awt.Color").getField(chatText.substring(7));
-					int rgb = ((Color)field.get(null)).getRGB();
-					newColor = new Color(rgb);
-				} catch (NoSuchFieldException e) {
-					view.incomingChat("GAME: Color \"" + chatText.substring(7) + "\" not found", Color.RED);
-				} catch (Exception e) {
-					if (debugMode) {
-						System.err.println("That's what you get for using reflection");
-						e.printStackTrace();
+			if (chatText.length() > 4)
+				chatText = "*" + userName + " " + chatText.substring(4);
+			else if (chatText.startsWith("/color")) {
+				Color newColor = null;
+				if (chatText.substring(7).startsWith("#"))
+					newColor = Color.decode("0x" + chatText.substring(8));
+				else {
+					// code from
+					// http://www.java-forums.org/advanced-java/27084-rgb-color-name.html.
+					// This allows a color to be selected with
+					Field field;
+					try {
+						field = Class.forName("java.awt.Color").getField(
+								chatText.substring(7));
+						int rgb = ((Color) field.get(null)).getRGB();
+						newColor = new Color(rgb);
+					} catch (NoSuchFieldException e) {
+						view.incomingChat(
+								"GAME: Color \"" + chatText.substring(7)
+										+ "\" not found", Color.RED);
+					} catch (Exception e) {
+						if (debugMode) {
+							System.err
+									.println("That's what you get for using reflection");
+							e.printStackTrace();
+						}
 					}
+
 				}
-				
-			}
-			if (newColor != null) chatTextColor = newColor;
-			return;
-		} else if (chatText.startsWith("/resetcolor")) {
-			chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
-			return;
-		} else
-			chatText = userName + ": " + chatText;
-			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
-			try {
-				writer.write(send);
-				writer.flush();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+				if (newColor != null)
+					chatTextColor = newColor;
+				return;
+			} else if (chatText.startsWith("/resetcolor")) {
+				chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
+				return;
+			} else
+				chatText = userName + ": " + chatText;
+		String send = "cts " + chatTextColor.getRGB() + "::::" + chatText
+				+ "\n";
+		try {
+			writer.write(send);
+			writer.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -180,13 +191,15 @@ public class Client implements ClientMessageHandler {
 		JOptionPane.showMessageDialog(null, message);
 		System.exit(0);
 	}
-	
+
 	/**
 	 * Creates the UI with the player's GID
-	 * @param uid the GID of the player for the UI
+	 * 
+	 * @param uid
+	 *            the GID of the player for the UI
 	 */
 	public void receivedUID(long uid) {
-		if(userGID == -1) {
+		if (userGID == -1) {
 			userGID = uid;
 
 			// showing GUI
@@ -197,15 +210,18 @@ public class Client implements ClientMessageHandler {
 
 	/**
 	 * gives a chat message to the UI
-	 * @param message message to be shown
-	 * @param color color of the message
+	 * 
+	 * @param message
+	 *            message to be shown
+	 * @param color
+	 *            color of the message
 	 */
 	public void incomingChat(String message, Color color) {
-		if(view != null) {
+		if (view != null) {
 			view.incomingChat(message, color);
 		}
 	}
-	
+
 	/**
 	 * gets the character's name
 	 */
@@ -213,28 +229,31 @@ public class Client implements ClientMessageHandler {
 		return characterName;
 	}
 
-	
 	/**
 	 * sets the character's name, and sends it to the server
+	 * 
 	 * @param charName
+	 *            name of the character
 	 */
 	public void setAndSendCharacterName(String charName) {
 		try {
-			writer.write("cid " + charName+"\n");
+			writer.write("cid " + charName + "\n");
 			writer.flush();
 		} catch (IOException e) {
 			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
 		}
 		characterName = charName;
-		
+
 	}
-	
+
 	/**
 	 * sets the character's name without sending it to the server
+	 * 
 	 * @param charName
+	 *            name of the character
 	 */
 	public void setCharacterName(String charName) {
 		characterName = charName;
-		
+
 	}
 }
