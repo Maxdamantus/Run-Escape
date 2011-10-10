@@ -301,8 +301,11 @@ public class GameWorld { // TODO: try/finally for locks
 			p.clear();
 		levelsLock.writeLock().unlock();
 		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
-		for(Map.Entry<Location, GameThing> lgt : new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(this), gts)).read(in))
+		for(Map.Entry<Location, GameThing> lgt : new Serializers.List<Map.Entry<Location, GameThing>>(new Serializers.MapEntry<Location, GameThing>(LocationS.s(this), gts)).read(in.find("things")))
 			lgt.getKey().put(lgt.getValue());
+		for(Map.Entry<Integer, Integer> kv : Serializers.map(Serializers.Serializer_Integer, Serializers.Serializer_Integer).read(in.find("luminances")).entrySet())
+			level(kv.getKey()).luminance(kv.getValue());
+
 	}
 
 
