@@ -1,7 +1,6 @@
 package ui.isometric.client;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -155,8 +154,8 @@ public class ClientInterface implements IsoInterface {
 				else if(arg0.getKeyChar() == 'r') {
 					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
 				}
-				else if(arg0.getKeyChar() == 'l') { // TODO: just temporary
-					canvas.setLightPoint((canvas.lightPoint() == null)?new Point(255, 255):null);
+				else if(arg0.getKeyChar() == 'l') {
+					canvas.setLightsEnabled(!canvas.lightsEnabled());
 				}
 				
 				chatRenderer.setMessage(message);

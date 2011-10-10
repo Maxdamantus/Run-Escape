@@ -67,9 +67,9 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private boolean draggingOk = true;
 	
 	private BufferedImage backbuffer;
-	private Graphics2D graphics;
+	private Graphics2D backbufferGraphics;
 	private Image lightMask;
-	private Point lightPoint;
+	private boolean drawLights = false;
 	
 	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
 	private Dimension oldsize = null;
@@ -162,9 +162,9 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		this.setFocusable(true);
 		
 		backbuffer = new BufferedImage(2560, 2560, BufferedImage.TYPE_INT_ARGB_PRE); // TODO: Max view size
-		graphics = backbuffer.createGraphics();
+		backbufferGraphics = backbuffer.createGraphics();
 		try {
-			graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			backbufferGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		}
 		catch(Exception e) {} // Stupid java bug when not on windows
 		
@@ -190,14 +190,13 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			jgraphics.setColor(Color.BLACK);
 			jgraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 			
-			graphics.setColor(Color.BLACK);
-			graphics.setBackground(new Color(0, 0, 0, 0));
-			graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
-			oc = graphics.getComposite();
-			if(lightMask != null && lightPoint != null) {
-				graphics.drawImage(lightMask, lightPoint.x, lightPoint.y, null);
-				graphics.setComposite(AlphaComposite.SrcAtop);
-				graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+			backbufferGraphics.setColor(Color.BLACK);
+			backbufferGraphics.setBackground(new Color(0, 0, 0, 0));
+			backbufferGraphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+			oc = backbufferGraphics.getComposite();
+			if(drawLights) {
+				this.drawLights(backbufferGraphics);
+				backbufferGraphics.setComposite(AlphaComposite.SrcAtop);
 			}
 		}
 		
@@ -214,7 +213,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 				int xg = (row%2 == 0)?row/2:(row-1)/2;
 				int x = ((row%2 == 0)?TILE_X/2:0)-TILE_X;
 				for(;x<tileCountX*TILE_X;x+=TILE_X) {
-					this.drawSquareAt(graphics, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
+					this.drawSquareAt(backbufferGraphics, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
 					yg++;
 					xg++;
 				}
@@ -223,10 +222,10 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		}
 		
 		if(!selectionRender) {
-			graphics.setComposite(oc);
+			backbufferGraphics.setComposite(oc);
 			
 			for(UILayerRenderer ren : extraRenderers) {
-				ren.render(graphics, this);
+				ren.render(backbufferGraphics, this);
 			}
 			
 			jgraphics.drawImage(backbuffer, 0, 0, null);
@@ -240,6 +239,13 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		}
 	}
 	
+	/**
+	 * Draw all the lights
+	 */
+	private void drawLights(Graphics2D g) {
+		g.drawImage(lightMask, this.getWidth()/2-lightMask.getWidth(null)/2, this.getHeight()/2-lightMask.getHeight(null)/2, null);
+	}
+
 	/**
 	 * Draw a square at a given location
 	 * @param g
@@ -468,28 +474,12 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	/**
-	 * Remove a UiLayerRenderer
+	 * Remove a UILayerRenderer
 	 * @param renderer
 	 */
 	public void removeLayerRenderer(UILayerRenderer renderer) {
 		extraRenderers.remove(renderer);
 		renderer.setSuperview(null);
-	}
-	
-	/**
-	 * Get the light position
-	 * @return
-	 */
-	public Point lightPoint() {
-		return lightPoint;
-	}
-	
-	/**
-	 * Set the light position
-	 * @param point
-	 */
-	public void setLightPoint(Point point) {
-		lightPoint = point;
 	}
 
 	@Override
@@ -510,4 +500,20 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 
 	@Override
 	public void componentShown(ComponentEvent arg0) {}
+	
+	/**
+	 * Get weather the lights are enabled or not
+	 * @return
+	 */
+	public boolean lightsEnabled() {
+		return drawLights;
+	}
+	
+	/**
+	 * Set the lights enabled/disabled
+	 * @param b
+	 */
+	public void setLightsEnabled(boolean b) {
+		drawLights = b;
+	}
 }
