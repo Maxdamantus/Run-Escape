@@ -113,7 +113,7 @@ public class GameWorld { // TODO: try/finally for locks
 		return out;
 	}
 
-	private long someUnusedID(Map<Long, ?> m){
+	private static long someUnusedID(Map<Long, ?> m){
 		long r;
 		do
 			r = (long)(Math.random()*((1l << 63) - 1));
