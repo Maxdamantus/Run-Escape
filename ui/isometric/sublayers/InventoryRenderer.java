@@ -198,63 +198,6 @@ public class InventoryRenderer extends LargePanel {
 					cloak_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_cloak.png");
 					shield_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_shield.png");
 					empty_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_empty.png");
-					
-//					permAreas.add(new ClickArea(230, 30, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Helmet");
-//						}
-//						
-//					})); // Helmet
-//					permAreas.add(new ClickArea(120, 50, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Cloak");
-//						}
-//						
-//					})); // Cloak
-//					permAreas.add(new ClickArea(100, 100, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Armour");
-//						}
-//						
-//					})); // Armour
-//					permAreas.add(new ClickArea(110, 150, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Weapon");
-//						}
-//						
-//					})); // Weapon
-//					permAreas.add(new ClickArea(270, 120, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Shield");
-//						}
-//						
-//					})); // Shield
-//					permAreas.add(new ClickArea(260, 200, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Boots");
-//						}
-//						
-//					})); // Boots
-//					permAreas.add(new ClickArea(50, 150, imageSize+2, imageSize+2, new ClickArea.ClickAction() {
-//						@Override
-//						public void perform(MouseEvent e, Point p,
-//								InventoryRenderer inven) {
-//							System.out.println("Gauntlets");
-//						}
-//						
-//					})); // Gauntlets
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -324,15 +267,6 @@ public class InventoryRenderer extends LargePanel {
 		else {
 			g.drawImage(helmet_slot, 230, 30, null);
 		}
-		
-//		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.CLOAK);
-//		if(thing != null) {
-//			g.drawImage(empty_slot, 230, 30, null);
-//			this.drawThingAt(g, thing, 121, 51);
-//		}
-//		else {
-//			g.drawImage(cloak_slot, 120, 50, null);
-//		}
 		
 		thing = player.getEquipmentForSlot(EquipmentGameThing.Slot.ARMOUR);
 		if(thing != null) {
