@@ -103,7 +103,7 @@ public class Door extends AbstractGameThing implements Togglable {
 						return;
 					}
 				}
-				walkAndSetOpen(false, who, "You cant open the "+doorcode+" door, its locked");
+				walkAndSetOpen(false, who, "You can't open the "+doorcode+" door; it's locked");
 			}
 			else{
 				walkAndSetOpen(true, who, "You unlock the door");

@@ -152,11 +152,11 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 			if(!doorcode.equals("blank")){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
-						walkAndSetOpen(true, who, "You unlock & open the chest");
+						walkAndSetOpen(true, who, "You unlock and open the chest");
 						return;
 					}
 				}
-				walkAndSetOpen(false, who, "You cant open the "+doorcode+" chest, its locked");
+				walkAndSetOpen(false, who, "You can't open the "+doorcode+" chest; it's locked");
 			}
 			else{
 				walkAndSetOpen(true, who, "You open the chest");
