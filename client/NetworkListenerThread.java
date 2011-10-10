@@ -53,12 +53,7 @@ public class NetworkListenerThread extends Thread {
 				String incoming = reader.readLine();
 				if (incoming == null) break;// indicates connection lost
 				
-				if (incoming.startsWith("log")) { // if message
-					String message = incoming.substring(4);
-					client.logMessage(message);
-					if (debugMode) System.out.println("Message: " + message);
-					
-				} else if (incoming.startsWith("upd")) { // if update
+				if (incoming.startsWith("upd")) { // if update
 					String update = Database.unescapeNewLines(incoming.substring(4));
 					if (debugMode) System.out.println("updated: " + update);
 					try {

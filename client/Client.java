@@ -198,16 +198,6 @@ public class Client implements ClientMessageHandler {
 	}
 
 	/**
-	 * calls the logMessage on the UI
-	 * @param message message to be logged
-	 */
-	public void logMessage(String message) {
-		if(view != null) {
-			view.logMessage(message);
-		}
-	}
-
-	/**
 	 * gives a chat message to the UI
 	 * @param message message to be shown
 	 * @param color color of the message
