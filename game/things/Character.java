@@ -79,7 +79,9 @@ public abstract class Character extends AbstractGameThing {
 					step(where, ondone, dist, stepIdent = new Object());
 				}
 			}, attacked()? escapedelay() : walkdelay());
+			face(l);
 			return true;
+			
 		}
 		return false;
 	}
@@ -155,13 +157,7 @@ public abstract class Character extends AbstractGameThing {
 						if(l instanceof Level.Location){
 							Location ml = location();
 							if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
-								Level.Location closest = null;
-								for(Direction d : Direction.values()){
-									Level.Location p = ((Level.Location)ml).next(d);
-									if(closest == null || p.dist((Level.Location)l) < p.dist(closest))
-										closest = p;
-								}
-								location(((Level.Location)ml).direct(closest.direction()));
+								face(l);
 								if((g instanceof Character) && ((Character) g).health() > 0 && thischar.health > 0){
 									animate(renderer() + "_attack");
 									hurt(g);
@@ -175,6 +171,17 @@ public abstract class Character extends AbstractGameThing {
 			};
 			follow(g, 2);
 			world().schedule(attacker, 500);
+	}
+	
+	public void face(Location l){
+		Location ml = this.location();
+		Level.Location closest = null;
+		for(Direction d : Direction.values()){
+			Level.Location p = ((Level.Location)ml).next(d);
+			if(closest == null || p.dist((Level.Location)l) < p.dist(closest))
+				closest = p;
+		}
+		location(((Level.Location)ml).direct(closest.direction()));
 	}
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();

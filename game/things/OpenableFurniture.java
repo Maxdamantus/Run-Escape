@@ -120,7 +120,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 	public void walkAndSetOpen(final boolean s, final Player p, final String say){
 		Location l = location();
 		final GameThing g = this;
-		if(l instanceof Level.Location)
+		if(l instanceof Level.Location){
 			p.moveTo((Level.Location)l, 1, new Runnable(){
 				public void run(){
 					open = s;
@@ -128,6 +128,8 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 					world().emitSay(g, p, say);
 				}
 			});
+			p.face(l);
+		}
 	}
 	
 

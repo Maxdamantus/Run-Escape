@@ -31,7 +31,7 @@ public class Door extends AbstractGameThing implements Togglable {
 			public GameThing read(Tree in) throws ParseException {
 				return new Door(world, in.find("close").value(), in.find("open").value(),
 						Serializers.Serializer_Boolean.read(in.find("state")),
-						in.find("doorcode").value());
+						in.findNull("doorcode").value());
 			}
 		});
 	}
@@ -81,6 +81,7 @@ public class Door extends AbstractGameThing implements Togglable {
 					world().emitSay(g, p, say);
 				}
 			});
+			p.face(l);
 	}
 	
 	@Override

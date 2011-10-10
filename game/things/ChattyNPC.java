@@ -71,20 +71,34 @@ public class ChattyNPC extends Character {
 		out.add("examine");
 		return out;
 	}
+	
+	public void walkAndTalk(final Player p, final String say){
+		Location l = location();
+		final GameThing g = this;
+		if(l instanceof Level.Location){
+			p.moveTo((Level.Location)l, 1, new Runnable(){
+				public void run(){
+					update();
+					world().emitSay(g, p, say);
+				}
+			});
+		p.face(l);
+		}
+	}
 
 	public void interact(String name, Player who){
 		if(name.equals("talk")){
 			if(talked == false){
-				world().emitSay(this, who, name()+": "+response.get(response.size()-2));
+				walkAndTalk(who, name()+": "+response.get(response.size()-2));
 				talked = true;
 				i++;
 			}
 			else if(i < 20){
-				world().emitSay(this, who, name()+": "+response.get((int)(Math.random()*response.size()-2)));
+				walkAndTalk( who, name()+": "+response.get((int)(Math.random()*response.size()-2)));
 				i++;
 			}
 			else{
-				world().emitSay(this, who, name()+": "+response.get(response.size()-1));
+				walkAndTalk(who, name()+": "+response.get(response.size()-1));
 				i=0;
 			}
 			
