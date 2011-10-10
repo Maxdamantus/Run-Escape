@@ -61,5 +61,9 @@ public class Key extends PickupGameThing {
 	public String doorcode(){
 		return doorcode;
 	}
+	
+	public void setDoorcode(String set){
+		doorcode = set;
+	}
 
 }
