@@ -79,7 +79,7 @@ public class ClientInterface implements IsoInterface {
 		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
 			@Override
 			public void selected(final IsoObject i, final Location l, MouseEvent event) {
-				if(i != null) {			
+				if(i != null && i.gameThing() != null) {			
 					if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
 						JPopupMenu popup = new JPopupMenu();
 						for(GameThing t : i.gameThing().location().contents()) {
