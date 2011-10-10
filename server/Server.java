@@ -64,7 +64,7 @@ public class Server{
 		//Main Class for server
 		GameWorld model = null;
 		int port = DEFAULT_PORT;
-		if(CLI){	
+		if(!CLI){	
 			String choice;
 			Object[] possibilities = {"NewGame", "LoadGame"};
 			choice = (String)JOptionPane.showInputDialog(
