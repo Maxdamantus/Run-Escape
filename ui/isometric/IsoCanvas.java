@@ -211,7 +211,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			backbufferGraphics.setBackground(new Color(0, 0, 0, 0));
 			backbufferGraphics.clearRect(0, 0, this.getWidth(), this.getHeight());
 			oc = backbufferGraphics.getComposite();
-			if(drawLights) {
+			if(drawLights && dataSource.levelIsDark()) {
 				this.drawLights(backbufferGraphics, smoothing);
 				backbufferGraphics.setComposite(AlphaComposite.SrcAtop);
 			}
