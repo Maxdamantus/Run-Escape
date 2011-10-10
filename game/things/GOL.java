@@ -82,6 +82,7 @@ public class GOL {
 		}
 
 		private final long id;
+		private boolean toggle;
 
 		public Controller(GameWorld world){
 			this(world, GameWorld.someUnusedID(allCells));
@@ -96,31 +97,41 @@ public class GOL {
 
 		public List<String> interactions(){
 			List<String> out = new LinkedList<String>();
-			out.add("tick");
-			out.add("get cell");
+			if(toggle){
+				out.add("tick");
+				out.add("get cell");
+			}else{
+				out.add("get cell");
+				out.add("tick");
+			}
+			out.add("toggle");
+			out.add("clear");
 			out.addAll(super.interactions());
 			return out;
 		}
 
-		public void interact(String name, final Player who){
-			if(name.equals("get cell")){
-				Location l = location();
-				if(l instanceof Level.Location)
-					who.moveTo((Level.Location)l, 1, new Runnable(){
-						public void run(){
+		public void interact(final String name, final Player who){
+			Location l = location();
+			if(l instanceof Level.Location)
+				who.moveTo((Level.Location)l, 1, new Runnable(){
+					public void run(){
+						if(name.equals("get cell"))
 							who.receiveItem(new Cell(world(), id));
-						}
-					});
-			}else if(name.equals("tick")){
-				Location l = location();
-				if(l instanceof Level.Location)
-					who.moveTo((Level.Location)l, 1, new Runnable(){
-						public void run(){
+						else if(name.equals("tick"))
 							tick(world(), id);
-						}
-					});
-			}else
-				super.interact(name, who);
+						else if(name.equals("toggle")){
+							toggle ^= true;
+							update();
+						}else if(name.equals("clear")){
+							for(Cell c : new HashSet<Cell>(allCells.get(id)))
+								if(c.location() instanceof Level.Location){
+									LocationS.NOWHERE.put(c);
+									world().forget(c);
+								}
+						}else
+							Controller.super.interact(name, who);
+					}
+				});
 		}
 
 		public String renderer(){
@@ -178,7 +189,7 @@ public class GOL {
 		}
 
 		public String name(){
-			return "Golcell(" + id + ")";
+			return "Golcell (" + id + ")";
 		}
 
 		public void forget(){
