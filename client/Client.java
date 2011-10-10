@@ -134,7 +134,8 @@ public class Client implements ClientMessageHandler {
 		if (chatText.startsWith("/me"))
 			if (chatText.length() > 4)
 				chatText = "*" + userName + " " + chatText.substring(4);
-			else if (chatText.startsWith("/color")) {
+			else if (chatText.startsWith("/color") || chatText.startsWith("/colour")) {
+				if (chatText.startsWith("/colour")) chatText = chatText.substring(1); //removes a letter from NZ/UK spelling of color to make method still work
 				Color newColor = null;
 				if (chatText.substring(7).startsWith("#"))
 					newColor = Color.decode("0x" + chatText.substring(8));
