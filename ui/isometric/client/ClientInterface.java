@@ -60,7 +60,7 @@ public class ClientInterface implements IsoInterface {
 		
 		long end = System.currentTimeMillis() + 5000; // 5 sec
 		GameThing me = null;
-		while((me = world.thingWithGID(playerGid)) == null && end > System.currentTimeMillis()) {
+		while((me = world.thingWithGID(playerGid)) == null && end > System.currentTimeMillis()) { // Find player
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
