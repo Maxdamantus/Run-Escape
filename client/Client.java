@@ -35,8 +35,10 @@ public class Client implements ClientMessageHandler {
 	private boolean debugMode;
 	private Color chatTextColor = Color
 			.getHSBColor((float) Math.random(), 1, 1);
+	private static boolean clientRunning = false;
 
 	public static void main(String[] args) {
+		clientRunning = true;
 		boolean debugMode = false;
 		String host = "localhost";
 		String username = "";
@@ -255,5 +257,13 @@ public class Client implements ClientMessageHandler {
 	public void setCharacterName(String charName) {
 		characterName = charName;
 
+	}
+
+	/**
+	 * Returns weather the client is currently running or not
+	 * @return
+	 */
+	public static boolean isRunning() {
+		return clientRunning;
 	}
 }

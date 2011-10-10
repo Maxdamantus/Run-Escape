@@ -123,6 +123,7 @@ public class IsoRendererLibrary {
 		private int frames;
 		
 		private static final String NAME = "name";
+		private static final String CLIENT_NAME = "client-name";
 		private static final String TYPE = "type";
 		private static final String Y_OFFSET = "y-offset";
 		private static final String FRAME_COUNT = "frame-count";
@@ -160,7 +161,15 @@ public class IsoRendererLibrary {
 		 */
 		protected static class Serializer implements serialization.Serializer<ImageType> {
 			@Override
-			public ImageType read(Tree in) throws ParseException {				
+			public ImageType read(Tree in) throws ParseException {
+				String renderer = in.find(NAME).value();
+				if(client.Client.isRunning()) {
+					try {
+						renderer = in.find(CLIENT_NAME).value();
+					}
+					catch(ParseException e) {};
+				}
+				
 				int off = 0;
 				try {
 					String l = in.find(Y_OFFSET).value();
@@ -175,7 +184,7 @@ public class IsoRendererLibrary {
 				}
 				catch(ParseException e) {};
 				
-				return new ImageType(in.find(NAME).value(), Type.valueOf(in.find(TYPE).value()), off, frames);
+				return new ImageType(renderer, Type.valueOf(in.find(TYPE).value()), off, frames);
 			}
 
 			@Override

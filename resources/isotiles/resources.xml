@@ -1087,6 +1087,7 @@
     <v>
       <name>light</name>
       <type>IMAGE1</type>
+      <client-name>invisible</client-name>
     </v>
   </i>
   
