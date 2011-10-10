@@ -258,6 +258,8 @@ public class GameWorld { // TODO: try/finally for locks
 
 	public Tree toTree(){
 		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
+		Serializer<Map<Integer, Integer>> mii = Serializers.map(Serializers.Serializer_Integer, Serializers.Serializer_Integer);
+		Tree out = new Tree();
 		List<Map.Entry<Location, GameThing>> map = new LinkedList<Map.Entry<Location, GameThing>>();
 		levelsLock.readLock().lock();
 		for(Level level : levels.values()) {
@@ -273,7 +275,12 @@ public class GameWorld { // TODO: try/finally for locks
 		for(game.things.Player player : players.values())
 			map.add(new AbstractMap.SimpleImmutableEntry<Location, GameThing>(LocationS.NOWHERE, player));
 		playersLock.readLock().unlock();
-		return new Serializers.List<Map.Entry<Location, GameThing>>(Serializers.mapEntry(LocationS.s(null), gts)).write(map);
+		out.add(new Tree.Entry("things", new Serializers.List<Map.Entry<Location, GameThing>>(Serializers.mapEntry(LocationS.s(null), gts)).write(map)));
+		Map<Integer, Integer> levlumi = new HashMap<Integer, Integer>();
+		for(Map.Entry<Integer, Level> kv : levels.entrySet())
+			levlumi.put(kv.getKey(), kv.getValue().luminance());
+		out.add(new Tree.Entry("luminances", mii.write(levlumi)));
+		return out;
 	}
 
 	public void fromTree(Tree in) throws ParseException {
