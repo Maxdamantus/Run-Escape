@@ -11,6 +11,7 @@ public class ShopKeeper extends Character implements Containable, Namable {
 	public ShopKeeper(GameWorld world, String r, String n){
 		super(world, r);
 		name = n;
+		health(1000);
 		update();
 	}
 
