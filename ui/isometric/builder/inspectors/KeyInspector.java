@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import game.things.Door;
 import game.things.Key;
 import ui.isometric.builder.InspectorPanel;
 
