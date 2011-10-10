@@ -1499,7 +1499,7 @@
     <i>
     <k>character_amy_sword</k>
     <v>
-      <name>character_amy_empty</name>
+      <name>character_amy_sword</name>
       <type>IMAGE4</type>
       <y-offset>15</y-offset>
     </v>
@@ -1515,7 +1515,7 @@
   <i>
     <k>character_amy_empty_attack</k>
     <v>
-      <name>character_amy_empty_die</name>
+      <name>character_amy_empty_attack</name>
       <type>IMAGE4</type>
       <frame-count>10</frame-count>
     </v>
@@ -1531,7 +1531,7 @@
   <i>
     <k>character_amy_sword_attack</k>
     <v>
-      <name>character_amy_sword_die</name>
+      <name>character_amy_sword_attack</name>
       <type>IMAGE4</type>
       <frame-count>10</frame-count>
     </v>
@@ -1547,7 +1547,7 @@
     <i>
     <k>character_duncan_sword</k>
     <v>
-      <name>character_duncan_empty</name>
+      <name>character_duncan_sword</name>
       <type>IMAGE4</type>
       <y-offset>15</y-offset>
     </v>
@@ -1563,7 +1563,7 @@
   <i>
     <k>character_duncan_empty_attack</k>
     <v>
-      <name>character_duncan_empty_die</name>
+      <name>character_duncan_empty_attack</name>
       <type>IMAGE4</type>
       <frame-count>10</frame-count>
     </v>
@@ -1579,7 +1579,55 @@
   <i>
     <k>character_duncan_sword_attack</k>
     <v>
-      <name>character_duncan_sword_die</name>
+      <name>character_duncan_sword_attack</name>
+      <type>IMAGE4</type>
+      <frame-count>10</frame-count>
+    </v>
+  </i>
+    <i>
+    <k>character_elizabeth_empty</k>
+    <v>
+      <name>character_elizabeth_empty</name>
+      <type>IMAGE4</type>
+      <y-offset>15</y-offset>
+    </v>
+  </i>
+    <i>
+    <k>character_elizabeth_sword</k>
+    <v>
+      <name>character_elizabeth_sword</name>
+      <type>IMAGE4</type>
+      <y-offset>15</y-offset>
+    </v>
+  </i>
+  <i>
+    <k>character_elizabeth_empty_die</k>
+    <v>
+      <name>character_elizabeth_empty_die</name>
+      <type>IMAGE4</type>
+      <frame-count>6</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>character_elizabeth_empty_attack</k>
+    <v>
+      <name>character_elizabeth_empty_attack</name>
+      <type>IMAGE4</type>
+      <frame-count>10</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>character_elizabeth_sword_die</k>
+    <v>
+      <name>character_elizabeth_sword_die</name>
+      <type>IMAGE4</type>
+      <frame-count>6</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>character_elizabeth_sword_attack</k>
+    <v>
+      <name>character_elizabeth_sword_attack</name>
       <type>IMAGE4</type>
       <frame-count>10</frame-count>
     </v>
