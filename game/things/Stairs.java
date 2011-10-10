@@ -34,16 +34,16 @@ public class Stairs extends AbstractGameThing {
 	}
 
 	public void walkAndGo(final boolean goup, final Player p){
-		Location l = location();
+		final Location l = location();
 		if(l instanceof Level.Location)
 			p.moveTo(((Level.Location)l).rotate(allow).next(), 0, new Runnable(){
 				public void run(){
 					Location pl = p.location();
 					if(pl instanceof Level.Location){
 						if(goup)
-							((Level.Location)pl).above(up).direct(allow.compose(Direction.SOUTH).inverse()).next(2).put(p);
+							((Level.Location)l).rotate(allow.compose(Direction.SOUTH)).next(2).above(up).put(p);
 						else
-							((Level.Location)pl).below(down).direct(allow.compose(Direction.SOUTH).inverse()).next(2).put(p);
+							((Level.Location)l).rotate(allow.compose(Direction.SOUTH)).next(2).above(up).put(p);
 					}
 				}
 			});
