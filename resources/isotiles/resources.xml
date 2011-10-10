@@ -1082,6 +1082,13 @@
       <type>IMAGE1</type>
     </v>
   </i>
+  <i>
+    <k>light</k>
+    <v>
+      <name>light</name>
+      <type>IMAGE1</type>
+    </v>
+  </i>
   
   <i>
     <k>amber</k>

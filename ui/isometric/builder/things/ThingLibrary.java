@@ -556,6 +556,44 @@ public class ThingLibrary {
 		}
 	}
 	
+	/**
+	 * A class that creates Lights
+	 * @author melby
+	 *
+	 */
+	public static class LightCreator implements ThingCreator {
+		private int radius;
+		
+		/**
+		 * Create a LightCreator
+		 * @param radius
+		 */
+		public LightCreator(int radius) {
+			this.radius = radius;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			game.things.Light light = new game.things.Light(w, "light", radius);
+			return light;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("light", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("light");}};
+		}
+
+		@Override
+		public String description() {
+			return "Light";
+		}
+	}
+	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
 	
@@ -761,6 +799,8 @@ public class ThingLibrary {
 				creators.add(new StairCreator("stairs_grey_down_2", -1, Direction.SOUTH));
 				creators.add(new StairCreator("stairs_grey_up_3", 1, Direction.SOUTH));
 				creators.add(new StairCreator("stairs_grey_down_3", -1, Direction.SOUTH));
+				
+				creators.add(new LightCreator(1));
 				
 				creators.add(new SpawnPointCreator());
 				
