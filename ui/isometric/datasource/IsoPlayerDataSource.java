@@ -37,7 +37,7 @@ public class IsoPlayerDataSource extends IsoGameModelDataSource {
 	@Override
 	protected void configureSquare(IsoSquare square, GameThing thing) {
 		if(thing == player.thing()) { // TODO: Always safe?
-			square.addImageForLevel(new IsoObject(thing, IsoRendererLibrary.imageForRendererName("player_highlight", Direction.NORTH), square, 0), IsoSquare.GROUND_HIGHLIGHT);
+			square.addImageForLevel(new IsoObject(null, IsoRendererLibrary.imageForRendererName("player_highlight", Direction.NORTH), square, 0), IsoSquare.GROUND_HIGHLIGHT);
 		}
 		
 		super.configureSquare(square, thing);
