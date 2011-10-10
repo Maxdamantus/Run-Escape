@@ -54,7 +54,7 @@ public class ClientInterface implements IsoInterface {
 	 * @param logic
 	 * @param playerGid
 	 */
-	public ClientInterface(String name, final GameWorld world, final ClientMessageHandler logic, long playerGid) {
+	public ClientInterface(String name, final GameWorld world, final ClientMessageHandler logic, final long playerGid) {
 		this.world = world;
 		this.logic = logic;
 		
@@ -83,27 +83,29 @@ public class ClientInterface implements IsoInterface {
 					if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
 						JPopupMenu popup = new JPopupMenu();
 						for(GameThing t : i.gameThing().location().contents()) {
-							JMenuItem n = new JMenuItem(t.name());
-							n.setEnabled(false);
-							popup.add(n);
-							
-							List<String> interactions = t.interactions();
-							
-							for(String intr : interactions) {
-								JMenuItem item = new JMenuItem("   "+intr);
-								item.setName(t.gid()+"");
-								item.addActionListener(new ActionListener() {								
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										Object s = e.getSource();
-										
-										if(s instanceof JMenuItem) {
-											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText().substring(3), world.thingWithGID(Long.parseLong /* BLARGH */ (m.getName())));
+							if(t.gid() != playerGid) {
+								JMenuItem n = new JMenuItem(t.name());
+								n.setEnabled(false);
+								popup.add(n);
+								
+								List<String> interactions = t.interactions();
+								
+								for(String intr : interactions) {
+									JMenuItem item = new JMenuItem("   "+intr);
+									item.setName(t.gid()+"");
+									item.addActionListener(new ActionListener() {								
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											Object s = e.getSource();
+											
+											if(s instanceof JMenuItem) {
+												JMenuItem m = (JMenuItem)s;
+												isoInterface.performActionOn(m.getText().substring(3), world.thingWithGID(Long.parseLong /* BLARGH */ (m.getName())));
+											}
 										}
-									}
-								});
-								popup.add(item);
+									});
+									popup.add(item);
+								}
 							}
 						}
 						popup.show(canvas, event.getPoint().x, event.getPoint().y);
