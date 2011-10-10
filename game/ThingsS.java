@@ -16,7 +16,8 @@ public class ThingsS {
 		Enemy.makeSerializer(u, w);
 		EquipmentGameThing.makeSerializer(u, w);
 		OpenableFurniture.makeSerializer(u, w);
-
+		ChattyNPC.makeSerializer(u, w);
+		Key.makeSerializer(u, w);
 		return u.serializer();
 	}	
 
