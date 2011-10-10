@@ -1,19 +1,17 @@
 package client;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import data.Database;
 
 import ui.isometric.IsoInterface;
-import util.GUI;
+import ui.isometric.client.ClientInterface;
 
 import game.*;
 
@@ -192,7 +190,7 @@ public class Client implements ClientMessageHandler {
 			userGID = uid;
 
 			// showing GUI
-			view = new IsoInterface("Run, Escape!", world, this, userGID);
+			view = new ClientInterface("Run, Escape!", world, this, userGID);
 			view.show();
 		}
 	}

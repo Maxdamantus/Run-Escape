@@ -29,7 +29,7 @@ public class LibraryFrame extends JFrame {
 	 * Create a LibraryFrame with the default GameThings and IsoInterfaceWorldBuilder
 	 * @param builder
 	 */
-	public LibraryFrame(IsoInterfaceWorldBuilder builder) { // TODO: categories
+	public LibraryFrame(BuilderInterface builder) { // TODO: categories
 		super(builder.frameName()+" - Image Library");
 		
 		int cols = 10;

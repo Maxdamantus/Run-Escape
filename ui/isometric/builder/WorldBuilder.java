@@ -9,11 +9,11 @@ import ui.isometric.mock.ClientMessageHandlerMock;
  * @author melby
  *
  */
-public class WorldBuilderMain {
+public class WorldBuilder {
 	private static GameWorld sgm = new GameWorld();
 
 	public static void main(String[] args) {
-		IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("World Builder", sgm, new ClientMessageHandlerMock());
+		BuilderInterface view = new BuilderInterface("World Builder", sgm, new ClientMessageHandlerMock());
 		view.show();
 	}
 }

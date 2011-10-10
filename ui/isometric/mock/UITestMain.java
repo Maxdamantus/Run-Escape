@@ -1,6 +1,7 @@
 package ui.isometric.mock;
 
 import ui.isometric.IsoInterface;
+import ui.isometric.client.ClientInterface;
 import util.*;
 import game.*;
 
@@ -19,7 +20,7 @@ public class UITestMain {
 		sgm.level(0).location(new Position(5, 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_water_two_sides"));
 		sgm.level(0).location(new Position(5, -2), Direction.NORTH).put(new game.things.SpawnPoint(sgm));
 		sgm.getPlayer("Cordi", "Cordi").login();
-		IsoInterface view = new IsoInterface("IsoTest", sgm, new ClientMessageHandlerMock(), sgm.getPlayer("Cordi", "Cordi").gid());
+		IsoInterface view = new ClientInterface("IsoTest", sgm, new ClientMessageHandlerMock(), sgm.getPlayer("Cordi", "Cordi").gid());
 		view.show();
 	}
 }

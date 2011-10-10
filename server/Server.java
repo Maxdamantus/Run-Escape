@@ -20,7 +20,7 @@ import data.Database;
 
 
 import serialization.ParseException;
-import ui.isometric.builder.IsoInterfaceWorldBuilder;
+import ui.isometric.builder.BuilderInterface;
 import ui.isometric.mock.ClientMessageHandlerMock;
 import util.Direction;
 import util.Position;
@@ -70,7 +70,7 @@ public class Server{
 			model = defaultworld();
 		}
 
-		IsoInterfaceWorldBuilder view = new IsoInterfaceWorldBuilder("Server", model, new ClientMessageHandlerMock());
+		BuilderInterface view = new BuilderInterface("Server", model, new ClientMessageHandlerMock());
 		view.show();
 		runServer(port,model);	
 		System.exit(0);

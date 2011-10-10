@@ -40,7 +40,7 @@ public class InspectorPanel extends JFrame {
 
 	private static Set<Runnable> updaters = new HashSet<Runnable>();
 	
-	private IsoInterfaceWorldBuilder builder;
+	private BuilderInterface builder;
 	private Location loc = null;
 
 	/**
@@ -64,7 +64,7 @@ public class InspectorPanel extends JFrame {
 	 * Create a InspectorPanel with a IsoInterfaceWorldBuilder that is managing it
 	 * @param builder
 	 */
-	public InspectorPanel(final IsoInterfaceWorldBuilder builder) {
+	public InspectorPanel(final BuilderInterface builder) {
 		super(builder.frameName()+" - Inspector");
 		
 		this.builder = builder;
@@ -80,7 +80,7 @@ public class InspectorPanel extends JFrame {
 			@Override
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(loc != null) {
-					loc.put(creator.createThing(builder.gameWorld(), loc));
+					loc.put(creator.createThing(builder.world(), loc));
 					signalUpdate();
 				}
 			}
@@ -137,7 +137,7 @@ public class InspectorPanel extends JFrame {
 	 * The IsoInterfaceWorldBuilder that is managing this InspectorPanel
 	 * @return
 	 */
-	public IsoInterfaceWorldBuilder builder() {
+	public BuilderInterface builder() {
 		return builder;
 	}
 }

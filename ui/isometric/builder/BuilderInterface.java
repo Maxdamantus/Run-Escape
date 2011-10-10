@@ -1,5 +1,6 @@
 package ui.isometric.builder;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -29,7 +30,9 @@ import data.Database;
 
 import serialization.ParseException;
 import ui.isometric.IsoCanvas;
+import ui.isometric.IsoInterface;
 import ui.isometric.abstractions.IsoObject;
+import ui.isometric.abstractions.IsoPlayer;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.datasource.IsoChangeLevelDataSource;
@@ -45,7 +48,7 @@ import game.*;
  * @author melby
  *
  */
-public class IsoInterfaceWorldBuilder {
+public class BuilderInterface implements IsoInterface {
 	private JFrame frame;
 	private InspectorPanel inspector;
 	private LibraryFrame library;
@@ -66,7 +69,7 @@ public class IsoInterfaceWorldBuilder {
 	 * @param world
 	 * @param logic
 	 */
-	public IsoInterfaceWorldBuilder(String name, final GameWorld world, ClientMessageHandler logic) {
+	public BuilderInterface(String name, final GameWorld world, ClientMessageHandler logic) {
 		this.world = world;
 		this.frameName = name;
 		
@@ -172,9 +175,7 @@ public class IsoInterfaceWorldBuilder {
 		frame.setSize((int)(screen.width*(1-perx)), (int)(screen.height));
 	}
 	
-	/**
-	 * Display this interface
-	 */
+	@Override
 	public void show() {
 		frame.setVisible(true);
 		inspector.setVisible(true);
@@ -189,11 +190,8 @@ public class IsoInterfaceWorldBuilder {
 		inspector.inspect(l);
 	}
 
-	/**
-	 * The GameWorld that this interface is using
-	 * @return
-	 */
-	public GameWorld gameWorld() {
+	@Override
+	public GameWorld world() {
 		return world;
 	}
 	
@@ -274,5 +272,30 @@ public class IsoInterfaceWorldBuilder {
 	 */
 	public String frameName() {
 		return frameName;
+	}
+
+	@Override
+	public IsoCanvas canvas() {
+		return canvas;
+	}
+
+	@Override
+	public void performActionOn(String interaction, GameThing thing) {
+		thing.interact(interaction, null);
+	}
+
+	@Override
+	public IsoPlayer player() {
+		return null;
+	}
+
+	@Override
+	public void incomingChat(String message, Color color) {
+		System.out.println("Got Chat: "+message);
+	}
+
+	@Override
+	public void sendChatMessage(String message) {
+		System.out.println("Send Chat: "+message);
 	}
 }

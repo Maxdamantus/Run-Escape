@@ -120,7 +120,7 @@ abstract public class GameThingInspector<T extends GameThing> extends JPanel {
 	 */
 	protected void remove() {
 		game.LocationS.NOWHERE.put(thing);
-		panel.builder().gameWorld().forget(thing);
+		panel.builder().world().forget(thing);
 		this.refresh();
 	}
 	

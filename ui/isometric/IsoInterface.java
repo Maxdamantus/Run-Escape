@@ -1,228 +1,57 @@
 package ui.isometric;
 
 import java.awt.Color;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.util.List;
 
-import game.GameThing;
-
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
-import ui.isometric.abstractions.IsoObject;
 import ui.isometric.abstractions.IsoPlayer;
-import ui.isometric.datasource.IsoDataSource;
-import ui.isometric.datasource.IsoPlayerDataSource;
-import ui.isometric.sublayers.ChatRenderer;
-import ui.isometric.sublayers.QuickBarRenderer;
-import util.Direction;
-
-import game.*;
+import game.GameThing;
+import game.GameWorld;
 
 /**
  * 
- * The overall class that manages the entire user interface
+ * The interface for overall classes that manage the user interface
  * 
  * @author melby
  *
  */
-public class IsoInterface {
-	private JFrame frame;
-	private IsoCanvas canvas;
-	private IsoInterface isoInterface = this;
-	
-	private IsoPlayer player;
-	
-	private GameWorld world;
-	private ClientMessageHandler logic;
-	
-	private ChatRenderer chatRenderer;
-	private QuickBarRenderer quickBarRenderer;
-		
-	/**
-	 * Create a interface with a given frame name, GameWorld, ClientMessageHandler and player gid
-	 * @param name
-	 * @param world
-	 * @param logic
-	 * @param playerGid
-	 */
-	public IsoInterface(String name, final GameWorld world, final ClientMessageHandler logic, long playerGid) {
-		this.world = world;
-		this.logic = logic;
-		
-		long end = System.currentTimeMillis() + 5000; // 5 sec
-		GameThing me = null;
-		while((me = world.thingWithGID(playerGid)) == null && end > System.currentTimeMillis()) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		this.player = new IsoPlayer(world, me, this, logic.getCharacterName());
-		
-		frame = new JFrame(name);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		IsoDataSource dataSource = new IsoPlayerDataSource(this.world, player);
-		
-		canvas = new IsoCanvas(dataSource);
-		canvas.addSelectionCallback(new IsoCanvas.SelectionCallback() {
-			@Override
-			public void selected(final IsoObject i, final Location l, MouseEvent event) {
-				if(i != null) {			
-					if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
-						JPopupMenu popup = new JPopupMenu();
-						for(GameThing t : i.gameThing().location().contents()) {
-							JMenuItem n = new JMenuItem(t.name());
-							n.setEnabled(false);
-							popup.add(n);
-							
-							List<String> interactions = t.interactions();
-							
-							for(String intr : interactions) {
-								JMenuItem item = new JMenuItem("   "+intr);
-								item.setName(t.gid()+"");
-								item.addActionListener(new ActionListener() {								
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										Object s = e.getSource();
-										
-										if(s instanceof JMenuItem) {
-											JMenuItem m = (JMenuItem)s;
-											isoInterface.performActionOn(m.getText().substring(3), world.thingWithGID(Long.parseLong /* BLARGH */ (m.getName())));
-										}
-									}
-								});
-								popup.add(item);
-							}
-						}
-						popup.show(canvas, event.getPoint().x, event.getPoint().y);
-					}
-					else {
-						if (i.gameThing().defaultInteraction() != null) {
-							isoInterface.performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
-						}
-					}
-				}
-			}
-		});
-		canvas.addKeyListener(new KeyListener() { // TODO: key listeners in renderer layers?
-			private boolean chat = false;
-			private String message = "";
-			
-			@Override
-			public void keyPressed(KeyEvent arg0) {}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				if(arg0.getKeyChar() == '\n') {
-					if(chat) {
-						if(message.length() > 0) {
-							sendChatMessage(message);
-						}
-						chat = false;
-						message = "";
-					}
-					else {
-						chat = true;
-					}
-					chatRenderer.setBoxVisible(chat);
-				}
-				else if(chat) {
-					if(arg0.getKeyChar() == '\b') {
-						if(message.length() > 0) {
-							message = message.substring(0, message.length()-1);
-						}
-					}
-					else {
-						message = message + arg0.getKeyChar();
-					}
-				}
-				else if(arg0.getKeyChar() == 'r') {
-					canvas.setViewDirection(canvas.viewDirection().compose(Direction.EAST));
-				}
-				else if(arg0.getKeyChar() == 'l') { // TODO: just temporary
-					canvas.setLightPoint((canvas.lightPoint() == null)?new Point(255, 255):null);
-				}
-				
-				chatRenderer.setMessage(message);
-			}
-		});
-		
-		chatRenderer = new ChatRenderer();
-		quickBarRenderer = new QuickBarRenderer(this);
-		
-		canvas.addLayerRenderer(chatRenderer);
-		canvas.addLayerRenderer(quickBarRenderer);
-		
-		frame.setSize(300, 300);
-		frame.add(canvas);
-	}
-	
+public interface IsoInterface {
 	/**
 	 * Send an interaction to the GameWorld
 	 * @param interaction
 	 * @param thing
 	 */
-	public void performActionOn(String interaction, GameThing thing) {
-		logic.sendMessage(new ClientMessage(new ClientMessage.Interaction(thing.gid(), interaction), -1));
-	}
-
+	public void performActionOn(String interaction, GameThing thing);
+	
+	/**
+	 * Get the wrapper around the current player
+	 * @return
+	 */
+	public IsoPlayer player();
+	
 	/**
 	 * Display this interface
 	 */
-	public void show() {
-		frame.setVisible(true);
-	}
+	public void show();
 	
-	/**
-	 * An incoming chat message from the server
-	 * @param message
-	 */
-	public void incomingChat(String message, Color color) {
-		chatRenderer.logMessage(message, color);
-	}
-	
-	/**
-	 * 
-	 * Post a chat message to the server
-	 * @param message
-	 */
-	private void sendChatMessage(String message) {
-		logic.sendChat(message);
-	}
-
 	/**
 	 * Get the game world
 	 */
-	public GameWorld world() {
-		return world;
-	}
-	
-	/**
-	 * Get the wrapper round the current player
-	 * @return
-	 */
-	public IsoPlayer player() {
-		return player;
-	}
+	public GameWorld world();
 	
 	/**
 	 * Get the rendering canvas
 	 * @return
 	 */
-	public IsoCanvas canvas() {
-		return canvas;
-	}
+	public IsoCanvas canvas();
+	
+	/**
+	 * Display an incoming chat message
+	 * @param message
+	 */
+	public void incomingChat(String message, Color color);
+	
+	/**
+	 * Post a chat message
+	 * @param message
+	 */
+	public void sendChatMessage(String message);
 }
