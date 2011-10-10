@@ -111,7 +111,7 @@ public class ClientInterface implements IsoInterface {
 						popup.show(canvas, event.getPoint().x, event.getPoint().y);
 					}
 					else {
-						if (i.gameThing().defaultInteraction() != null) {
+						if(i.gameThing() != null && i.gameThing().defaultInteraction() != null) {
 							isoInterface.performActionOn(i.gameThing().defaultInteraction(), i.gameThing());
 						}
 					}
