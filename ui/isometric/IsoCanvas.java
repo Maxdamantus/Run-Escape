@@ -69,7 +69,8 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	
 	private BufferedImage backbuffer;
 	private Graphics2D backbufferGraphics;
-	private Image lightMask;
+	private Image lightMask512;
+	private Image lightMask1280;
 	private boolean drawLights = false;
 	
 	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
@@ -186,7 +187,8 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		catch(Exception e) {} // Stupid java bug when not on windows
 		
 		try {
-			lightMask = Resources.readImageResourceUnfliped("/resources/lights/light_mask_512.png");
+			lightMask512 = Resources.readImageResourceUnfliped("/resources/lights/light_mask_512.png");
+			lightMask1280 = Resources.readImageResourceUnfliped("/resources/lights/light_mask_1280.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -297,9 +299,10 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	 * @param y
 	 */
 	private void drawLightAt(Graphics2D g, double radius, int x, int y) {
-		g.drawImage(lightMask,
+		Image i = (radius*TILE_X > 512)?lightMask1280:lightMask512;
+		g.drawImage(lightMask512,
 				(int)(x-radius*TILE_X), (int)(y-radius*TILE_Y), (int)(x+radius*TILE_X), (int)(y+radius*TILE_Y),
-				0, 0, lightMask.getWidth(null), lightMask.getHeight(null),
+				0, 0, i.getWidth(null), i.getHeight(null),
 				null);
 	}
 
