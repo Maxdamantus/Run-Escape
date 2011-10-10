@@ -35,6 +35,7 @@ public class Light extends AbstractGameThing implements Luminant {
 
 	public int luminance(int s){
 		return luminance = s;
+		update();
 	}
 
 	public int renderLevel(){
