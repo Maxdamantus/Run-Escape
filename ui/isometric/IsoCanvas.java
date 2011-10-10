@@ -256,8 +256,25 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 				if(!selectionRender) {
 					g.drawImage(i.image(), dx-i.width()/2, dy-i.height()-i.yoffset(), i.width(), i.height(), null, this);
 					if(i.hasHealth()) { // Draw health
+						int w = i.width();
+						int h = i.height();
+						int x = dx-i.width()/2;
+						int y = dy-h-i.yoffset();
+						double health = i.health();
 						g.setColor(Color.WHITE);
-						g.drawString((i.health()*100)+"%", dx, dy-i.height()-i.yoffset()); // TODO: bar
+						g.drawRect(x, y-5, x+w, y);
+						Color color = Color.GREEN;
+						if(health < 0.8) {
+							color = Color.YELLOW;
+						}
+						else if(health < 0.5) {
+							color = Color.ORANGE;
+						}
+						else if(health < 0.2) {
+							color = Color.RED;
+						}
+						g.setColor(color);
+						g.fillRect(x, y-5, (int) ((x+w)*health), y);
 					}
 				}
 				else {
