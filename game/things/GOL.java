@@ -23,7 +23,7 @@ public class GOL {
 			if(l instanceof Level.Location){
 				places.add((Level.Location)l);
 				LocationS.NOWHERE.put(c);
-				c.forget();
+				world.forget(c);
 			}
 		}
 		Set<Level.Location> done = new HashSet<Level.Location>();
@@ -91,6 +91,7 @@ public class GOL {
 			super(world);
 			id = i;
 			allCells.put(id, new HashSet<Cell>());
+			update();
 		}
 
 		public List<String> interactions(){
@@ -169,6 +170,7 @@ public class GOL {
 			if(!allCells.containsKey(id))
 				allCells.put(id, new HashSet<Cell>());
 			allCells.get(id).add(this);
+			update();
 		}
 
 		public String renderer(){
