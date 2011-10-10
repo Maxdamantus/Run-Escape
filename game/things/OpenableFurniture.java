@@ -27,9 +27,16 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 			}
 
 			public GameThing read(Tree in) throws ParseException {
-				return new OpenableFurniture(world, in.find("type").value(), Boolean.parseBoolean(in.find("open").value()), 
-						Container.serializer(union.serializer(), world).read(in.find("contents")),
-						in.find("doorcode").value());
+				if(in.findNull("doorcode") == null){
+					return new OpenableFurniture(world, in.find("type").value(), Boolean.parseBoolean(in.find("state").value()), 
+							Container.serializer(union.serializer(), world).read(in.find("contents")),
+							"blank");
+				}
+				else{
+					return new OpenableFurniture(world, in.find("type").value(), Boolean.parseBoolean(in.find("state").value()), 
+							Container.serializer(union.serializer(), world).read(in.find("contents")),
+							in.find("doorcode").value());
+				}
 			}
 		});
 	}
@@ -51,7 +58,10 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 			this.contents = new Container(world);
 		}
 		this.open = open;
-		this.doorcode = doorcode;
+		if(doorcode == null)
+			this.doorcode = "blank";
+		else
+			this.doorcode = doorcode;
 		update();
 	}
 	
@@ -61,6 +71,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		renderer = name;
 		open = false;
 		contents = new Container(world);
+		doorcode = "blank";
 		update();
 	}
 
@@ -138,7 +149,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		if(name.equals("close"))
 			walkAndSetOpen(false, who, "You close the chest");
 		else if(name.equals("open")){
-			if(doorcode != null){
+			if(!doorcode.equals("blank")){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
 						walkAndSetOpen(true, who, "You unlock & open the chest");

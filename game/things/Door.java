@@ -32,7 +32,7 @@ public class Door extends AbstractGameThing implements Togglable {
 				if(in.findNull("doorcode") == null){
 					return new Door(world, in.find("close").value(), in.find("open").value(),
 							Serializers.Serializer_Boolean.read(in.find("state")),
-							null);
+							"blank");
 				}
 				else{
 					return new Door(world, in.find("close").value(), in.find("open").value(),
@@ -96,7 +96,7 @@ public class Door extends AbstractGameThing implements Togglable {
 		if(inter.equals("close"))
 			walkAndSetOpen(false, who, "You close the door");
 		else if(inter.equals("open")){
-			if(doorcode != null){
+			if(!doorcode.equals("blank")){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
 						walkAndSetOpen(true, who, "You unlock et open the door");
