@@ -148,6 +148,7 @@ public abstract class Character extends AbstractGameThing {
 	private Object attackIdent;
 	private Runnable attacker;
 	public void attack(final GameThing g){
+		if(this.health > 0 && g instanceof Character && ((Character)g).health() > 0){
 			final Character thischar = this;
 			final Object ident = new Object();
 			attackIdent = ident;
@@ -159,7 +160,7 @@ public abstract class Character extends AbstractGameThing {
 						if(l instanceof Level.Location){
 							Location ml = location();
 							if(ml instanceof Level.Location && ((Level.Location)l).dist((Level.Location)ml) <= 2){
-								face(l);
+							//	face(l);
 								if((g instanceof Character) && ((Character) g).health() > 0 && thischar.health > 0){
 									animate(renderer() + "_attack");
 									hurt(g);
@@ -173,6 +174,7 @@ public abstract class Character extends AbstractGameThing {
 			};
 			follow(g, 2);
 			world().schedule(attacker, 500);
+		}
 	}
 	
 	public void face(Location l){

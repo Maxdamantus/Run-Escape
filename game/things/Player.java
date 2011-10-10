@@ -51,13 +51,13 @@ public class Player extends Character {
 		name = n;
 		world.setPlayer(n, this);
 		lastLocation = spawn != null? spawn : LocationS.NOWHERE;
-		update();
 		health(1000);
 		inventory = inv;
 		equipment = equ;
 		inv.owner(this);
 		equ.owner(this);
 		setStats(10,10,10,10);
+		update();
 	//	world.schedule(blah, 1000);
 	}
 
