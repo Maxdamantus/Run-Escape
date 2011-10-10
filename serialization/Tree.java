@@ -121,7 +121,7 @@ public class Tree{
 		for(Entry e : children)
 			if(e.name().equals(s))
 				return e.tree();
-		return new Tree.Entry(null, this).tree();
+		return null;
 	}
 
 	/**
