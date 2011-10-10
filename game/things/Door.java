@@ -99,7 +99,7 @@ public class Door extends AbstractGameThing implements Togglable {
 			if(!doorcode.equals("blank")){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
-						walkAndSetOpen(true, who, "You unlock et open the door");
+						walkAndSetOpen(true, who, "You unlock and open the door");
 						return;
 					}
 				}
