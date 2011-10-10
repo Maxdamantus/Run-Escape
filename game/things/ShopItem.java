@@ -7,15 +7,39 @@ import java.util.*;
 import serialization.*;
 
 public class ShopItem extends Stackable {
+	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof ShopItem? "shopitem" : null;
+			}
+		});
+
+		union.addSerializer("shopitem", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				ShopItem in = (ShopItem)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("amount", new Tree(String.valueOf(in.amount()))));
+				out.add(new Tree.Entry("cost", new Tree(String.valueOf(in.cost))));
+				out.add(new Tree.Entry("item", in.tree));
+				return out;
+			}
+
+			public GameThing read(Tree in) throws ParseException {
+				return new ShopItem(world, union.serializer().read(in.find("item")), Serializers.Serializer_Integer.read(in.find("amount")), Serializers.Serializer_Integer.read(in.find("cost")));
+			}
+		});
+	}
+
 	private final Serializer<GameThing> reader;
 	private final Tree tree;
 	private final DumbGameThing prototype;
 	private int cost;
 
-	public ShopItem(GameWorld w, GameThing g, int a){
+	public ShopItem(GameWorld w, GameThing g, int a, int c){
 		super(w, a);
 		reader = ThingsS.makeSerializer(w);
 		tree = reader.write(g);
+		cost = c;
 		prototype = new DumbGameThing(g);
 	}
 
