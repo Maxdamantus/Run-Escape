@@ -177,4 +177,13 @@ public class IsoPlayer {
 			throw new RuntimeException("No Level.Location for Player");
 		}
 	}
+
+	/**
+	 * Get weather this player is a light.
+	 * This is equivalent to is the player on a dark level.
+	 * @return
+	 */
+	public boolean isLight() {
+		return thing.info().get("luminance") != null;
+	}
 }

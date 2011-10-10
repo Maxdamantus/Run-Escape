@@ -1,7 +1,9 @@
 package ui.isometric.datasource;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -27,7 +29,6 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 	private GameWorld gameWorld;
 	private IsoSquare[][] squares = null;
 	private ReentrantReadWriteLock cacheChange = new ReentrantReadWriteLock();
-	private IsoSquare emptySquare = new IsoSquare();
 	
 	private Direction viewDirection;
 	private Area querryArea;
@@ -38,6 +39,8 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 	
 	private Map<Long, Animation> animations = new HashMap<Long, Animation>();
 	private ReadWriteLock animationsLock = new ReentrantReadWriteLock();
+	
+	private Set<Light> lights = new HashSet<Light>();
 	
 	private static final double ANIMATION_FPS = 20;
 	
@@ -92,9 +95,6 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 			tmp = null;
 		}
 		cacheChange.readLock().unlock();
-		if(tmp == null) {
-			tmp = emptySquare;
-		}
 		return tmp;
 	}
 
@@ -120,6 +120,7 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 		
 		cacheChange.writeLock().lock();
 		squares = tmp;
+		lights.clear();
 		cacheChange.writeLock().unlock();
 	}
 	
@@ -135,17 +136,54 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 				Position pos = transform.transformMapToView(((Level.Location)l).position());
 				IsoSquare square = squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY];
 				if(square == null) {
-					square = new IsoSquare();
+					square = new IsoSquare((Level.Location)l);
 				}
 				
 				this.configureSquare(square, thing);
 				
 				squares[pos.x()+arrayPaddingX][pos.y()+arrayPaddingY] = square;
+				
+				if(this.isLight(thing)) {
+					lights.add(this.lightForThing(thing));
+				}
 			}
 		}
 		cacheChange.writeLock().unlock();
 	}
 	
+	/**
+	 * Get a Light for a given thing
+	 * @param thing
+	 * @return
+	 */
+	private Light lightForThing(GameThing thing) {
+		String luminance = thing.info().get("luminance");
+		
+		if(luminance != null) {
+			try {
+				double radius = Integer.valueOf(luminance);
+				
+				if(thing.location() instanceof Level.Location) {
+					Position point = ((Level.Location)thing.location()).position();
+					
+					return new Light(radius, point);
+				}
+			}
+			catch (NumberFormatException e) {}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Check to see if the given thing is a light
+	 * @param thing
+	 * @return
+	 */
+	private boolean isLight(GameThing thing) {
+		return thing.info().get("luminance") != null;
+	}
+
 	/**
 	 * Configure a square with a given thing.
 	 * Note: default just adds the thing to the square,
@@ -185,7 +223,9 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 	public IsoTransform transform() {
 		return transform;
 	}
-
+	
 	@Override
-	abstract public Level level();
+	public Set<Light> lights() {
+		return lights;
+	}
 }

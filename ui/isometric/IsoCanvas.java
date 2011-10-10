@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import ui.isometric.abstractions.IsoObject;
 import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.datasource.IsoDataSource;
+import ui.isometric.datasource.IsoDataSource.Light;
 import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
 import util.Position;
@@ -140,6 +141,22 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	/**
+	 * The interface for iterating through all the squares on the grid
+	 * @author melby
+	 *
+	 */
+	public interface SquareOperator {
+		/**
+		 * Apply an oparation to a given square
+		 * @param px - pixel x
+		 * @param py - pixel y
+		 * @param sx - square x
+		 * @param sy - square y
+		 */
+		public void doSquare(int px, int py, int sx, int sy);
+	}
+	
+	/**
 	 * Create a new IsoCanvas with a given datasource
 	 * @param dataSource
 	 */
@@ -195,31 +212,17 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 			backbufferGraphics.clearRect(0, 0, this.getWidth(), this.getHeight());
 			oc = backbufferGraphics.getComposite();
 			if(drawLights) {
-				this.drawLights(backbufferGraphics);
+				this.drawLights(backbufferGraphics, smoothing);
 				backbufferGraphics.setComposite(AlphaComposite.SrcAtop);
 			}
 		}
 		
-		
-		int rowY = TILE_Y/2;
-		int tileCountY = this.getHeight()/rowY+5;
-		int tileCountX = this.getWidth()/TILE_X+2;
-		int row = 0;
-		
-		int y = -rowY; // rowY
-		for(;y<tileCountY*rowY;y+=rowY) {
-			if(!selectionRender || selectionPoint.y < y+smoothing.getY()) {
-				int yg = -((row%2 == 0)?row/2-1:row/2);
-				int xg = (row%2 == 0)?row/2:(row-1)/2;
-				int x = ((row%2 == 0)?TILE_X/2:0)-TILE_X;
-				for(;x<tileCountX*TILE_X;x+=TILE_X) {
-					this.drawSquareAt(backbufferGraphics, (int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
-					yg++;
-					xg++;
-				}
+		this.iterateThroughSquares(smoothing, new SquareOperator() {
+			@Override
+			public void doSquare(int px, int py, int sx, int sy) {
+				drawSquareAt(backbufferGraphics, px, py, sx, sy);
 			}
-			row++;
-		}
+		});
 		
 		if(!selectionRender) {
 			backbufferGraphics.setComposite(oc);
@@ -240,10 +243,64 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	/**
-	 * Draw all the lights
+	 * Iterate through all the squares on screen
+	 * @param smoothing
 	 */
-	private void drawLights(Graphics2D g) {
-		g.drawImage(lightMask, this.getWidth()/2-lightMask.getWidth(null)/2, this.getHeight()/2-lightMask.getHeight(null)/2, null);
+	private void iterateThroughSquares(Point smoothing, SquareOperator opp) {
+		int rowY = TILE_Y/2;
+		int tileCountY = this.getHeight()/rowY+5;
+		int tileCountX = this.getWidth()/TILE_X+2;
+		int row = 0;
+		
+		int y = -rowY; // rowY
+		for(;y<tileCountY*rowY;y+=rowY) {
+			if(!selectionRender || selectionPoint.y < y+smoothing.getY()) {
+				int yg = -((row%2 == 0)?row/2-1:row/2);
+				int xg = (row%2 == 0)?row/2:(row-1)/2;
+				int x = ((row%2 == 0)?TILE_X/2:0)-TILE_X;
+				for(;x<tileCountX*TILE_X;x+=TILE_X) {
+					opp.doSquare((int)(x+smoothing.getX()), (int)(y+smoothing.getY()), xg, yg);
+					yg++;
+					xg++;
+				}
+			}
+			row++;
+		}
+	}
+
+	/**
+	 * Draw all the lights
+	 * @param g
+	 * @param smoothing
+	 */
+	private void drawLights(final Graphics2D g, Point smoothing) {
+		this.iterateThroughSquares(smoothing, new SquareOperator() {
+			@Override
+			public void doSquare(int px, int py, int sx, int sy) {
+				IsoSquare s = dataSource.squareAt(sx, sy);
+				if(s != null) {
+					for(Light l : dataSource.lights()) {
+						if(s.location().position().equals(l.position())) {
+							drawLightAt(g, l.radius(), px, py);
+						}
+					}
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Draw a single light at the given position
+	 * @param g
+	 * @param radius
+	 * @param x
+	 * @param y
+	 */
+	private void drawLightAt(Graphics2D g, double radius, int x, int y) {
+		g.drawImage(lightMask,
+				(int)(x-radius*TILE_X), (int)(y-radius*TILE_Y), (int)(x+radius*TILE_X), (int)(y+radius*TILE_Y),
+				0, 0, lightMask.getWidth(null), lightMask.getHeight(null),
+				null);
 	}
 
 	/**
@@ -257,7 +314,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private void drawSquareAt(Graphics2D g, int dx, int dy, int sx, int sy) {
 		IsoSquare square = dataSource.squareAt(sx, sy);
 		
-		if(square.numberOfImages() > 0) {
+		if(square != null && square.numberOfImages() > 0) {
 			for(IsoObject i : square) {
 				if(!selectionRender) {
 					g.drawImage(i.image(), dx-i.width()/2, dy-i.height()-i.yoffset(), i.width(), i.height(), null, this);

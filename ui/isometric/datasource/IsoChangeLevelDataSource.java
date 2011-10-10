@@ -74,4 +74,9 @@ public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 	public void goDown() {
 		setLevel(levelNumber()-1);
 	}
+
+	@Override
+	public boolean levelIsDark() {
+		return false;
+	}
 }

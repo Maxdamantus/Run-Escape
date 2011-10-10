@@ -1,5 +1,8 @@
 package ui.isometric.abstractions;
 
+import game.Level;
+import game.Level.Location;
+
 import java.util.*;
 
 /**
@@ -21,6 +24,7 @@ public class IsoSquare implements Iterable<IsoObject> {
 	public static final int DROP = 100;
 	
 	private ArrayList<ImageLevel> images = new ArrayList<ImageLevel>();
+	private Location location;
 	
 	/**
 	 * Represents an image level on a square, used for sorting etc
@@ -72,6 +76,14 @@ public class IsoSquare implements Iterable<IsoObject> {
 	}
 	
 	/**
+	 * Create a IsoSquare with a given location
+	 * @param location
+	 */
+	public IsoSquare(Level.Location location) {
+		this.location = location;
+	}
+	
+	/**
 	 * Add a given IsoImage to at a given level on this square
 	 * @param image
 	 * @param level
@@ -95,5 +107,13 @@ public class IsoSquare implements Iterable<IsoObject> {
 	 */
 	public int numberOfImages() {
 		return images.size();
+	}
+
+	/**
+	 * Get the location of this square
+	 * @return
+	 */
+	public Level.Location location() {
+		return location;
 	}
 }

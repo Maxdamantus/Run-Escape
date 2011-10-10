@@ -1,9 +1,12 @@
 package ui.isometric.datasource;
 
+import java.util.Set;
+
 import game.Level;
 import ui.isometric.IsoTransform;
 import ui.isometric.abstractions.IsoSquare;
 import util.Direction;
+import util.Position;
 
 
 /**
@@ -14,6 +17,43 @@ import util.Direction;
  *
  */
 public interface IsoDataSource {
+	/**
+	 * A data structure to declare the position of lights
+	 * 
+	 * @author melby
+	 *
+	 */
+	public class Light {
+		private double radius;
+		private Position position;
+		
+		/**
+		 * Create a light with the given radius and position
+		 * @param radius
+		 * @param position
+		 */
+		public Light(double radius, Position position) {
+			this.radius = radius;
+			this.position = position;
+		}
+		
+		/**
+		 * Get the radius of this light
+		 * @return
+		 */
+		public double radius() {
+			return radius;
+		}
+		
+		/**
+		 * Get the position of this light in the map
+		 * @return
+		 */
+		public Position position() {
+			return position;
+		}
+	}
+	
 	/**
 	 * Get a square at a given location, relative to the view origin.
 	 * 0x0 is the top left corner, y+ is top right, y- is bottom left, x increses towards the bottom right
@@ -53,4 +93,17 @@ public interface IsoDataSource {
 	 * @return
 	 */
 	public Level level();
+	
+	/**
+	 * Get weather this level is dark or not
+	 * @return
+	 */
+	public boolean levelIsDark();
+	
+	/**
+	 * Get the set of all lights.
+	 * Note, can't be null
+	 * @return
+	 */
+	public Set<Light> lights();
 }

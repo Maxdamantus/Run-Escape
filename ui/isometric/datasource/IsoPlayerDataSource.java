@@ -42,4 +42,9 @@ public class IsoPlayerDataSource extends IsoGameModelDataSource {
 		
 		super.configureSquare(square, thing);
 	}
+
+	@Override
+	public boolean levelIsDark() {
+		return player.isLight();
+	}
 }
