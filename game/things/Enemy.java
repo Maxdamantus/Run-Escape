@@ -1,6 +1,7 @@
 package game.things;
 
 import game.*;
+import game.things.EquipmentGameThing.Slot;
 
 import java.util.*;
 import util.*;
@@ -23,6 +24,7 @@ public class Enemy extends Character implements Namable {
 				out.add(new Tree.Entry("name", new Tree(in.name)));
 				out.add(new Tree.Entry("start", LocationS.s(world).write(in.start)));
 				out.add(new Tree.Entry("wander", Serializers.Serializer_Integer.write(in.wanderdist)));
+				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.inventory)));
 				return out;
 			}
 
@@ -31,7 +33,8 @@ public class Enemy extends Character implements Namable {
 					in.find("type").value(),
 					in.find("name").value(),
 					LocationS.s(world).read(in.find("start")),
-					Serializers.Serializer_Integer.read(in.find("wander")));
+					Serializers.Serializer_Integer.read(in.find("wander")),
+					Container.serializer(union.serializer(), world).read(in.find("inventory")));
 			}
 		});
 	}
@@ -39,13 +42,18 @@ public class Enemy extends Character implements Namable {
 	private String name;
 	private final Location start;
 	private final int wanderdist;
+	private final Container inventory;
 
 
-	public Enemy(GameWorld world, String t, String n, Location sl, int wd){
+	public Enemy(GameWorld world, String t, String n, Location sl, int wd, Container inv){
 		super(world, t);
 		name = n;
 		start = sl;
 		wanderdist = wd;
+		if(inv == null)
+			inventory = new Container(world);
+		else
+			inventory = inv;
 		health(1000);
 		setStats(12,12,12,12);
 		update();
@@ -82,6 +90,11 @@ public class Enemy extends Character implements Namable {
 			who.attack(this);
 		else super.interact(name, who);
 	}
+	
+
+	public Container inventory(){
+		return inventory;
+	}
 
 	public void damage(int amt, Character from){
 		if(!dying()){
@@ -90,9 +103,13 @@ public class Enemy extends Character implements Namable {
 		}
 		if(health() <= 0 && dying()){
 			final Enemy g = this;
-			world().schedule(new Runnable(){public void run(){
-			LocationS.NOWHERE.put(g);
-			world().forget(g);}
+			world().schedule(new Runnable(){
+				public void run(){
+				final game.things.Corpse cp = new Corpse(g.world(),"corpse_1", g.inventory());
+				cp.location(g.location());
+				LocationS.NOWHERE.put(g);
+				world().forget(g);
+				}
 			}, 1500);
 		}
 	}

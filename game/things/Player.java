@@ -44,6 +44,7 @@ public class Player extends Character {
 	private final static int WALKDELAY = 50;
 	private final Container inventory;
 	private final Container equipment;
+	private boolean dead;
 
 	private Player(GameWorld world, String t, String n, Location spawn, Container inv, Container equ){
 		super(world, t);
@@ -71,6 +72,7 @@ public class Player extends Character {
 		}
 	};
 	*/
+
 
 	public Player(GameWorld world, String renderer, String n){
 		this(world, renderer, n, spawnPointWorkAroundCrap(world.getSpawnPoint()));
@@ -115,6 +117,7 @@ public class Player extends Character {
 	
 	@Override
 	public String rendererState() { // TODO: depends on equipped state
+		if(dead) return "";
 		if(equipment != null){
 			for(GameThing gt: equipment){
 				if(((EquipmentGameThing)gt).slot().equals(Slot.WEAPON)){
@@ -148,19 +151,26 @@ public class Player extends Character {
 		world().emitShowContainer(c, n, this);
 	}
 	
+
+	
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
 		if(health() <= 0){
+			final game.things.Corpse cp = new Corpse(world(),"corpse_1",null);
+			cp.location(this.location());
 			final Player thisp = this;
 			final SpawnPoint sp = world().getSpawnPoint(location(), this);
 			if(sp != null){
 				world().schedule(new Runnable(){
 					public void run(){
+						thisp.dead(false);
 						System.out.println("sp != null");
 						sp.location().put(thisp);
+						thisp.health(1000);
+						thisp.update();
 					}},5000);
 			}
-			health(1000);
+			update();
 		}
 	}
 

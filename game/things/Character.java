@@ -15,6 +15,7 @@ public abstract class Character extends AbstractGameThing {
 	private int attack;
 	private int strength;
 	private int defence, delay;
+	private boolean dead;
 	private boolean dying = false; /*couldnt work around the scheduling issues with attacking,
 	so boolean was the best way to stop animate being scheduled over*/
 
@@ -33,6 +34,7 @@ public abstract class Character extends AbstractGameThing {
 	*/
 
 	public String renderer(){
+		if(dead) return "invisible";
 		return "character_" + renderer + "_" + rendererState();
 	}
 	
@@ -193,10 +195,11 @@ public abstract class Character extends AbstractGameThing {
 	}
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
+
 	public void hurt(GameThing other){
-		int maxamt = (int) (10 * (double)(1 + strength / 100));
-		int minamt = (int) (30 * (double)(1 + strength / 100));
-		int damageamt = (int) (minamt + (double)1/attack * (maxamt - minamt));
+		int maxamt = (int) (10 * (1 + ((double)strength) / 100.0));
+		int minamt = (int) (30 * (1 + ((double)strength) / 100.0));
+		int damageamt = (int) (minamt + 1.0/((double)attack) * (maxamt - minamt));
 			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
 	}
@@ -212,11 +215,13 @@ public abstract class Character extends AbstractGameThing {
 	public void damage(int amt, Character from){
 		if(!dying()){
 			world().emitEmitSound(this, "character_" + renderer + "_ow");
-			health -= (int)(amt - (10*(double)(1+defence/100)));
+			health -= (int)(amt - (10.0*(1+((double)defence)/100.0)));
 			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 			if(health <= 0){
-				dying(true);
 				animate(renderer() + "_die");
+				dead = true;
+				update();
+				dying(true);
 				attackIdent = null;
 			}
 			update();
@@ -229,6 +234,10 @@ public abstract class Character extends AbstractGameThing {
 	
 	public void interact(String name, game.things.Player who){
 		super.interact(name, who);
+	}
+	
+	public void dead(boolean d){
+		dead = d;
 	}
 
 	public boolean dying(){ return dying; }
