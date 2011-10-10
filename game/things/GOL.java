@@ -2,10 +2,16 @@ package game.things;
 
 import game.*;
 import util.*;
+import serialization.*;
 
 import java.util.*;
 
 public class GOL {
+	public static void makeSerializer(SerializerUnion<GameThing> union, GameWorld world){
+		Controller.makeSerializer(union, world);
+		Cell.makeSerializer(union, world);
+	}
+
 	private static Map<Long, Set<Cell>> allCells = new HashMap<Long, Set<Cell>>();
 
 	public static void tick(GameWorld world, long id){
@@ -54,11 +60,36 @@ public class GOL {
 	}
 
 	public static class Controller extends AbstractGameThing {
+		public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+			union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+				public String type(GameThing g){
+					return g instanceof Controller? "goltroller" : null;
+				}
+			});
+
+			union.addSerializer("goltroller", new Serializer<GameThing>(){
+				public Tree write(GameThing o){
+					Controller in = (Controller)o;
+					Tree out = new Tree();
+					out.add(new Tree.Entry("id", Serializers.Serializer_Long.write(in.id)));
+					return out;
+				}
+
+				public GameThing read(Tree in) throws ParseException {
+					return new Controller(world, Serializers.Serializer_Long.read(in.find("id")));
+				}
+			});
+		}
+
 		private final long id;
 
 		public Controller(GameWorld world){
+			this(world, GameWorld.someUnusedID(allCells));
+		}
+
+		private Controller(GameWorld world, long i){
 			super(world);
-			id = GameWorld.someUnusedID(allCells);
+			id = i;
 			allCells.put(id, new HashSet<Cell>());
 		}
 
@@ -109,6 +140,27 @@ public class GOL {
 	}
 
 	public static class Cell extends PickupGameThing {
+		public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+			union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+				public String type(GameThing g){
+					return g instanceof Cell? "golcell" : null;
+				}
+			});
+
+			union.addSerializer("golcell", new Serializer<GameThing>(){
+				public Tree write(GameThing o){
+					Cell in = (Cell)o;
+					Tree out = new Tree();
+					out.add(new Tree.Entry("id", Serializers.Serializer_Long.write(in.id)));
+					return out;
+				}
+
+				public GameThing read(Tree in) throws ParseException {
+					return new Cell(world, Serializers.Serializer_Long.read(in.find("id")));
+				}
+			});
+		}
+
 		private final long id;
 
 		public Cell(GameWorld world, long i){

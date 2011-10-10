@@ -19,6 +19,7 @@ public class ThingsS {
 		ChattyNPC.makeSerializer(u, w);
 		Key.makeSerializer(u, w);
 		ShopItem.makeSerializer(u, w);
+		GOL.makeSerializer(u, w);
 		return u.serializer();
 	}	
 }
