@@ -241,7 +241,7 @@ public class Client implements ClientMessageHandler {
 			writer.write("cid " + charName + "\n");
 			writer.flush();
 		} catch (IOException e) {
-			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");
+			Client.exit("Connection to server lost, you can reconnect using the same name to return where you were at");
 		}
 		characterName = charName;
 
