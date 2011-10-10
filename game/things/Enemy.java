@@ -41,7 +41,7 @@ public class Enemy extends Character implements Namable {
 
 	private String name;
 	private final Location start;
-	private final int wanderdist;
+	private int wanderdist;
 	private final Container inventory;
 
 
@@ -112,5 +112,13 @@ public class Enemy extends Character implements Namable {
 				}
 			}, 1500);
 		}
+	}
+	
+	public int walkdistance() {
+		return wanderdist;
+	}
+	
+	public int walkdistance(int d) {
+		return wanderdist = d;
 	}
 }
