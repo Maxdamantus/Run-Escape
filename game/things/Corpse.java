@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import serialization.ParseException;
+import serialization.Serializer;
+import serialization.SerializerUnion;
+import serialization.Serializers;
+import serialization.Tree;
+
 import game.AbstractGameThing;
 import game.Containable;
 import game.Container;
@@ -12,9 +18,34 @@ import game.GameThing;
 import game.GameWorld;
 import game.Level;
 import game.Location;
+import game.LocationS;
 
 public class Corpse extends AbstractGameThing implements Containable {
 
+	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof Corpse? "Corpse" : null;
+			}
+		});
+
+		union.addSerializer("Corpse", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				Corpse in = (Corpse)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("name", new Tree(in.renderer)));
+				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.contents)));
+				return out;
+			}
+
+			public GameThing read(Tree in) throws ParseException {
+				return new Corpse(world,
+					in.find("name").value(),
+					Container.serializer(union.serializer(), world).read(in.find("contents")));
+			}
+		});
+	}
+	
 	private final String renderer;
 	private final Container contents;
 	
