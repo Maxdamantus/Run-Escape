@@ -1680,4 +1680,52 @@
       <frame-count>10</frame-count>
     </v>
   </i>
+      <i>
+    <k>character_gina_empty</k>
+    <v>
+      <name>character_gina_empty</name>
+      <type>IMAGE4</type>
+      <y-offset>15</y-offset>
+    </v>
+  </i>
+    <i>
+    <k>character_gina_sword</k>
+    <v>
+      <name>character_gina_sword</name>
+      <type>IMAGE4</type>
+      <y-offset>15</y-offset>
+    </v>
+  </i>
+  <i>
+    <k>character_gina_empty_die</k>
+    <v>
+      <name>character_gina_empty_die</name>
+      <type>IMAGE4</type>
+      <frame-count>6</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>character_gina_empty_attack</k>
+    <v>
+      <name>character_gina_empty_attack</name>
+      <type>IMAGE4</type>
+      <frame-count>10</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>character_gina_sword_die</k>
+    <v>
+      <name>character_gina_sword_die</name>
+      <type>IMAGE4</type>
+      <frame-count>6</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>character_gina_sword_attack</k>
+    <v>
+      <name>character_gina_sword_attack</name>
+      <type>IMAGE4</type>
+      <frame-count>10</frame-count>
+    </v>
+  </i>
 </tree>
