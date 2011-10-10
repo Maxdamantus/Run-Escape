@@ -278,7 +278,8 @@ public class GameWorld { // TODO: try/finally for locks
 		out.add(new Tree.Entry("things", new Serializers.List<Map.Entry<Location, GameThing>>(Serializers.mapEntry(LocationS.s(null), gts)).write(map)));
 		Map<Integer, Integer> levlumi = new HashMap<Integer, Integer>();
 		for(Map.Entry<Integer, Level> kv : levels.entrySet())
-			levlumi.put(kv.getKey(), kv.getValue().luminance());
+			if(kv.getValue().luminance() != -1)
+				levlumi.put(kv.getKey(), kv.getValue().luminance());
 		out.add(new Tree.Entry("luminances", mii.write(levlumi)));
 		return out;
 	}

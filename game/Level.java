@@ -7,9 +7,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
-public class Level implements Iterable<GameThing> { // TODO: try/finally for locks
+public class Level implements Iterable<GameThing>, Luminant { // TODO: try/finally for locks
 	private final GameWorld world;
 	private final int level;
+	private int luminance = -1;
 	private QuadTree<GameThing> map = new QuadTree<GameThing>();
 //	private final DegenerateTrie<GameThing> map = new DegenerateTrie<GameThing>();
 	
@@ -202,6 +203,10 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 		public boolean equals(Object o){
 			return this == o || o instanceof Location && level.equals(((Location)o).level) && position.equals(((Location)o).position);
 		}
+
+		public String toString(){
+			return "Level.Location(" + level.level + ", " + position + ", " + direction + ")"; 
+		}
 	}
 
 	public Level(GameWorld w, int l){
@@ -230,6 +235,14 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 		for(Position bit : gt.area().translated(pos))
 			map.remove(bit, gt);
 		mapLock.writeLock().unlock();
+	}
+
+	public int luminance(){
+		return luminance;
+	}
+
+	public int luminance(int s){
+		return luminance = s;
 	}
 
 /*
