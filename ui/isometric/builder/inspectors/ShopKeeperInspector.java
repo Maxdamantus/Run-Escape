@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
 
 import ui.isometric.builder.InspectorPanel;
 import game.Container;
+import game.GameThing;
+import game.GameWorld;
+import game.things.PickupGameThing;
 import game.things.ShopKeeper;
 
 /**
@@ -24,9 +27,11 @@ import game.things.ShopKeeper;
 public class ShopKeeperInspector extends GameThingInspector<ShopKeeper> {
 	private static final long serialVersionUID = 1L;
 	private Map<String, ContainerInspector> windows = new HashMap<String, ContainerInspector>();
+	private GameWorld world;
 
 	public ShopKeeperInspector(final ShopKeeper t, InspectorPanel inspectorPanel) {
 		super(t, inspectorPanel);
+		world = t.world();
 		
 		JButton inspectContainer = new JButton("Inspect Contents");
 		inspectContainer.addActionListener(new ActionListener() {
@@ -70,12 +75,28 @@ public class ShopKeeperInspector extends GameThingInspector<ShopKeeper> {
 	
 	/**
 	 * Show the container window for this item
-	 * @param c
+	 * @param container
 	 * @param name
 	 */
-	private void showContainer(Container c, final String name) {
+	private void showContainer(Container container, final String name) {
 		if(windows.get(name) == null) {
-			ContainerInspector temp = new ContainerInspector(c, name, null); // TODO: use DropWrapper
+			ContainerInspector temp = new ContainerInspector(container, name, new ContainerInspector.DropWrapper() {
+				@Override
+				public GameThing wrap(PickupGameThing g, Container container) {
+					try {
+						String a = JOptionPane.showInputDialog("Enter an amount");
+						if(a == null) return g;
+						int amount = Integer.parseInt(a);
+						String c = JOptionPane.showInputDialog("Enter a cost");
+						if(c == null) return g;
+						int cost = Integer.parseInt(c);
+						return new game.things.ShopItem(world, g, amount, cost);
+					}
+					catch (NumberFormatException e) {
+						return g;
+					}
+				}
+			});
 			temp.addWindowListener(new WindowListener() {
 				@Override
 				public void windowOpened(WindowEvent e) {}
