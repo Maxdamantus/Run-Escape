@@ -12,9 +12,7 @@ public abstract class Character extends AbstractGameThing {
 	private String renderer;
 	private int health;
 	private int maxhealth;
-	private int attack;
-	private int strength;
-	private int defence, delay;
+	private int attack, strength, defence, delay;
 	private boolean dead;
 	private boolean dying = false; /*couldnt work around the scheduling issues with attacking,
 	so boolean was the best way to stop animate being scheduled over*/
