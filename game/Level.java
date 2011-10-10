@@ -81,6 +81,10 @@ public class Level implements Iterable<GameThing> { // TODO: try/finally for loc
 			return next(d, 1);
 		}
 
+		public Location next(){
+			return next(direction);
+		}
+
 		public Location above(int amt){
 			return new Location(level.world.level(level.level + amt), position, direction);
 		}
