@@ -10,6 +10,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -25,6 +27,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.filechooser.FileFilter;
 
 import data.Database;
@@ -37,7 +40,9 @@ import ui.isometric.abstractions.IsoPlayer;
 import ui.isometric.builder.things.ThingCreator;
 import ui.isometric.builder.things.ThingCreatorDnD;
 import ui.isometric.datasource.IsoChangeLevelDataSource;
+import ui.isometric.libraries.IsoRendererLibrary;
 import util.Direction;
+import util.ImagePanel;
 import util.Resources;
 
 import game.*;
@@ -64,6 +69,20 @@ public class BuilderInterface implements IsoInterface {
 	private static final String EXTENTION = "wblrd";
 	
 	private ThingCreator storedCreator = null;
+	private GameThing moving = null;
+	
+	private Mode mode = Mode.ADD;
+	
+	/**
+	 * The world builder mode
+	 * @author ruarusmelb
+	 *
+	 */
+	private enum Mode {
+		ADD,
+		DELETE,
+		MOVE;
+	}
 	
 	/**
 	 * The tool panel at the top of the WorldBuilder
@@ -73,6 +92,11 @@ public class BuilderInterface implements IsoInterface {
 	private class ToolPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 		private LevelPanel level;
+		private ImagePanel image;
+		private ImagePanel movingImage;
+		private JRadioButton add;
+		private JRadioButton delete;
+		private JRadioButton move;
 		
 		/**
 		 * Create a default ToolPanel
@@ -104,6 +128,50 @@ public class BuilderInterface implements IsoInterface {
 			this.add(rotate);
 			level = new LevelPanel(dataSource.level());
 			this.add(level);
+			
+			add = new JRadioButton("Add");
+			add.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setMode(Mode.ADD);
+				}
+			});
+			this.add(add);
+			delete = new JRadioButton("Delete");
+			delete.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setMode(Mode.DELETE);
+				}
+			});
+			this.add(delete);
+			move = new JRadioButton("Move");
+			move.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setMode(Mode.MOVE);
+				}
+			});
+			this.add(move);
+			
+			ButtonGroup group = new ButtonGroup();
+			group.add(add);
+			group.add(delete);
+			group.add(move);
+			
+			image = new ImagePanel(IsoRendererLibrary.maskTile());
+			image.setDropTarget(new DropTarget(canvas, new ThingCreatorDnD.ThingDropListener(new ThingCreatorDnD.ThingDropListener.ThingDropListenerAction() {
+				@Override
+				public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
+					setCreator(creator);
+				}
+			})));
+			this.add(image);
+			
+			movingImage = new ImagePanel(null);
+			this.add(movingImage);
+			
+			refreshMode();
 		}
 		
 		/**
@@ -111,6 +179,36 @@ public class BuilderInterface implements IsoInterface {
 		 */
 		public void refreshLevel() {
 			level.setLevel(dataSource.level());
+		}
+		
+		/**
+		 * Notify this ToolPanel that the creator has changed
+		 */
+		public void refreshCreator() {
+			BufferedImage i = (storedCreator != null)?storedCreator.previewImage():IsoRendererLibrary.maskTile();
+			image.setImage(i);
+			this.validate();
+			this.repaint();
+		}
+		
+		/**
+		 * Notify this ToolPanel that the mode has changed
+		 */
+		public void refreshMode() {
+			add.setSelected(mode == Mode.ADD);
+			delete.setSelected(mode == Mode.DELETE);
+			move.setSelected(mode == Mode.MOVE);
+		}
+		
+		/**
+		 * Notify this ToolPanel that the moving thing has changed
+		 */
+		public void refreshMoving() {
+			BufferedImage i = (moving != null)?IsoRendererLibrary.imageForRendererName(moving.renderer(), Direction.NORTH).image():null;
+			movingImage.setImage(i);
+			this.doLayout();
+			this.validate();
+			this.repaint();
 		}
 	}
 	
@@ -159,9 +257,31 @@ public class BuilderInterface implements IsoInterface {
 			@Override
 			public void selected(final IsoObject i, final Location l, MouseEvent event) {
 				if(event.getButton() == MouseEvent.BUTTON3 || event.isControlDown()) { // Right click
-					if(storedCreator != null) {
-						canvas.calculateTypesAtAtPoint(event.getPoint());
-						l.put(storedCreator.createThing(world, l));
+					if(mode == Mode.ADD && storedCreator != null) {
+						if(storedCreator != null) {
+							canvas.calculateTypesAtAtPoint(event.getPoint());
+							l.put(storedCreator.createThing(world, l));
+						}
+					}
+					if(mode == Mode.DELETE) {
+						if(i != null && i.gameThing() != null) {
+							LocationS.NOWHERE.put(i.gameThing());
+							world.forget(i.gameThing());
+						}
+					}
+					if(mode == Mode.MOVE) {
+						if(moving == null) {
+							if(i != null && i.gameThing() != null) {
+								LocationS.NOWHERE.put(i.gameThing());
+								setMoving(i.gameThing());
+							}
+						}
+						else {
+							if(moving != null) {
+								l.put(moving);
+								setMoving(null);
+							}
+						}
 					}
 				}
 				else {
@@ -184,7 +304,7 @@ public class BuilderInterface implements IsoInterface {
 			@Override
 			public void thingCreatorDroped(Component onto, Point location, ThingCreator creator) {
 				if(onto instanceof IsoCanvas) {
-					storedCreator = creator;
+					setCreator(creator);
 					IsoCanvas canvas = (IsoCanvas)onto;
 					canvas.calculateTypesAtAtPoint(location);
 					Location l = dataSource.level().location(canvas.getCachedSelectedSquarePosition(), Direction.NORTH);
@@ -211,6 +331,50 @@ public class BuilderInterface implements IsoInterface {
 		inspector.setSize((int)(screen.width*perx), (int)(screen.height*0.5));
 		frame.setLocation((int)(screen.width*perx), 0);
 		frame.setSize((int)(screen.width*(1-perx)), (int)(screen.height));
+	}
+	
+	/**
+	 * Set the moving character
+	 * @param t
+	 */
+	private void setMoving(GameThing t) {
+		if(moving != null && t != null) {
+			if(JOptionPane.showConfirmDialog(frame, "Are you sure you wish to reset the current item being moved?") == JOptionPane.CANCEL_OPTION) {
+				tools.refreshMoving();
+				return;
+			}
+		}
+		
+		moving = t;
+		
+		tools.refreshMoving();
+	}
+	
+	/**
+	 * Set the stored creator
+	 * @param creator
+	 */
+	private void setCreator(ThingCreator creator) {
+		storedCreator = creator;
+		tools.refreshCreator();
+	}
+	
+	/**
+	 * Set the mode
+	 * @param m
+	 */
+	private void setMode(Mode m) {
+		if(mode == Mode.MOVE && m != Mode.MOVE && moving != null) {
+			if(JOptionPane.showConfirmDialog(frame, "Are you sure you wish to delete the current item being moved?") == JOptionPane.CANCEL_OPTION) {
+				tools.refreshMode();
+				return;
+			}
+			
+			setMoving(null);
+		}
+		
+		mode = m;
+		tools.refreshMode();
 	}
 	
 	/**

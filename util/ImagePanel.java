@@ -27,27 +27,31 @@ public class ImagePanel extends JPanel implements DragInfo {
 	 */
 	public ImagePanel(Image image) {
 		this.image = image;
-		this.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
+		if(image != null) {
+			this.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
+		}
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		double vwidth = this.getWidth();
-		double vheight = this.getHeight();
-		double vaspect = vwidth/vheight;
-		
-		double iwidth = image.getWidth(null);
-		double iheight = image.getHeight(null);
-		double iaspect = iwidth/iheight;
-		
-		if(iaspect < vaspect) {
-			vwidth = iaspect * vheight;
+		if(image != null) {
+			double vwidth = this.getWidth();
+			double vheight = this.getHeight();
+			double vaspect = vwidth/vheight;
+			
+			double iwidth = image.getWidth(null);
+			double iheight = image.getHeight(null);
+			double iaspect = iwidth/iheight;
+			
+			if(iaspect < vaspect) {
+				vwidth = iaspect * vheight;
+			}
+			else {
+				vheight = vwidth / iaspect;
+			}
+					
+			g.drawImage(image, (this.getWidth() - (int)vwidth)/2, (this.getHeight() - (int)vheight)/2, (int)vwidth, (int)vheight, this);
 		}
-		else {
-			vheight = vwidth / iaspect;
-		}
-				
-		g.drawImage(image, (this.getWidth() - (int)vwidth)/2, (this.getHeight() - (int)vheight)/2, (int)vwidth, (int)vheight, this);
 	}
 	
 	/**
@@ -56,6 +60,12 @@ public class ImagePanel extends JPanel implements DragInfo {
 	 */
 	public void setImage(BufferedImage i) {
 		image = i;
+		
+		if(image != null) {
+			this.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
+		}
+		
+		this.repaint();
 	}
 	
 	@Override
