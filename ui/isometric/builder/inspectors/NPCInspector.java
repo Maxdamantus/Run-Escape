@@ -62,7 +62,7 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 				catch (NumberFormatException e) {}
 			}
 		});
-		this.add(setStats); // TODO: set stats
+		this.add(setStats);
 		this.add(stats);
 		
 		final JLabel radius = new JLabel(t.walkdistance()+"");
