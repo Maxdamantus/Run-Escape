@@ -443,7 +443,7 @@ public class ThingLibrary {
 		
 		@Override
 		public GameThing createThing(GameWorld w, Location l) {
-			game.things.Enemy enemy = new game.things.Enemy(w, renderer, name, l, distance);
+			game.things.Enemy enemy = new game.things.Enemy(w, renderer, name, l, distance, null);
 			return enemy;
 		}
 
