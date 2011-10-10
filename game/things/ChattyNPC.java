@@ -94,7 +94,7 @@ public class ChattyNPC extends Character {
 				i++;
 			}
 			else if(i < 20){
-				walkAndTalk( who, name()+": "+response.get((int)(Math.random()*response.size()-2)));
+				walkAndTalk( who, name()+": "+response.get((int)(Math.random()*(response.size()-2))));
 				i++;
 			}
 			else{

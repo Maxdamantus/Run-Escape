@@ -103,6 +103,7 @@ public class NetworkListenerThread extends Thread {
 
 					// sending name
 					client.setAndSendCharacterName(dialog.getCharacterName());
+					StorySplash ss = new StorySplash();
 				}
 			}
 			Client.exit("Connection to server lost, you can reconnect using the same using name to return where you were at");

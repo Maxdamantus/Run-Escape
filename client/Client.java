@@ -99,6 +99,7 @@ public class Client implements ClientMessageHandler {
 			writer.write("uid " + uid + "\n");
 			updater.start();
 			writer.flush();
+			
 
 		} catch (UnknownHostException e) {
 			Client.exit("Unknown host name");

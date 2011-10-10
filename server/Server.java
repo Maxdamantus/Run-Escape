@@ -302,9 +302,12 @@ public class Server{
 		spoken.add(0,"Hmm, this isnt a very nice place is it");
 		spoken.add(1,"You need to get out of here? Try the towers");
 		spoken.add(2,"Those doors will need keys");
-		spoken.add(3,"Hi, my name is Bob, nice to meet you");
-		spoken.add(4,"Your such a bender, stop stalking me");
-		ll.put(new game.things.ChattyNPC(sgm, "bob", "Chatty Bob", spoken));
+		spoken.add(3,"I hope you JavaDoc'ed all your code, oh I've said too much!");
+		spoken.add(4,"Do you like Cats as much as I do?");
+		spoken.add(5,"I hope you JavaDoc'ed all your code, oh I've said too much!");
+		spoken.add(6,"Hi, my name is Dave Pearce, nice to meet you");
+		spoken.add(7,"Stop clicking on me you creep");
+		ll.put(new game.things.ChattyNPC(sgm, "bob", "Chatty Dave", spoken));
 		ll.next(Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_north"));
 		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
 		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
