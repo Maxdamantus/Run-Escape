@@ -54,7 +54,7 @@ public class GOL {
 		List<Level.Location> out = new LinkedList<Level.Location>();
 		for(int x = -1; x < 2; x++)
 			for(int y = -1; y < 2; y++)
-				if(x != 0 && y != 0)
+				if(x != 0 || y != 0)
 					out.add(ll.level().location(new Position(ll.position().x() + x, ll.position().y() + y), Direction.NORTH));
 		return out;
 	}
