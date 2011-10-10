@@ -242,7 +242,11 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 	}
 
 	public int luminance(int s){
-		return luminance = s;
+		luminance = s;
+		for(GameThing g : this)
+			if(g instanceof game.things.Player)
+				((game.things.Player)g).update();
+		return s;
 	}
 
 /*
