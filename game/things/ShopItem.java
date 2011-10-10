@@ -60,7 +60,6 @@ public class ShopItem extends Stackable {
 		List<String> out = new LinkedList<String>();
 		out.add("buy");
 		out.add("value");
-		out.addAll(super.interactions());
 		return out;
 	}
 
@@ -68,6 +67,10 @@ public class ShopItem extends Stackable {
 		if(name.equals("value"))
 			System.out.println(prototype.name() + " costs " + cost + " gold");
 		else if(name.equals("buy")){
+			if(amount() <= 0){
+				world().emitSay(this, who, "Out of stock.");
+				return;
+			}
 			boolean okay = cost == 0;
 			if(!okay)
 				for(GameThing gt : who.inventory())
@@ -75,16 +78,21 @@ public class ShopItem extends Stackable {
 						((Coins)gt).subtract(cost);
 						okay = true;
 						break;
+					}else if(gt instanceof Coins && ((Coins)gt).amount() == cost){
+						LocationS.NOWHERE.put(gt);
+						world().forget(gt);
+						okay = true;
+						break;
 					}
 			if(okay){
 				try{
 					who.inventory().put(reader.read(tree));
+					subtract(1);
 				}catch(ParseException e){
 					throw new RuntimeException("wtf");
 				}
-				update();
-			}
-			world().emitSay(this, who, "Can't afford that!");
+			}else
+				world().emitSay(this, who, "Can't afford that!");
 		}
 	}
 
