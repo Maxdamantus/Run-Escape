@@ -210,7 +210,6 @@ public abstract class Character extends AbstractGameThing {
 			if(health <= 0){
 				dying(true);
 				animate(renderer() + "_die");
-				health(maxhealth());
 			}
 			update();
 		}
