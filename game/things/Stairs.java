@@ -16,6 +16,7 @@ public class Stairs extends AbstractGameThing {
 		down = d;
 		renderer = r;
 		allow = a;
+		update();
 	}
 
 	public String renderer(){
