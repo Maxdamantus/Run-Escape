@@ -82,6 +82,10 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 			return next(d, 1);
 		}
 
+		public Location next(int l){
+			return next(direction, l);
+		}
+
 		public Location next(){
 			return next(direction);
 		}
