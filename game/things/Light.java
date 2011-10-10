@@ -6,9 +6,11 @@ import java.util.*;
 
 public class Light extends AbstractGameThing implements Luminant {
 	private int luminance;
+	private final String renderer;
 
-	public Light(GameWorld w, int l){
+	public Light(GameWorld w, String r, int l){
 		super(w);
+		renderer = r;
 		luminance = l;
 	}
 
@@ -17,7 +19,7 @@ public class Light extends AbstractGameThing implements Luminant {
 	}
 
 	public String renderer(){
-		return "empty";
+		return renderer;
 	}
 
 	public Map<String, String> info(){
