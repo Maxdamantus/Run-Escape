@@ -1,6 +1,7 @@
 
 package server;
 
+import game.Container;
 import game.GameWorld;
 import game.GameWorld.DeltaWatcher;
 import game.things.EquipmentGameThing.Slot;
@@ -256,9 +257,11 @@ public class Server{
 		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
 		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
 		ll.next(Direction.WEST).put(new game.things.GroundTile(sgm, "dbg_west"));
+		Container drop = new Container(sgm);
+		drop.put(new game.things.EquipmentGameThing(sgm, 10, 10, 10, 10, Slot.WEAPON, "Short sword", "sword_1"));
 		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_compass"));
-		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5));
-
+		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, drop));
+		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, drop));
 		return sgm;
 	}
 	
