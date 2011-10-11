@@ -64,6 +64,10 @@ public class Container implements Iterable<GameThing>, Location {
 		return this;
 	}
 
+	public Iterable<GameThing> snapshot(){
+		return new HashSet<GameThing>(set);
+	}
+
 	public boolean contains(GameThing gt){
 		return set.contains(gt);
 	}

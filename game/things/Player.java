@@ -24,6 +24,7 @@ public class Player extends Character {
 				out.add(new Tree.Entry("location", LocationS.s(null).write(in.lastLocation == null? in.location() : in.lastLocation)));
 				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.inventory)));
 				out.add(new Tree.Entry("equipment", Container.serializer(union.serializer(), world).write(in.equipment)));
+				out.add(new Tree.Entry("buffer", Container.serializer(union.serializer(), world).write(in.buffer)));
 				return out;
 			}
 
@@ -33,7 +34,8 @@ public class Player extends Character {
 					in.find("name").value(),
 					LocationS.s(world).read(in.find("location")),
 					Container.serializer(union.serializer(), world).read(in.find("inventory")),
-					Container.serializer(union.serializer(), world).read(in.find("equipment")));
+					Container.serializer(union.serializer(), world).read(in.find("equipment")),
+					Container.serializer(union.serializer(), world).read(in.find("buffer")));
 			}
 		});
 	}
@@ -44,9 +46,10 @@ public class Player extends Character {
 	private final static int WALKDELAY = 50;
 	private final Container inventory;
 	private final Container equipment;
+	private final Container buffer;
 	private boolean dead;
 
-	private Player(GameWorld world, String t, String n, Location spawn, Container inv, Container equ){
+	private Player(GameWorld world, String t, String n, Location spawn, Container inv, Container equ, Container buf){
 		super(world, t);
 		type = t;
 		name = n;
@@ -55,6 +58,7 @@ public class Player extends Character {
 		health(1000);
 		inventory = inv;
 		equipment = equ;
+		buffer = buf;
 		inv.owner(this);
 		equ.owner(this);
 		setStats(10,10,10,10);
@@ -63,7 +67,7 @@ public class Player extends Character {
 	}
 
 	public Player(GameWorld world, String t, String n, Location spawn){
-		this(world, t, n, spawn, new Container(world), new Container(world));
+		this(world, t, n, spawn, new Container(world), new Container(world), new Container(world));
 	}
 /*
 	private Runnable blah = new Runnable(){
@@ -266,7 +270,13 @@ public class Player extends Character {
 		update();
 	}
 
+	public Container buffer(){
+		return buffer;
+	}
 
+	public void send(GameThing g){
+		buffer.put(g);
+	}
 
 	public boolean carrying(GameThing g){
 		return inventory.contains(g);

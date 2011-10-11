@@ -15,7 +15,12 @@ public abstract class PickupGameThing extends AbstractGameThing {
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>();
 		// assuming if it's not in a level, it must be droppable.
-		out.add(location() instanceof Level.Location || location() instanceof game.Container && ((Container)location()).owner() == null? "pick up" : "drop");
+		if(location() instanceof Level.Location || location() instanceof game.Container && ((Container)location()).owner() == null)
+			out.add("pick up");
+		else{
+			out.add("drop");
+			out.add("send");
+		}
 		out.add("examine");
 		return out;
 	}
@@ -23,6 +28,8 @@ public abstract class PickupGameThing extends AbstractGameThing {
 	public void interact(String name, Player who){
 		if(name.equals("pick up"))
 			who.pickup(this);
+		else if(name.equals("send"))
+			who.send(this);
 		else if(name.equals("drop")){
 			who.drop(this);
 		}
