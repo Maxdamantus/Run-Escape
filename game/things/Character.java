@@ -210,9 +210,11 @@ public abstract class Character extends AbstractGameThing {
 		if(!dying()){
 			world().emitEmitSound(this, "character_" + renderer + "_ow");
 			health -= (int)(amt - (Math.random() * defence));
-			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
+			world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health);
+//			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 			if(health <= 0){
 				animate(renderer() + "_die");
+				world().emitSay(null, null, name() + " has died");
 				dead = true;
 				update();
 				dying(true);

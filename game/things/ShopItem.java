@@ -65,7 +65,7 @@ public class ShopItem extends Stackable {
 
 	public void interact(String name, Player who){
 		if(name.equals("value"))
-			System.out.println(prototype.name() + " costs " + cost + " gold");
+		world().emitSay(this, who, prototype.name() + " costs " + cost + " gold");
 		else if(name.equals("buy")){
 			if(amount() <= 0){
 				world().emitSay(this, who, "Out of stock.");

@@ -175,10 +175,12 @@ public class Player extends Character {
 	}
 
 	public void pickup(final GameThing g){
-		System.out.println("pickup(" + g + ")");
+//		System.out.println("pickup(" + g + ")");
 		if(g.location() instanceof game.Container){
 			((Container)g.location()).remove(g);
 			inventory.put(g);
+			world().emitSay(g, this, "You pick up "+g.name());
+			
 		}
 		else{
 			if(!moveTo(g.location(), new Runnable(){
@@ -186,12 +188,11 @@ public class Player extends Character {
 					inventory.put(g);
 					//for testing
 					for(GameThing gt : inventory.contents()){
-						System.out.println(gt.name());
+//						System.out.println(gt.name());
 					}
 				}
 			})){
-			// printing to the wrong place
-			System.out.println("I can't reach that");
+			world().emitSay(g, this, "You cant reach that");
 			}
 		}
 	}
@@ -201,7 +202,7 @@ public class Player extends Character {
 	 * @param g GameThing to receive
 	 */
 	public void receiveItem(final GameThing g){
-		System.out.println("received(" + g + ")");
+		world().emitSay(g, this, "You recieve "+g.name());
 		inventory.put(g);
 		//for testing
 		for(GameThing gt : inventory.contents()){
@@ -215,6 +216,7 @@ public class Player extends Character {
 		if(g.location() == equipment)
 			unequip((EquipmentGameThing) g);
 			location().put(g);
+		world().emitSay(g, this, "You dropped "+g.name());
 	}
 
 	public void equip(EquipmentGameThing g) {
@@ -273,9 +275,22 @@ public class Player extends Character {
 		return inventory;
 	}
 
-	public void examine(AbstractGameThing abstractGameThing) {
+	
+	public void examine(AbstractGameThing g) {
 		// TODO
-		System.out.println("You examined it");
+		world().emitSay(g, this, "This is a "+g.name());
+		if(g instanceof EquipmentGameThing){
+			world().emitSay(g, this, "Strength: "+((EquipmentGameThing)g).strength());
+			world().emitSay(g, this, "Attack: "+((EquipmentGameThing)g).attack());
+			world().emitSay(g, this, "Defence: "+((EquipmentGameThing)g).defence());
+			world().emitSay(g, this, "Delay: "+((EquipmentGameThing)g).delay());
+		}
+		if(g instanceof Key)
+			world().emitSay(g, this, "Fits the "+((Key)g).doorcode()+" door");
+		if(g instanceof ShopItem)
+			world().emitSay(g, this, "Costs "+((ShopItem)g).cost()+ " coins");
+		if(g instanceof ChattyNPC)
+			world().emitSay(g, this, "He looks chatty");
 	}
 
 	public Map<String, String> info(){
