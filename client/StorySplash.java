@@ -6,6 +6,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/**
+ *  Splash screen for game
+ * @author wheelemaxw
+ *
+ */
+
 public class StorySplash extends JFrame implements ActionListener {
 	
 	public StorySplash(){
@@ -22,8 +28,9 @@ public class StorySplash extends JFrame implements ActionListener {
 		
 		this.add(textf, BorderLayout.NORTH);
 		this.pack();
-        this.setVisible(true);
+		this.setAlwaysOnTop(true);
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -42,9 +49,5 @@ public class StorySplash extends JFrame implements ActionListener {
 				"\n \n \n \n Click to Play";
 	}
 	
-	
-	public static void main(String[] args){
-		new StorySplash();
-	}
 	
 }

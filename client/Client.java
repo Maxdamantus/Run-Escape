@@ -206,6 +206,7 @@ public class Client implements ClientMessageHandler {
 			// showing GUI
 			view = new ClientInterface("Run, Escape!", world, this, userGID);
 			view.show();
+			new StorySplash();
 		}
 	}
 
