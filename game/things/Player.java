@@ -282,7 +282,7 @@ public class Player extends Character {
 	public void examine(final AbstractGameThing g) {
 		// TODO
 		final Player temp = this;
-		if(g.location() instanceof Container && ((Container)g.location()).owner().equals(this)){
+		if(!(g.location() instanceof Container && (((Container)g.location()) == inventory || ((Container)g.location()) == equipment))){
 			if(!moveTo(g.location(), new Runnable(){
 				public void run(){
 					world().emitSay(g, temp, "This is a "+g.name());
