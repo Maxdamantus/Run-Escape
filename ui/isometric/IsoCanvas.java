@@ -300,7 +300,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	 */
 	private void drawLightAt(Graphics2D g, double radius, int x, int y) {
 		Image i = (radius*TILE_X > 512)?lightMask1280:lightMask512;
-		g.drawImage(lightMask512,
+		g.drawImage(i,
 				(int)(x-radius*TILE_X), (int)(y-radius*TILE_Y-TILE_Y/2), (int)(x+radius*TILE_X), (int)(y+radius*TILE_Y-TILE_Y/2),
 				0, 0, i.getWidth(null), i.getHeight(null),
 				null);
