@@ -44,7 +44,8 @@ public abstract class Character extends AbstractGameThing {
 	 */
 	public String renderer(){
 		if(dead) return "invisible";
-		return "character_" + renderer + "_" + rendererState();
+		if(this instanceof Player)return "character_" + renderer + "_" + rendererState();
+		else return "npc_"+ renderer + "_" + rendererState();
 	}
 	
 	/**
@@ -271,9 +272,9 @@ public abstract class Character extends AbstractGameThing {
 	 * @param other - the GameThing being hurt
 	 */
 	public void hurt(GameThing other){
-		int maxamt = (int) (2.5 * (strength));
-		int minamt = (int) (2 * (strength));
-		int damageamt = (int) (minamt +  Math.random() * attack *(maxamt - minamt));
+		int maxamt = (int) (2 * (strength));
+		int minamt = (int) (strength);
+		int damageamt = (int) (minamt +  (Math.random() + attack) *(maxamt - minamt));
 			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
 	}
