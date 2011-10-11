@@ -196,7 +196,7 @@ public class Player extends Character {
 					
 				}
 			})){
-			world().emitSay(g, this, "You cant reach that");
+			world().emitSay(g, this, "You can't reach that");
 			}
 		}
 	}
@@ -303,7 +303,7 @@ public class Player extends Character {
 						world().emitSay(g, temp, "He looks up for a fight");	
 			}
 		})){
-		world().emitSay(g, this, "You cant reach that");
+		world().emitSay(g, this, "You can't reach that");
 		}
 		}
 		else{
