@@ -228,4 +228,12 @@ abstract public class IsoGameModelDataSource implements IsoDataSource {
 	public Set<Light> lights() {
 		return lights;
 	}
+	
+	/**
+	 * Get the GameWorld behind this datasource
+	 * @return
+	 */
+	protected GameWorld world() {
+		return gameWorld;
+	}
 }

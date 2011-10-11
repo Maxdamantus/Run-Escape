@@ -11,7 +11,6 @@ import game.Level;
  */
 public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 	private Level level;
-	private GameWorld world;
 	
 	/**
 	 * Create a IsoChangeLevelDataSource with the default level (0)
@@ -29,7 +28,6 @@ public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 	public IsoChangeLevelDataSource(GameWorld model, int startLevel) {
 		super(model);
 		level = model.level(startLevel);
-		world = model;
 	}
 
 	@Override
@@ -58,7 +56,7 @@ public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 	 * @param l
 	 */
 	public void setLevel(int l) {
-		level = world.level(l);
+		level = world().level(l);
 	}
 	
 	/**
