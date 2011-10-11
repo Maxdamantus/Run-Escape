@@ -44,7 +44,7 @@ public class StorySplash extends JFrame implements ActionListener {
 				"All you know is that its kind of dark in here and that something does not " +
 				"seem quite right. " +
 				"\n \n" +
-				"There is a man in the distance, maybe he will know more about" +
+				"There is a man in the distance, maybe he will know more about " +
 				"what is going on"+
 				"\n \n \n \n Click to Play";
 	}
