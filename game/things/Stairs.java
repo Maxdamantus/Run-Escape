@@ -41,9 +41,9 @@ public class Stairs extends AbstractGameThing {
 					Location pl = p.location();
 					if(pl instanceof Level.Location){
 						if(goup)
-							((Level.Location)l).rotate(allow.compose(Direction.SOUTH)).next(2).above(up).put(p);
+							((Level.Location)l).rotate(allow.compose(Direction.SOUTH)).next().above(up).put(p);
 						else
-							((Level.Location)l).rotate(allow.compose(Direction.SOUTH)).next(2).above(up).put(p);
+							((Level.Location)l).rotate(allow.compose(Direction.SOUTH)).next().above(up).put(p);
 					}
 				}
 			});
