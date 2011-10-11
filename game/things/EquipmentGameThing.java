@@ -73,7 +73,6 @@ public class EquipmentGameThing extends PickupGameThing {
 				out.add("equip");
 			}
 			out.addAll(super.interactions());
-			out.add("examine");
 			return out;
 		}
 		return super.interactions();

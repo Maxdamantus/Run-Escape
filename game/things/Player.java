@@ -132,6 +132,7 @@ public class Player extends Character {
 		List<String> out = new LinkedList<String>(super.interactions());
 		out.add("follow");
 		out.add("attack");
+		out.add("examine");
 		return out;
 	}
 
@@ -278,23 +279,45 @@ public class Player extends Character {
 	}
 
 	
-	public void examine(AbstractGameThing g) {
+	public void examine(final AbstractGameThing g) {
 		// TODO
-		world().emitSay(g, this, "This is a "+g.name());
-		if(g instanceof EquipmentGameThing){
-			world().emitSay(g, this, "Strength: "+((EquipmentGameThing)g).strength());
-			world().emitSay(g, this, "Attack: "+((EquipmentGameThing)g).attack());
-			world().emitSay(g, this, "Defence: "+((EquipmentGameThing)g).defence());
-			world().emitSay(g, this, "Delay: "+((EquipmentGameThing)g).delay());
+		final Player temp = this;
+		if(g.location() instanceof Container && ((Container)g.location()).owner().equals(this)){
+			if(!moveTo(g.location(), new Runnable(){
+				public void run(){
+					world().emitSay(g, temp, "This is a "+g.name());
+					if(g instanceof EquipmentGameThing){
+						world().emitSay(g, temp, "Strength: "+((EquipmentGameThing)g).strength());
+						world().emitSay(g, temp, "Attack: "+((EquipmentGameThing)g).attack());
+						world().emitSay(g, temp, "Defence: "+((EquipmentGameThing)g).defence());
+						world().emitSay(g, temp, "Delay: "+((EquipmentGameThing)g).delay());
+					}
+					if(g instanceof Key)
+						world().emitSay(g, temp, "Fits the "+((Key)g).doorcode()+" door");
+					if(g instanceof ShopItem)
+						world().emitSay(g, temp, "Costs "+((ShopItem)g).cost()+ " coins");
+					if(g instanceof ChattyNPC)
+						world().emitSay(g, temp, "He looks chatty");
+					if(g instanceof Enemy)
+						world().emitSay(g, temp, "He looks up for a fight");	
+			}
+		})){
+		world().emitSay(g, this, "You cant reach that");
 		}
-		if(g instanceof Key)
-			world().emitSay(g, this, "Fits the "+((Key)g).doorcode()+" door");
-		if(g instanceof ShopItem)
-			world().emitSay(g, this, "Costs "+((ShopItem)g).cost()+ " coins");
-		if(g instanceof ChattyNPC)
-			world().emitSay(g, this, "He looks chatty");
-		if(g instanceof Enemy)
-			world().emitSay(g, this, "He looks up for a fight");
+		}
+		else{
+			world().emitSay(g, temp, "This is a "+g.name());
+			if(g instanceof EquipmentGameThing){
+				world().emitSay(g, temp, "Strength: "+((EquipmentGameThing)g).strength());
+				world().emitSay(g, temp, "Attack: "+((EquipmentGameThing)g).attack());
+				world().emitSay(g, temp, "Defence: "+((EquipmentGameThing)g).defence());
+				world().emitSay(g, temp, "Delay: "+((EquipmentGameThing)g).delay());
+			}
+			if(g instanceof Key)
+				world().emitSay(g, temp, "Fits the "+((Key)g).doorcode()+" door");
+			if(g instanceof ShopItem)
+				world().emitSay(g, temp, "Costs "+((ShopItem)g).cost()+ " coins");
+		}	
 	}
 
 	public Map<String, String> info(){

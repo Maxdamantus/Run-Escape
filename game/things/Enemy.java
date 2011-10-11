@@ -80,6 +80,7 @@ public class Enemy extends Character implements Namable {
 		List<String> out = new LinkedList<String>(super.interactions());
 		out.add("follow");
 		out.add("attack");
+		out.add("examine");
 		return out;
 	}
 
