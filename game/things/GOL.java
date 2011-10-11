@@ -196,9 +196,5 @@ public class GOL {
 			allCells.get(id).remove(this);
 			super.forget();
 		}
-
-		public int renderLevel(){
-			return ui.isometric.abstractions.IsoSquare.PICKUP_ITEM;
-		}
 	}
 }
