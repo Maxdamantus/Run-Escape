@@ -29,6 +29,7 @@ public class Container implements Iterable<GameThing>, Location {
 	private Player owner;
 	private final GameWorld world;
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+	private Container parent;
 
 	public Container(GameWorld w){
 		world = w;
@@ -72,14 +73,16 @@ public class Container implements Iterable<GameThing>, Location {
 		try { set.remove(gt); }
 		finally { lock.writeLock().unlock(); }
 	}
-
-	public Player owner(){
-		return owner;
+	
+	public boolean hasParent(Container c){
+		return this == c || parent != null && parent.hasParent(c);
 	}
 
-	public Player owner(Player s){
-		return owner = s;
-	}
+	public Container parent(){ return parent; }
+	public Container parent(Container s){ return parent = s; }
+
+	public Player owner(){ return owner; }
+	public Player owner(Player s){ return owner = s; }
 
 	public GameWorld world(){
 		return world;
