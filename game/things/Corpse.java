@@ -94,6 +94,9 @@ public class Corpse extends AbstractGameThing implements Containable {
 		return renderer;
 	}
 	
+	/**
+	 * @return List of available interactions
+	 */
 	public List<String> interactions(){
 		ArrayList<String> interactions = new ArrayList<String>();
 		interactions.add("loot body");
@@ -102,6 +105,10 @@ public class Corpse extends AbstractGameThing implements Containable {
 			
 	}
 	
+	/**
+	 * Defines the interactions for looting the body
+	 * (is essentially the same as opening an "Openable Furniture"
+	 */
 	public void interact(String name, final game.things.Player who){
 		if(name.equals("loot body")){
 			Location l = location();
