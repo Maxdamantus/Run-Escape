@@ -27,9 +27,15 @@ import util.Direction;
 import util.Position;
 import util.Resources;
 
+//Author: wheelemaxw
 
 
-
+/**
+ * The server for the game, takes potential arguments if running from CLI, otherwise give JOptionPanes
+ * for loading a gamefile.
+ * 
+ * Automatically starts the WorldBuilder, and creates Serverthreads for handling client interactions 
+ */
 public class Server{
 
 	public static final int DEFAULT_PORT = 32765;
@@ -38,8 +44,16 @@ public class Server{
 	private String filename;
 	private boolean fromSave;
 	
+	
 	private ArrayList<ServerThread> connections = new ArrayList<ServerThread>(10);
 	
+	
+	/**
+	 * Constructor for the Server.
+	 * Only if the arguments provided are CLI and then a file name, does it run under CLI, 
+	 * otherwise uses the GUI versions
+	 * @param Contructor takes arguments from the Main class (which starts the Server)
+	 */
 	public Server(String[] args){
 		if(args.length == 2) {
 		    try {
@@ -60,6 +74,12 @@ public class Server{
 
 	}
 	
+	/**
+	 * If using the GUI, give the options and appropriate method calls for loading from a file or starting
+	 * with a default world. If using the CLI, gets the GameWorld from the given file argument.
+	 * Finally starts the server and the world builder
+	 * @throws IOException
+	 */
 	public void run() throws IOException {
 		//Main Class for server
 		GameWorld model = null;
@@ -106,6 +126,11 @@ public class Server{
 		System.exit(0);
 	}
 	
+	/**
+	 * 
+	 * @param The filename
+	 * @return The constructed GameWorld
+	 */
 	public GameWorld loadCLI(String name){
 		File load = new File(name);
 		JFrame frame = new JFrame();
@@ -129,6 +154,10 @@ public class Server{
 		return world;
 	}
 	
+	/**
+	 * Small GUI for loading the game from a file, uses JFileChooser
+	 * @return The constructed GameWorld
+	 */
 	public GameWorld load() {
 		String loaded = null;
 		JFrame frame = new JFrame();
@@ -170,6 +199,10 @@ public class Server{
 		return world;
 	}
 	
+	
+	/**
+	 * Small GUI for saving the game to a file, uses JFileChooser
+	 */
 	public void save() {
 		GameWorld world = new GameWorld();
 		JFrame frame = new JFrame();
@@ -197,9 +230,15 @@ public class Server{
 		}
 	}
 	
+	/**
+	 * Takes the constructed gameworld, adds a deltawatcher for redirecting incoming worlddeltas to 
+	 * ServerThreads( to be sent out to clients), and then waits for incoming connections;
+	 * Any incoming connections are passed through to a a new ServerThread which handles individual
+	 * clients. Runs until the Server is killed
+	 * @param The port for the connection socket
+	 * @param The provided Gameworld (default or loaded)
+	 */
 	
-	
-
 	private void runServer(int port, GameWorld game) {		
 		int uid = 0;
 		// Listen for connections
@@ -222,7 +261,7 @@ public class Server{
 				// 	Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				final ServerThread newSer = new ServerThread(s,uid,game, this);
+				final ServerThread newSer = new ServerThread(s,uid,game);
 				// MaxZ's code: send initial state
 				game.allDeltas(new DeltaWatcher(){
 					public void delta(WorldDelta d){
@@ -238,38 +277,12 @@ public class Server{
 		} 
 	}
 
-
-
 	/**
-	 * Check whether or not there is at least one connection alive.
-	 * 
-	 * @param connections
-	 * @return
+	 * Generates a default GameWorld object if the user chooses not to load from a file.
+	 * The default world is not particularly interesting, does not feature all of the types of game
+	 * objects, nor has an end point. Is designed to be changed with the world builder on creation.
+	 * @return A default gameworld
 	 */
-	private boolean atleastOneConnection(ArrayList<ServerThread> connections) {
-		for (ServerThread m : connections) {
-			if (m.isAlive()) {
-				return true;
-			}			
-		}
-		return false;
-	}
-	
-	private void runGame(ArrayList<ServerThread> connections, GameWorld game){ // We dont actually need this if we want the server to run forever, if you just let main return the other threads will still run
-		while(atleastOneConnection(connections)){
-			Thread.yield();	
-			pause(10);
-		}
-	}
-	
-	private static void pause(int delay) {
-		try {
-			Thread.sleep(delay);
-		} 
-		catch(InterruptedException e){			
-		}
-	}
-
 	public static GameWorld defaultworld(){
 		game.GameWorld sgm = new GameWorld();
 		// make a spiral instead

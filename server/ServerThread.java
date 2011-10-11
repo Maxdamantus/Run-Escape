@@ -18,26 +18,34 @@ import data.Database;
 import serialization.Tree;
 import util.*;
 
-//new ClientMessage(mygid, new ClientMessage.Interaction(thatgid, foo)).apply(game);
+//Author: wheelemaxw
 
 /**
- * A Server thread receives xml formatted-instructions from a client connection via a socket.
- * These intructions are registered with the game model. The Server connection is also
- * responsible for transmitting information to the client about the updates to the game
- * state.
+ * A ServerThread contains a listener and a talker thread that
+ * are responsible for communication with the client, but store all user info in the
+ * ServerThread parent
  */
 public final class ServerThread {
 	private final GameWorld model;
+	//No. of the joined user, in order of joining
 	private int usrNo;
+	//GID of the GameThing Character
 	private long usrGID;
+	//Provided username from Player
 	private String usrName;
 	private final Socket socket;
+	//For queueing messages to be sent out the respective client
 	private LinkedBlockingQueue<String> outqueue = new LinkedBlockingQueue<String>();
 	boolean exit=false;
 	private Listener listener = new Listener(this);
 	private Talker talker = new Talker(this);
 	private Server server;
 	
+	/**
+	 * The listener thread is responsible for incoming messages from the client, which are all
+	 * one per line, it processes these by the decided schema(3 letter code at the beginning of each
+	 * method) and then enacts the appropriate action
+	 */
 	private static class Listener extends Thread {
 		private ServerThread parent;
 		
@@ -45,6 +53,24 @@ public final class ServerThread {
 			this.parent = parent;
 		}
 		
+		
+		/**
+		 * Gets the input stream (via a buffered reader) and takes input. UID is the initial connection code
+		 * which then gets the player-avatar from the GameWorld with the provided username. This creates
+		 * a new one if the provided name has not connected before
+		 * 
+		 * CID is used for avatar selection, if username did not exist prior
+		 * 
+		 * CMG is used for commands from client for the gameworld (eg display inventory)
+		 * 
+		 * CTS is chat to server, used for chatting between players, emits a Say delta to all players.
+		 * 
+		 * Throws exception if any issue with message processing, and throws a IOException if there
+		 * is an issue within the rest of the try block
+		 * 
+		 * Finally, logs the player Gamething out of the gameworld, and informs other players.
+		 * 
+		 */
 		public void run() {
 			Player plyr = null;
 			try {
@@ -92,13 +118,6 @@ public final class ServerThread {
 						//hopefully shouldnt be reached
 						else if(temp.startsWith("cts")) {
 							String chat = temp.substring(4);
-/*							final String msg = "ctc "+chat+"\n";
-							parent.server.toAllPlayers(new Server.ClientMessenger() {
-								@Override
-								public void doTo(ServerThread client) {
-									client.queueMessage(msg);
-								}
-							})*/
 							parent.model.emitSay(null, null, chat);;
 						}
 					}
@@ -108,6 +127,7 @@ public final class ServerThread {
 					}
 				}
 			} catch(IOException e) {
+				
 				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
 				
 			}
@@ -115,13 +135,16 @@ public final class ServerThread {
 				parent.exit = true;
 				if(plyr != null){
 				plyr.logout();
-				System.err.println(parent.usrName + " logged out");
-				
+				parent.model.emitSay(null,null,parent.usrName + " logged out");	
 				}
 			}
 		}
 	}
 	
+	/**
+	 * The talker thread is responsible for outgoing messages to the client, which are all
+	 * one per line, it takes these from the message queue and sends out.
+	 */
 	private static class Talker extends Thread {
 		private ServerThread parent;
 		
@@ -129,6 +152,10 @@ public final class ServerThread {
 			this.parent = parent;
 		}
 		
+		/**
+		 * Writes messages if there are messages in the queue, if there is an IOException, assumes client
+		 * has disconnected
+		 */
 		public void run() {
 			try {
 				OutputStreamWriter output = new OutputStreamWriter(parent.socket.getOutputStream());			
@@ -149,14 +176,25 @@ public final class ServerThread {
 			parent.exit = true;
 		}
 	}
-
-	public ServerThread(Socket socket, int usrNo, GameWorld model, Server server) {
+	
+	/**
+	 * Creates the ServerThread
+	 * @param Client-connection socket
+	 * @param No. (in order of connection)
+	 * @param The created GameWorld
+	 */
+	public ServerThread(Socket socket, int usrNo, GameWorld model) {
 		this.model = model;	
 		this.socket = socket;
 		this.usrNo = usrNo;
-		this.server = server;
+
 	}
 	
+	/**
+	 * adds the WorldDeltas (which have been serialized to string), prefaces with ctc(chat to client) if a 
+	 * say message, and cmg otherwise.
+	 * @param d
+	 */
 	public void addDelta(WorldDelta d){
 		if(d.to() == usrGID || d.to() == -1){
 			String deltaupdate = Database.escapeNewLines(Database.treeToString(WorldDelta.SERIALIZER.write(d)));
@@ -168,15 +206,26 @@ public final class ServerThread {
 		}
 	}
 	
+	/**
+	 * Adds message to the queue
+	 * @param Message to be queued
+	 */
 	private void queueMessage(String msg) {
 		outqueue.add(msg);
 	}
 	
+	/**
+	 * 'Starting' a ServerThread starts the respective listeners and talkers
+	 */
 	public void start() {
 		listener.start();
 		talker.start();
 	}
 
+	/**
+	 * Considered dead if it is ready to be exited
+	 * @return true if dead.
+	 */
 	public boolean isAlive(){
 		return !exit;
 	}
