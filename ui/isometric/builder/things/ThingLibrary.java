@@ -254,7 +254,36 @@ public class ThingLibrary {
 			return "Spawn Point";
 		}
 	}
-	
+
+	/**
+	 * A class that generates pouches
+	 * @author maz
+	 *
+	 */
+	public static class PouchCreator implements ThingCreator {
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			return new game.things.Pouch(w);
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("armour_tunic", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			Set<String> out = new HashSet<String>();
+			out.add("armour_tunic");
+			return out;
+		}
+
+		@Override
+		public String description() {
+			return "Pouch";
+		}
+	}
+
 	/**
 	 * A class that generates openable furniture
 	 * @author melby
@@ -914,6 +943,8 @@ public class ThingLibrary {
 				creators.add(new SpawnPointCreator());
 
 				creators.add(new GoltrollerCreator());
+
+				creators.add(new PouchCreator());
 				
 				ThingCreatorChecker.check();
 			}
