@@ -13,7 +13,7 @@ import org.junit.*;
  * @author wafaahma
  *
  */
-public class SerializersTest extends TestCase{
+public class SerializationANDDatabaseTest extends TestCase{
 	String treeToString = "";
 	String xmlToString = "";
 	
@@ -21,7 +21,7 @@ public class SerializersTest extends TestCase{
 	 * Tests the tree and xml serializations in general
 	 * @throws ParseException
 	 */
-	@Test public void testGeneral() throws ParseException {
+	@Test public void testGeneral(){
 		Serializer<List<Integer>> serLI = new Serializers.List<Integer>(Serializers.Serializer_Integer);
 		treeToString = "[i\\||1\\|i\\||2\\|rrr\\||\\|rrr\\||*\\|rrr\\||#\\|rrr\\|| \\|rrr\\||<>\\|bbb\\|[]]";
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
@@ -60,7 +60,7 @@ public class SerializersTest extends TestCase{
 	 * Tests a list of Strings
 	 * @throws ParseException
 	 */
-	@Test public void testListofString() throws ParseException {
+	@Test public void testListofString(){
 		Serializer<List<String>> serLS = Serializers.list(Serializers.Serializer_String);
 		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
@@ -85,7 +85,7 @@ public class SerializersTest extends TestCase{
 	 * tests map of String to String
 	 * @throws ParseException
 	 */
-	@Test public void testMapofStringtoStringWrite() throws ParseException {
+	@Test public void testMapofStringtoStringWrite(){
 		Serializer<Map<String,String>> serLS = new Serializers.Map<String,String>(Serializers.Serializer_String,Serializers.Serializer_String);
 		treeToString = "[i\\|[k\\||baz\\|v\\||baz\\|]i\\|[k\\||foo\\|v\\||foo\\|]i\\|[k\\||bar\\|v\\||bar\\|]]";
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
@@ -119,7 +119,7 @@ public class SerializersTest extends TestCase{
 	 * tests if map of String to String read method is correctly throws exception
 	 * @throws ParseException
 	 */
-	@Test public void testMapofStringtoStringRead() throws ParseException {
+	@Test public void testMapofStringtoStringRead(){
 		Serializer<Map<String,String>> serLS = Serializers.map(Serializers.Serializer_String,Serializers.Serializer_String);
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
 				"\n<tree>" +
@@ -150,7 +150,6 @@ public class SerializersTest extends TestCase{
 	 */
 	@Test public void testListofStringException() {
 		Serializer<List<String>> serLS = Serializers.list(Serializers.Serializer_String);
-//		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
 				"\n<tree>" +
 				"\n  <i>foo</i>" +
@@ -170,7 +169,6 @@ public class SerializersTest extends TestCase{
 	 */
 	@Test public void testListofIntegerRead() {
 		Serializer<Set<Integer>> serLI = Serializers.set(Serializers.Serializer_Integer);
-		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
 				"\n<tree>" +
 				"\n  <i>1</i>" +
@@ -191,7 +189,6 @@ public class SerializersTest extends TestCase{
 	 */
 	@Test public void testListofIntegerException() {
 		Serializer<Set<Integer>> serLI = Serializers.set(Serializers.Serializer_Integer);
-		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
 				"\n<tree>" +
 				"\n  <>1</i>" +
@@ -206,34 +203,53 @@ public class SerializersTest extends TestCase{
 	}
 
 	/**
-	 * Tests if the program throws exception when xml file is broken.
+	 * Tests Set of doubles read method
 	 * @throws ParseException
 	 */
-	@Test public void complecatedXmlFile() throws ParseException {
-		Serializer<Map<Set<Integer>,Set<Double>>> serLI = Serializers.map(Serializers.set(Serializers.Serializer_Integer), Serializers.set(Serializers.Serializer_Double));
-//		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
+	@Test public void testSetofDoubleRead() {
+		Serializer<Set<Double>> serD = Serializers.set(Serializers.Serializer_Double);
 		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
 				"\n<tree>" +
-				"\n  <k>" +
-				"\n    <i>1</i>" +
-				"\n    <i>2</i>" +
-				"\n    <i>3</i>" +
-				"\n  </k>" +
-				"\n  <v>" +
-				"\n    <i>1.0</i>" +
-				"\n    <i>2.0</i>" +
-				"\n    <i>3.0</i>" +
-				"\n  </v>" +
+				"\n  <i>1.0</i>" +
+				"\n  <i>2.0</i>" +
+				"\n  <i>3.0</i>" +
 				"\n</tree>\n";
-		System.out.println(xmlToString);
-//		String specialFormat = "[";
-//		try{
-//			integerSet.read(Database.xmlToTree(xmlToString));
-//			doubleSet.read(Database.xmlToTree(xmlToString2));
-			System.out.print(Database.xmlToTree(xmlToString));
-			System.out.print(serLI.read(Database.xmlToTree(xmlToString)).toString());
-//		}catch(serialization.ParseException e){
-//			assertTrue(true);
-//		}
+		try{
+			assertEquals("[3.0, 2.0, 1.0]",serD.read(Database.xmlToTree(xmlToString)).toString());
+		}catch(serialization.ParseException e){
+			assertTrue(true);
+		}
+	}
+	
+	/**
+	 * Tests Tree find
+	 * @throws ParseException
+	 */
+	@Test public void testTreeFind() throws ParseException{
+		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+				"\n<tree>" +
+				"\n  <i>foo</i>" +
+				"\n  <i>bar</i>" +
+				"\n  <i>baz</i>" +
+				"\n</tree>\n";
+		Tree tree = Database.xmlToTree(xmlToString);
+		assertEquals("foo",tree.find("i").value());
+	}
+	
+	/**
+	 * Tests creating a tree from a given string
+	 * @throws ParseException
+	 */
+	@Test public void testTreeReadString() throws ParseException{
+		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
+		assertEquals(treeToString, Tree.fromString(treeToString).toString());
+	}
+	
+	/**
+	 * Tests Tree readString
+	 * @throws ParseException
+	 */
+	@Test public void testEscapInData() {
+		assertEquals("foo@n\n",Database.unescapeNewLines(Database.escapeNewLines("foo@n\n")));
 	}
 }

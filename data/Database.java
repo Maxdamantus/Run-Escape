@@ -240,15 +240,16 @@ public class Database {
 		return Tree.fromString(str);
 	}
 	
+	private static final String NEVER = "%@%%@@###78&&%";
 	/**
 	 * A helper method which adds new line to the XML file
 	 * @param string
 	 * @return String with indentation
 	 */
 	public static String escapeNewLines(String s) {
-		String escaped = s.replaceAll("@n", "@@n").replaceAll("\\n", "@n");
+		String escaped = s.replaceAll("@n", NEVER+"n").replaceAll("\\n", "@n");
 		//now escaping \r for windows support - Tom
-		escaped = escaped.replaceAll("@r", "@@r").replaceAll("\\r", "@r");
+		escaped = escaped.replaceAll("@r", NEVER+"r").replaceAll("\\r", "@r");
 		return escaped;
 	}
 	
@@ -258,9 +259,9 @@ public class Database {
 	 * @return String without indentation
 	 */
 	public static String unescapeNewLines(String s) {
-		String unescaped = s.replaceAll("@@n", "@n").replaceAll("@n", "\n"); 
+		String unescaped = s.replaceAll("@n", "\n").replaceAll(NEVER+"n","@n");
 		//now escaping \r for windows support - Tom
-		unescaped = unescaped.replaceAll("@@r", "@r").replaceAll("@r", "\r"); 
+		unescaped = unescaped.replaceAll("@r", "\r").replaceAll(NEVER+"r","@r"); 
 		return unescaped;
 	}
 }
