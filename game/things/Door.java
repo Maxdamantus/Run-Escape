@@ -9,7 +9,21 @@ import serialization.*;
 
 import game.*;
 
+/**
+ * 
+ * @author wheelemaxw
+ *Door is either open or closed and has a 
+ *A doorcode which is a blank string is openable all the time, 
+ *but otherwise required the corresponding key
+ *
+ */
 public class Door extends AbstractGameThing implements Togglable {
+	
+	/**
+	 * Custom serializers for Door
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -79,7 +93,12 @@ public class Door extends AbstractGameThing implements Togglable {
 		}
 	}
 
-	
+	/**
+	 * 
+	 * @param s - boolean to change state to
+	 * @param p - Player
+	 * @param say - message to output
+	 */
 	public void walkAndSetOpen(final boolean s, final Player p, final String say){
 		Location l = location();
 		final GameThing g = this;
@@ -130,14 +149,24 @@ public class Door extends AbstractGameThing implements Togglable {
 		return ui.isometric.abstractions.IsoSquare.WALL;
 	}
 	
+	/**
+	 * 
+	 * @return The doors doorcode
+	 */
 	public String doorcode(){
 		return doorcode;
 	}
-	
+	/**
+	 * 
+	 * @param drcd - set the Doorcode to this
+	 */
 	public void setDoorcode(String drcd){
 		this.doorcode = drcd;
 	}
 
+	/**
+	 * Toggles open to true;
+	 */
 	public void toggle(){
 		open ^= true;
 		update();

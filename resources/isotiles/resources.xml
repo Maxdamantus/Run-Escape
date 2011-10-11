@@ -655,14 +655,6 @@
     </v>
   </i>
   <i>
-    <k>box_1_open</k>
-    <v>
-      <name>box_1_open</name>
-      <type>IMAGE1</type>
-      <y-offset>13</y-offset>
-    </v>
-  </i>
-  <i>
     <k>barrel_1_closed</k>
     <v>
       <name>barrel_1_closed</name>
@@ -699,9 +691,9 @@
     </v>
   </i>
   <i>
-    <k>box_1_closed</k>
+    <k>potion</k>
     <v>
-      <name>box_1_closed</name>
+      <name>potion</name>
       <type>IMAGE1</type>
       <y-offset>13</y-offset>
     </v>

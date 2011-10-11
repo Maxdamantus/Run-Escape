@@ -278,8 +278,17 @@ public class Player extends Character {
 	public Container inventory(){
 		return inventory;
 	}
-
 	
+	public void drink(Potion potion) {
+		if((health() + 200) <= 1000)
+			health(health() + 200);
+		else
+			health(1000);
+		update();
+		world().emitSay(potion, this, "You drink the potion, it heals some of your wounds");
+		potion.subtract(1);
+	}
+
 	public void examine(final AbstractGameThing g) {
 		// TODO
 		final Player temp = this;
@@ -329,4 +338,6 @@ public class Player extends Character {
 		out.put("luminance", String.valueOf(((Level.Location)l).level().luminance()));
 		return out;
 	}
+
+
 }

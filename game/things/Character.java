@@ -107,6 +107,7 @@ public abstract class Character extends AbstractGameThing {
 	 * @return true if gets there, otherwise false
 	 */
 	public boolean moveTo(final Location lwhere, final int dist, final Runnable ondone, final boolean keepfollow){
+		if(health <= 0) return false;
 		if(!keepfollow){
 			following = null;
 			attackIdent = null;
@@ -272,9 +273,9 @@ public abstract class Character extends AbstractGameThing {
 	 * @param other - the GameThing being hurt
 	 */
 	public void hurt(GameThing other){
-		int maxamt = (int) (2 * (strength));
-		int minamt = (int) (strength);
-		int damageamt = (int) (minamt +  (Math.random() + attack) *(maxamt - minamt));
+		int maxamt = (int) (strength);
+		int minamt = (int) (0.5 * strength);
+		int damageamt = (int) (minamt +  ((Math.random() * attack) *(maxamt - minamt)));
 			((Character)other).damage(damageamt,this);
 		attackedBy.add(other);
 	}

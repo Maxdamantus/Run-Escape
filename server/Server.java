@@ -329,7 +329,7 @@ public class Server{
 		drop.put(new game.things.EquipmentGameThing(sgm, 10, 10, 10, 10, Slot.WEAPON, "Short sword", "sword_1"));
 		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_compass"));
 		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "blue", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, drop,false,0));
-		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "spider", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, null,true,3));
+		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "spider", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, null,false,3));
 		return sgm;
 	}
 	

@@ -32,7 +32,7 @@ public final class ServerThread {
 	//GID of the GameThing Character
 	private long usrGID;
 	//Provided username from Player
-	private String usrName;
+	private static String usrName;
 	private final Socket socket;
 	//For queueing messages to be sent out the respective client
 	private LinkedBlockingQueue<String> outqueue = new LinkedBlockingQueue<String>();
@@ -128,7 +128,7 @@ public final class ServerThread {
 				}
 			} catch(IOException e) {
 				
-				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
+				System.err.println("PLAYER " + parent.usrNo +"/" + usrName + " DISCONNECTED");
 				
 			}
 			finally{
