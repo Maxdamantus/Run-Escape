@@ -183,7 +183,7 @@ public class Player extends Character {
 			
 		}
 		else{
-			Player temp = this;
+			final Player temp = this;
 			if(!moveTo(g.location(), new Runnable(){
 				public void run(){
 					inventory.put(g);
