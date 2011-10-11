@@ -24,7 +24,7 @@ public class Door extends AbstractGameThing implements Togglable {
 				out.add(new Tree.Entry("open", new Tree(in.openRenderer)));
 				out.add(new Tree.Entry("close", new Tree(in.closedRenderer)));
 				out.add(new Tree.Entry("state", Serializers.Serializer_Boolean.write(in.open)));
-				out.add(new Tree.Entry("doorcode", new Tree(in.openRenderer)));
+				out.add(new Tree.Entry("doorcode", new Tree(in.doorcode)));
 				return out;
 			}
 
