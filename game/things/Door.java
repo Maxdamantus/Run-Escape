@@ -66,7 +66,7 @@ public class Door extends AbstractGameThing implements Togglable {
 		this.openRenderer = openRenderer;
 		this.closedRenderer = closedRenderer;
 		this.open = open;
-		if(doorcode == null)
+		if(drcd == null)
 			this.doorcode = "";
 		else
 			this.doorcode = drcd;

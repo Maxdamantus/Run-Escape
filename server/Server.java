@@ -315,7 +315,7 @@ public class Server{
 		spoken.add(0,"Hmm, this isnt a very nice place is it");
 		spoken.add(1,"You need to get out of here? Try the towers");
 		spoken.add(2,"Those doors will need keys");
-		spoken.add(3,"I hope you JavaDoc'ed all your code, oh I've said too much!");
+		spoken.add(3,"Are you going to get an A+ on this dungeon?");
 		spoken.add(4,"Do you like Cats as much as I do?");
 		spoken.add(5,"I hope you JavaDoc'ed all your code, oh I've said too much!");
 		spoken.add(6,"Hi, my name is Dave Pearce, nice to meet you");

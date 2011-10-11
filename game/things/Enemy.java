@@ -140,6 +140,7 @@ public class Enemy extends Character implements Namable {
 	public void damage(int amt, Character from){
 		if(!dying()){
 			super.damage(amt, from);
+			world().emitSay(this, from, from.name() + " hurts " + name() + " and their health is now " + health());
 			attack(from);
 		}
 		if(health() <= 0 && dying()){

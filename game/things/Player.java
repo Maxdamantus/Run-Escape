@@ -156,6 +156,7 @@ public class Player extends Character {
 	
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
+		world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health());
 		if(health() <= 0){
 			final game.things.Corpse cp = new Corpse(world(),"corpse_1",null);
 			cp.location(this.location());

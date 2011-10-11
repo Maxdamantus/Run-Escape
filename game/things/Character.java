@@ -304,9 +304,9 @@ public abstract class Character extends AbstractGameThing {
 	 */
 	public void damage(int amt, Character from){
 		if(!dying()){
-
-			health -= (int)(amt - (Math.random() * defence));
-			world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health);
+			amt = (int)(amt - (Math.random() * (double)defence));
+			if(amt > 0)
+				health -= amt;
 //			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
 			if(health <= 0){
 				animate(renderer() + "_die");
