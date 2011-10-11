@@ -279,15 +279,6 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 	}
 	*/
 
-	public boolean contains(GameThing gt){
-		game.Location l = gt.location();
-		if(l instanceof Location && ((Location)l).level() == this)
-			for(GameThing g : portion(((Location)l).position(), ((Location)l).position()))
-				if(gt == g)
-					return true;
-		return false;
-	}
-
 	public Iterable<GameThing> portion(Position min, Position max){
 		List<GameThing> res = new LinkedList<GameThing>();
 		mapLock.readLock().lock();

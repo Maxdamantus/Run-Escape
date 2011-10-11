@@ -103,18 +103,6 @@ public class GameWorld { // TODO: try/finally for locks
 		return allContainers.get(cid);
 	}
 
-	public Level getLevelFor(GameThing gt){
-		Level out = null;
-		levelsLock.readLock().lock();
-		for(Map.Entry<Integer, Level> l : levels.entrySet())
-			if(l.getValue().contains(gt)) {
-				out = l.getValue();
-				break;
-			}
-		levelsLock.readLock().unlock();
-		return out;
-	}
-
 	public static long someUnusedID(Map<Long, ?> m){
 		long r;
 		do
