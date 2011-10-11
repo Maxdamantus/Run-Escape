@@ -320,7 +320,7 @@ public class Server{
 		spoken.add(5,"I hope you JavaDoc'ed all your code, oh I've said too much!");
 		spoken.add(6,"Hi, my name is Dave Pearce, nice to meet you");
 		spoken.add(7,"Stop clicking on me you creep");
-		ll.put(new game.things.ChattyNPC(sgm, "bob", "Chatty Dave", spoken));
+		ll.put(new game.things.ChattyNPC(sgm, "blue", "Chatty Dave", spoken));
 		ll.next(Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_north"));
 		ll.next(Direction.EAST).put(new game.things.GroundTile(sgm, "dbg_east"));
 		ll.next(Direction.SOUTH).put(new game.things.GroundTile(sgm, "dbg_south"));
@@ -328,8 +328,8 @@ public class Server{
 		Container drop = new Container(sgm);
 		drop.put(new game.things.EquipmentGameThing(sgm, 10, 10, 10, 10, Slot.WEAPON, "Short sword", "sword_1"));
 		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_compass"));
-		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, drop,false,0));
-		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, null,true,3));
+		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "blue", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, drop,false,0));
+		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "spider", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, null,true,3));
 		return sgm;
 	}
 	

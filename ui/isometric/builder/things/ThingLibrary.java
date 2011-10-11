@@ -90,19 +90,19 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("character_"+characterName+"_empty", Direction.NORTH).image();
+			return IsoRendererLibrary.imageForRendererName("npc_"+characterName+"_empty", Direction.NORTH).image();
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;
 				{
-					add("character_"+characterName+"_empty");
-					add("character_"+characterName+"_empty_attack");
-					add("character_"+characterName+"_empty_die");
-					add("character_"+characterName+"_sword");
-					add("character_"+characterName+"_sword_attack");
-					add("character_"+characterName+"_sword_die");
+					add("npc_"+characterName+"_empty");
+					add("npc_"+characterName+"_empty_attack");
+					add("npc_"+characterName+"_empty_die");
+					add("npc_"+characterName+"_sword");
+					add("npc_"+characterName+"_sword_attack");
+					add("npc_"+characterName+"_sword_die");
 				}};
 		}
 
@@ -485,16 +485,16 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image(); // TODO: fix naming
+			return IsoRendererLibrary.imageForRendererName("npc_"+renderer, Direction.NORTH).image(); // TODO: fix naming
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
 			return new HashSet<String>(){private static final long serialVersionUID = 1L;
 				{
-					add("character_"+renderer+"_empty");
-					add("character_"+renderer+"_empty_attack");
-					add("character_"+renderer+"_empty_die");
+					add("npc_"+renderer);
+					add("npc_"+renderer+"_attack");
+					add("npc_"+renderer+"_die");
 				}
 			};
 		}
@@ -532,12 +532,12 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("character_"+renderer+"_empty", Direction.NORTH).image(); // TODO: fix naming
+			return IsoRendererLibrary.imageForRendererName("npc_"+renderer, Direction.NORTH).image(); // TODO: fix naming
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
-			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("character_"+renderer+"_empty");}};
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("npc_"+renderer);}};
 		}
 
 		@Override
@@ -852,8 +852,8 @@ public class ThingLibrary {
 				
 				creators.add(new CoinThingCreator(1));
 				
-				creators.add(new NPCCreator("bob", "Sir Robert", 10, false, 0));
-				creators.add(new ShopkeeperCreator("bob", "Shop Keeper"));
+				creators.add(new NPCCreator("blue", "Sir Robert", 10, false, 0));
+				creators.add(new ShopkeeperCreator("shopkeeper", "Shop Keeper"));
 				
 				creators.add(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH));
 				creators.add(new StairCreator("stairs_brown_down_1", -1, Direction.SOUTH));
