@@ -168,6 +168,7 @@ public class Player extends Character {
 						System.out.println("sp != null");
 						sp.location().put(thisp);
 						thisp.health(1000);
+						thisp.dying(false);
 						thisp.update();
 					}},5000);
 			}

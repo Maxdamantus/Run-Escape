@@ -269,7 +269,7 @@ public abstract class Character extends AbstractGameThing {
 	 * @param other - the GameThing being hurt
 	 */
 	public void hurt(GameThing other){
-		int maxamt = (int) (4 * (strength));
+		int maxamt = (int) (2.5 * (strength));
 		int minamt = (int) (2 * (strength));
 		int damageamt = (int) (minamt +  Math.random() * attack *(maxamt - minamt));
 			((Character)other).damage(damageamt,this);

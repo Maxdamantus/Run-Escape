@@ -146,4 +146,22 @@ public class Enemy extends Character implements Namable {
 	public int walkdistance(int d) {
 		return wanderdist = d;
 	}
+	
+	public boolean aggressive(){
+		return aggressive;
+	}
+	
+	public void aggressive(boolean b){
+		aggressive = b;
+	}
+	
+	public int radius(){
+		return radius;
+	}
+	
+	public void radius(int i){
+		radius = i;
+	}
+	
+
 }

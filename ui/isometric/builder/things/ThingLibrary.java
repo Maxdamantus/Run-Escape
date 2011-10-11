@@ -458,22 +458,28 @@ public class ThingLibrary {
 		private String renderer;
 		private String name;
 		private int distance;
+		private int radius;
+		private boolean aggressive;
 
 		/**
 		 * Create a NPCCreator
 		 * @param renderer
 		 * @param name
 		 * @param distance
+		 * @param aggressive 
+		 * @param radius 
 		 */
-		public NPCCreator(String renderer, String name, int distance) {
+		public NPCCreator(String renderer, String name, int distance, boolean aggressive, int radius) {
 			this.renderer = renderer;
 			this.name = name;
 			this.distance = distance;
+			this.aggressive = aggressive;
+			this.radius = radius;
 		}
 		
 		@Override
 		public GameThing createThing(GameWorld w, Location l) {
-			game.things.Enemy enemy = new game.things.Enemy(w, renderer, name, l, distance, null);
+			game.things.Enemy enemy = new game.things.Enemy(w, renderer, name, l, distance, null,aggressive,radius);
 			return enemy;
 		}
 
@@ -846,7 +852,7 @@ public class ThingLibrary {
 				
 				creators.add(new CoinThingCreator(1));
 				
-				creators.add(new NPCCreator("bob", "Sir Robert", 10));
+				creators.add(new NPCCreator("bob", "Sir Robert", 10, false, 0));
 				creators.add(new ShopkeeperCreator("bob", "Shop Keeper"));
 				
 				creators.add(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH));
