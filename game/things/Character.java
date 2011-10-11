@@ -54,7 +54,7 @@ public abstract class Character extends AbstractGameThing {
 	 * empty by default
 	 */
 	public String rendererState() { // TODO: depends on equipped state
-		return "empty";
+		return "";
 	}
 
 	/**
