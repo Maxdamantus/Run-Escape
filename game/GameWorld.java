@@ -7,6 +7,8 @@ import serialization.*;
 import ui.isometric.abstractions.IsoSquare;
 import ui.isometric.libraries.IsoRendererLibrary;
 
+//Author: Max Z,   (Emitsay:Max W)
+
 public class GameWorld { // TODO: try/finally for locks
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
 	private final Map<Long, Container> allContainers = new HashMap<Long, Container>();
@@ -189,6 +191,14 @@ public class GameWorld { // TODO: try/finally for locks
 		emit(new WorldDelta(new WorldDelta.Update(new DumbGameThing(gt)), -1));
 	}
 
+	/**
+	 * Emits a Say worldDelta with the specified message
+	 * If the destination or source are null it sends to everyone,
+	 * otherwise to a specific user(GID)
+	 * @param gt Source GameThing
+	 * @param dest - Destination GameThing
+	 * @param what - message
+	 */
 	public void emitSay(GameThing gt, GameThing dest, String what){
 		if(gt == null || dest == null)
 			emit(new WorldDelta(new WorldDelta.Say(-1, what), -1));
