@@ -120,5 +120,38 @@ public class SerializersTest extends TestCase{
 		System.out.print(xmlToString);
 		assertEquals(xml, xmlToString);
 	}
+	
+	/**
+	 * Tests a list of Strings
+	 * @throws ParseException
+	 */
+	@Test public void testListofStringException() {
+		Tree listString = null;
+		Serializer<List<String>> serLS = new Serializers.List<String>(Serializers.Serializer_String);
+		treeToString = "[i\\||foo\\|i\\||bar\\|i\\||baz\\|]";
+		xmlToString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+				"\n<tree>" +
+				"\n  <i>foo</i>" +
+				"\n  <i>bar</i>" +
+				"\n  <i>baz</i>" +
+				"\n</tree>\n";
+		List<String> foo;// = new ArrayList<String>();
+//		foo.add("foo");
+//		foo.add("bar");
+//		foo.add("baz");
+//		ListString = serLS.write(foo);
+		try{
+			foo = serLS.read(Database.xmlToTree("fdsad"+xmlToString));
+			System.out.print(foo);
+			assertTrue(false);
+//			assertEquals(listString.toString(), treeToString);
+		}catch(serialization.ParseException e){
+		}
+//		String xml = Database.treeToXML(listString);
+//		System.out.print(xml);
+//		System.out.print(xmlToString);
+//		assertEquals(xml, xmlToString);
+	}
 
+	
 }
