@@ -1,5 +1,6 @@
 package ui.isometric.mock;
 
+import client.ClientMessageHandler;
 import game.*;
 
 /**

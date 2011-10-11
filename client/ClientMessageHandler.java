@@ -1,4 +1,6 @@
-package game;
+package client;
+
+import game.ClientMessage;
 
 /**
  * Enables the sending of ClientMessages

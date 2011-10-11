@@ -17,6 +17,11 @@ import serialization.Serializers;
 import serialization.Tree;
 import util.Direction;
 
+/**
+ * 
+ * @author 168210
+ *
+ */
 public class ChattyNPC extends Character {
 
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
