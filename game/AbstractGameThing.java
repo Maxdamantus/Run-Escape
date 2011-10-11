@@ -12,6 +12,10 @@ public abstract class AbstractGameThing implements GameThing {
 	private final GameWorld world;
 	private List<Runnable> trackers = new LinkedList<Runnable>();
 
+	/**
+	 * Create the GameThing then adds it to the GameWorld
+	 * @param w - The GameWorld to introduce this to.
+	 */
 	public AbstractGameThing(GameWorld w){
 		location = LocationS.NOWHERE;
 		world = w;
@@ -22,6 +26,10 @@ public abstract class AbstractGameThing implements GameThing {
 			gid = 0;
 	}
 
+	/**
+	 * Create the GameThing then adds it to the GameWorld, with specific GID
+	 * @param w - The GameWorld to introduce this to.
+	 */
 	private AbstractGameThing(GameWorld w, long g){
 		location = LocationS.NOWHERE;
 		gid = g;
@@ -48,14 +56,21 @@ public abstract class AbstractGameThing implements GameThing {
 		}
 	}
 
+	
 	public void track(Runnable r){
 		trackers.add(r);
 	}
 
+	/**
+	 * @return 'Nowhere' if it ha no location, otherwise its Location
+	 */
 	public Location location(){
 		return location == null? LocationS.NOWHERE : location;
 	}
 
+	/**
+	 * Sets the current location, and updates the GameWorld
+	 */
 	public Location location(Location s){
 		Location lo = location;
 		location = s;
@@ -74,23 +89,42 @@ public abstract class AbstractGameThing implements GameThing {
 		return singleSpot;
 	}
 
+	/**
+	 * @return The current renderer string
+	 */
 	abstract public String renderer();
 
+	/**
+	 * Returns a string
+	 * @return Name of the Thing
+	 */
 	abstract public String name();
 
+	/**
+	 * @return The unique GameWorld identifier of the GameWorld
+	 */
 	public long gid(){
 		return gid;
 	}
 
+	/**
+	 * @return Returns the list of available interactions
+	 */
 	public List<String> interactions(){
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Calls the appropriate interaction method in the Player
+	 */
 	public void interact(String inter, game.things.Player who){
 		if(inter.equals("examine"))
 			who.examine(this);
 	}
 
+	/**
+	 * @return True if you can walk into
+	 */
 	public boolean canWalkInto(Direction d, game.things.Character who){
 		return true;
 	}
@@ -99,32 +133,42 @@ public abstract class AbstractGameThing implements GameThing {
 		return true;
 	}
 
-/*
-	public Level getLevel(){
-		return modelblah.getLevelFor(this);
-	}
-*/
-
+	/**
+	 * @return String of the first interaction in the list
+	 */
 	public String defaultInteraction(){
 		List<String> i = interactions();
 		return i == null || i.size() == 0? null : i.get(0);
 	}
 
+	/**
+	 * @return True if forgotten by the world
+	 */
 	public boolean forgotten(){
 		return forgotten;
 	}
 
+	/**
+	 * Remove this object from the game world
+	 */
 	public void forget(){
 		if(world != null)
 			world.emitForget(this);
 		forgotten = true;
 	}
 
+	/**
+	 * Gets the GameWorld to emit the specified animation
+	 * @param name - specified animation
+	 */
 	public void animate(String name){
 		if(world != null)
 			world.emitAnimate(this, name);
 	}
 
+	/**
+	 * @return - The current GameWorld
+	 */
 	public GameWorld world(){
 		return world;
 	}

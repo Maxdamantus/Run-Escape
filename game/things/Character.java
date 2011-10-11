@@ -6,7 +6,15 @@ import java.util.*;
 
 import util.*;
 
-// might want to subclass Player by this later, so Player and Enemy are both "Characters".
+//Authors: Max Z & Max W
+
+/**
+ * Abstract Class for any objects in the game that could be classed a characters
+ * eg Player, Enemies, Shopkeepers
+ * 
+ * Contains common fields, like health, stats, dead & dying status.
+ * 
+ */
 
 public abstract class Character extends AbstractGameThing {
 	private String renderer;
@@ -17,29 +25,42 @@ public abstract class Character extends AbstractGameThing {
 	private boolean dying = false; /*couldnt work around the scheduling issues with attacking,
 	so boolean was the best way to stop animate being scheduled over*/
 
+	/**
+	 * Creates a character, introduces to the world with super, then sets
+	 * renderer and maximum health(all characters have 1000
+	 */
 	public Character(GameWorld world, String r){
 		super(world);
 		renderer = r;
 		maxhealth(1000);
-	//	world.schedule(blah, 1000);
 	}
-/*
-	private Runnable blah = new Runnable(){
-		public void run(){
-			world().schedule(blah, 5000);
-		}
-	};
-	*/
 
+	/**
+	 * Returns a blank renderer if the character is dead
+	 * Otherwise, the provided renderer
+	 * @return The current renderer string
+	 */
 	public String renderer(){
 		if(dead) return "invisible";
 		return "character_" + renderer + "_" + rendererState();
 	}
 	
+	/**
+	 * Returns the state (holding weapon etc)
+	 * @return State, if holding weapons etc, but all characters are
+	 * empty by default
+	 */
 	public String rendererState() { // TODO: depends on equipped state
 		return "empty";
 	}
 
+	/**
+	 * Sets the Characters stats
+	 * @param at - Attack
+	 * @param st - Strength
+	 * @param de - Defence
+	 * @param dl - Delay
+	 */
 	public void setStats(int at, int st, int de, int dl){
 		attack = at;
 		strength = st;
@@ -47,23 +68,41 @@ public abstract class Character extends AbstractGameThing {
 		delay = dl;
 	}
 	
+	
 	public String type(){
 		return renderer;
 	}
 
+	//Getters
 	public int health(){ return health; }
 	public int health(int s){ return health = s; }
 	public int maxhealth(){ return maxhealth; }
 	public int maxhealth(int s){ return maxhealth = s; }
 
+	/**
+	 * 
+	 * @return Default step delay
+	 */
 	public int walkdelay(){
 		return 50;
 	}
 
+	/**
+	 * 
+	 * @return Step dealy if escaping from Battle
+	 */
 	public int escapedelay(){
 		return 250;
 	}
 
+	/**
+	 * Method for moving to specifc location
+	 * @param lwhere - where to
+	 * @param dist - how far
+	 * @param ondone - run when done
+	 * @param keepfollow - Boolean to keep following or not
+	 * @return true if gets there, otherwise false
+	 */
 	public boolean moveTo(final Location lwhere, final int dist, final Runnable ondone, final boolean keepfollow){
 		if(!keepfollow){
 			following = null;
@@ -87,19 +126,38 @@ public abstract class Character extends AbstractGameThing {
 		return false;
 	}
 
+	/**
+	 * Non-following moveTo
+	 * @param where
+	 * @param dist
+	 * @param ondone
+	 * @return
+	 */
 	public boolean moveTo(Location where, int dist, Runnable ondone){
 		return moveTo(where, dist, ondone, false);
 	}
-
+	
+	
 	public boolean moveTo(Location where, Runnable ondone){
 		return moveTo(where, 0, ondone);
 	}
-
+	
+	/**
+	 * Defines busy as if stepping or attacking
+	 * @return True if not busy, false otherwise
+	 */
 	public boolean busy(){
 		return stepIdent != null || attackIdent != null;
 	}
 
 	private Object stepIdent;
+	/**
+	 * For stepping to next location
+	 * @param where - moving to
+	 * @param ondone - run this on done
+	 * @param dist - distance
+	 * @param ident - 
+	 */
 	private void step(final Level.Location where, final Runnable ondone, final int dist, final Object ident){
 		if(stepIdent != ident)
 			return;
@@ -126,6 +184,11 @@ public abstract class Character extends AbstractGameThing {
 	private GameThing following;
 	// Mm .. can't go: final Runnable tracker = .. and have it reference itself.
 	private Runnable tracker;
+	/**
+	 * Method for character to follow another gameThing (on option on Players or NPC')
+	 * @param g - GameThing to follow
+	 * @param dist - distance
+	 */
 	public void follow(final GameThing g, final int dist){
 		following = g;
 		tracker = new Runnable(){
@@ -147,6 +210,12 @@ public abstract class Character extends AbstractGameThing {
 
 	private Object attackIdent;
 	private Runnable attacker;
+	/**
+	 * Method for attacking NPC or other player, can only be done if your health
+	 * is greater than 0, and so is theirs
+	 * Schedules a runnable to face and hurt the victim. Then call follows on the victim
+	 * @param g - GameThing to attack
+	 */
 	public void attack(final GameThing g){
 		if(this.health > 0 && g instanceof Character && ((Character)g).health() > 0){
 			final Character thischar = this;
@@ -177,6 +246,11 @@ public abstract class Character extends AbstractGameThing {
 		}
 	}
 	
+	/**
+	 * Algorithm for facing an object, given their location and checking the
+	 * distance to the surrounding locations.
+	 * @param l - Location that the object in question is
+	 */
 	public void face(Location l){
 		Location ml = location();
 		Level.Location closest = null;
@@ -189,7 +263,11 @@ public abstract class Character extends AbstractGameThing {
 	}
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
-
+	
+	/**
+	 * Algorithm for working out damage done.
+	 * @param other - the GameThing being hurt
+	 */
 	public void hurt(GameThing other){
 		int maxamt = (int) (4 * (strength));
 		int minamt = (int) (2 * (strength));
@@ -198,17 +276,31 @@ public abstract class Character extends AbstractGameThing {
 		attackedBy.add(other);
 	}
 
+	/**
+	 * 
+	 * @return True if being attacked, false if not
+	 */
 	public boolean attacked(){
 		return !attackedBy.isEmpty();
 	}
 
+	/**
+	 * Removes from List of attacking GameThings
+	 * @param other - GameThing that stops attacking this
+	 */
 	private void stopAttackedBy(GameThing other){
 		attackedBy.remove(other);
 	}
 	
+	/**
+	 * Damages this character, if they're not dying already, and if
+	 * the health goes to 0, calls the dying animation and notification
+	 * @param amt - Amount to be damaged by
+	 * @param from - Attacking character
+	 */
 	public void damage(int amt, Character from){
 		if(!dying()){
-			world().emitEmitSound(this, "character_" + renderer + "_ow");
+
 			health -= (int)(amt - (Math.random() * defence));
 			world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health);
 //			System.out.println(from.name() + " hurts " + name() + " and his health is now " + health);
@@ -224,10 +316,12 @@ public abstract class Character extends AbstractGameThing {
 		}
 	}
 
+	//see other moveTo's
 	public boolean moveTo(Level.Location where){
 		return moveTo(where, null);
 	}
 	
+	//see super
 	public void interact(String name, game.things.Player who){
 		super.interact(name, who);
 	}
@@ -251,7 +345,10 @@ public abstract class Character extends AbstractGameThing {
 	public int renderLevel() {
 		return ui.isometric.abstractions.IsoSquare.CHARACTER;
 	}
-
+	
+	/**
+	 * Method to help turn a Character into an DumbGameThing, including health.
+	 */
 	public Map<String, String> info(){
 		if(maxhealth() <= health())
 			return super.info();

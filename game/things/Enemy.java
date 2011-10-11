@@ -25,6 +25,8 @@ public class Enemy extends Character implements Namable {
 				out.add(new Tree.Entry("start", LocationS.s(world).write(in.start)));
 				out.add(new Tree.Entry("wander", Serializers.Serializer_Integer.write(in.wanderdist)));
 				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.inventory)));
+				out.add(new Tree.Entry("aggressive", new Tree(Boolean.toString(in.aggressive))));
+				out.add(new Tree.Entry("radius", Serializers.Serializer_Integer.write(in.radius)));
 				return out;
 			}
 
@@ -34,7 +36,9 @@ public class Enemy extends Character implements Namable {
 					in.find("name").value(),
 					LocationS.s(world).read(in.find("start")),
 					Serializers.Serializer_Integer.read(in.find("wander")),
-					Container.serializer(union.serializer(), world).read(in.find("inventory")));
+					Container.serializer(union.serializer(), world).read(in.find("inventory")),
+					Boolean.parseBoolean(in.find("aggresive").value()),
+					Serializers.Serializer_Integer.read(in.find("radius")));
 			}
 		});
 	}
@@ -42,12 +46,16 @@ public class Enemy extends Character implements Namable {
 	private String name;
 	private final Location start;
 	private int wanderdist;
+	private int radius;
+	private boolean aggressive;
 	private final Container inventory;
 
 
-	public Enemy(GameWorld world, String t, String n, Location sl, int wd, Container inv){
+	public Enemy(GameWorld world, String t, String n, Location sl, int wd, Container inv, boolean agr,int rad){
 		super(world, t);
 		name = n;
+		aggressive = agr;
+		radius = rad;
 		start = sl;
 		wanderdist = wd;
 		if(inv == null)
@@ -60,8 +68,24 @@ public class Enemy extends Character implements Namable {
 		new Runnable(){
 			public void run(){
 				Location l = start, ml = location();
-				if(l instanceof Level.Location && ml instanceof Level.Location && (!busy() || ((Level.Location)l).dist((Level.Location)ml) > 2*wanderdist))
-					moveTo(((Level.Location)l).next(Direction.SOUTH, (int)(Math.random()*wanderdist*2 - wanderdist)).next(Direction.EAST, (int)(Math.random()*wanderdist*2 - wanderdist)));
+				Player p = null;
+
+				if(aggressive && ml instanceof Level.Location){
+					Level.Location ll = (Level.Location)ml;
+					Iterable<GameThing> box = ll.level().portion(new Position(ll.position().x()-radius,ll.position().y()-radius),new Position(ll.position().x()+radius,ll.position().y()+radius));
+					for(GameThing g : box){
+						if(g instanceof Player)
+							p = (Player)g;
+					}
+					if(p!=null)
+						attack(p);
+					else if(l instanceof Level.Location && ml instanceof Level.Location && (!busy() || ((Level.Location)l).dist((Level.Location)ml) > 2*wanderdist))
+						moveTo(((Level.Location)l).next(Direction.SOUTH, (int)(Math.random()*wanderdist*2 - wanderdist)).next(Direction.EAST, (int)(Math.random()*wanderdist*2 - wanderdist)));
+				}
+				else{
+					if(l instanceof Level.Location && ml instanceof Level.Location && (!busy() || ((Level.Location)l).dist((Level.Location)ml) > 2*wanderdist))
+						moveTo(((Level.Location)l).next(Direction.SOUTH, (int)(Math.random()*wanderdist*2 - wanderdist)).next(Direction.EAST, (int)(Math.random()*wanderdist*2 - wanderdist)));
+				}
 				if(!forgotten())
 					world().schedule(this, 3000);
 			}
