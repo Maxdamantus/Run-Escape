@@ -317,7 +317,6 @@ public class Server{
 		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.GroundTile(sgm, "dbg_compass"));
 		sgm.level(0).location(new Position(15, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, drop));
 		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Enemy(sgm, "bob", "Sir Robert", sgm.level(0).location(new Position(0, 0), Direction.NORTH), 5, null));
-		sgm.level(0).location(new Position(16, -15), Direction.NORTH).put(new game.things.Stairs(sgm, "stairs_grey", 1, 1, Direction.NORTH));
 		return sgm;
 	}
 	
