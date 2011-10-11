@@ -179,17 +179,19 @@ public class Player extends Character {
 		if(g.location() instanceof game.Container){
 			((Container)g.location()).remove(g);
 			inventory.put(g);
-			world().emitSay(g, this, "You pick up "+g.name());
+			world().emitSay(g, this, "You pick up the "+g.name());
 			
 		}
 		else{
+			Player temp = this;
 			if(!moveTo(g.location(), new Runnable(){
 				public void run(){
 					inventory.put(g);
-					//for testing
-					for(GameThing gt : inventory.contents()){
+					world().emitSay(g, temp, "You pick up the "+g.name());
+//					for(GameThing gt : inventory.contents()){
 //						System.out.println(gt.name());
-					}
+//					}
+					
 				}
 			})){
 			world().emitSay(g, this, "You cant reach that");
@@ -291,6 +293,8 @@ public class Player extends Character {
 			world().emitSay(g, this, "Costs "+((ShopItem)g).cost()+ " coins");
 		if(g instanceof ChattyNPC)
 			world().emitSay(g, this, "He looks chatty");
+		if(g instanceof Enemy)
+			world().emitSay(g, this, "He looks up for a fight");
 	}
 
 	public Map<String, String> info(){

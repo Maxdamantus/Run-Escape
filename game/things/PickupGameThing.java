@@ -16,6 +16,7 @@ public abstract class PickupGameThing extends AbstractGameThing {
 		List<String> out = new LinkedList<String>();
 		// assuming if it's not in a level, it must be droppable.
 		out.add(location() instanceof Level.Location || location() instanceof game.Container && ((Container)location()).owner() == null? "pick up" : "drop");
+		out.add("examine");
 		return out;
 	}
 	
@@ -25,6 +26,7 @@ public abstract class PickupGameThing extends AbstractGameThing {
 		else if(name.equals("drop")){
 			who.drop(this);
 		}
+		else super.interact(name, who);
 	}
 
 	public Location location(Location l){
