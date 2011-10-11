@@ -45,7 +45,7 @@ public abstract class Character extends AbstractGameThing {
 	public String renderer(){
 		if(dead) return "invisible";
 		if(this instanceof Player)return "character_" + renderer + "_" + rendererState();
-		else return "npc_"+ renderer + "_" + rendererState();
+		else return "npc_"+ renderer;
 	}
 	
 	/**
