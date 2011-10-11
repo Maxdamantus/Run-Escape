@@ -19,11 +19,19 @@ import util.Direction;
 
 /**
  * 
- * @author 168210
+ * @author wheelemaxw
  *
+ *ChattyNPC is a type of character that the user is able to talk to, with a set of interactions which
+ *are randomized (aside from 1 initial interaction and 1 secret.
+ *Unattackable
  */
 public class ChattyNPC extends Character {
 
+	/**
+	 * Custom serializer for ChattyNPC's
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -66,10 +74,17 @@ public class ChattyNPC extends Character {
 
 	}
 
+	/**
+	 * Returns a string
+	 * @return Name of the Thing
+	 */
 	public String name(){
 		return name;
 	}
 
+	/**
+	 * @return Returns the list of available interactions
+	 */
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>(super.interactions());
 		out.add("talk");
@@ -77,6 +92,11 @@ public class ChattyNPC extends Character {
 		return out;
 	}
 	
+	/**
+	 * Requires the player to walk to the NPC before emitting the say message
+	 * @param p - player interacting with
+	 * @param say - string that NPC will say.
+	 */
 	public void walkAndTalk(final Player p, final String say){
 		Location l = location();
 		final GameThing g = this;
@@ -91,6 +111,10 @@ public class ChattyNPC extends Character {
 		}
 	}
 
+	/**
+	 * interaction instructions for talking, 
+	 * Gets either the initial interaction, a randomized one from size-2 or the secret one(after 20 talks)
+	 */
 	public void interact(String name, Player who){
 		if(name.equals("talk")){
 			if(talked == false){

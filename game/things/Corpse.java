@@ -20,8 +20,21 @@ import game.Level;
 import game.Location;
 import game.LocationS;
 
+/**
+ * 
+ * @author wheelemaxw
+ *
+ *Corpses are created on the death of a player or enemy NPC, with supplied container
+ *Players drop empty corpses, but NPC's drop their inventory.
+ *
+ */
 public class Corpse extends AbstractGameThing implements Containable {
 
+	/**
+	 * Custom serializers for Corpse
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -34,7 +47,7 @@ public class Corpse extends AbstractGameThing implements Containable {
 				Corpse in = (Corpse)o;
 				Tree out = new Tree();
 				out.add(new Tree.Entry("name", new Tree(in.renderer)));
-				out.add(new Tree.Entry("inventory", Container.serializer(union.serializer(), world).write(in.contents)));
+				out.add(new Tree.Entry("contents", Container.serializer(union.serializer(), world).write(in.contents)));
 				return out;
 			}
 

@@ -6,11 +6,13 @@ import java.util.*;
 
 import util.*;
 
-//Authors: Max Z & Max W
 
 /**
+ * 
+ * @author wheelemaxw and zerzoumax
+ * 
  * Abstract Class for any objects in the game that could be classed a characters
- * eg Player, Enemies, Shopkeepers
+ * e.g. Player, Enemies, Shopkeepers
  * 
  * Contains common fields, like health, stats, dead & dying status.
  * 
