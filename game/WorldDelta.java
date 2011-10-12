@@ -2,10 +2,25 @@ package game;
 
 import serialization.*;
 
+/**
+ * Represents a change in a client's view of the state of a world.
+ */
 public class WorldDelta {
+	/**
+	 * An action that can be applied to a world.
+	 */
 	public static interface Action {
+		/**
+		 * Update the given world using this action.
+		 */
 		public void apply(GameWorld w, WorldDelta wd) throws ParseException;
+		/**
+		 * Get a tree representation of this object.
+		 */
 		public Tree toTree();
+		/**
+		 * A name that identifies this type of Action.
+		 */
 		public String type();
 	}
 
@@ -49,10 +64,6 @@ public class WorldDelta {
 		}
 	}
 
-	// I don't like this duplication -_-
-	// Meh .. Java's repetitive enough anyway
-	// $ grep -r 'public' $(find . -name \*.java) | wc -l
-	// 369
 	public static class Introduce implements Action {
 		private final Tree in;
 
@@ -220,11 +231,14 @@ public class WorldDelta {
 		}
 
 		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
-//			long gid = Serializers.Serializer_Long.read(in.find("gid"));
-//			String what = in.find("what").value();
-//			world.emitSay(world.thingWithGID(gid), what);
+			long gid = Serializers.Serializer_Long.read(in.find("gid"));
+			String what = in.find("what").value();
+			world.emitSay(world.thingWithGID(gid), world.thingWithGID(wd.to), what);
 		}
 
+		/**
+		 * GID of the thing that said it.
+		 */
 		public long who(){
 			try{
 				return Serializers.Serializer_Long.read(in.find("gid"));
@@ -233,6 +247,9 @@ public class WorldDelta {
 			}
 		}
 
+		/**
+		 * What was said.
+		 */
 		public String what(){
 			try{
 				return in.find("what").value();

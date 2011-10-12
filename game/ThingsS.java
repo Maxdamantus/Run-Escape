@@ -12,6 +12,7 @@ public class ThingsS {
 		Player.makeSerializer(u, w);
 		Wall.makeSerializer(u, w);
 		GroundTile.makeSerializer(u, w);
+		ShopKeeper.makeSerializer(u, w);
 		SpawnPoint.makeSerializer(u, w);
 		Enemy.makeSerializer(u, w);
 		EquipmentGameThing.makeSerializer(u, w);

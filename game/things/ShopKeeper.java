@@ -4,15 +4,48 @@ import game.*;
 
 import java.util.*;
 
+import serialization.*;
+
 public class ShopKeeper extends Character implements Containable, Namable {
-	private final Map<String, Container> parts = new HashMap<String, Container>();
+	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof ShopKeeper? "shopkeeper" : null;
+			}
+		});
+
+		union.addSerializer("shopkeeper", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				ShopKeeper in = (ShopKeeper)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("renderer", new Tree(in.name)));
+				out.add(new Tree.Entry("name", new Tree(in.name)));
+				out.add(new Tree.Entry("parts", Serializers.map(Serializers.Serializer_String, Container.serializer(union.serializer(), world)).write(in.parts)));
+				return out;
+			}
+
+			public GameThing read(Tree in) throws ParseException {
+				return new ShopKeeper(world,
+					in.find("renderer").value(),
+					in.find("name").value(),
+					Serializers.map(Serializers.Serializer_String, Container.serializer(union.serializer(), world)).read(in.find("parts")));
+			}
+		});
+	}
+
+	private final Map<String, Container> parts;
 	private String name;
 
-	public ShopKeeper(GameWorld world, String r, String n){
+	private ShopKeeper(GameWorld world, String r, String n, Map<String, Container> p){
 		super(world, r);
 		name = n;
+		parts = p;
 		health(1000);
 		update();
+	}
+
+	public ShopKeeper(GameWorld w, String r, String n){
+		this(w, r, n, new HashMap<String, Container>());
 	}
 
 	public String name(){
