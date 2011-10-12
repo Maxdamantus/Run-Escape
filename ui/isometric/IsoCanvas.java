@@ -230,16 +230,20 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 		if(!selectionRender) {
 			backbufferGraphics.setComposite(oc);
 			
-			for(UILayerRenderer ren : extraRenderers) {
-				ren.render(backbufferGraphics, this);
+			synchronized(extraRenderers) { // Good enough
+				for(UILayerRenderer ren : extraRenderers) {
+					ren.render(backbufferGraphics, this);
+				}
 			}
 			
 			jgraphics.drawImage(backbuffer, 0, 0, null);
 		}
 		else {
-			for(UILayerRenderer ren : extraRenderers) {
-				if(ren.doSelectionPass(selectionPoint, this)) {
-					selectedRenderer = ren;
+			synchronized(extraRenderers) { // Good enough
+				for(UILayerRenderer ren : extraRenderers) {
+					if(ren.doSelectionPass(selectionPoint, this)) {
+						selectedRenderer = ren;
+					}
 				}
 			}
 		}
@@ -521,21 +525,23 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	 * @param renderer
 	 */
 	public void addLayerRenderer(UILayerRenderer renderer) { // TODO: log duplicates?
-		if(extraRenderers.size() == 0) {
-			extraRenderers.add(renderer);
-			renderer.setSuperview(this);
-		}
-		else {
-			for(int n = 0; n < extraRenderers.size(); n++) {
-				if(extraRenderers.get(n).level() < renderer.level()) {
-					extraRenderers.add(n, renderer);
-					renderer.setSuperview(this);
-					return;
-				}
+		synchronized(extraRenderers) { // Good enough
+			if(extraRenderers.size() == 0) {
+				extraRenderers.add(renderer);
+				renderer.setSuperview(this);
 			}
-			
-			extraRenderers.add(renderer);
-			renderer.setSuperview(this);
+			else {
+				for(int n = 0; n < extraRenderers.size(); n++) {
+					if(extraRenderers.get(n).level() < renderer.level()) {
+						extraRenderers.add(n, renderer);
+						renderer.setSuperview(this);
+						return;
+					}
+				}
+				
+				extraRenderers.add(renderer);
+				renderer.setSuperview(this);
+			}
 		}
 	}
 	
