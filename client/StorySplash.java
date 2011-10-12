@@ -13,6 +13,15 @@ import javax.swing.*;
  */
 
 public class StorySplash extends JFrame implements ActionListener {
+
+	private static final long serialVersionUID = 1L; //to stop warnings
+	private final String storyText = "You awaken in a strange dungeon with no memory of how you got there. \n" +
+	"All you know is that its kind of dark in here and that something does not " +
+	"seem quite right. " +
+	"\n \n" +
+	"There is a man in the distance, maybe he will know more about " +
+	"what is going on"+
+	"\n \n \n \n Click to Play";
 	
 	public StorySplash(){
 		this.setTitle("Run,Escape");
@@ -23,7 +32,7 @@ public class StorySplash extends JFrame implements ActionListener {
 		
 		b.addActionListener(this);
 		
-		String text = setStory();
+		String text = storyText;
 		textf.append(text);
 		
 		this.add(textf, BorderLayout.NORTH);
@@ -33,21 +42,11 @@ public class StorySplash extends JFrame implements ActionListener {
         this.setVisible(true);
 	}
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 	    if (e.getActionCommand().equals("play")) {
 	    	this.dispose();
 	    	}
 	}
-	
-	public String setStory(){
-		return "You awaken in a strange dungeon with no memory of how you got there. \n" +
-				"All you know is that its kind of dark in here and that something does not " +
-				"seem quite right. " +
-				"\n \n" +
-				"There is a man in the distance, maybe he will know more about " +
-				"what is going on"+
-				"\n \n \n \n Click to Play";
-	}
-	
 	
 }

@@ -1,7 +1,6 @@
 package client;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
@@ -24,8 +23,7 @@ import java.util.List;
  */
 public class CharacterSelector extends JDialog {
 
-
-
+	private static final long serialVersionUID = 1L; //to stop warnings
 	private String name = null;
 	private ButtonGroup radioGroup;
 	private JRadioButton radioButton1;

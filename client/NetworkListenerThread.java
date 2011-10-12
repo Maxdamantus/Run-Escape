@@ -1,7 +1,6 @@
 package client;
 
 import game.*;
-import game.WorldDelta.Action;
 
 import java.awt.Color;
 import java.awt.Dimension;
