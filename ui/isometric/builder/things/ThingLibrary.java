@@ -872,42 +872,42 @@ public class ThingLibrary {
 				creators.add(new WallCreator("barrel_2"));
 				creators.add(new WallCreator("barrel_3"));
 				
-				creators.add(new EquipmentCreator("sword_1", 2, 2, 0, 1500, "Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_2", 3, 3, 0, 1500, "Pseudo Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_3", 4, 4, 0, 1500, "Slightly Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_4", 5, 5, 0, 1500, "Almost Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_5", 6, 6, 0, 1600, "Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_6", 7, 7, 0, 1600, "Medium-Good Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_7", 8, 8, 0, 1600, "Good Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_8", 9, 9, 0, 1600, "DoubleGood Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_9", 10, 10, 0, 1700, "Great Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_10", 11, 11, 0, 1700, "Greater Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_11", 12, 12, 0, 1700, "Epic Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_12", 15, 15, 0, 1500, "Ultima", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_1", 2, 2, 0, 1, "Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_2", 3, 3, 0, 1, "Pseudo Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_3", 4, 4, 0, 1, "Slightly Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_4", 5, 5, 0, 2, "Almost Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_5", 6, 6, 0, 2, "Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_6", 7, 7, 0, 2, "Medium-Good Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_7", 8, 8, 0, 3, "Good Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_8", 9, 9, 0, 3, "DoubleGood Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_9", 10, 10, 0, 4, "Great Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_10", 11, 11, 0, 4, "Greater Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_11", 12, 12, 0, 4, "Epic Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				creators.add(new EquipmentCreator("sword_12", 15, 15, 0, 1, "Ultima", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
 				
-				creators.add(new EquipmentCreator("shield_bronze", 0, 0, 4, 1500, "Bronze Shield", game.things.EquipmentGameThing.Slot.SHIELD));
-				creators.add(new EquipmentCreator("shield_long", 0, 0, 5, 1500, "Long Shield", game.things.EquipmentGameThing.Slot.SHIELD));
-				creators.add(new EquipmentCreator("shield_plate", 0, 0, 6, 1500, "Plate Shield", game.things.EquipmentGameThing.Slot.SHIELD));
-				creators.add(new EquipmentCreator("shield_wood", 0, 0, 3, 1500, "Wood Shield", game.things.EquipmentGameThing.Slot.SHIELD));
+				creators.add(new EquipmentCreator("shield_bronze", 0, 0, 4, 1, "Bronze Shield", game.things.EquipmentGameThing.Slot.SHIELD));
+				creators.add(new EquipmentCreator("shield_long", 0, 0, 5, 1, "Long Shield", game.things.EquipmentGameThing.Slot.SHIELD));
+				creators.add(new EquipmentCreator("shield_plate", 0, 0, 6, 1, "Plate Shield", game.things.EquipmentGameThing.Slot.SHIELD));
+				creators.add(new EquipmentCreator("shield_wood", 0, 0, 3, 1, "Wood Shield", game.things.EquipmentGameThing.Slot.SHIELD));
 				
-				creators.add(new EquipmentCreator("helmet_iron", 0, 0, 2, 1500, "Iron Helmet", game.things.EquipmentGameThing.Slot.HELMET));
-				creators.add(new EquipmentCreator("helmet_leather", 0, 0, 1, 1500, "Leather Helmet", game.things.EquipmentGameThing.Slot.HELMET));
+				creators.add(new EquipmentCreator("helmet_iron", 0, 0, 2, 1, "Iron Helmet", game.things.EquipmentGameThing.Slot.HELMET));
+				creators.add(new EquipmentCreator("helmet_leather", 0, 0, 1, 1, "Leather Helmet", game.things.EquipmentGameThing.Slot.HELMET));
 				
-				creators.add(new EquipmentCreator("gauntlets_iron", 0, 0, 3, 1500, "Iron Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
-				creators.add(new EquipmentCreator("gauntlets_leather", 0, 0, 2, 1500, "Leather Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
-				creators.add(new EquipmentCreator("gauntlets_silk", 0, 0, 1, 1500, "Silk Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
+				creators.add(new EquipmentCreator("gauntlets_iron", 0, 0, 3, 1, "Iron Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
+				creators.add(new EquipmentCreator("gauntlets_leather", 0, 0, 2, 1, "Leather Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
+				creators.add(new EquipmentCreator("gauntlets_silk", 0, 0, 1, 1, "Silk Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
 				
 				// TODO: cloak
 				
-				creators.add(new EquipmentCreator("boots_leather_shoes", 0, 0, 0, 1500, "Leather Shoes", game.things.EquipmentGameThing.Slot.BOOTS));
-				creators.add(new EquipmentCreator("boots_leather", 0, 0, 1, 1500, "Leather Boots", game.things.EquipmentGameThing.Slot.BOOTS));
-				creators.add(new EquipmentCreator("boots_steel", 0, 0, 2, 1500, "Steel Boots", game.things.EquipmentGameThing.Slot.BOOTS));
+				creators.add(new EquipmentCreator("boots_leather_shoes", 0, 0, 0, 0, "Leather Shoes", game.things.EquipmentGameThing.Slot.BOOTS));
+				creators.add(new EquipmentCreator("boots_leather", 0, 0, 1, 1, "Leather Boots", game.things.EquipmentGameThing.Slot.BOOTS));
+				creators.add(new EquipmentCreator("boots_steel", 0, 0, 2, 1, "Steel Boots", game.things.EquipmentGameThing.Slot.BOOTS));
 				
-				creators.add(new EquipmentCreator("armour_chain", 0, 0, 4, 1500, "Chainmail", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_leather", 0, 0, 3, 1500, "Leather Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_plate", 0, 0, 6, 1500, "Plate Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_steel", 0, 0, 5, 1500, "Steel Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_tunic", 0, 0, 2, 1500, "Tunic", game.things.EquipmentGameThing.Slot.ARMOUR));
+				creators.add(new EquipmentCreator("armour_chain", 0, 0, 4, 1, "Chainmail", game.things.EquipmentGameThing.Slot.ARMOUR));
+				creators.add(new EquipmentCreator("armour_leather", 0, 0, 3, 1, "Leather Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
+				creators.add(new EquipmentCreator("armour_plate", 0, 0, 6, 1, "Plate Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
+				creators.add(new EquipmentCreator("armour_steel", 0, 0, 5, 1, "Steel Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
+				creators.add(new EquipmentCreator("armour_tunic", 0, 0, 2, 1, "Tunic", game.things.EquipmentGameThing.Slot.ARMOUR));
 				
 				// TODO: stairs creator
 				
