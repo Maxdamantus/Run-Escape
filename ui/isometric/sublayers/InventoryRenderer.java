@@ -41,7 +41,7 @@ public class InventoryRenderer extends LargePanel {
 	private static BufferedImage helmet_slot = null;
 	private static BufferedImage gauntlets_slot = null;
 	private static BufferedImage boots_slot = null;
-	private static BufferedImage cloak_slot = null;
+//	private static BufferedImage cloak_slot = null;
 	private static BufferedImage shield_slot = null;
 	
 	private static BufferedImage empty_slot = null;
@@ -195,7 +195,7 @@ public class InventoryRenderer extends LargePanel {
 					helmet_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_helmet.png");
 					gauntlets_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_gauntlets.png");
 					boots_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_boots.png");
-					cloak_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_cloak.png");
+//					cloak_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_cloak.png");
 					shield_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_shield.png");
 					empty_slot = Resources.readImageResourceUnfliped("/resources/ui/slot_empty.png");
 				} catch (IOException e) {
