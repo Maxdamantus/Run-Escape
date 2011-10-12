@@ -139,7 +139,8 @@ public class GameWorld { // TODO: try/finally for locks
 	}
 
 	/**
-	 * Given a Map&lt,Long, ?&gt;, */
+	 * Given a Map&lt,Long, ?&gt;, m, find some long value v such that !m.containsKey(v).
+	 */
 	public static long someUnusedID(Map<Long, ?> m){
 		long r;
 		do
@@ -148,14 +149,26 @@ public class GameWorld { // TODO: try/finally for locks
 		return r;
 	}
 
+	/**
+	 * Introduces a GameThing to the world, creating a GID for it.
+	 * @return The newly introduced GameThing's GID
+	 */
 	public long introduce(GameThing gt){
 		return introduce(gt, someUnusedID(allThings));
 	}
 
+	/**
+	 * Introduces a container to the world, creating a CID for it.
+	 * @return The newly introduced Container's CID
+	 */
 	public long introduceContainer(Container ct){
 		return introduceContainer(ct, someUnusedID(allContainers));
 	}
 
+	/**
+	 * Introduces a container to the world, with the given CID.
+	 * @return cid
+	 */
 	public long introduceContainer(Container ct, long cid){
 		allContainersLock.writeLock().lock();
 		allContainers.put(cid, ct);
@@ -163,6 +176,9 @@ public class GameWorld { // TODO: try/finally for locks
 		return cid;
 	}
 
+	/**
+	 * Unregister a GameThing's existance from this world.
+	 */
 	public void forget(GameThing gt){
 		gt.forget();
 		allThingsLock.writeLock().lock();
@@ -170,7 +186,9 @@ public class GameWorld { // TODO: try/finally for locks
 		allThingsLock.writeLock().unlock();
 	}
 
-	// only use on the client
+	/**
+	 * Introduces a GameThing to the world, with the given GID: intended mostly to be only used on the client, where, with a valid server, GIDs will not collide.
+	 */
 	public long introduce(GameThing gt, long gid){
 		allThingsLock.writeLock().lock();
 		allThings.put(gid, gt);
@@ -178,7 +196,10 @@ public class GameWorld { // TODO: try/finally for locks
 		return gid;
 	}
 
-	// if a requested level doesn't exist, I'll just create it.
+	/**
+	 * Gets or creates a level object for the given floor number.
+	 * @param n Level number
+	 */
 	public Level level(int n){
 		if(!levels.containsKey(n)) {
 			levelsLock.writeLock().lock();
@@ -188,14 +209,13 @@ public class GameWorld { // TODO: try/finally for locks
 		return levels.get(n);
 	}
 
+	/**
+	 * Gets a superset of the non-empty level numbers.
+	 */
 	public Set<Integer> levels(){
 		return new HashSet<Integer>(levels.keySet());
 	}
 	
-	public serialization.Tree serialize(){
-		return new serialization.Tree();
-	}
-
 	public void emitPut(GameThing gt, Location where){
 		emit(new WorldDelta(new WorldDelta.Put(gt.gid(), where), -1));
 	}
@@ -268,6 +288,11 @@ public class GameWorld { // TODO: try/finally for locks
 	}
 
 	private final Timer timer = new Timer();
+	/**
+	 * Schedules a task to be run in some time.
+	 * @param r What to run
+	 * @param d The delay in miliseconds before it is run
+	 */
 	public void schedule(final Runnable r, long d){
 		timer.schedule(new TimerTask(){
 			public void run(){
@@ -282,6 +307,10 @@ public class GameWorld { // TODO: try/finally for locks
 		}, d);
 	}
 
+	/**
+	 * Pushes all deltas required to get from an empty state to the current one for a client.
+	 * @param dw Whom to send it to
+	 */
 	public void allDeltas(DeltaWatcher dw){
 		allContainersLock.readLock().lock();
 		for(Container ct : allContainers.values())
@@ -296,6 +325,10 @@ public class GameWorld { // TODO: try/finally for locks
 		allThingsLock.readLock().unlock();
 	}
 
+	/**
+	 * Serialize the world, so it can be reloaded into a near-equivalent state.
+	 * @return The tree representing the current state
+	 */
 	public Tree toTree(){
 		Serializer<GameThing> gts = ThingsS.makeSerializer(this);
 		Serializer<Map<Integer, Integer>> mii = Serializers.map(Serializers.Serializer_Integer, Serializers.Serializer_Integer);
@@ -324,6 +357,9 @@ public class GameWorld { // TODO: try/finally for locks
 		return out;
 	}
 
+	/**
+	 * Clear this world, and load the state described by the given tree.
+	 */
 	public void fromTree(Tree in) throws ParseException {
 		levelsLock.writeLock().lock();
 		allThingsLock.writeLock().lock();
