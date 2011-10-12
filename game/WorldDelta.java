@@ -298,6 +298,9 @@ public class WorldDelta {
 			world.emitAnimate(world.thingWithGID(gid), what);
 		}
 
+		/**
+		 * Which thing is animated.
+		 */
 		public GameThing which(GameWorld world){
 			try{
 				return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
@@ -306,6 +309,9 @@ public class WorldDelta {
 			}
 		}
 
+		/**
+		 * What the animation name is.
+		 */
 		public String what(){
 			try{
 				return in.find("what").value();
@@ -354,6 +360,9 @@ public class WorldDelta {
 			world.emitShowContainer(world.containerWithCID(cid), what, world.thingWithGID(wd.to));
 		}
 
+		/**
+		 * Which container to show.
+		 */
 		public Container which(GameWorld world){
 			try{
 				return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
@@ -362,6 +371,9 @@ public class WorldDelta {
 			}
 		}
 
+		/**
+		 * What the name of the display should be.
+		 */
 		public String what(){
 			try{
 				return in.find("what").value();
@@ -408,6 +420,9 @@ public class WorldDelta {
 			world.emitHideContainer(world.containerWithCID(cid), world.thingWithGID(wd.to));
 		}
 
+		/**
+		 * Which container to hide.
+		 */
 		public Container which(GameWorld world){
 			try{
 				return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
@@ -456,6 +471,9 @@ public class WorldDelta {
 			world.emitEmitSound(world.thingWithGID(gid), what);
 		}
 
+		/**
+		 * Which thing emits the sound.
+		 */
 		public GameThing which(GameWorld world){
 			try{
 				return world.thingWithGID(Serializers.Serializer_Long.read(in.find("gid")));
@@ -464,6 +482,9 @@ public class WorldDelta {
 			}
 		}
 
+		/**
+		 * What the name of the sound is.
+		 */
 		public String what(){
 			try{
 				return in.find("what").value();
@@ -496,19 +517,32 @@ public class WorldDelta {
 	private final Action action;
 	private final long to;
 
+	/**
+	 * The action that this delta is composed of.
+	 */
 	public Action action(){
 		return action;
 	}
 
+	/**
+	 * GID of the player to send to; -1 means all.
+	 */
 	public long to(){
 		return to;
 	}
 
+	/**
+	 * @param a Composed action
+	 * @param target GID of player to send it to
+	 */
 	public WorldDelta(Action a, long target){
 		action = a;
 		to = target;
 	}
 
+	/**
+	 * Apply this delta to the given client-type GameWorld.
+	 */
 	public void apply(GameWorld w) throws ParseException {
 		action.apply(w, this);
 	}
