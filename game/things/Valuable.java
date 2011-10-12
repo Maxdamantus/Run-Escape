@@ -17,8 +17,8 @@ public class Valuable extends PickupGameThing {
 				Valuable in = (Valuable)o;
 				Tree out = new Tree();
 				out.add(new Tree.Entry("value", Serializers.Serializer_Integer.write(in.value)));
-				out.add(new Tree.Entry("name", Serializers.Serializer_Integer.write(in.value)));
-				out.add(new Tree.Entry("renderer", Serializers.Serializer_Integer.write(in.value)));
+				out.add(new Tree.Entry("name", new Tree(in.name)));
+				out.add(new Tree.Entry("renderer", new Tree(in.renderer)));
 				return out;
 			}
 
