@@ -182,11 +182,11 @@ public class Player extends Character {
 		else if(name.equals("attack"))
 			who.attack(this);
 		else if(name.equals("_showinventory") && who == this)
-			showContainer(inventory, "Inventory");
+			showContainer(inventory, "Inventory", false);
 		else if(name.equals("_showequipment") && who == this)
-			showContainer(equipment, "Equipment");
+			showContainer(equipment, "Equipment", false);
 		else if(name.equals("_showbuffer") && who == this)
-			showContainer(buffer, "Buffer");
+			showContainer(buffer, "Buffer", false);
 		else
 			super.interact(name, who);
 	}
