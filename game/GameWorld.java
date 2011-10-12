@@ -5,7 +5,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
-//Author: Max Z,   (Emitsay:Max W)
+/**
+ * A class representing the entire state and behaviours of the game.
+ * @author maz
+ */
 
 public class GameWorld { // TODO: try/finally for locks
 	private final Map<Long, GameThing> allThings = new HashMap<Long, GameThing>();
@@ -22,16 +25,27 @@ public class GameWorld { // TODO: try/finally for locks
 	private final ReentrantReadWriteLock playersLock = new ReentrantReadWriteLock();
 	private final ReentrantReadWriteLock spawnpointsLock = new ReentrantReadWriteLock();
 
+	/**
+	 * An interface for WorldDelta observers.
+	 * @author maz
+	 */
 	public static interface DeltaWatcher {
 		public void delta(WorldDelta d);
 	}
 
+	/**
+	 * Associates a given name with a given Player object.
+	 */
 	public void setPlayer(String name, game.things.Player gt){
 		playersLock.writeLock().lock();
 		players.put(name, gt);
 		playersLock.writeLock().unlock();
 	}
 
+	/**
+	 * Gets a player associated with a given name; if one doesn't exist, one is created.
+	 * @return The player previously associated 
+	 */
 	public game.things.Player getPlayer(String name, String character){
 		game.things.Player player;
 		
@@ -181,6 +195,7 @@ public class GameWorld { // TODO: try/finally for locks
 	 * Emits a Say worldDelta with the specified message
 	 * If the destination or source are null it sends to everyone,
 	 * otherwise to a specific user(GID)
+	 * @author wheelemaxw
 	 * @param gt Source GameThing
 	 * @param dest - Destination GameThing
 	 * @param what - message
