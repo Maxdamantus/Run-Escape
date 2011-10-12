@@ -505,7 +505,7 @@ public class Player extends Character {
 	 */
 	public Map<String, String> info(){
 		Location l = location();
-		if(!(l instanceof Level.Location))
+		if(!(l instanceof Level.Location) || ((Level.Location)l).level().luminance() == -1)
 			return super.info();
 		Map<String, String> out = new HashMap<String, String>(super.info());
 		out.put("luminance", String.valueOf(((Level.Location)l).level().luminance()));
