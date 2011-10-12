@@ -446,6 +446,8 @@ public class BuilderInterface implements IsoInterface {
 				writer.write(file);
 				writer.flush();
 				writer.close();
+				
+				JOptionPane.showMessageDialog(frame, "File saved");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -493,6 +495,8 @@ public class BuilderInterface implements IsoInterface {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(frame, "Error loading file");
 		}
+		
+		JOptionPane.showMessageDialog(frame, "File loaded");
 	}
 	
 	/**
