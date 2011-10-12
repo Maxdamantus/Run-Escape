@@ -44,7 +44,7 @@ public class GameWorld { // TODO: try/finally for locks
 
 	/**
 	 * Gets a player associated with a given name; if one doesn't exist, one is created.
-	 * @return The player previously associated 
+	 * @return The player now associated with the given name.
 	 */
 	public game.things.Player getPlayer(String name, String character){
 		game.things.Player player;
@@ -58,6 +58,10 @@ public class GameWorld { // TODO: try/finally for locks
 		return player;
 	}
 	
+	/**
+	 * Determines whether or not a player is associated with the given name, in the system.
+	 * @return true if and only if the player exists.
+	 */
 	public boolean checkPlayer(String name) {
 		if(players.containsKey(name))
 			return true;
@@ -65,12 +69,18 @@ public class GameWorld { // TODO: try/finally for locks
 			return false;
 	}
 
+	/**
+	 * Registers a spawn point as existing in the world.
+	 */
 	public void addSpawnPoint(game.things.SpawnPoint sp){
 		spawnpointsLock.writeLock().lock();
 		spawnpoints.add(sp);
 		spawnpointsLock.writeLock().unlock();
 	}
 
+	/**
+	 * Gets a random spawn point from the ones added with addSpawnPoint.
+	 */
 	public game.things.SpawnPoint getSpawnPoint(){
 		game.things.SpawnPoint spawnpoint = null;
 		spawnpointsLock.readLock().lock();
@@ -80,6 +90,9 @@ public class GameWorld { // TODO: try/finally for locks
 		return spawnpoint;
 	}
 
+	/**
+	 * Gets a spawn point closest (by walk distance) to the given location.
+	 */
 	public game.things.SpawnPoint getSpawnPoint(Location l, game.things.Player who){
 		if(!(l instanceof Level.Location))
 			return getSpawnPoint();
@@ -100,6 +113,10 @@ public class GameWorld { // TODO: try/finally for locks
 		return closest == null? getSpawnPoint() : closest;
 	}
 
+	/**
+	 * Unregisters the given spawn point; the complement of addSpawnPoint.
+	 * @return true if and only if one was removed.
+	 */
 	public boolean removeSpawnPoint(game.things.SpawnPoint sp){
 		spawnpointsLock.writeLock().lock();
 		boolean r = spawnpoints.remove(sp);
@@ -107,14 +124,22 @@ public class GameWorld { // TODO: try/finally for locks
 		return r;
 	}
 
+	/**
+	 * Gets the GameThing with the given GID.
+	 */
 	public GameThing thingWithGID(long gid){
 		return allThings.get(gid);
 	}
 
+	/**
+	 * Gets the Container with the given CID.
+	 */
 	public Container containerWithCID(long cid){
 		return allContainers.get(cid);
 	}
 
+	/**
+	 * Given a Map&lt,Long, ?&gt;, */
 	public static long someUnusedID(Map<Long, ?> m){
 		long r;
 		do
