@@ -32,8 +32,8 @@ public class StorySplash extends JFrame implements ActionListener {
 		
 		b.addActionListener(this);
 		
-		String text = storyText;
-		textf.append(text);
+		textf.setEditable(false);
+		textf.setText(storyText);
 		
 		this.add(textf, BorderLayout.NORTH);
 		this.pack();
