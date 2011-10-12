@@ -2,10 +2,25 @@ package game;
 
 import serialization.*;
 
+/**
+ * Representation of messages from the client to the server; the only type of message using this interface though is a GameThing interaction.
+ */
 public class ClientMessage {
+	/**
+	 * An action performed by a client.
+	 */
 	public static interface Action {
+		/**
+		 * Apply the action to the given server world.
+		 */
 		public void apply(GameWorld w, long from);
+		/**
+		 * Get a tree representation of this object.
+		 */
 		public Tree toTree(GameWorld w);
+		/**
+		 * A name that identifies this type of Action.
+		 */
 		public String type();
 	}
 
@@ -51,11 +66,18 @@ public class ClientMessage {
 	// the Player's gid
 	private final long from;
 
+	/**
+	 * @param a Composed action
+	 * @param f GID of player whom it's from
+	 */
 	public ClientMessage(Action a, long f){
 		action = a;
 		from = f;
 	}
 
+	/**
+	 * Apply this message to the given server-type GameWorld.
+	 */
 	public void apply(GameWorld w){
 		action.apply(w, from);
 	}

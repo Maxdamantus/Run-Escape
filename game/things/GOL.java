@@ -7,9 +7,8 @@ import serialization.*;
 import java.util.*;
 
 /**
- * Simulates the Game of Life with specialized GameThings
- * @author zerzoumax
- *
+ * Simulates Conway's Game of Life with special cells as GameThings.
+ * @author maz
  */
 public class GOL {
 	public static void makeSerializer(SerializerUnion<GameThing> union, GameWorld world){
