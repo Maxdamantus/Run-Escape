@@ -18,7 +18,7 @@ public class ShopKeeper extends Character implements Containable, Namable {
 			public Tree write(GameThing o){
 				ShopKeeper in = (ShopKeeper)o;
 				Tree out = new Tree();
-				out.add(new Tree.Entry("renderer", new Tree(in.renderer())));
+				out.add(new Tree.Entry("renderer", new Tree(in.renderer)));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
 				out.add(new Tree.Entry("parts", Serializers.map(Serializers.Serializer_String, Container.serializer(union.serializer(), world)).write(in.parts)));
 				return out;
@@ -35,9 +35,11 @@ public class ShopKeeper extends Character implements Containable, Namable {
 
 	private final Map<String, Container> parts;
 	private String name;
+	private String renderer;
 
 	private ShopKeeper(GameWorld world, String r, String n, Map<String, Container> p){
 		super(world, r);
+		renderer = r;
 		name = n;
 		parts = p;
 		health(1000);
