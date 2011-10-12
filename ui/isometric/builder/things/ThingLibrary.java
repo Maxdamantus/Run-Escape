@@ -730,25 +730,24 @@ public class ThingLibrary {
 		}
 	}
 	
-	private static List<ThingCreator> creators = null;
-	private static List<ThingCreator> unmodifiable = null;
-	private static Map<String, List<ThingCreator>> categories = new HashMap<String, List<ThingCreator>>();
+	private static Map<String, List<ThingCreator>> categories = null;
 	
-	private static final String GROUND = "Ground";
-	private static final String WALL = "Wall";
-	private static final String FURNITURE = "Furniture";
-	private static final String EQUIPMENT = "Equipment";
-	private static final String NPC = "NPCs";
-	private static final String MISC = "Misc";
+	public static final String ALL = "All";
+	public static final String GROUND = "Ground";
+	public static final String WALL = "Wall";
+	public static final String FURNITURE = "Furniture";
+	public static final String EQUIPMENT = "Equipment";
+	public static final String NPC = "NPCs";
+	public static final String MISC = "Misc";
 	
 	/**
 	 * Initialize all the internal ThingCreators
 	 */
 	private static void setupCreators() {
 		synchronized(ThingLibrary.class) {
-			if(creators == null) {
-				creators = new ArrayList<ThingCreator>();
-				unmodifiable = Collections.unmodifiableList(creators);
+			if(categories == null) {
+				categories = new HashMap<String, List<ThingCreator>>();
+				categories.put(ALL, new ArrayList<ThingCreator>());
 				
 				addCreator(new GroundCreator("ground_grey_1"), GROUND);
 				addCreator(new GroundCreator("ground_grey_2"), GROUND);
@@ -963,7 +962,7 @@ public class ThingLibrary {
 	 * @param c
 	 */
 	private static void addCreator(ThingCreator t, String c) {
-		creators.add(t);
+		categories.get(ALL).add(t);
 		List<ThingCreator> category = categories.get(c);
 		if(category == null) {
 			category = new ArrayList<ThingCreator>();
@@ -973,27 +972,13 @@ public class ThingLibrary {
 	}
 	
 	/**
-	 * Get all the ThingCreators
-	 * @return - an immutable list of ThingCreators
-	 */
-	public static List<ThingCreator> creators() {
-		synchronized(ThingLibrary.class) {
-			if(creators == null) {
-				setupCreators();
-			}
-		}
-		
-		return unmodifiable;
-	}
-	
-	/**
 	 * Get the things in a given category
 	 * @param c
 	 * @return
 	 */
 	public static List<ThingCreator> creatorsInCategory(String c) {
 		synchronized(ThingLibrary.class) {
-			if(creators == null) {
+			if(categories == null) {
 				setupCreators();
 			}
 		}
@@ -1007,7 +992,7 @@ public class ThingLibrary {
 	 */
 	public static Set<String> categories() {
 		synchronized(ThingLibrary.class) {
-			if(creators == null) {
+			if(categories == null) {
 				setupCreators();
 			}
 		}

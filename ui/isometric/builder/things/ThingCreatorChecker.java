@@ -24,7 +24,7 @@ public class ThingCreatorChecker {
 		Set<String> allRenderers = IsoRendererLibrary.allRendererNames();
 		Set<String> usedRenderers = new HashSet<String>();
 		
-		for(ThingCreator c : ThingLibrary.creators()) {
+		for(ThingCreator c : ThingLibrary.creatorsInCategory(ThingLibrary.ALL)) {
 			usedRenderers.addAll(c.rendererNames());
 		}
 		
