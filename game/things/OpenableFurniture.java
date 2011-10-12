@@ -178,20 +178,21 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		Location l = location();
 		final GameThing g = this;
 		if(l instanceof Level.Location){
-			p.moveTo((Level.Location)l, 1, new Runnable(){
+			if(!p.moveTo((Level.Location)l, 1, new Runnable(){
 				public void run(){
 					open = s;
 					update();
 					world().emitSay(g, p, say);
 				}
-			});
+			}))
+				world().emitSay(this, p, "Can't reach that");
 			p.face(l);
 		}
 	}
 	
 
 	
-	public void interact(String name, game.things.Player who){
+	public void interact(String name, final game.things.Player who){
 		if(name.equals("close"))
 			walkAndSetOpen(false, who, "You close the chest");
 		else if(name.equals("open")){
@@ -213,8 +214,14 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 			who.showContainer(contents, renderer);
 		}
 		else if(name.equals("receive")){
-			for(GameThing got : who.buffer().snapshot())
-				contents.put(got);
+			Location l = location();
+			if(l instanceof Level.Location && !who.moveTo((Level.Location)l, 1, new Runnable(){
+				public void run(){
+					for(GameThing got : who.buffer().snapshot())
+						contents.put(got);
+				}
+			}))
+				world().emitSay(this, who, "Can't reach that");
 		}
 		else super.interact(name, who);
 	}
