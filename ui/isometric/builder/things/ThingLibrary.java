@@ -992,6 +992,12 @@ public class ThingLibrary {
 	 * @return
 	 */
 	public static List<ThingCreator> creatorsInCategory(String c) {
+		synchronized(ThingLibrary.class) {
+			if(creators == null) {
+				setupCreators();
+			}
+		}
+		
 		return categories.get(c);
 	}
 	
@@ -1000,6 +1006,12 @@ public class ThingLibrary {
 	 * @return
 	 */
 	public static Set<String> categories() {
+		synchronized(ThingLibrary.class) {
+			if(creators == null) {
+				setupCreators();
+			}
+		}
+		
 		return categories.keySet();
 	}
 }
