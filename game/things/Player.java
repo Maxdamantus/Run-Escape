@@ -230,7 +230,7 @@ public class Player extends Character {
 	 * If dead, creates new corpse and move player to nowhere until
 	 * respawning them at closest spawn, return their health to full
 	 */
-	public void damage(int amt, Character from){
+	public void damage(int amt, final Character from){
 		super.damage(amt, from);
 		world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health());
 		world().emitSay(from, from, from.name() + " hurts " + name() + " and his health is now " + health());
@@ -248,6 +248,7 @@ public class Player extends Character {
 						sp.location().put(thisp);
 						thisp.health(1000);
 						thisp.dying(false);
+						from.stopAttackedBy(thisp);
 						thisp.update();
 					}},5000);
 			}
