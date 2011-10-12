@@ -109,7 +109,7 @@ public class Tree{
 		for(Entry e : children)
 			if(e.name().equals(s))
 				return e.tree();
-		throw new ParseException("Can't find child called `s'", this);
+		throw new ParseException("Can't find child called `" + s + "'", this);
 	}
 	
 	/**
