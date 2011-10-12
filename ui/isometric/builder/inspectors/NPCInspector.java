@@ -17,7 +17,7 @@ import game.things.Enemy;
  * @author melby
  *
  */
-public class NPCInspector extends GameThingInspector<Enemy> {
+public class NPCInspector extends ContainableInspector<Enemy> {
 	private static final long serialVersionUID = 1L;
 
 	/**
