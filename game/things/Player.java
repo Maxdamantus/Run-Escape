@@ -138,6 +138,7 @@ public class Player extends Character {
 		}
 		lastLocation.put(this);
 		lastLocation = null;
+		world().emitSay(this, null, this.name()+" joined the game");
 	}
 
 	/**
@@ -218,13 +219,15 @@ public class Player extends Character {
 	/**
 	 * Method for doing damage to the player, calls Character damage
 	 * method.
-	 * Emits a Say WorldDelta to the player on how much they've been hurt
+	 * Emits a Say WorldDelta to the player on how much they've been hurt, and one to the damager
+	 * to tell them how much damage you did
 	 * If dead, creates new corpse and move player to nowhere until
 	 * respawning them at closest spawn, return their health to full
 	 */
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
 		world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health());
+		world().emitSay(from, from, from.name() + " hurts " + name() + " and his health is now " + health());
 		if(health() <= 0){
 			from.stopAttacking();
 			final game.things.Corpse cp = new Corpse(world(),"corpse_1",null);
