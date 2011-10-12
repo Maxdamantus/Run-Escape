@@ -92,13 +92,13 @@ public final class ServerThread {
 								//if the usrName is already logged in
 								if(!plyr.login()){
 									parent.usrName = parent.usrName+Integer.toString(((int)(Math.random()*10)));
-									plyr = parent.model.getPlayer(parent.usrName, null);
-									plyr.login();
+									parent.queueMessage("noid\n");
 								}
 						//		System.err.println("plyr logged in");
 						//		parent.model.level(0).location(new Position((int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5)), Direction.NORTH).put(plyr);
-								parent.usrGID = plyr.gid();
+								else{parent.usrGID = plyr.gid();
 								parent.queueMessage("uid " + parent.usrGID + "::::" + parent.usrName + "\n");
+								}
 							}
 							else{
 								parent.queueMessage("noid\n");
