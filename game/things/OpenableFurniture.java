@@ -7,7 +7,20 @@ import serialization.*;
 import util.Direction;
 import game.*;
 
+/**
+ * An extension of GameThing which has a container, can be opened, closed
+ * and locked in similar fashion to a door, but can also be inspected
+ * for contents, which can be removed.
+ * @author wheelemaxw
+ *
+ */
 public class OpenableFurniture extends AbstractGameThing implements Togglable, Containable {
+	
+	/**
+	 * Custom serializer for OpenableFurniture
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -76,15 +89,22 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 	}
 
 
-	//need the default renderer for a chest, at the moment looks like a wall...
+	//need the default renderer for a chest
 	public OpenableFurniture(GameWorld world){
 		this(world, "chest_1");
 	}
 
+	/**
+	 * Adds renderer and whether open or closed
+	 */
 	public String renderer(){
 		return renderer + "_" + renderState();
 	}
 
+	/**
+	 * 
+	 * @return Open or closed state
+	 */
 	private String renderState() {
 		if(open){
 			return "open";
@@ -94,14 +114,26 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		}
 	}
 	
+	/**
+	 * Getter
+	 * @return Associated doorcode
+	 */
 	public String doorcode(){
 		return doorcode;
 	}
 	
+	/**
+	 * Setter
+	 * @param drcd - new Doorcode
+	 */
 	public void setDoorcode(String drcd){
 		this.doorcode = drcd;
 	}
 	
+	/**
+	 * @return Returns a list of interactions, depends on state.
+	 * Contents are only viewable if it's open.
+	 */
 	public List<String> interactions(){
 		ArrayList<String> interactions = new ArrayList<String>();
 		if(open){
@@ -116,10 +148,17 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 			
 	}
 
+	/**
+	 * @return name(is this case the renderer)
+	 */
 	public String name(){
 		return renderer;
 	}
 	
+	/**
+	 * gets the containers, put into a Map (allows for
+	 * expansion for multiple containers associated.
+	 */
 	public Map<String,Container> getContainers(){
 		Map<String,Container> returnmap = new HashMap<String,Container>();
 		if(contents != null){
@@ -128,6 +167,12 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		return returnmap;
 	}
 	
+	/**
+	 * Makes the player walk to before they can open the furniture.
+	 * @param s - state to set
+	 * @param p - interacting player
+	 * @param say - message to emit
+	 */
 	public void walkAndSetOpen(final boolean s, final Player p, final String say){
 		Location l = location();
 		final GameThing g = this;

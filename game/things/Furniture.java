@@ -9,7 +9,19 @@ import serialization.*;
 import util.Direction;
 import game.*;
 
+/**
+ * Extension of AbstractGameThing for displaying furniture, which
+ * are only examineable, and cannot be walked through
+ * @author wheelemaxw
+ *
+ */
 public class Furniture extends AbstractGameThing {
+	
+	/**
+	 * Custom serializer for Furniture
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -45,11 +57,18 @@ public class Furniture extends AbstractGameThing {
 		update();
 	}
 
+	/**
+	 * Getter
+	 * @return The renderer
+	 */
 	public String renderer(){
 		return renderer;
 	}
 
 	
+	/**
+	 * Returns a list of possible interactions
+	 */
 	public List<String> interactions(){
 		ArrayList<String> interactions = new ArrayList<String>();
 		interactions.add("examine");
@@ -57,10 +76,16 @@ public class Furniture extends AbstractGameThing {
 			
 	}
 
+	/**
+	 * Getter for the name of the object(in this case just the renderer)
+	 */
 	public String name(){
 		return renderer;
 	}
 	
+	/**
+	 * Calls super, as this has no special interactions
+	 */
 	public void interact(String name, game.things.Player who){
 		super.interact(name, who);
 	}

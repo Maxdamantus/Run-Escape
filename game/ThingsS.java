@@ -12,7 +12,6 @@ public class ThingsS {
 		Wall.makeSerializer(u, w);
 		GroundTile.makeSerializer(u, w);
 		SpawnPoint.makeSerializer(u, w);
-		TestPickUp.makeSerializer(u, w);
 		Enemy.makeSerializer(u, w);
 		EquipmentGameThing.makeSerializer(u, w);
 		OpenableFurniture.makeSerializer(u, w);

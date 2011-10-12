@@ -4,6 +4,11 @@ import game.*;
 
 import java.util.*;
 
+/**
+ * 
+ * @author zerzoumax
+ *
+ */
 public class Light extends AbstractGameThing implements Luminant {
 	private int luminance;
 	private final String renderer;

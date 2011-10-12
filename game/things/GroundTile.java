@@ -6,6 +6,11 @@ import serialization.*;
 
 import java.util.*;
 
+/**
+ * 
+ * @author zerzoumax
+ *
+ */
 public class GroundTile extends AbstractGameThing {
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){

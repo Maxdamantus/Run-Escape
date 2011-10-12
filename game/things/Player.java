@@ -7,7 +7,22 @@ import serialization.*;
 
 import java.util.*;
 
+/**
+ * @author wheelemaxw and zerzoumax
+ *
+ *Class extending Character for the in-game representation of connected
+ *clients
+ *
+ *Contins most of the code for interacting with objects and NPC's
+ */
 public class Player extends Character {
+	
+	/**
+	 * Custom serializer for Player
+	 * @param union
+	 * @param world
+	 */
+	
 	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -63,47 +78,59 @@ public class Player extends Character {
 		equ.owner(this);
 		setStats(10,10,10,10);
 		update();
-	//	world.schedule(blah, 1000);
 	}
 
+	//Legacy constructor
 	public Player(GameWorld world, String t, String n, Location spawn){
 		this(world, t, n, spawn, new Container(world), new Container(world), new Container(world));
 	}
-/*
-	private Runnable blah = new Runnable(){
-		public void run(){
-			world().schedule(blah, 5000);
-		}
-	};
-	*/
 
-
+	//Legacy constructor
 	public Player(GameWorld world, String renderer, String n){
 		this(world, renderer, n, spawnPointWorkAroundCrap(world.getSpawnPoint()));
 	}
 
+	/**
+	 * Getting for location of the given spawnpoint
+	 * @param sp
+	 * @return Location of the spawn point, 
+	 */
 	private static Location spawnPointWorkAroundCrap(SpawnPoint sp){
 		return sp != null? sp.location() : null;
 	}
 
+	//Legacy constructor
 	public Player(GameWorld world){
 		this(world, "cordi");
 	}
 
+	//Legacy constructor
 	public Player(GameWorld world, String t){
 		this(world, t, "<insert name here>");
 	}
 
+	/**
+	 * Removes player thoroughly from the world
+	 * 
+	 */
 	public void clear(){
 		logout();
 		lastLocation = LocationS.NOWHERE;
 	}
 
+	/**
+	 * Saves current location and then moves Player into a 'Nowhere'
+	 * state.
+	 */
 	public void logout(){
 		lastLocation = location();
 		LocationS.NOWHERE.put(this);
 	}
 
+	/**
+	 * Returns player to previous location. If this i nowhere
+	 * then spawns them at closest spawnpoint
+	 */
 	public void login(){
 		if(lastLocation == LocationS.NOWHERE){
 			SpawnPoint sp = world().getSpawnPoint();
@@ -114,6 +141,9 @@ public class Player extends Character {
 		lastLocation = null;
 	}
 
+	/**
+	 * Returns name of the player (usrName given on connect)
+	 */
 	public String name(){
 		return name;
 	}
@@ -132,6 +162,9 @@ public class Player extends Character {
 		return "empty";
 	}
 
+	/**
+	 * @return Returns the list of available interactions
+	 */
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>(super.interactions());
 		out.add("follow");
@@ -140,7 +173,10 @@ public class Player extends Character {
 		return out;
 	}
 
-	//Change to not let you follow or attack yourself, maybe put out a log message to inform of this.
+	
+	/**
+	 * Calls the appropriate interaction method in the Player
+	 */
 	public void interact(String name, Player who){
 		if(name.equals("follow"))
 			who.follow(this);
@@ -156,12 +192,24 @@ public class Player extends Character {
 			super.interact(name, who);
 	}
 
+	/**
+	 * Emits a ShowContainer worldDelta to the player in question
+	 * for the Container in question.
+	 * @param c - Container to show
+	 * @param n - Name of the Container
+	 */
 	public void showContainer(Container c, String n){
 		world().emitShowContainer(c, n, this);
 	}
 	
 
-	
+	/**
+	 * Method for doing damage to the player, calls Character damage
+	 * method.
+	 * Emits a Say WorldDelta to the player on how much they've been hurt
+	 * If dead, creates new corpse and move player to nowhere until
+	 * respawning them at closest spawn, return their health to full
+	 */
 	public void damage(int amt, Character from){
 		super.damage(amt, from);
 		world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health());
@@ -185,6 +233,13 @@ public class Player extends Character {
 		}
 	}
 
+	/**
+	 * If the GameThing is in a container, it removes from
+	 * the container and places the GameThing in the players inventory.
+	 * Otherwise requires the player to walk to the GameThing before it can be picked up.
+	 * Then ends out appropriate Say delta
+	 * @param g - GameThing to pick up
+	 */
 	public void pickup(final GameThing g){
 //		System.out.println("pickup(" + g + ")");
 		if(g.location() instanceof game.Container){
@@ -223,6 +278,13 @@ public class Player extends Character {
 		}
 	}
 	
+	/**
+	 * If in the players inventory, puts the GameThing in the
+	 * same location a the player.
+	 * If it is equipped, it unequips first.
+	 * Sends out appropriate Say delta
+	 * @param g - GameThing to drop
+	 */
 	public void drop(GameThing g){
 		if(g.location() == inventory)
 			location().put(g);
@@ -232,6 +294,14 @@ public class Player extends Character {
 		world().emitSay(g, this, "You dropped "+g.name());
 	}
 
+	/**
+	 * Iterates through the current equipment and checks whether
+	 * there is already an item in the corresponding slot.
+	 * Swaps the two if so, otherwise just removes the GameThing
+	 * from the inventory, adds to equipment and updates the players
+	 * stats.
+	 * @param g - GameThing being Equipped
+	 */
 	public void equip(EquipmentGameThing g) {
 		EquipmentGameThing gt;
 		Iterator<GameThing> iter = equipment.contents().iterator();
@@ -250,10 +320,19 @@ public class Player extends Character {
 		update();
 	}
 	
+	/**
+	 * Adds given stats to players
+	 * @param stats
+	 */
 	private void addStats(int[] stats){
 		addStats(stats, 1);
 	}
 
+	/**
+	 * Adds or remove stats using the given int array
+	 * @param stats
+	 * @param m - 1 or -1 removing or adding
+	 */
 	private void addStats(int[] stats, int m) {
 		attack(attack() + stats[0]*m);
 		strength(strength() + stats[1]*m);
@@ -261,10 +340,19 @@ public class Player extends Character {
 		delay(delay() + stats[3]*m);
 	}
 	
+	/**
+	 * Calls addStats with -1 (takes off given stats)
+	 * @param stats
+	 */
 	private void remStats(int[] stats) {
 		addStats(stats, -1);
 	}
 
+	/**
+	 * Can only be called if item is equipped.
+	 * Removes stats and moves item to the inventory
+	 * @param g
+	 */
 	public void unequip(EquipmentGameThing g) {
 		if(equipment.contains(g)){
 			equipment.remove(g);
@@ -274,26 +362,52 @@ public class Player extends Character {
 		update();
 	}
 
+	/**
+	 * A buffer that interactions on other objects may use,
+	 * @return The buffer 
+	 */
 	public Container buffer(){
 		return buffer;
 	}
 
+	/**
+	 * adds a GameThing into the buffer
+	 */
 	public void send(GameThing g){
 		buffer.put(g);
 	}
 
+	/**
+	 * Essentially a contains method
+	 * @param g - GameThing to check
+	 * @return true if in inventory, false otherwise
+	 */
 	public boolean carrying(GameThing g){
 		return inventory.contains(g);
 	}
 
+	/**
+	 * Essentially a contains method
+	 * @param g - GameThing to check
+	 * @return true if in equipment, false otherwise
+	 */
 	public boolean equipped(GameThing g){
 		return equipment.contains(g);
 	}
 
+	/**
+	 * Getter
+	 * @return Players inventory
+	 */
 	public Container inventory(){
 		return inventory;
 	}
 	
+	/**
+	 * Interaction for drinking a potion,
+	 * Heals user by 200 points up to max limit of 1000
+	 * @param potion
+	 */
 	public void drink(Potion potion) {
 		if((health() + 200) <= 1000)
 			health(health() + 200);
@@ -304,6 +418,14 @@ public class Player extends Character {
 		potion.subtract(1);
 	}
 
+	/**
+	 * Different emitSays depending on type of GameThing, uses
+	 * instanceofs which is a bit messy, but hey.
+	 * If the object is outside the inventory or equipment, it must
+	 * be walked to first.
+	 * Otherwise just emits the corresponding Say.
+	 * @param g
+	 */
 	public void examine(final AbstractGameThing g) {
 		// TODO
 		final Player temp = this;
@@ -345,6 +467,9 @@ public class Player extends Character {
 		}	
 	}
 
+	/**
+	 * @return Map with info for creating DumbGameThings 
+	 */
 	public Map<String, String> info(){
 		Location l = location();
 		if(!(l instanceof Level.Location))

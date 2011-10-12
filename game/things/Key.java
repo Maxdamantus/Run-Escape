@@ -14,7 +14,19 @@ import serialization.SerializerUnion;
 import serialization.Serializers;
 import serialization.Tree;
 
+/**
+ * A type of PickupGameThing for unlocking respective doors, has
+ * a doorcode which corresponds to a specific/many doors.
+ * @author wheelemaxw
+ *
+ */
 public class Key extends PickupGameThing {
+	
+	/**
+	 * Custom serializer for Keys
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -58,10 +70,18 @@ public class Key extends PickupGameThing {
 		return name;
 	}
 	
+	/**
+	 * Getter
+	 * @return doorcode associated with this key
+	 */
 	public String doorcode(){
 		return doorcode;
 	}
 	
+	/**
+	 * Setter
+	 * @param set - new doorcode
+	 */
 	public void setDoorcode(String set){
 		doorcode = set;
 	}

@@ -6,7 +6,20 @@ import java.util.*;
 
 import serialization.*;
 
+/**
+ * Extension of a pickupable GameThing, which can be equiped to the
+ * player and gives them additions to their stats and if a Sword,
+ * changes their renderer.
+ * @author wheelemaxw
+ *
+ */
 public class EquipmentGameThing extends PickupGameThing {
+	
+	/**
+	 * Custom serializers for EquipmentGameThing
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -41,6 +54,10 @@ public class EquipmentGameThing extends PickupGameThing {
 		});
 	}
 
+	/**
+	 * Enum for the different slot types, for use when
+	 * equiped/de-equiping
+	 */
 	public static enum Slot {
 		WEAPON, ARMOUR, SHIELD, GAUNTLET, BOOTS, HELMET, ACCESSORY;
 	}
@@ -62,6 +79,13 @@ public class EquipmentGameThing extends PickupGameThing {
 		
 	}
 
+	/**
+	 * If the equipment is in a container, it is checked if the item is in the 
+	 * Players equipment, and if so given an interaction to Unequip
+	 * Otherwise, if it is just in a player inventory, you can Equip
+	 * Then adds superclasses
+	 * @Return A list of possible interactions, adding on to the superclass's (in ths case an empty list.)
+	 */
 	public List<String> interactions(){
 		if(location() instanceof Container){
 			List<String> out = new LinkedList<String>();
@@ -78,6 +102,9 @@ public class EquipmentGameThing extends PickupGameThing {
 		return super.interactions();
 	}
 	
+	/**
+	 * Calls the appropriate interaction method in the Player
+	 */
 	public void interact(String name, Player who){
 		if(name.equals("equip") && who.carrying(this)){
 			who.equip(this);
@@ -90,10 +117,17 @@ public class EquipmentGameThing extends PickupGameThing {
 		}
 	}
 	
+	/**
+	 *Getter
+	 * @return Slottype
+	 */
 	public Slot slot(){
 		return this.slottype;
 	}
 
+	/**
+	 * Info for DumbGameThing, but added Slottype
+	 */
 	public Map<String, String> info(){
 		Map<String, String> map = new HashMap<String, String>(super.info());
 		map.put(SLOT, slottype.toString());
@@ -110,22 +144,42 @@ public class EquipmentGameThing extends PickupGameThing {
 		return name;
 	}
 	
+	/**
+	 * Getter
+	 * @return Attack stat
+	 */
 	public int attack(){
 		return attack;
 	}
 	
+	/**
+	 * 
+	 * @return Attack stat
+	 */
 	public int strength(){
 		return strength;
 	}
 	
+	/**
+	 * Getter
+	 * @return Attack stat
+	 */
 	public int defence(){
 		return defence;
 	}
 	
+	/**
+	 * Getter
+	 * @return Attack stat
+	 */
 	public int delay(){
 		return delay;
 	}
 
+	/**
+	 * Getter for all the stats
+	 * @return ArrayList of the stats
+	 */
 	public int[] getStats() {
 		int[] returnarray  = {attack,strength,defence,delay};
 		return returnarray;

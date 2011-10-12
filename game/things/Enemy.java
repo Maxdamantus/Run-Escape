@@ -108,14 +108,23 @@ public class Enemy extends Character implements Namable {
 		}.run();
 	}
 
+	/**
+	 * @return name of Enemy
+	 */
 	public String name(){
 		return name;
 	}
 
+	/**
+	 * @param s - New name
+	 */
 	public String name(String s){
 		return name = s;
 	}
 
+	/**
+	 * @Return A list of possible interactions, adding on to the superclass's (in ths case an empty list.)
+	 */
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>(super.interactions());
 		out.add("follow");
@@ -124,6 +133,9 @@ public class Enemy extends Character implements Namable {
 		return out;
 	}
 
+	/**
+	 * Calls the appropriate interaction method in the Player
+	 */
 	public void interact(String name, Player who){
 		if(name.equals("follow"))
 			who.follow(this);
@@ -132,11 +144,22 @@ public class Enemy extends Character implements Namable {
 		else super.interact(name, who);
 	}
 	
-
+	/**
+	 * Getter method for the inventory
+	 * @return The Enemy's inventory
+	 */
 	public Container inventory(){
 		return inventory;
 	}
 
+	/**
+	 * Calls superclass's damage method (to reduce health etc, and then
+	 * emits a notifcation to the attacking Player about damage done.
+	 * Enemys automatically attack any Players that attack them
+	 * 
+	 * If the health reaches 0, a corpse is created, and the Enemy is forgotten
+	 * from the world
+	 */
 	public void damage(int amt, Character from){
 		if(!dying()){
 			super.damage(amt, from);
@@ -156,26 +179,51 @@ public class Enemy extends Character implements Namable {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return Wander distance
+	 */
 	public int walkdistance() {
 		return wanderdist;
 	}
 	
+	/**
+	 * 
+	 * @param d - The new wander distance
+	 * @return The new wander distance
+	 */
 	public int walkdistance(int d) {
 		return wanderdist = d;
 	}
 	
+	/**
+	 * Getter
+	 * @return True if aggressive
+	 */
 	public boolean aggressive(){
 		return aggressive;
 	}
 	
+	/**
+	 * Setter
+	 * @param b - new aggressive boolean
+	 */
 	public void aggressive(boolean b){
 		aggressive = b;
 	}
 	
+	/**
+	 * Getter
+	 * @return the aggressive radius
+	 */
 	public int radius(){
 		return radius;
 	}
 	
+	/**
+	 * Setter
+	 * @param i - new aggressive radius
+	 */
 	public void radius(int i){
 		radius = i;
 	}
