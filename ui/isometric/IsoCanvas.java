@@ -72,7 +72,7 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 	private Graphics2D backbufferGraphics;
 	private Image lightMask512;
 	private Image lightMask1280;
-	private boolean drawLights = true;
+	private boolean drawLights = false;
 	
 	private Set<SelectionCallback> selectionCallback = new HashSet<SelectionCallback>();
 	private Dimension oldsize = null;
