@@ -117,6 +117,11 @@ public class GameTests {
 				}
 			}
 		});
+		GameThing light = new Light(server, "blah", 9000);
+		GameThing gc = new GOL.Controller(server);
+		server.emitAnimate(gc, "runaway");
+		server.emitSay(light, gc, "Hey");
+		server.emitEmitSound(light, "die_4.ogg");
 		random(server);
 		final GameWorld client2 = new GameWorld();
 		server.allDeltas(new GameWorld.DeltaWatcher(){
