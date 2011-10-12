@@ -30,10 +30,10 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 	private int tileSpacing = 2;
 	private int bottomPadding = 5;
 	
-	private Button[] buttons = new Button[2];
+	private Button[] buttons = new Button[1];
 	
-	private static int BUTTON_SPELL = 0;
-	private static int BUTTON_INVENTORY = 1;
+//	private static int BUTTON_SPELL = 1;
+	private static int BUTTON_INVENTORY = 0;
 	
 	private IsoInterface inter;
 	
@@ -102,7 +102,7 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 			tileWidth = spell.getWidth();
 			tileHeight = spell.getHeight();
 			
-			buttons[BUTTON_SPELL] = new Button(spell, null, null, null);
+//			buttons[BUTTON_SPELL] = new Button(spell, null, null, null);
 			buttons[BUTTON_INVENTORY] = new Button(open_inventory, null, null, new Runnable() {
 				@Override
 				public void run() {
