@@ -4,8 +4,6 @@ import game.*;
 
 import java.util.*;
 
-import serialization.*;
-
 /**
  * Abstract classes for GameThings which are able to be picked up
  * @author wheelemaxw and zerzoumax

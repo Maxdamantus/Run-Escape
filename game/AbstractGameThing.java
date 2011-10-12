@@ -38,11 +38,6 @@ public abstract class AbstractGameThing implements GameThing {
 			w.emitIntroduce(this);
 	}
 
-	private AbstractGameThing(long g){
-		world = null;
-		gid = g;
-	}
-
 	// so normal extenders of AbstractGameThing don't have access to the special non-introductive constructor
 	public static abstract class AbstractDumbGameThing extends AbstractGameThing {
 	/*

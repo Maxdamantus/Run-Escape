@@ -4,9 +4,7 @@ import game.GameThing;
 import game.GameWorld;
 import game.Level;
 import game.Location;
-import game.LocationS;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import serialization.Serializer;
 import serialization.SerializerUnion;
 import serialization.Serializers;
 import serialization.Tree;
-import util.Direction;
 
 /**
  * 

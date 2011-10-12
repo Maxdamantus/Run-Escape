@@ -1,7 +1,6 @@
 package game.things;
 
 import game.*;
-import game.things.EquipmentGameThing.Slot;
 
 import java.util.*;
 import util.*;

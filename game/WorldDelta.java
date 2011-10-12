@@ -220,8 +220,8 @@ public class WorldDelta {
 		}
 
 		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
-			long gid = Serializers.Serializer_Long.read(in.find("gid"));
-			String what = in.find("what").value();
+//			long gid = Serializers.Serializer_Long.read(in.find("gid"));
+//			String what = in.find("what").value();
 //			world.emitSay(world.thingWithGID(gid), what);
 		}
 

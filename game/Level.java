@@ -115,7 +115,6 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 		}
 
 		public Location nextTo(final Location where, final game.things.Character who, final int dist, int[] len){
-//			System.out.println("nextTo(" + where.position + ", ..): " + where.contents());
 		/*
 			try{
 				java.io.FileWriter fw = new java.io.FileWriter("dbg.g");
@@ -127,8 +126,7 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 				*/
 			if(where.equals(this))
 				return this;
-			Find.Nextator<Location> nextator;
-			Find.Node<Location> cur = Find.dijkstra(this, nextator = new Find.Nextator<Location>(){
+			Find.Node<Location> cur = Find.dijkstra(this, new Find.Nextator<Location>(){
 				private int x = 0;
 
 				public Iterable<Find.Node<Location>> next(Find.Node<Location> n){
@@ -137,8 +135,6 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 						for(Direction d : Direction.values()){
 							Location p = n.value().next(d);
 							if(p.canWalkInto(d, who)){
-//								System.out.println(p.position + ".canWalkInto(..): " + p.contents());
-//								System.out.println("where.contents() = " + where.contents() + ", (where.level == p.level): " + (where.level == p.level));
 								out.add(n.next(p, 1 + Math.abs(n.value().position.x() - where.position.x()) + Math.abs(n.value().position.y() - where.position.y())));
 							}
 						}
@@ -158,17 +154,6 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 				return this;
 			while(!cur.from().value().equals(this))
 				cur = cur.from();
-				/*
-			if(!where.equals(cur.value())){
-				Location closest = null;
-				for(Direction d : Direction.values()){
-					Location p = cur.value().next(d);
-					if(closest == null || where.dist(p) < where.dist(closest))
-						closest = p;
-				}
-				return cur.value().direct(closest.direction());
-			}
-			*/
 			return cur.value();
 		}
 
@@ -184,8 +169,6 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 			for(GameThing gt : contents())
 				if(!gt.canWalkInto(d, w))
 					return false;
-//				else
-//					System.out.println(gt + ".canWalkInto(..) = true; " + position);
 			return second || next(d.compose(Direction.SOUTH)).canWalkInto(d.compose(Direction.SOUTH), w, true);
 		}
 
@@ -227,10 +210,6 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 		for(Position bit : gt.area().translated(p))
 			map.put(bit, gt);
 		mapLock.writeLock().unlock();
-	}
-
-	private void put(Position p, GameThing gt){
-		put(p, Direction.NORTH, gt);
 	}
 
 	private void remove(GameThing gt, Position pos){

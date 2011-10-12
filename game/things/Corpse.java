@@ -8,7 +8,6 @@ import java.util.Map;
 import serialization.ParseException;
 import serialization.Serializer;
 import serialization.SerializerUnion;
-import serialization.Serializers;
 import serialization.Tree;
 
 import game.AbstractGameThing;
@@ -18,7 +17,6 @@ import game.GameThing;
 import game.GameWorld;
 import game.Level;
 import game.Location;
-import game.LocationS;
 
 /**
  * 
@@ -112,7 +110,6 @@ public class Corpse extends AbstractGameThing implements Containable {
 	public void interact(String name, final game.things.Player who){
 		if(name.equals("loot body")){
 			Location l = location();
-			final GameThing g = this;
 			if(l instanceof Level.Location){
 				who.moveTo((Level.Location)l, 1, new Runnable(){
 					public void run(){

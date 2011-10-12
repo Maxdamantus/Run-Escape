@@ -4,8 +4,6 @@ import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
-import ui.isometric.abstractions.IsoSquare;
-import ui.isometric.libraries.IsoRendererLibrary;
 
 //Author: Max Z,   (Emitsay:Max W)
 

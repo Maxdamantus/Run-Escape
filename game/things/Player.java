@@ -58,7 +58,6 @@ public class Player extends Character {
 	private Location lastLocation;
 	private String type;
 	private final String name;
-	private final static int WALKDELAY = 50;
 	private final Container inventory;
 	private final Container equipment;
 	private final Container buffer;

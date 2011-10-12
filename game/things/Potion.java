@@ -1,6 +1,5 @@
 package game.things;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import serialization.ParseException;

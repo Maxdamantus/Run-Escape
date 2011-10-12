@@ -16,7 +16,6 @@ import java.net.*;
 import data.Database;
 
 import serialization.Tree;
-import util.*;
 
 //Author: wheelemaxw
 
@@ -32,14 +31,13 @@ public final class ServerThread {
 	//GID of the GameThing Character
 	private long usrGID;
 	//Provided username from Player
-	private static String usrName;
+	private String usrName;
 	private final Socket socket;
 	//For queueing messages to be sent out the respective client
 	private LinkedBlockingQueue<String> outqueue = new LinkedBlockingQueue<String>();
 	boolean exit=false;
 	private Listener listener = new Listener(this);
 	private Talker talker = new Talker(this);
-	private Server server;
 	
 	/**
 	 * The listener thread is responsible for incoming messages from the client, which are all
@@ -128,7 +126,7 @@ public final class ServerThread {
 				}
 			} catch(IOException e) {
 				
-				System.err.println("PLAYER " + parent.usrNo +"/" + usrName + " DISCONNECTED");
+				System.err.println("PLAYER " + parent.usrNo +"/" + parent.usrName + " DISCONNECTED");
 				
 			}
 			finally{

@@ -1,17 +1,11 @@
 package game.things;
 
-import game.Container;
 import game.GameThing;
 import game.GameWorld;
-import game.Location;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import serialization.ParseException;
 import serialization.Serializer;
 import serialization.SerializerUnion;
-import serialization.Serializers;
 import serialization.Tree;
 
 /**
