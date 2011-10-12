@@ -2,6 +2,7 @@ package game.tests;
 import static org.junit.Assert.*;
 import game.*;
 import game.things.*;
+import game.things.EquipmentGameThing.Slot;
 import util.*;
 import serialization.*;
 
@@ -12,7 +13,7 @@ public class GameTests {
 		int n = 10000 + (int)(Math.random()*40000);
 		for(int x = 0; x < n; x++){
 			GameThing g;
-			switch((int)(Math.random()*5)){
+			switch((int)(Math.random()*6)){
 				case 0:
 					g = new Pouch(gw);
 					break;
@@ -24,6 +25,9 @@ public class GameTests {
 					break;
 				case 3:
 					g = new Coins(gw, (int)(Math.random()*50000));
+					break;
+				case 4:
+					g = new EquipmentGameThing(gw, (int)(Math.random()*50), (int)(Math.random()*50), (int)(Math.random()*50), (int)(Math.random()*50), EquipmentGameThing.Slot.values()[(int)(Math.random()*EquipmentGameThing.Slot.values().length)], "aoe" + Math.random(), "ren" + Math.random());
 					break;
 				default:
 					g = new Stairs(gw, "armour_tunic", (int)(Math.random()*10 - 5), (int)(Math.random()*10 - 5), Direction.values()[(int)(Math.random()*4)]);
@@ -69,6 +73,11 @@ public class GameTests {
 						if(gts.renderer().equals(gt.renderer()) && gts.info().equals(gt.info()) && gts.interactions().equals(gt.interactions()))
 							continue gtloop;
 					}
+					if(gts instanceof EquipmentGameThing && gt instanceof EquipmentGameThing){
+						EquipmentGameThing da = (EquipmentGameThing)gt, db = (EquipmentGameThing)gts;
+						if(da.renderer().equals(db.renderer()) && da.info().equals(db.info()) && da.attack() == db.attack() && da.strength() == db.strength() && da.defence() == db.defence() && da.delay() == db.delay())	
+							continue gtloop;
+					}
 				}
 				assertTrue("Not a super!", false);
 			}
@@ -89,11 +98,37 @@ public class GameTests {
 	
 	@Test public void testDeltas(){
 		GameWorld server = random();
-		GameWorld client1 = new GameWorld();
-		server.allDeltas(new DeltaWatcher(){
+		final GameWorld client1 = new GameWorld();
+		server.allDeltas(new GameWorld.DeltaWatcher(){
 			public void delta(WorldDelta wd){
-				wd.apply(client1);
+				try{
+					WorldDelta.SERIALIZER.read(WorldDelta.SERIALIZER.write(wd)).apply(client1);
+				}catch(Exception e){
+					assertTrue("an exception!", false);
+				}
 			}
 		});
+		server.addDeltaWatcher(new GameWorld.DeltaWatcher(){
+			public void delta(WorldDelta wd){
+				try{
+					WorldDelta.SERIALIZER.read(WorldDelta.SERIALIZER.write(wd)).apply(client1);
+				}catch(Exception e){
+					assertTrue("an exception!", false);
+				}
+			}
+		});
+		random(server);
+		final GameWorld client2 = new GameWorld();
+		server.allDeltas(new GameWorld.DeltaWatcher(){
+			public void delta(WorldDelta wd){
+				try{
+					WorldDelta.SERIALIZER.read(WorldDelta.SERIALIZER.write(wd)).apply(client2);
+				}catch(Exception e){
+					assertTrue("an exception!", false);
+				}
+			}
+		});
+		isSuper(client1, client2);
+		isSuper(client2, client1);
 	}
 }
