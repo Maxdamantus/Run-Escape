@@ -295,8 +295,9 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 	public int z(){
 		return level;
 	}
-
+/*
 	public int hashCode(){
 		return world.hashCode() ^ level ^ 0xabcde123;
 	}
+	*/
 }
