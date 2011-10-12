@@ -9,9 +9,9 @@ import java.util.Set;
 import javax.swing.Box;
 import javax.swing.JFrame;
 
+import ui.isometric.builder.inspectors.ContainableInspector;
 import ui.isometric.builder.inspectors.DoorInspector;
 import ui.isometric.builder.inspectors.GameThingInspector;
-import ui.isometric.builder.inspectors.GenericInspector;
 import ui.isometric.builder.inspectors.KeyInspector;
 import ui.isometric.builder.inspectors.LightInspector;
 import ui.isometric.builder.inspectors.NPCInspector;
@@ -95,6 +95,7 @@ public class InspectorPanel extends JFrame {
 	 * Inspect a given Location
 	 * @param l
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void inspect(Location l) {
 		loc = l;
 		
@@ -130,8 +131,11 @@ public class InspectorPanel extends JFrame {
 					else if(t instanceof Key) {
 						ins = new KeyInspector((Key)t, this);
 					}
+					else if(t instanceof Containable) {
+						ins = new ContainableInspector(t, this); // TODO: exception ever thrown?
+					}
 					else {
-						ins = new GenericInspector(t, this);
+						ins = new GameThingInspector<GameThing>(t, this);
 					}
 					getContentPane().add(ins);
 				}

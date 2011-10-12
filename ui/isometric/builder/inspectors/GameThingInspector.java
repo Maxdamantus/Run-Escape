@@ -21,7 +21,7 @@ import util.ImagePanel;
  * @author melby
  *
  */
-abstract public class GameThingInspector<T extends GameThing> extends JPanel {
+public class GameThingInspector<T extends GameThing> extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private ImagePanel image;
