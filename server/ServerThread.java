@@ -120,7 +120,9 @@ public final class ServerThread {
 						}
 						else if(temp.startsWith("cts")) {
 							String chat = temp.substring(4);
-							parent.model.emitSay(null, null, chat);;
+							String[] chatspl = chat.split("::::");
+							
+							parent.model.emitSay(null, null, chatspl[0]+"::::"+parent.usrName+ ": "+chatspl[1]);;
 						}
 					}
 					catch (Exception e) { // Catch everything while processing message

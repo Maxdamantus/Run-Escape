@@ -167,7 +167,6 @@ public class Client implements ClientMessageHandler {
 			chatTextColor = Color.getHSBColor((float) Math.random(), 1, 1);
 			return;
 		} else {
-			chatText = userName + ": " + chatText;
 			String send = "cts " + chatTextColor.getRGB() + "::::" + chatText + "\n";
 			try {
 				writer.write(send);
