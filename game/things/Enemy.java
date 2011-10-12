@@ -53,7 +53,7 @@ public class Enemy extends Character implements Namable, Containable {
 					LocationS.s(world).read(in.find("start")),
 					Serializers.Serializer_Integer.read(in.find("wander")),
 					Container.serializer(union.serializer(), world).read(in.find("inventory")),
-					Boolean.parseBoolean(in.find("aggresive").value()),
+					Boolean.parseBoolean(in.find("aggressive").value()),
 					Serializers.Serializer_Integer.read(in.find("radius")));
 			}
 		});
