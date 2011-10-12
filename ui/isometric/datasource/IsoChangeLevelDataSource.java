@@ -32,7 +32,7 @@ public class IsoChangeLevelDataSource extends IsoGameModelDataSource {
 
 	@Override
 	public Level level() {
-		return world().level(0);
+		return world().level(level);
 	}
 	
 	/**
