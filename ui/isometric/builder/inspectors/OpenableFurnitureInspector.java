@@ -30,7 +30,7 @@ public class OpenableFurnitureInspector extends ContainableInspector<OpenableFur
 		super(thing, inspectorPanel);
 		
 		String key = thing.doorcode();
-		final JLabel label = new JLabel(key==null?"No key":key);
+		final JLabel label = new JLabel(key);
 		
 		JButton button = new JButton("Toggle Open");
 		button.addActionListener(new ActionListener() {
@@ -47,11 +47,8 @@ public class OpenableFurnitureInspector extends ContainableInspector<OpenableFur
 			public void actionPerformed(ActionEvent arg0) {
 				String key = JOptionPane.showInputDialog("Enter Passkey");
 				if(key == null) return;
-				if(key.length() == 0) {
-					key = null;
-				}
 				thing.setDoorcode(key);
-				label.setText(key==null?"No key":key);
+				label.setText(key);
 			}
 		});
 		this.add(setPasskey);

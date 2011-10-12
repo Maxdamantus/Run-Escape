@@ -28,7 +28,7 @@ public class DoorInspector extends GameThingInspector<Door> {
 		super(t, inspectorPanel);
 		
 		String key = t.doorcode();
-		final JLabel label = new JLabel(key==null?"No key":key);
+		final JLabel label = new JLabel(key);
 		
 		JButton openButton = new JButton("Toggle Open");
 		openButton.addActionListener(new ActionListener() {
@@ -45,11 +45,8 @@ public class DoorInspector extends GameThingInspector<Door> {
 			public void actionPerformed(ActionEvent arg0) {
 				String key = JOptionPane.showInputDialog("Enter Passkey");
 				if(key == null) return;
-				if(key.length() == 0) {
-					key = null;
-				}
 				t.setDoorcode(key);
-				label.setText(key==null?"No key":key);
+				label.setText(key);
 			}
 		});
 		this.add(setPasskey);
