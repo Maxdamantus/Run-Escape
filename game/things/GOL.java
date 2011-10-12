@@ -6,6 +6,11 @@ import serialization.*;
 
 import java.util.*;
 
+/**
+ * Simulates the Game of Life with specialized GameThings
+ * @author zerzoumax
+ *
+ */
 public class GOL {
 	public static void makeSerializer(SerializerUnion<GameThing> union, GameWorld world){
 		Controller.makeSerializer(union, world);

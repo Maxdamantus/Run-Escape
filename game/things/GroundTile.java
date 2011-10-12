@@ -7,11 +7,18 @@ import serialization.*;
 import java.util.*;
 
 /**
- * 
- * @author zerzoumax
+ * A class for all of the ground pieces in the game, drawn at the lowest render level
+ * with no interactions except walk to, provided this is not a blocking ground tile, 
+ * eg Water
+ * @author zerzoumax and wheelemaxw
  *
  */
 public class GroundTile extends AbstractGameThing {
+	/**
+	 * Custom serializer for GroundTile
+	 * @param union
+	 * @param world
+	 */
 	public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
 		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
 			public String type(GameThing g){
@@ -55,10 +62,12 @@ public class GroundTile extends AbstractGameThing {
 		this(world, "ground_grey_1");
 	}
 
+	@Override
 	public List<String> interactions(){
 		return interactions;
 	}
 
+	@Override
 	public String name(){
 		return "Ground";
 	}
@@ -77,6 +86,7 @@ public class GroundTile extends AbstractGameThing {
 		return !willBlock;
 	}
 
+	@Override
 	public String renderer(){
 		return renderer;
 	}
