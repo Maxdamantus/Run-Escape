@@ -211,6 +211,7 @@ public class IsoPlayer {
 	 * @return
 	 */
 	public String containerName() {
+		if (containerName == null) return "";
 		return containerName;
 	}
 }
