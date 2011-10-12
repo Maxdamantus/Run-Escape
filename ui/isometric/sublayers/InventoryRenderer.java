@@ -243,7 +243,7 @@ public class InventoryRenderer extends LargePanel {
 				this.drawThingAt(g, thing, x, y);
 				
 				x += spacing;
-				if(x >= origx + width) {
+				if(x + spacing >= origx + width) {
 					y += spacing;
 					x = origx;
 				}
@@ -339,7 +339,7 @@ public class InventoryRenderer extends LargePanel {
 				this.drawThingAt(g, thing, x, y);
 				
 				x += spacing;
-				if(x >= xorig + width) {
+				if(x + spacing >= xorig + width) {
 					y += spacing;
 					x = xorig;
 				}
