@@ -19,9 +19,9 @@ public class Stairs extends AbstractGameThing {
 			public Tree write(GameThing o){
 				Stairs in = (Stairs)o;
 				Tree out = new Tree();
-				out.add(new Tree.Entry("renderer", new Tree(in.allow.toString())));
+				out.add(new Tree.Entry("renderer", new Tree(in.renderer)));
 				out.add(new Tree.Entry("up", Serializers.Serializer_Integer.write(in.up)));
-				out.add(new Tree.Entry("down", Serializers.Serializer_Integer.write(in.up)));
+				out.add(new Tree.Entry("down", Serializers.Serializer_Integer.write(in.down)));
 				out.add(new Tree.Entry("allow", Direction.SERIALIZER.write(in.allow)));
 				return out;
 			}
