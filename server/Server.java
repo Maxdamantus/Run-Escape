@@ -165,7 +165,7 @@ public class Server{
 		chooser.setFileFilter(new FileFilter() {
 			@Override
 			public boolean accept(File arg0) {
-				return arg0.isFile() && arg0.getAbsolutePath().endsWith(EXTENTION);
+				return (arg0.isFile() && arg0.getAbsolutePath().endsWith(EXTENTION)) || arg0.isDirectory();
 			}
 
 			@Override
