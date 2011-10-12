@@ -174,7 +174,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 	 * @param p - interacting player
 	 * @param say - message to emit
 	 */
-	public void walkAndSetOpen(final boolean s, final Player p, final String say){
+	public void walkAndSetOpen(final boolean s, final Player p, final String say, final Boolean view){
 		Location l = location();
 		final GameThing g = this;
 		if(l instanceof Level.Location){
@@ -183,6 +183,8 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 					open = s;
 					update();
 					world().emitSay(g, p, say);
+					if(view)
+						p.showContainer(contents, renderer);
 				}
 			}))
 				world().emitSay(this, p, "Can't reach that");
@@ -194,24 +196,24 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 	
 	public void interact(String name, final game.things.Player who){
 		if(name.equals("close"))
-			walkAndSetOpen(false, who, "You close the chest");
+			walkAndSetOpen(false, who, "You close the chest", false);
 		else if(name.equals("open")){
 			if(!doorcode.equals("")){
 				for(GameThing gt : who.inventory().contents()){
 					if(gt instanceof game.things.Key && ((Key)gt).doorcode().equals(this.doorcode)){
-						walkAndSetOpen(true, who, "You unlock and open the chest");
+						walkAndSetOpen(true, who, "You unlock and open the chest", false);
 						return;
 					}
 				}
-				walkAndSetOpen(false, who, "You can't open the "+doorcode+" chest; it's locked");
+				walkAndSetOpen(false, who, "You can't open the "+doorcode+" chest; it's locked", false);
 			}
 			else{
-				walkAndSetOpen(true, who, "You open the chest");
+				walkAndSetOpen(true, who, "You open the chest", false);
 			}
 		}
 		else if(name.equals("view contents")){
-			walkAndSetOpen(true,who, "You peer inside");
-			who.showContainer(contents, renderer);
+			walkAndSetOpen(true,who, "You peer inside", true);
+			
 		}
 		else if(name.equals("receive")){
 			Location l = location();
