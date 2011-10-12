@@ -10,7 +10,7 @@ import serialization.*;
 
 /**
  * 
- * @author wheelemaxw & zerzoumax
+ * @author wheelemaxw and zerzoumax
  *Enemy is a type of character, which has the option of being aggressive
  *or not. Either way wanders around the mape, and if aggressive attacks anything
  *within the defined radius
@@ -123,7 +123,7 @@ public class Enemy extends Character implements Namable, Containable {
 	}
 
 	/**
-	 * @Return A list of possible interactions, adding on to the superclass's (in ths case an empty list.)
+	 * @return A list of possible interactions, adding on to the superclass's (in ths case an empty list.)
 	 */
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>(super.interactions());
