@@ -231,7 +231,7 @@ public abstract class Character extends AbstractGameThing {
 			attacker = new Runnable(){
 				public void run(){
 					if(attackIdent == ident){
-						System.out.println(ident);
+					//	System.out.println(ident);
 						Location l = g.location();
 						if(l instanceof Level.Location){
 							Location ml = location();

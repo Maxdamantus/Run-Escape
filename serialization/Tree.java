@@ -216,12 +216,12 @@ public class Tree{
 	}
 
 	private void print(String indent){
-		if(isLeaf())
-			System.out.println(indent + value());
+		if(isLeaf()){}
+	//		System.out.println(indent + value());
 		else{
 			String next = indent + " ";
 			for(Tree.Entry c : children()){
-				System.out.println(indent + c.name());
+		//		System.out.println(indent + c.name());
 				c.tree().print(next);
 			}
 		}

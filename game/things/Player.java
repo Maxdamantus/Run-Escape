@@ -244,7 +244,7 @@ public class Player extends Character {
 				world().schedule(new Runnable(){
 					public void run(){
 						thisp.dead(false);
-						System.out.println("sp != null");
+				//		System.out.println("sp != null");
 						sp.location().put(thisp);
 						thisp.health(1000);
 						thisp.dying(false);
@@ -296,7 +296,7 @@ public class Player extends Character {
 		inventory.put(g);
 		//for testing
 		for(GameThing gt : inventory.contents()){
-			System.out.println(gt.name());
+	//		System.out.println(gt.name());
 		}
 	}
 	
