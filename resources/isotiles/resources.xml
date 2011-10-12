@@ -1895,4 +1895,20 @@
       <frame-count>10</frame-count>
     </v>
   </i>
+  <i>
+    <k>pouch</k>
+    <v>
+      <name>pouch</name>
+      <type>IMAGE1</type>
+      <y-offset>7</y-offset>
+    </v>
+  </i>  
+  <i>
+    <k>gold_key</k>
+    <v>
+      <name>gold_key</name>
+      <type>IMAGE1</type>
+      <y-offset>7</y-offset>
+    </v>
+  </i>
 </tree>
