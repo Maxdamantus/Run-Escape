@@ -24,14 +24,6 @@ import ui.isometric.builder.things.ThingCreatorDnD;
 import util.Area;
 
 import game.*;
-import game.things.Door;
-import game.things.Enemy;
-import game.things.Key;
-import game.things.Light;
-import game.things.OpenableFurniture;
-import game.things.ShopKeeper;
-import game.things.Stackable;
-import game.things.Stairs;
 
 /**
  * A self-configuring panel for inspecting locations
@@ -107,29 +99,29 @@ public class InspectorPanel extends JFrame {
 				
 				for(game.GameThing t : things) {
 					GameThingInspector<?> ins;
-					if(t instanceof OpenableFurniture) {
-						ins = new OpenableFurnitureInspector((OpenableFurniture)t, this);
+					if(t instanceof game.things.OpenableFurniture) {
+						ins = new OpenableFurnitureInspector((game.things.OpenableFurniture)t, this);
 					}
-					else if(t instanceof Door) {
-						ins = new DoorInspector((Door)t, this);
+					else if(t instanceof game.things.Door) {
+						ins = new DoorInspector((game.things.Door)t, this);
 					}
-					else if(t instanceof Stackable) {
-						ins = new StackableInspector((Stackable)t, this);
+					else if(t instanceof game.things.Stackable) {
+						ins = new StackableInspector((game.things.Stackable)t, this);
 					}
-					else if(t instanceof Enemy) {
-						ins = new NPCInspector((Enemy)t, this);
+					else if(t instanceof game.things.Enemy) {
+						ins = new NPCInspector((game.things.Enemy)t, this);
 					}
-					else if(t instanceof ShopKeeper) {
-						ins = new ShopKeeperInspector((ShopKeeper)t, this);
+					else if(t instanceof game.things.ShopKeeper) {
+						ins = new ShopKeeperInspector((game.things.ShopKeeper)t, this);
 					}
-					else if(t instanceof Stairs) {
-						ins = new StairInspector((Stairs)t, this);
+					else if(t instanceof game.things.Stairs) {
+						ins = new StairInspector((game.things.Stairs)t, this);
 					}
-					else if(t instanceof Light) {
-						ins = new LightInspector((Light)t, this);
+					else if(t instanceof game.things.Light) {
+						ins = new LightInspector((game.things.Light)t, this);
 					}
-					else if(t instanceof Key) {
-						ins = new KeyInspector((Key)t, this);
+					else if(t instanceof game.things.Key) {
+						ins = new KeyInspector((game.things.Key)t, this);
 					}
 					else if(t instanceof Containable) {
 						ins = new ContainableInspector(t, this); // TODO: exception ever thrown?

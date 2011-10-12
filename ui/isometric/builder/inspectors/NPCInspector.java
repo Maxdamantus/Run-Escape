@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 import ui.isometric.builder.InspectorPanel;
 import game.things.Enemy;
@@ -28,7 +29,6 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 		super(t, inspectorPanel);
 		
 		final JLabel name = new JLabel(t.name());
-		
 		JButton setName = new JButton("Set Name");
 		setName.addActionListener(new ActionListener() {
 			@Override
@@ -43,7 +43,6 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 		this.add(name);
 		
 		final JLabel stats = new JLabel("attack:"+t.attack()+" strength:"+t.strength()+" defence:"+t.defence()+" delay:"+t.delay());
-		
 		JButton setStats = new JButton("Set Stats");
 		setStats.addActionListener(new ActionListener() {
 			@Override
@@ -66,7 +65,6 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 		this.add(stats);
 		
 		final JLabel radius = new JLabel(t.walkdistance()+"");
-		
 		JButton setRadius = new JButton("Set Radius");
 		setRadius.addActionListener(new ActionListener() {
 			@Override
@@ -83,5 +81,34 @@ public class NPCInspector extends GameThingInspector<Enemy> {
 		});
 		this.add(setRadius);
 		this.add(radius);
+				
+		final JRadioButton aggressive = new JRadioButton("Aggressive");
+		aggressive.setSelected(t.aggressive());
+		aggressive.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				t.aggressive(aggressive.isSelected());
+			}
+		});
+		this.add(aggressive);
+		
+		final JLabel agradius = new JLabel(t.radius()+"");
+		
+		JButton setAgRadius = new JButton("Set Aggressive Radius");
+		setAgRadius.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String string = JOptionPane.showInputDialog("Enter radius (squares)");
+				if(string == null) return;
+				try {
+					int dist = Integer.parseInt(string);
+					t.radius(dist);
+					agradius.setText(dist+"");
+				}
+				catch (NumberFormatException e) {}
+			}
+		});
+		this.add(setAgRadius);
+		this.add(agradius);
 	}
 }

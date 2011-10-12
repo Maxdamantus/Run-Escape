@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -350,10 +351,15 @@ public class IsoCanvas extends JPanel implements MouseMotionListener, MouseListe
 							int y = selectionPoint.y - dy + i.height();
 							
 							int[] pixels = new int[4];
-							i.image().getAlphaRaster().getPixel(x, y, pixels);
-							
-							if(pixels[0] > 0) {
-								selectedImage = i;
+							BufferedImage img = i.image();
+							if(img != null) {
+								WritableRaster w = img.getAlphaRaster();
+								if(w != null) {
+									w.getPixel(x, y, pixels);
+									if(pixels[0] > 0) {
+										selectedImage = i;
+									}
+								}
 							}
 						}
 					}
