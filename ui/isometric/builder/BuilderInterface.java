@@ -296,7 +296,6 @@ public class BuilderInterface implements IsoInterface {
 						}
 					}
 					else {
-						storedCreator = null;
 						inspect(l);
 					}
 				}
