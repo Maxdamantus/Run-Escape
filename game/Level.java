@@ -140,14 +140,26 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 			return below(1);
 		}
 
+		/**
+		 * Distance from this location to the given one, by non-hypotenuse sides of the triangle with the hypotenuse the direct line between them.
+		 */
 		public int dist(Location l){
 			return Math.abs(l.position().x() - position.x()) + Math.abs(l.position().y() - position.y());
 		}
 
+		/**
+		 * nextTo(where, who, dest, null)
+		 */
 		public Location nextTo(Location where, game.things.Character who, int dest){
 			return nextTo(where, who, dest, null);
 		}
 
+		/**
+		 * Find the shortest walking path to the given location.
+		 * @param who The player to pathfind with
+		 * @param dist The distance away from the destination that the final location in the path is allowed to be
+		 * @param len An array whose, if not null, first element will be set to the length of the path found
+		 */
 		public Location nextTo(final Location where, final game.things.Character who, final int dist, int[] len){
 		/*
 			try{
@@ -195,6 +207,9 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 			return level.portion(position, position);
 		}
 
+		/**
+		 * Logical conjunction of all elements on this location's canWalkInto(d, w)s.
+		 */
 		public boolean canWalkInto(Direction d, game.things.Character w){
 			return canWalkInto(d, w, false);
 		}
@@ -216,11 +231,13 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 			level.remove(gt, position);
 		}
 
-		// hrm .. this equality disregards Direction
 		public int hashCode(){
 			return level.hashCode() ^ position.hashCode() ^ -882774422;
 		}
 
+		/**
+		 * Equality disregarding facing direction.
+		 */
 		public boolean equals(Object o){
 			return this == o || o instanceof Location && level.equals(((Location)o).level) && position.equals(((Location)o).position);
 		}
@@ -234,6 +251,9 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 		world = w; level = l;
 	}
 
+	/**
+	 * Creates a location at the given position with the given direction, on this level.
+	 */
 	public Location location(Position p, Direction d){
 		return new Location(this, p, d);
 	}
@@ -266,32 +286,9 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 		return s;
 	}
 
-/*
-	// convenience, maybe
-	private void move(Position to, GameThing gt){
-		gt.location().remove(gt);
-		put(to, gt);
-	}
-	*/
-/*
-	private void rotate(Direction to, GameThing gt){
-		Location l = gt.location();
-		if(l instanceof LevelLocation){
-			direct(((LevelLocation)l).direction().compose(to), gt);
-		}else
-			throw new RuntimeException("wtf");
-	}
-
-	private void direct(Direction to, GameThing gt){
-		Location l = gt.location();
-		if(l instanceof LevelLocation){
-			put(((LevelLocation)l).position(), to, gt);
-			gt.location(new LevelLocation(world, level, ((LevelLocation)l).position(), to));
-		}else
-			throw new RuntimeException("wtf");
-	}
-	*/
-
+	/**
+	 * A static portion of the things between the given positions, assuming min.x() &lt;= max.x() &amp;&amp; min.y() &lt;= max.y().
+	 */
 	public Iterable<GameThing> portion(Position min, Position max){
 		List<GameThing> res = new LinkedList<GameThing>();
 		mapLock.readLock().lock();
@@ -301,6 +298,9 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 		return res;
 	}
 
+	/**
+	 * A static portion of the things in the given area.
+	 */
 	public Iterable<GameThing> portion(Area a){
 		return portion(a.position(), new Position(a.position().x() + a.width() - 1, a.position().y() + a.height() - 1));
 	}
