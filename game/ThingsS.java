@@ -7,6 +7,7 @@ import serialization.*;
 public class ThingsS {
 	public static Serializer<GameThing> makeSerializer(GameWorld w){
 		SerializerUnion<GameThing> u = new SerializerUnion<GameThing>();
+		Pouch.makeSerializer(u, w);
 		Door.makeSerializer(u, w);
 		Player.makeSerializer(u, w);
 		Wall.makeSerializer(u, w);

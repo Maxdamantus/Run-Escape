@@ -84,7 +84,7 @@ public class EquipmentGameThing extends PickupGameThing {
 	 * Players equipment, and if so given an interaction to Unequip
 	 * Otherwise, if it is just in a player inventory, you can Equip
 	 * Then adds superclasses
-	 * @Return A list of possible interactions, adding on to the superclass's (in ths case an empty list.)
+	 * @return A list of possible interactions, adding on to the superclass's (in ths case an empty list.)
 	 */
 	public List<String> interactions(){
 		if(location() instanceof Container){

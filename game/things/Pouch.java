@@ -4,7 +4,31 @@ import game.*;
 
 import java.util.*;
 
+import serialization.*;
+
 public class Pouch extends PickupGameThing implements Containable {
+	public static void makeSerializer(final SerializerUnion<GameThing> union, final GameWorld world){
+		union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+			public String type(GameThing g){
+				return g instanceof Pouch? "pouch" : null;
+			}
+		});
+
+		union.addSerializer("pouch", new Serializer<GameThing>(){
+			public Tree write(GameThing o){
+				Pouch in = (Pouch)o;
+				Tree out = new Tree();
+				out.add(new Tree.Entry("contents", Container.serializer(union.serializer(), world).write(in.container)));
+				return out;
+			}
+
+			public GameThing read(Tree in) throws ParseException {
+				return new Pouch(world,
+					Container.serializer(union.serializer(), world).read(in.find("contents")));
+			}
+		});
+	}
+
 	private final Container container;
 
 	public Pouch(GameWorld w){
@@ -54,6 +78,6 @@ public class Pouch extends PickupGameThing implements Containable {
 	}
 
 	public String renderer(){
-		return "armour_tunic";
+		return "pouch";
 	}
 }
