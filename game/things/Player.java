@@ -62,6 +62,7 @@ public class Player extends Character {
 	private final Container equipment;
 	private final Container buffer;
 	private boolean dead;
+	private boolean loggedin;
 
 	private Player(GameWorld world, String t, String n, Location spawn, Container inv, Container equ, Container buf){
 		super(world, t);
@@ -124,13 +125,15 @@ public class Player extends Character {
 	public void logout(){
 		lastLocation = location();
 		LocationS.NOWHERE.put(this);
+		loggedin = false;
 	}
 
 	/**
 	 * Returns player to previous location. If this i nowhere
 	 * then spawns them at closest spawnpoint
 	 */
-	public void login(){
+	public boolean login(){
+		if(loggedin) return false;
 		if(lastLocation == LocationS.NOWHERE){
 			SpawnPoint sp = world().getSpawnPoint();
 			if(sp != null)
@@ -139,6 +142,9 @@ public class Player extends Character {
 		lastLocation.put(this);
 		lastLocation = null;
 		world().emitSay(this, null, this.name()+" joined the game");
+		loggedin = true;
+		update();
+		return true;
 	}
 
 	/**
