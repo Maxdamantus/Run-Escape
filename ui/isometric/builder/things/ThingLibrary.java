@@ -285,6 +285,36 @@ public class ThingLibrary {
 	}
 
 	/**
+	 * A class that generates letters
+	 * @author maz
+	 *
+	 */
+	public static class StringCreator implements ThingCreator {
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			return new game.things.Letters.Sequence(w, "");
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("ruby", Direction.NORTH).image();
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			Set<String> out = new HashSet<String>();
+			out.add("ruby");
+			out.add("armour_tunic");
+			return out;
+		}
+
+		@Override
+		public String description() {
+			return "String";
+		}
+	}
+
+	/**
 	 * A class that generates openable furniture
 	 * @author melby
 	 *
@@ -950,6 +980,7 @@ public class ThingLibrary {
 				addCreator(new GoltrollerCreator(), MISC);
 
 				addCreator(new PouchCreator(), MISC);
+				addCreator(new StringCreator(), MISC);
 				
 				ThingCreatorChecker.check();
 			}
