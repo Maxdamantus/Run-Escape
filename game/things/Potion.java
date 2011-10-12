@@ -31,7 +31,7 @@ public class Potion extends Stackable {
 			}
 		});
 
-		union.addSerializer("Potions", new Serializer<GameThing>(){
+		union.addSerializer("Potion", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				Potion in = (Potion)o;
 				Tree out = new Tree();
