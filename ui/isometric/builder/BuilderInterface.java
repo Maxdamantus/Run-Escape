@@ -181,9 +181,9 @@ public class BuilderInterface implements IsoInterface {
 		 */
 		public void refreshLevel() {
 			level.setLevel(dataSource.level());
-			validate();
-			repaint();
-			doLayout();
+			this.doLayout();
+			this.validate();
+			this.repaint();
 		}
 		
 		/**
@@ -192,6 +192,7 @@ public class BuilderInterface implements IsoInterface {
 		public void refreshCreator() {
 			BufferedImage i = (storedCreator != null)?storedCreator.previewImage():IsoRendererLibrary.maskTile();
 			image.setImage(i);
+			this.doLayout();
 			this.validate();
 			this.repaint();
 		}
@@ -203,6 +204,9 @@ public class BuilderInterface implements IsoInterface {
 			add.setSelected(mode == Mode.ADD);
 			delete.setSelected(mode == Mode.DELETE);
 			move.setSelected(mode == Mode.MOVE);
+			this.doLayout();
+			this.validate();
+			this.repaint();
 		}
 		
 		/**
