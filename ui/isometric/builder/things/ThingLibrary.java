@@ -732,7 +732,7 @@ public class ThingLibrary {
 	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
-	private static Map<String, List<ThingCreator>> catagories = new HashMap<String, List<ThingCreator>>();
+	private static Map<String, List<ThingCreator>> categories = new HashMap<String, List<ThingCreator>>();
 	
 	private static final String GROUND = "Ground";
 	private static final String WALL = "Wall";
@@ -964,10 +964,10 @@ public class ThingLibrary {
 	 */
 	private static void addCreator(ThingCreator t, String c) {
 		creators.add(t);
-		List<ThingCreator> category = catagories.get(c);
+		List<ThingCreator> category = categories.get(c);
 		if(category == null) {
 			category = new ArrayList<ThingCreator>();
-			catagories.put(c, category);
+			categories.put(c, category);
 		}
 		category.add(t);
 	}
@@ -984,5 +984,22 @@ public class ThingLibrary {
 		}
 		
 		return unmodifiable;
+	}
+	
+	/**
+	 * Get the things in a given category
+	 * @param c
+	 * @return
+	 */
+	public static List<ThingCreator> creatorsInCategory(String c) {
+		return categories.get(c);
+	}
+	
+	/**
+	 * Get the set of category names
+	 * @return
+	 */
+	public static Set<String> categories() {
+		return categories.keySet();
 	}
 }
