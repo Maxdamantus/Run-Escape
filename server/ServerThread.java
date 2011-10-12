@@ -91,7 +91,7 @@ public final class ServerThread {
 								plyr = parent.model.getPlayer(parent.usrName, null);
 								//if the usrName is already logged in
 								if(!plyr.login()){
-									parent.usrName = parent.usrName+(int)(Math.random()*10);
+									parent.usrName = parent.usrName+Integer.toString(((int)(Math.random()*10)));
 									plyr = parent.model.getPlayer(parent.usrName, null);
 									plyr.login();
 								}
