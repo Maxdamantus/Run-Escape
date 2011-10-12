@@ -492,8 +492,8 @@ public class IsoRendererLibrary {
 		Location l = thing.location();
 		if(l instanceof Level.Location) {
 			RendererImage image = imageForRendererName(rendererName, ((Level.Location)l).direction().compose(viewDirection.inverse()));
-			if(image == null) { // TODO: make IsoImage cope with null images?
-				throw new RuntimeException("Invalid renderer name: "+rendererName);
+			if(image == null) {
+				image = new RendererImage(maskTile);
 			}
 			
 			tmp = new IsoAnimatedObject(thing, image, square, offsetForRendererName(thing.renderer()), animationFrame);
