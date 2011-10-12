@@ -293,7 +293,7 @@ public class Server{
 				sgm.level(0).location(new Position(x, y + 1), Direction.NORTH).put(new game.things.GroundTile(sgm, "ground_grey_1"));
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < x; y++){
-				String name = ll.position().equals(new Position(0, 0)) && false? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
+				String name = ll.position().equals(new Position(0, 0))? "wall_brown_1_t" : y > 0 && y < x? "wall_brown_1_straight" : "wall_brown_1_corner";
 				ll.rotate(ll.position().equals(new Position(0, 0))? Direction.WEST : Direction.EAST).put(new game.things.Wall(sgm, name));
 				ll = ll.next(ll.direction());
 			}

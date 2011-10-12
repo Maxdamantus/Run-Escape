@@ -250,6 +250,10 @@ public abstract class Character extends AbstractGameThing {
 		}
 	}
 	
+	public void stopAttack(){
+		this.attackIdent = null;
+	}
+	
 	/**
 	 * Algorithm for facing an object, given their location and checking the
 	 * distance to the surrounding locations.

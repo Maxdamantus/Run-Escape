@@ -3,6 +3,7 @@ package game.things;
 import game.*;
 
 import java.util.*;
+
 import util.*;
 
 import serialization.*;
@@ -17,7 +18,7 @@ import serialization.*;
  *Has an inventory for potentially dropped items
  *
  */
-public class Enemy extends Character implements Namable {
+public class Enemy extends Character implements Namable, Containable {
 	
 	/**
 	 * Custom serializers for Enemy
@@ -226,6 +227,13 @@ public class Enemy extends Character implements Namable {
 	public void radius(int i){
 		radius = i;
 	}
-	
 
+	@Override
+	public Map<String, Container> getContainers() {
+		Map<String,Container> returnmap = new HashMap<String,Container>();
+		if(inventory != null){
+			returnmap.put("loot", inventory);
+		}
+		return returnmap;
+	}
 }

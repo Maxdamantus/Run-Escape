@@ -213,6 +213,7 @@ public class Player extends Character {
 		super.damage(amt, from);
 		world().emitSay(from, this, from.name() + " hurts " + name() + " and his health is now " + health());
 		if(health() <= 0){
+			from.stopAttack();
 			final game.things.Corpse cp = new Corpse(world(),"corpse_1",null);
 			cp.location(this.location());
 			final Player thisp = this;

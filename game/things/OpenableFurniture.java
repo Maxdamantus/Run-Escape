@@ -138,6 +138,7 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		ArrayList<String> interactions = new ArrayList<String>();
 		if(open){
 			interactions.add("view contents");
+			interactions.add("receive");
 			interactions.add("close");
 			}	
 		else{
@@ -210,6 +211,10 @@ public class OpenableFurniture extends AbstractGameThing implements Togglable, C
 		else if(name.equals("view contents")){
 			walkAndSetOpen(true,who, "You peer inside");
 			who.showContainer(contents, renderer);
+		}
+		else if(name.equals("receive")){
+			for(GameThing got : who.buffer().snapshot())
+				contents.put(got);
 		}
 		else super.interact(name, who);
 	}
