@@ -29,8 +29,10 @@ public class Pouch extends PickupGameThing implements Containable {
 
 	public List<String> interactions(){
 		List<String> out = new LinkedList<String>();
-		out.add("receive");
-		out.add("view contents");
+		if(location() instanceof game.Container && ((Container)location()).owner() != null){
+			out.add("receive");
+			out.add("view contents");
+		}
 		out.addAll(super.interactions());
 		return out;
 	}
@@ -38,7 +40,7 @@ public class Pouch extends PickupGameThing implements Containable {
 	public void interact(String name, Player who){
 		if(name.equals("view contents"))
 			who.showContainer(container, "Pouch");
-		else if(name.equals("receive")){
+		else if(name.equals("receive") && ((Container)location()).owner() == who){
 			for(GameThing got : who.buffer().snapshot())
 				container.put(got);
 		}else
