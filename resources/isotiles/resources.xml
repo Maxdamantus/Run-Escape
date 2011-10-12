@@ -1871,4 +1871,28 @@
       <frame-count>10</frame-count>
     </v>
   </i>
+  <i>
+    <k>npc_worm</k>
+    <v>
+      <name>npc_worm</name>
+      <type>IMAGE4</type>
+      <y-offset>15</y-offset>
+    </v>
+  </i>
+  <i>
+    <k>npc_worm_die</k>
+    <v>
+      <name>npc_worm_die</name>
+      <type>IMAGE4</type>
+      <frame-count>5</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>npc_worm_attack</k>
+    <v>
+      <name>npc_worm_attack</name>
+      <type>IMAGE4</type>
+      <frame-count>10</frame-count>
+    </v>
+  </i>
 </tree>
