@@ -160,7 +160,7 @@ public class Enemy extends Character implements Namable, Containable {
 	 * If the health reaches 0, a corpse is created, and the Enemy is forgotten
 	 * from the world
 	 */
-	public void damage(int amt, Character from){
+	public void damage(int amt, final Character from){
 		if(!dying()){
 			super.damage(amt, from);
 			world().emitSay(this, from, from.name() + " hurts " + name() + " and their health is now " + health());
@@ -173,6 +173,7 @@ public class Enemy extends Character implements Namable, Containable {
 				public void run(){
 				final game.things.Corpse cp = new Corpse(g.world(),"corpse_1", g.inventory());
 				cp.location(g.location());
+				from.stopAttackedBy(g);
 				LocationS.NOWHERE.put(g);
 				world().forget(g);
 				}

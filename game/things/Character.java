@@ -303,7 +303,7 @@ public abstract class Character extends AbstractGameThing {
 	 * Removes from List of attacking GameThings
 	 * @param other - GameThing that stops attacking this
 	 */
-	private void stopAttackedBy(GameThing other){
+	public void stopAttackedBy(GameThing other){
 		attackedBy.remove(other);
 	}
 	
