@@ -23,6 +23,8 @@ public class ThingsS {
 		Coins.makeSerializer(u, w);
 		Valuable.makeSerializer(u, w);
 		Stairs.makeSerializer(u, w);
+		Potion.makeSerializer(u, w);
+		Light.makeSerializer(u, w);
 		return u.serializer();
 	}	
 }
