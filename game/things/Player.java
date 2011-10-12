@@ -191,16 +191,29 @@ public class Player extends Character {
 			super.interact(name, who);
 	}
 
+	Set<Container> sensitiveContainers = new HashSet<Container>();
 	/**
 	 * Emits a ShowContainer worldDelta to the player in question
 	 * for the Container in question.
 	 * @param c - Container to show
 	 * @param n - Name of the Container
+	 * @param s - Name of the Container
 	 */
-	public void showContainer(Container c, String n){
+	public void showContainer(Container c, String n, boolean s){
 		world().emitShowContainer(c, n, this);
+		if(s)
+			sensitiveContainers.add(c);
 	}
-	
+
+	public void showContainer(Container c, String n){
+		showContainer(c, n, true);
+	}
+
+	public void distract(){
+		for(Container c : sensitiveContainers)
+			world().emitHideContainer(c, this);
+		sensitiveContainers.clear();
+	}
 
 	/**
 	 * Method for doing damage to the player, calls Character damage

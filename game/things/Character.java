@@ -98,6 +98,8 @@ public abstract class Character extends AbstractGameThing {
 		return 250;
 	}
 
+	public void distract(){}
+
 	/**
 	 * Method for moving to specifc location
 	 * @param lwhere - where to
@@ -114,6 +116,7 @@ public abstract class Character extends AbstractGameThing {
 		}
 		Location l = location();
 		if(lwhere instanceof Level.Location && l instanceof Level.Location){
+			distract();
 			final Level.Location where = (Level.Location)lwhere;
 			Level.Location to = ((Level.Location)l).nextTo(where, this, dist);
 			if(to == null)

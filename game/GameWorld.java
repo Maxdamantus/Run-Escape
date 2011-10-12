@@ -200,6 +200,10 @@ public class GameWorld { // TODO: try/finally for locks
 		emit(new WorldDelta(new WorldDelta.ShowContainer(ct.cid(), name), gt.gid()));
 	}
 
+	public void emitHideContainer(Container ct, GameThing gt){
+		emit(new WorldDelta(new WorldDelta.HideContainer(ct.cid()), gt.gid()));
+	}
+
 	public void emitEmitSound(GameThing gt, String what){
 		emit(new WorldDelta(new WorldDelta.EmitSound(gt.gid(), what), -1));
 	}

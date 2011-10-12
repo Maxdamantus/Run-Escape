@@ -374,6 +374,52 @@ public class WorldDelta {
 		}
 	}
 
+	public static class HideContainer implements Action {
+		private final Tree in;
+
+		public HideContainer(long g){
+			in = new Tree();
+			in.add(new Tree.Entry("cid", Serializers.Serializer_Long.write(g)));
+		}
+
+		public HideContainer(Tree t){
+			in = t;
+		}
+
+		public void apply(GameWorld world, WorldDelta wd) throws ParseException {
+			long cid = Serializers.Serializer_Long.read(in.find("cid"));
+			world.emitHideContainer(world.containerWithCID(cid), world.thingWithGID(wd.to));
+		}
+
+		public Container which(GameWorld world){
+			try{
+				return world.containerWithCID(Serializers.Serializer_Long.read(in.find("cid")));
+			}catch(ParseException e){
+				throw new RuntimeException(e);
+			}
+		}
+
+		public final static Serializer<HideContainer> serializer(){
+			return new Serializer<HideContainer>(){
+				public Tree write(HideContainer in){
+					return in.in;
+				}
+
+				public HideContainer read(Tree in){
+					return new HideContainer(in);
+				}
+			};
+		}
+
+		public Tree toTree(){
+			return in;
+		}
+
+		public String type(){
+			return "hidecontainer";
+		}
+	}
+
 	public static class EmitSound implements Action {
 		private final Tree in;
 
@@ -479,6 +525,8 @@ public class WorldDelta {
 				as = IntroduceContainer.serializer();
 			else if(type.equals("showcontainer"))
 				as = ShowContainer.serializer();
+			else if(type.equals("hidecontainer"))
+				as = HideContainer.serializer();
 			else if(type.equals("emitsound"))
 				as = EmitSound.serializer();
 			if(as == null)
