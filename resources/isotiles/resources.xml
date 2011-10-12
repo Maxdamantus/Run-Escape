@@ -1911,4 +1911,29 @@
       <y-offset>7</y-offset>
     </v>
   </i>
+  <i>
+    <k>npc_dragon</k>
+    <v>
+      <name>npc_dragon</name>
+      <type>IMAGE4</type>
+      <y-offset>15</y-offset>
+    </v>
+  </i>
+  <i>
+    <k>npc_dragon_die</k>
+    <v>
+      <name>npc_dragon_die</name>
+      <type>IMAGE4</type>
+      <frame-count>6</frame-count>
+    </v>
+  </i>
+  <i>
+    <k>npc_dragon_attack</k>
+    <v>
+      <name>npc_dragon_attack</name>
+      <type>IMAGE4</type>
+      <frame-count>10</frame-count>
+    </v>
+  </i>
+
 </tree>
