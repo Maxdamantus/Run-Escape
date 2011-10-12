@@ -959,7 +959,11 @@ public class ThingLibrary {
 				addCreator(new CoinThingCreator(1), MISC);
 				addCreator(new PotionThingCreator(1), MISC);
 				
-				addCreator(new NPCCreator("blue", "Sir Robert", 10, false, 0), NPC);
+				addCreator(new NPCCreator("blue", "Mam", 10, false, 0), NPC);
+				addCreator(new NPCCreator("spider", "Spider", 10, false, 0), NPC);
+				addCreator(new NPCCreator("worm", "Worm", 10, false, 0), NPC);
+				addCreator(new NPCCreator("zombie", "Zombie", 10, false, 0), NPC);
+
 				addCreator(new ShopkeeperCreator("shopkeeper", "Shop Keeper"), NPC);
 				
 				addCreator(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH), MISC);
