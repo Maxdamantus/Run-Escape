@@ -86,7 +86,7 @@ public class Server{
 		int port = DEFAULT_PORT;
 		if(!CLI){	
 			String choice;
-			Object[] possibilities = {"NewGame", "LoadGame"};
+			Object[] possibilities = {"NewGame","BuiltinLoader","LoadGame"};
 			choice = (String)JOptionPane.showInputDialog(
 			                    null,
 			                    "Start new, or load from file?",
@@ -107,6 +107,15 @@ public class Server{
 				if(model == null){
 					System.out.println("No file given, giving default gameworld");
 					model = defaultworld();
+				}
+			}
+			else if(choice.equals("BuiltinLoad")){
+				model = new GameWorld(); 
+				try {
+					model.fromTree(Database.xmlToTree(Resources.loadTextResource("/resources/world.wlbrd")));
+				} catch (ParseException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error loading file");
 				}
 			}
 			else{
