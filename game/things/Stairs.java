@@ -15,7 +15,7 @@ public class Stairs extends AbstractGameThing {
 			}
 		});
 
-		union.addSerializer("door", new Serializer<GameThing>(){
+		union.addSerializer("stairs", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				Stairs in = (Stairs)o;
 				Tree out = new Tree();
