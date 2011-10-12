@@ -56,6 +56,7 @@ public class LevelPanel extends JPanel {
 			}
 		});
 		this.add(r);
+		this.doLayout();
 		this.validate();
 		this.repaint();
 	}

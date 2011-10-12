@@ -181,6 +181,9 @@ public class BuilderInterface implements IsoInterface {
 		 */
 		public void refreshLevel() {
 			level.setLevel(dataSource.level());
+			validate();
+			repaint();
+			doLayout();
 		}
 		
 		/**
