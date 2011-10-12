@@ -109,7 +109,7 @@ public class Server{
 					model = defaultworld();
 				}
 			}
-			else if(choice.equals("BuiltinLoad")){
+			else if(choice.equals("BuiltinLoader")){
 				model = new GameWorld(); 
 				try {
 					model.fromTree(Database.xmlToTree(Resources.loadTextResource("/resources/world.wlbrd")));
