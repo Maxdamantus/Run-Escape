@@ -78,13 +78,13 @@ public class NetworkListenerThread extends Thread {
 							client.incomingChat(chat[1],
 									new Color(Integer.parseInt(chat[0])));
 						else
-							client.incomingChat(chat[0], Color.YELLOW);
+							client.incomingChat(chat[0], Color.BLUE);
 					} catch (ParseException e) {
 					}
 
 				} else if (incoming.startsWith("svm")) { // if server message
 					String chatString = incoming.substring(4);
-					client.incomingChat(chatString, Color.YELLOW);
+					client.incomingChat(chatString, Color.BLUE);
 
 				} else if (incoming.startsWith("uid")) { // if uid notification
 

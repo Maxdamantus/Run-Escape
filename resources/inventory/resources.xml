@@ -200,4 +200,8 @@
   	<k>potion</k>
   	<v>potion</v>
   </i>
+    <i>
+    <k>gold_key</k>
+    <v>gold_key</v>
+  </i>
 </tree>

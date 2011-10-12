@@ -740,13 +740,13 @@ public class ThingLibrary {
 	public static class KeysCreator implements ThingCreator {
 		@Override
 		public GameThing createThing(GameWorld w, Location l) {
-			game.things.Key key = new game.things.Key(w, "key", "key");
+			game.things.Key key = new game.things.Key(w, "gold_key", "key");
 			return key;
 		}
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("key", Direction.NORTH).image();
+			return IsoRendererLibrary.imageForRendererName("gold_key", Direction.NORTH).image();
 		}
 		
 		@Override

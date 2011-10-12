@@ -304,7 +304,7 @@ public class Server{
 		sgm.level(0).location(new Position(-15,-14), Direction.NORTH).put(new game.things.GroundTile(sgm));
 		sgm.level(0).location(new Position(0, 1), Direction.EAST).put(new game.things.Door(sgm, "wall_grey_1_door_open", "wall_grey_1_door_closed", false, "hello"));
 		sgm.level(0).location(new Position(1, 1), Direction.EAST).put(new game.things.SpawnPoint(sgm));
-		sgm.level(0).location(new Position(1, 1), Direction.EAST).put(new game.things.Key(sgm,"ruby","hello"));
+		sgm.level(0).location(new Position(1, 1), Direction.EAST).put(new game.things.Key(sgm,"gold_key","hello"));
 		game.Level.Location lp = sgm.level(0).location(new Position(14, 15), Direction.NORTH);
 		lp.put(new game.things.OpenableFurniture(sgm,"cupboard_1"));
 		ll = sgm.level(0).location(new Position(15, 15), Direction.NORTH);
