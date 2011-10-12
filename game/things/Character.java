@@ -340,10 +340,10 @@ public abstract class Character extends AbstractGameThing {
 	public int attack(int s){ return attack = s; }
 	public int strength(){ return strength; }
 	public int strength(int s){ return strength = s; }
-	public int defence(){ return attack; }
-	public int defence(int s){ return attack = s; }
-	public int delay(){ return attack; }
-	public int delay(int s){ return attack = s; }
+	public int defence(){ return defence; }
+	public int defence(int s){ return defence = s; }
+	public int delay(){ return delay; }
+	public int delay(int s){ return delay = s; }
 
 	@Override
 	public int renderLevel() {
