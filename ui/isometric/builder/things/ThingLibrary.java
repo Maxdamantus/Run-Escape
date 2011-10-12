@@ -268,13 +268,13 @@ public class ThingLibrary {
 
 		@Override
 		public BufferedImage previewImage() {
-			return IsoRendererLibrary.imageForRendererName("armour_tunic", Direction.NORTH).image();
+			return IsoRendererLibrary.imageForRendererName("pouch", Direction.NORTH).image();
 		}
 		
 		@Override
 		public Set<String> rendererNames() {
 			Set<String> out = new HashSet<String>();
-			out.add("armour_tunic");
+			out.add("pouch");
 			return out;
 		}
 
