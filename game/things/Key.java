@@ -33,7 +33,7 @@ public class Key extends PickupGameThing {
 				Key in = (Key)o;
 				Tree out = new Tree();
 				out.add(new Tree.Entry("renderer", new Tree(in.renderer)));
-				out.add(new Tree.Entry("doorcode", new Tree(in.renderer)));
+				out.add(new Tree.Entry("doorcode", new Tree(in.doorcode)));
 				return out;
 			}
 
