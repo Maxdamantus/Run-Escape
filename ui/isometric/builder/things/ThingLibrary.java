@@ -732,6 +732,14 @@ public class ThingLibrary {
 	
 	private static List<ThingCreator> creators = null;
 	private static List<ThingCreator> unmodifiable = null;
+	private static Map<String, List<ThingCreator>> catagories = new HashMap<String, List<ThingCreator>>();
+	
+	private static final String GROUND = "Ground";
+	private static final String WALL = "Wall";
+	private static final String FURNITURE = "Furniture";
+	private static final String EQUIPMENT = "Equipment";
+	private static final String NPC = "NPCs";
+	private static final String MISC = "Misc";
 	
 	/**
 	 * Initialize all the internal ThingCreators
@@ -742,213 +750,226 @@ public class ThingLibrary {
 				creators = new ArrayList<ThingCreator>();
 				unmodifiable = Collections.unmodifiableList(creators);
 				
-				creators.add(new GroundCreator("ground_grey_1"));
-				creators.add(new GroundCreator("ground_grey_2"));
-				creators.add(new GroundCreator("ground_grey_trash_1"));
-				creators.add(new GroundCreator("ground_grey_green_dots_1"));
-				creators.add(new GroundCreator("ground_grey_patch_1"));
-				creators.add(new GroundCreator("ground_grey_dark_dots_1"));
-				creators.add(new GroundCreator("ground_grey_dark_circle_1"));
-				creators.add(new GroundCreator("ground_grey_red_dots_1"));
-				creators.add(new GroundCreator("ground_grey_greenish_1"));
-				creators.add(new GroundCreator("ground_grey_greenish_2"));
-				creators.add(new GroundCreator("ground_grey_pool_1", true));
-				creators.add(new GroundCreator("ground_grey_pools_1", true));
-				creators.add(new GroundCreator("ground_grey_pools_2", true));
-				creators.add(new GroundCreator("ground_grey_rock_1", true));
-				creators.add(new GroundCreator("ground_grey_rock_2", true));
-				creators.add(new GroundCreator("ground_grey_rock_3", true));
-				creators.add(new GroundCreator("ground_grey_stones_1"));
-				creators.add(new GroundCreator("ground_grey_spikes_1", true));
-				creators.add(new GroundCreator("ground_grey_spikes_2", true));
-				creators.add(new GroundCreator("ground_grey_spikes_3", true));
+				addCreator(new GroundCreator("ground_grey_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_2"), GROUND);
+				addCreator(new GroundCreator("ground_grey_trash_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_green_dots_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_patch_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_dark_dots_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_dark_circle_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_red_dots_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_greenish_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_greenish_2"), GROUND);
+				addCreator(new GroundCreator("ground_grey_pool_1", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_pools_1", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_pools_2", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_rock_1", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_rock_2", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_rock_3", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_stones_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_spikes_1", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_spikes_2", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_spikes_3", true), GROUND);
 				
-				creators.add(new GroundCreator("ground_grey_water_corner", true));
-				creators.add(new GroundCreator("ground_grey_water_two_sides", true));
-				creators.add(new GroundCreator("ground_grey_water_one_side", true));
-				creators.add(new GroundCreator("ground_grey_water_island_1", true));
-				creators.add(new GroundCreator("ground_grey_water_rock_1", true));
+				addCreator(new GroundCreator("ground_grey_water_corner", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_water_two_sides", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_water_one_side", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_water_island_1", true), GROUND);
+				addCreator(new GroundCreator("ground_grey_water_rock_1", true), GROUND);
 				
-				creators.add(new GroundCreator("ground_grey_mushrooms_1"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_2"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_3"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_4"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_5"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_6"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_7"));
-				creators.add(new GroundCreator("ground_grey_mushrooms_8"));
+				addCreator(new GroundCreator("ground_grey_mushrooms_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_2"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_3"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_4"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_5"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_6"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_7"), GROUND);
+				addCreator(new GroundCreator("ground_grey_mushrooms_8"), GROUND);
 				
-				creators.add(new GroundCreator("water_1", true));
+				addCreator(new GroundCreator("water_1", true), GROUND);
 				
-				creators.add(new GroundCreator("ground_grey_road_corner_1"));
-				creators.add(new GroundCreator("ground_grey_road_end_1"));
-				creators.add(new GroundCreator("ground_grey_road_straight_1"));
-				creators.add(new GroundCreator("ground_grey_road_t_1"));
-				creators.add(new GroundCreator("ground_grey_road_x_1"));
+				addCreator(new GroundCreator("ground_grey_road_corner_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_road_end_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_road_straight_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_road_t_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_road_x_1"), GROUND);
 				
-				creators.add(new GroundCreator("ground_grey_tile_1_corner_1"));
-				creators.add(new GroundCreator("ground_grey_tile_1_one_side_1"));
-				creators.add(new GroundCreator("ground_grey_tile_1_two_sides_1"));
-				creators.add(new GroundCreator("ground_tile_1"));
-				creators.add(new GroundCreator("ground_tile_1_greenish_1"));
+				addCreator(new GroundCreator("ground_grey_tile_1_corner_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_tile_1_one_side_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_tile_1_two_sides_1"), GROUND);
+				addCreator(new GroundCreator("ground_tile_1"), GROUND);
+				addCreator(new GroundCreator("ground_tile_1_greenish_1"), GROUND);
 				
-				creators.add(new WallCreator("wall_brown_1_corner"));
-				creators.add(new WallCreator("wall_brown_1_x"));
-				creators.add(new WallCreator("wall_brown_1_t"));
-				creators.add(new WallCreator("wall_brown_1_straight"));
+				addCreator(new WallCreator("wall_brown_1_corner"), WALL);
+				addCreator(new WallCreator("wall_brown_1_x"), WALL);
+				addCreator(new WallCreator("wall_brown_1_t"), WALL);
+				addCreator(new WallCreator("wall_brown_1_straight"), WALL);
 				
-				creators.add(new DoorCreator("wall_brown_1_door_closed", "wall_brown_1_door_open", false, null));
+				addCreator(new DoorCreator("wall_brown_1_door_closed", "wall_brown_1_door_open", false, null), WALL);
 				
-				creators.add(new WallCreator("wall_grey_1_corner"));
-				creators.add(new WallCreator("wall_grey_1_x"));
-				creators.add(new WallCreator("wall_grey_1_t"));
-				creators.add(new WallCreator("wall_grey_1_straight"));
+				addCreator(new WallCreator("wall_grey_1_corner"), WALL);
+				addCreator(new WallCreator("wall_grey_1_x"), WALL);
+				addCreator(new WallCreator("wall_grey_1_t"), WALL);
+				addCreator(new WallCreator("wall_grey_1_straight"), WALL);
 				
-				creators.add(new DoorCreator("wall_grey_1_door_closed", "wall_grey_1_door_open", false, null));
+				addCreator(new DoorCreator("wall_grey_1_door_closed", "wall_grey_1_door_open", false, null), WALL);
 				
-				creators.add(new WallCreator("wall_grey_2_corner"));
-				creators.add(new WallCreator("wall_grey_2_x"));
-				creators.add(new WallCreator("wall_grey_2_t"));
-				creators.add(new WallCreator("wall_grey_2_straight"));
+				addCreator(new WallCreator("wall_grey_2_corner"), WALL);
+				addCreator(new WallCreator("wall_grey_2_x"), WALL);
+				addCreator(new WallCreator("wall_grey_2_t"), WALL);
+				addCreator(new WallCreator("wall_grey_2_straight"), WALL);
 				
-				creators.add(new DoorCreator("wall_grey_2_door_closed", "wall_grey_2_door_open", false, null));
+				addCreator(new DoorCreator("wall_grey_2_door_closed", "wall_grey_2_door_open", false, null), WALL);
 				
-				creators.add(new WallCreator("wall_grey_3_corner"));
-				creators.add(new WallCreator("wall_grey_3_x"));
-				creators.add(new WallCreator("wall_grey_3_t"));
-				creators.add(new WallCreator("wall_grey_3_straight"));
+				addCreator(new WallCreator("wall_grey_3_corner"), WALL);
+				addCreator(new WallCreator("wall_grey_3_x"), WALL);
+				addCreator(new WallCreator("wall_grey_3_t"), WALL);
+				addCreator(new WallCreator("wall_grey_3_straight"), WALL);
 				
-				creators.add(new DoorCreator("wall_grey_3_door_closed", "wall_grey_3_door_open", false, null));
+				addCreator(new DoorCreator("wall_grey_3_door_closed", "wall_grey_3_door_open", false, null), WALL);
 				
-				creators.add(new WallCreator("wall_grey_4_corner"));
-				creators.add(new WallCreator("wall_grey_4_x"));
-				creators.add(new WallCreator("wall_grey_4_t"));
-				creators.add(new WallCreator("wall_grey_4_straight"));
+				addCreator(new WallCreator("wall_grey_4_corner"), WALL);
+				addCreator(new WallCreator("wall_grey_4_x"), WALL);
+				addCreator(new WallCreator("wall_grey_4_t"), WALL);
+				addCreator(new WallCreator("wall_grey_4_straight"), WALL);
 				
-				creators.add(new DoorCreator("wall_grey_4_door_closed", "wall_grey_4_door_open", false, null));
+				addCreator(new DoorCreator("wall_grey_4_door_closed", "wall_grey_4_door_open", false, null), WALL);
 				
-				creators.add(new GroundCreator("ground_grey_tile_2_corner"));
-				creators.add(new GroundCreator("ground_grey_tile_2_one_side"));
-				creators.add(new GroundCreator("ground_grey_tile_2_two_sides"));
-				creators.add(new GroundCreator("ground_grey_tile_2_loose_1"));
-				creators.add(new GroundCreator("ground_grey_tile_2_loose_2"));
-				creators.add(new GroundCreator("ground_tile_2"));
-				creators.add(new GroundCreator("ground_tile_2_2"));
-				creators.add(new GroundCreator("ground_tile_2_greenish_1"));
-				creators.add(new GroundCreator("ground_tile_2_trash_1"));
-				creators.add(new GroundCreator("ground_tile_2_gravel_1"));
-				creators.add(new GroundCreator("ground_tile_2_green_dots_1"));
-				creators.add(new GroundCreator("ground_tile_2_red_dots_1"));
+				addCreator(new GroundCreator("ground_grey_tile_2_corner"), GROUND);
+				addCreator(new GroundCreator("ground_grey_tile_2_one_side"), GROUND);
+				addCreator(new GroundCreator("ground_grey_tile_2_two_sides"), GROUND);
+				addCreator(new GroundCreator("ground_grey_tile_2_loose_1"), GROUND);
+				addCreator(new GroundCreator("ground_grey_tile_2_loose_2"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2_2"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2_greenish_1"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2_trash_1"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2_gravel_1"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2_green_dots_1"), GROUND);
+				addCreator(new GroundCreator("ground_tile_2_red_dots_1"), GROUND);
 				
-				creators.add(new GroundCreator("ground_tile_1_tile_2_corner"));
-				creators.add(new GroundCreator("ground_tile_1_tile_2_one_side"));
-				creators.add(new GroundCreator("ground_tile_1_tile_2_two_sides"));
+				addCreator(new GroundCreator("ground_tile_1_tile_2_corner"), GROUND);
+				addCreator(new GroundCreator("ground_tile_1_tile_2_one_side"), GROUND);
+				addCreator(new GroundCreator("ground_tile_1_tile_2_two_sides"), GROUND);
 				
-				creators.add(new WallCreator("plant_1"));
-				creators.add(new WallCreator("plant_2"));
-				creators.add(new WallCreator("plant_3"));
-				creators.add(new WallCreator("plant_4"));
-				creators.add(new WallCreator("plant_5"));
-				creators.add(new WallCreator("plant_6"));
+				addCreator(new WallCreator("plant_1"), WALL);
+				addCreator(new WallCreator("plant_2"), WALL);
+				addCreator(new WallCreator("plant_3"), WALL);
+				addCreator(new WallCreator("plant_4"), WALL);
+				addCreator(new WallCreator("plant_5"), WALL);
+				addCreator(new WallCreator("plant_6"), WALL);
 				
-				creators.add(new WallCreator("stake_skull_1"));
-				creators.add(new WallCreator("stake_skull_2"));
-				creators.add(new WallCreator("stake_skull_3"));
+				addCreator(new WallCreator("stake_skull_1"), WALL);
+				addCreator(new WallCreator("stake_skull_2"), WALL);
+				addCreator(new WallCreator("stake_skull_3"), WALL);
 				
-				creators.add(new WallCreator("ground_grey_obelisk_1"));
-				creators.add(new WallCreator("ground_grey_obelisk_2"));
-				creators.add(new WallCreator("ground_grey_tree_1"));
-				creators.add(new WallCreator("ground_grey_tree_2"));
-				creators.add(new WallCreator("ground_grey_tree_3"));
-				creators.add(new WallCreator("ground_grey_tree_4"));
-				creators.add(new WallCreator("ground_grey_tree_5"));
+				addCreator(new WallCreator("ground_grey_obelisk_1"), WALL);
+				addCreator(new WallCreator("ground_grey_obelisk_2"), WALL);
+				addCreator(new WallCreator("ground_grey_tree_1"), WALL);
+				addCreator(new WallCreator("ground_grey_tree_2"), WALL);
+				addCreator(new WallCreator("ground_grey_tree_3"), WALL);
+				addCreator(new WallCreator("ground_grey_tree_4"), WALL);
+				addCreator(new WallCreator("ground_grey_tree_5"), WALL);
 				
-				creators.add(new OpenableFurnitureCreator("barrel_1", false, null));
-				creators.add(new OpenableFurnitureCreator("chest_1", false, null));
-				creators.add(new OpenableFurnitureCreator("chest_2", false, null));
-				creators.add(new OpenableFurnitureCreator("chest_3", false, null));
-				creators.add(new OpenableFurnitureCreator("cupboard_1", false, null));
+				addCreator(new OpenableFurnitureCreator("barrel_1", false, null), FURNITURE);
+				addCreator(new OpenableFurnitureCreator("chest_1", false, null), FURNITURE);
+				addCreator(new OpenableFurnitureCreator("chest_2", false, null), FURNITURE);
+				addCreator(new OpenableFurnitureCreator("chest_3", false, null), FURNITURE);
+				addCreator(new OpenableFurnitureCreator("cupboard_1", false, null), FURNITURE);
 				
-				creators.add(new WallCreator("barrel_2"));
-				creators.add(new WallCreator("barrel_3"));
+				addCreator(new WallCreator("barrel_2"), WALL);
+				addCreator(new WallCreator("barrel_3"), WALL);
 				
-				creators.add(new EquipmentCreator("sword_1", 2, 2, 0, 1, "Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_2", 3, 3, 0, 1, "Pseudo Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_3", 4, 4, 0, 1, "Slightly Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_4", 5, 5, 0, 2, "Almost Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_5", 6, 6, 0, 2, "Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_6", 7, 7, 0, 2, "Medium-Good Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_7", 8, 8, 0, 3, "Good Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_8", 9, 9, 0, 3, "DoubleGood Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_9", 10, 10, 0, 4, "Great Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_10", 11, 11, 0, 4, "Greater Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_11", 12, 12, 0, 4, "Epic Sword", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
-				creators.add(new EquipmentCreator("sword_12", 15, 15, 0, 1, "Ultima", game.things.EquipmentGameThing.Slot.WEAPON)); // TODO: name
+				addCreator(new EquipmentCreator("sword_1", 2, 2, 0, 1, "Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_2", 3, 3, 0, 1, "Pseudo Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_3", 4, 4, 0, 1, "Slightly Weak Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_4", 5, 5, 0, 2, "Almost Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_5", 6, 6, 0, 2, "Medium Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_6", 7, 7, 0, 2, "Medium-Good Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_7", 8, 8, 0, 3, "Good Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_8", 9, 9, 0, 3, "DoubleGood Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_9", 10, 10, 0, 4, "Great Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_10", 11, 11, 0, 4, "Greater Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_11", 12, 12, 0, 4, "Epic Sword", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
+				addCreator(new EquipmentCreator("sword_12", 15, 15, 0, 1, "Ultima", game.things.EquipmentGameThing.Slot.WEAPON), EQUIPMENT);
 				
-				creators.add(new EquipmentCreator("shield_bronze", 0, 0, 4, 1, "Bronze Shield", game.things.EquipmentGameThing.Slot.SHIELD));
-				creators.add(new EquipmentCreator("shield_long", 0, 0, 5, 1, "Long Shield", game.things.EquipmentGameThing.Slot.SHIELD));
-				creators.add(new EquipmentCreator("shield_plate", 0, 0, 6, 1, "Plate Shield", game.things.EquipmentGameThing.Slot.SHIELD));
-				creators.add(new EquipmentCreator("shield_wood", 0, 0, 3, 1, "Wood Shield", game.things.EquipmentGameThing.Slot.SHIELD));
+				addCreator(new EquipmentCreator("shield_bronze", 0, 0, 4, 1, "Bronze Shield", game.things.EquipmentGameThing.Slot.SHIELD), EQUIPMENT);
+				addCreator(new EquipmentCreator("shield_long", 0, 0, 5, 1, "Long Shield", game.things.EquipmentGameThing.Slot.SHIELD), EQUIPMENT);
+				addCreator(new EquipmentCreator("shield_plate", 0, 0, 6, 1, "Plate Shield", game.things.EquipmentGameThing.Slot.SHIELD), EQUIPMENT);
+				addCreator(new EquipmentCreator("shield_wood", 0, 0, 3, 1, "Wood Shield", game.things.EquipmentGameThing.Slot.SHIELD), EQUIPMENT);
 				
-				creators.add(new EquipmentCreator("helmet_iron", 0, 0, 2, 1, "Iron Helmet", game.things.EquipmentGameThing.Slot.HELMET));
-				creators.add(new EquipmentCreator("helmet_leather", 0, 0, 1, 1, "Leather Helmet", game.things.EquipmentGameThing.Slot.HELMET));
+				addCreator(new EquipmentCreator("helmet_iron", 0, 0, 2, 1, "Iron Helmet", game.things.EquipmentGameThing.Slot.HELMET), EQUIPMENT);
+				addCreator(new EquipmentCreator("helmet_leather", 0, 0, 1, 1, "Leather Helmet", game.things.EquipmentGameThing.Slot.HELMET), EQUIPMENT);
 				
-				creators.add(new EquipmentCreator("gauntlets_iron", 0, 0, 3, 1, "Iron Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
-				creators.add(new EquipmentCreator("gauntlets_leather", 0, 0, 2, 1, "Leather Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
-				creators.add(new EquipmentCreator("gauntlets_silk", 0, 0, 1, 1, "Silk Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET));
+				addCreator(new EquipmentCreator("gauntlets_iron", 0, 0, 3, 1, "Iron Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET), EQUIPMENT);
+				addCreator(new EquipmentCreator("gauntlets_leather", 0, 0, 2, 1, "Leather Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET), EQUIPMENT);
+				addCreator(new EquipmentCreator("gauntlets_silk", 0, 0, 1, 1, "Silk Gauntlets", game.things.EquipmentGameThing.Slot.GAUNTLET), EQUIPMENT);
 				
 				// TODO: cloak
 				
-				creators.add(new EquipmentCreator("boots_leather_shoes", 0, 0, 0, 0, "Leather Shoes", game.things.EquipmentGameThing.Slot.BOOTS));
-				creators.add(new EquipmentCreator("boots_leather", 0, 0, 1, 1, "Leather Boots", game.things.EquipmentGameThing.Slot.BOOTS));
-				creators.add(new EquipmentCreator("boots_steel", 0, 0, 2, 1, "Steel Boots", game.things.EquipmentGameThing.Slot.BOOTS));
+				addCreator(new EquipmentCreator("boots_leather_shoes", 0, 0, 0, 0, "Leather Shoes", game.things.EquipmentGameThing.Slot.BOOTS), EQUIPMENT);
+				addCreator(new EquipmentCreator("boots_leather", 0, 0, 1, 1, "Leather Boots", game.things.EquipmentGameThing.Slot.BOOTS), EQUIPMENT);
+				addCreator(new EquipmentCreator("boots_steel", 0, 0, 2, 1, "Steel Boots", game.things.EquipmentGameThing.Slot.BOOTS), EQUIPMENT);
 				
-				creators.add(new EquipmentCreator("armour_chain", 0, 0, 4, 1, "Chainmail", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_leather", 0, 0, 3, 1, "Leather Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_plate", 0, 0, 6, 1, "Plate Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_steel", 0, 0, 5, 1, "Steel Armour", game.things.EquipmentGameThing.Slot.ARMOUR));
-				creators.add(new EquipmentCreator("armour_tunic", 0, 0, 2, 1, "Tunic", game.things.EquipmentGameThing.Slot.ARMOUR));
+				addCreator(new EquipmentCreator("armour_chain", 0, 0, 4, 1, "Chainmail", game.things.EquipmentGameThing.Slot.ARMOUR), EQUIPMENT);
+				addCreator(new EquipmentCreator("armour_leather", 0, 0, 3, 1, "Leather Armour", game.things.EquipmentGameThing.Slot.ARMOUR), EQUIPMENT);
+				addCreator(new EquipmentCreator("armour_plate", 0, 0, 6, 1, "Plate Armour", game.things.EquipmentGameThing.Slot.ARMOUR), EQUIPMENT);
+				addCreator(new EquipmentCreator("armour_steel", 0, 0, 5, 1, "Steel Armour", game.things.EquipmentGameThing.Slot.ARMOUR), EQUIPMENT);
+				addCreator(new EquipmentCreator("armour_tunic", 0, 0, 2, 1, "Tunic", game.things.EquipmentGameThing.Slot.ARMOUR), EQUIPMENT);
+								
+				addCreator(new ValuableThingCreator("crystal_green", "Green Crystal", 50), MISC);
+				addCreator(new ValuableThingCreator("herbs_1", "Smelly Herbs", 1), MISC);
+				addCreator(new ValuableThingCreator("herbs_2", "Stoner Herbs", 5), MISC);
+				addCreator(new ValuableThingCreator("herbs_3", "Epic Herbs", 10), MISC);
+				addCreator(new ValuableThingCreator("ruby", "Ruby", 100), MISC);
+				addCreator(new ValuableThingCreator("bar_gold", "Gold Bar", 100), MISC);
+				addCreator(new ValuableThingCreator("bar_steel", "Steel Bar", 10), MISC);
+				addCreator(new ValuableThingCreator("emerald", "Emerald", 40), MISC);
+				addCreator(new ValuableThingCreator("amber", "Amber", 20), MISC);
 				
-				// TODO: stairs creator
+				addCreator(new CoinThingCreator(1), MISC);
+				addCreator(new PotionThingCreator(1), MISC);
 				
-				creators.add(new ValuableThingCreator("crystal_green", "Green Crystal", 50));
-				creators.add(new ValuableThingCreator("herbs_1", "Smelly Herbs", 1));
-				creators.add(new ValuableThingCreator("herbs_2", "Stoner Herbs", 5));
-				creators.add(new ValuableThingCreator("herbs_3", "Epic Herbs", 10));
-				creators.add(new ValuableThingCreator("ruby", "Ruby", 100));
-				creators.add(new ValuableThingCreator("bar_gold", "Gold Bar", 100));
-				creators.add(new ValuableThingCreator("bar_steel", "Steel Bar", 10));
-				creators.add(new ValuableThingCreator("emerald", "Emerald", 40));
-				creators.add(new ValuableThingCreator("amber", "Amber", 20));
+				addCreator(new NPCCreator("blue", "Sir Robert", 10, false, 0), NPC);
+				addCreator(new ShopkeeperCreator("shopkeeper", "Shop Keeper"), NPC);
 				
-				creators.add(new CoinThingCreator(1));
-				creators.add(new PotionThingCreator(1));
+				addCreator(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_brown_down_1", -1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_grey_up_1", 1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_grey_down_1", -1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_grey_up_2", 1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_grey_down_2", -1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_grey_up_3", 1, Direction.SOUTH), MISC);
+				addCreator(new StairCreator("stairs_grey_down_3", -1, Direction.SOUTH), MISC);
 				
-				creators.add(new NPCCreator("blue", "Sir Robert", 10, false, 0));
-				creators.add(new ShopkeeperCreator("shopkeeper", "Shop Keeper"));
+				addCreator(new LightCreator(1), MISC);
 				
-				creators.add(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_brown_down_1", -1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_grey_up_1", 1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_grey_down_1", -1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_grey_up_2", 1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_grey_down_2", -1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_grey_up_3", 1, Direction.SOUTH));
-				creators.add(new StairCreator("stairs_grey_down_3", -1, Direction.SOUTH));
+				addCreator(new KeysCreator(), MISC);
 				
-				creators.add(new LightCreator(1));
-				
-				creators.add(new KeysCreator());
-				
-				creators.add(new SpawnPointCreator());
+				addCreator(new SpawnPointCreator(), MISC);
 
-				creators.add(new GoltrollerCreator());
+				addCreator(new GoltrollerCreator(), MISC);
 
-				creators.add(new PouchCreator());
+				addCreator(new PouchCreator(), MISC);
 				
 				ThingCreatorChecker.check();
 			}
 		}
+	}
+	
+	/**
+	 * Add a creator with a given category name
+	 * @param t
+	 * @param c
+	 */
+	private static void addCreator(ThingCreator t, String c) {
+		creators.add(t);
+		List<ThingCreator> category = catagories.get(c);
+		if(category == null) {
+			category = new ArrayList<ThingCreator>();
+			catagories.put(c, category);
+		}
+		category.add(t);
 	}
 	
 	/**
