@@ -22,6 +22,7 @@ public class IsoPlayer {
 	private Container inventory;
 	private Container equipment;
 	private Container openContainer;
+	private String containerName;
 	private GameWorld world;
 	private GameThing thing;
 	private String name;
@@ -72,6 +73,7 @@ public class IsoPlayer {
 						equipment = show.which(world);
 					}
 					else {
+						containerName = show.what();
 						openContainer = show.which(world);
 						
 						for(ShowContainerListener l : listeners) {
@@ -85,6 +87,7 @@ public class IsoPlayer {
 							l.hideContainer(openContainer);
 						}
 						
+						containerName = "";
 						openContainer = null;
 					}
 				}
@@ -201,5 +204,13 @@ public class IsoPlayer {
 	 */
 	public boolean isLight() {
 		return thing.info().get("luminance") != null;
+	}
+
+	/**
+	 * Get the open container name
+	 * @return
+	 */
+	public String containerName() {
+		return containerName;
 	}
 }

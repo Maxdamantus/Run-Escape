@@ -225,17 +225,19 @@ public class InventoryRenderer extends LargePanel {
 	private void drawContainer(Graphics2D g) {
 		int origx = 425;
 		int x = origx;
-		int y = 10;
+		int y = 30;
 		int width = 150;
-		int height = 590;
+		int height = 570;
 		int spacing = 46;
 		
+		Container container = player.openContainer();
+		
+		g.drawString(player.containerName(), x, y-5);
 		g.drawRect(x, y, width, height);
 		
 		x++;
 		y++;
 		
-		Container container = player.openContainer();
 		if(container != null) {
 			for(GameThing thing : container) {
 				this.drawThingAt(g, thing, x, y);
