@@ -295,9 +295,9 @@ public class Player extends Character {
 		world().emitSay(g, this, "You recieve "+g.name());
 		inventory.put(g);
 		//for testing
-		for(GameThing gt : inventory.contents()){
+	//	for(GameThing gt : inventory.contents()){
 	//		System.out.println(gt.name());
-		}
+	//	}
 	}
 	
 	/**
