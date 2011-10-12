@@ -150,6 +150,10 @@ public class Player extends Character {
 			showContainer(inventory, "Inventory");
 		else if(name.equals("_showequipment") && who == this)
 			showContainer(equipment, "Equipment");
+		else if(name.equals("_showbuffer") && who == this)
+			showContainer(buffer, "Buffer");
+		else
+			super.interact(name, who);
 	}
 
 	public void showContainer(Container c, String n){

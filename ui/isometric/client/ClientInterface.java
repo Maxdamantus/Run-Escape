@@ -163,6 +163,9 @@ public class ClientInterface implements IsoInterface {
 				else if(arg0.getKeyChar() == 'l') {
 					canvas.setLightsEnabled(!canvas.lightsEnabled());
 				}
+				else if(arg0.getKeyChar() == 'b') {
+					performActionOn("_showbuffer", player.thing());
+				}
 				
 				chatRenderer.setMessage(message);
 			}
