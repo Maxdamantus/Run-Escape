@@ -20,6 +20,7 @@ public class ThingsS {
 		ShopItem.makeSerializer(u, w);
 		GOL.makeSerializer(u, w);
 		Coins.makeSerializer(u, w);
+		Valuable.makeSerializer(u, w);
 		return u.serializer();
 	}	
 }
