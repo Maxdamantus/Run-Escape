@@ -12,7 +12,7 @@ public class Valuable extends PickupGameThing {
 			}
 		});
 
-		union.addSerializer("coins", new Serializer<GameThing>(){
+		union.addSerializer("valuable", new Serializer<GameThing>(){
 			public Tree write(GameThing o){
 				Valuable in = (Valuable)o;
 				Tree out = new Tree();
