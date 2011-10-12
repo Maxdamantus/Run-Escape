@@ -480,6 +480,16 @@ public class Player extends Character {
 		}	
 	}
 
+	public Location location(Location l){
+		Location old = location();
+		if(old instanceof Level.Location && l instanceof Level.Location && ((Level.Location)old).level() != ((Level.Location)l).level()){
+			Location r = super.location(l);
+			update();
+			return r;
+		}
+		return super.location(l);
+	}
+
 	/**
 	 * @return Map with info for creating DumbGameThings 
 	 */
