@@ -7,21 +7,21 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
+/**
+ * Maintains the state for a single level in a game.
+ * @author maz
+ */
 public class Level implements Iterable<GameThing>, Luminant { // TODO: try/finally for locks
 	private final GameWorld world;
 	private final int level;
 	private int luminance = -1;
 	private QuadTree<GameThing> map = new QuadTree<GameThing>();
-//	private final DegenerateTrie<GameThing> map = new DegenerateTrie<GameThing>();
-	
+
 	private final ReentrantReadWriteLock mapLock = new ReentrantReadWriteLock();
 
-/*
-	public void clear(){
-		map = new QuadTree<GameThing>();
-	}
-	*/
-
+	/**
+	 * Read-only object that represents a location on a level in a game. Consists of a level, position on that level, and a facing direction.
+	 */
 	public static class Location implements game.Location {
 		private final Level level;
 		private final Position position;
@@ -62,46 +62,80 @@ public class Level implements Iterable<GameThing>, Luminant { // TODO: try/final
 			return level;
 		}
 
+		/**
+		 * The number of the level this location is in.
+		 */
 		public int z(){
 			return level.level;
 		}
 
+		/**
+		 * Creates a new location the same as this one, but with the specified facing direction.
+		 */
 		public Location direct(Direction d){
 			return new Location(level, position, d);
 		}
 
+		/**
+		 * Creates a new location the same as this one, but with the direction rotated by the given direction.
+		 */
 		public Location rotate(Direction d){
 			return direct(direction.compose(d));
 		}
 
+		/**
+		 * The location the given amount of squares in the given direction.
+		 * @param l Amount of squares away
+		 */
 		public Location next(Direction d, int l){
 			return new Location(level, new Position(position.x() + d.dx()*l, position.y() + d.dy()*l), l < 0? d.compose(Direction.SOUTH) : d);
 		}
 
+		/**
+		 * next(d, 1)
+		 */
 		public Location next(Direction d){
 			return next(d, 1);
 		}
 
+		/**
+		 * next(direction(), l)
+		 */
 		public Location next(int l){
 			return next(direction, l);
 		}
 
+		/**
+		 * next(direction())
+		 */
 		public Location next(){
 			return next(direction);
 		}
 
+		/**
+		 * The location the given number of levels above this one.
+		 */
 		public Location above(int amt){
 			return new Location(level.world.level(level.level + amt), position, direction);
 		}
 
+		/**
+		 * above(1)
+		 */
 		public Location above(){
 			return above(1);
 		}
 
+		/**
+		 * above(-amt)
+		 */
 		public Location below(int amt){
 			return above(-amt);
 		}
 
+		/**
+		 * below(1)
+		 */
 		public Location below(){
 			return below(1);
 		}

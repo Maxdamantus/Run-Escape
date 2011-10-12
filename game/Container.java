@@ -8,6 +8,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import serialization.*;
 
+/**
+ * A location for GameThings, intended to be a component of various things.
+ * @author maz
+ */
 public class Container implements Iterable<GameThing>, Location {
 	public static Serializer<Container> serializer(final Serializer<GameThing> gts, final GameWorld w){
 		return new Serializer<Container>(){
@@ -44,10 +48,13 @@ public class Container implements Iterable<GameThing>, Location {
 		w.emitIntroduceContainer(this);
 	}
 
+	/**
+	 * This container's CID as associated by the world.
+	 */
 	public long cid(){
 		return cid;
 	}
-		
+
 	public Iterator<GameThing> iterator(){
 		return set.iterator();
 	}
@@ -64,6 +71,9 @@ public class Container implements Iterable<GameThing>, Location {
 		return this;
 	}
 
+	/**
+	 * Creates a non-backed set of the contents.
+	 */
 	public Iterable<GameThing> snapshot(){
 		return new HashSet<GameThing>(set);
 	}
@@ -78,6 +88,9 @@ public class Container implements Iterable<GameThing>, Location {
 		finally { lock.writeLock().unlock(); }
 	}
 	
+	/**
+	 * Determines whether or not the given container occurs in the transtive parent set.
+	 */
 	public boolean hasParent(Container c){
 		return this == c || parent != null && parent.hasParent(c);
 	}
