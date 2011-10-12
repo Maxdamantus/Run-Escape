@@ -113,7 +113,6 @@ public final class ServerThread {
 							ClientMessage msg = (ClientMessage.serializer(parent.model, parent.usrGID)).read(Tree.fromString(action));
 							msg.apply(parent.model);
 						}
-						//hopefully shouldnt be reached
 						else if(temp.startsWith("cts")) {
 							String chat = temp.substring(4);
 							parent.model.emitSay(null, null, chat);;

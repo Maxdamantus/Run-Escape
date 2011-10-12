@@ -164,7 +164,8 @@ public class Enemy extends Character implements Namable, Containable {
 		if(!dying()){
 			super.damage(amt, from);
 			world().emitSay(this, from, from.name() + " hurts " + name() + " and their health is now " + health());
-			attack(from);
+			if(!attacking())
+				attack(from);
 		}
 		if(health() <= 0 && dying()){
 			final Enemy g = this;

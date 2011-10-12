@@ -963,7 +963,8 @@ public class ThingLibrary {
 				addCreator(new NPCCreator("spider", "Spider", 10, false, 0), NPC);
 				addCreator(new NPCCreator("worm", "Worm", 10, false, 0), NPC);
 				addCreator(new NPCCreator("zombie", "Zombie", 10, false, 0), NPC);
-
+				addCreator(new NPCCreator("dragon", "Dragon", 10, false, 0), NPC);
+				
 				addCreator(new ShopkeeperCreator("shopkeeper", "Shop Keeper"), NPC);
 				
 				addCreator(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH), MISC);

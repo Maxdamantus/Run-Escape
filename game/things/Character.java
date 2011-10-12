@@ -253,8 +253,12 @@ public abstract class Character extends AbstractGameThing {
 		}
 	}
 	
-	public void stopAttack(){
+	public void stopAttacking(){
 		this.attackIdent = null;
+	}
+	
+	public boolean attacking(){
+		return attackIdent != null;
 	}
 	
 	/**
