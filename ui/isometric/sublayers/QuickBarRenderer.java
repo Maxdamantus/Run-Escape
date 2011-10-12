@@ -115,6 +115,11 @@ public class QuickBarRenderer implements IsoCanvas.UILayerRenderer {
 				public void showContainer(Container show) {
 					showInventory();
 				}
+
+				@Override
+				public void hideContainer(Container openContainer) {
+					hideInventory();
+				}
 			});
 		} catch (IOException e) {
 			e.printStackTrace();

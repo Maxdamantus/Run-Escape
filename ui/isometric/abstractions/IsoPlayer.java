@@ -35,10 +35,16 @@ public class IsoPlayer {
 	 */
 	public static interface ShowContainerListener {
 		/**
-		 * A give container has been requested to be shown
+		 * A given container has been requested to be shown
 		 * @param which
 		 */
 		void showContainer(Container show);
+
+		/**
+		 * Hide a given container
+		 * @param openContainer
+		 */
+		void hideContainer(Container openContainer);
 	}
 	
 	/**
@@ -66,10 +72,20 @@ public class IsoPlayer {
 						equipment = show.which(world);
 					}
 					else {
+						openContainer = show.which(world);
+						
 						for(ShowContainerListener l : listeners) {
-							openContainer = show.which(world);
 							l.showContainer(openContainer);
 						}
+					}
+				}
+				if(action instanceof WorldDelta.HideContainer) {
+					if(((WorldDelta.HideContainer)action).which(world).equals(openContainer)) {
+						for(ShowContainerListener l : listeners) {
+							l.hideContainer(openContainer);
+						}
+						
+						openContainer = null;
 					}
 				}
 			}
