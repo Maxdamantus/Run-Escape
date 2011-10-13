@@ -126,7 +126,7 @@ public abstract class Character extends AbstractGameThing {
 					step(where, ondone, dist, stepIdent = new Object());
 				}
 			}, attacked()? escapedelay() : walkdelay());
-			face(l);
+			face(lwhere);
 			return true;
 			
 		}
@@ -275,7 +275,7 @@ public abstract class Character extends AbstractGameThing {
 			if(closest == null || p.dist((Level.Location)l) < ((Level.Location)l).dist(closest))
 				closest = p;
 		}
-		location(((Level.Location)ml).direct(closest.direction()));
+		((Level.Location)ml).direct(closest.direction()).put(this);
 	}
 
 	private Set<GameThing> attackedBy = new HashSet<GameThing>();
