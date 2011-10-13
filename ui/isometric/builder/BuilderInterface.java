@@ -35,6 +35,7 @@ import client.ClientMessageHandler;
 import data.Database;
 
 import serialization.ParseException;
+import serialization.Tree;
 import ui.isometric.IsoCanvas;
 import ui.isometric.IsoInterface;
 import ui.isometric.abstractions.IsoObject;
@@ -69,6 +70,7 @@ public class BuilderInterface implements IsoInterface {
 	private IsoChangeLevelDataSource dataSource;
 	
 	private static final String EXTENTION = "wblrd";
+	private static final String TREEEXTENSION = "wblrdt";
 	
 	private ThingCreator storedCreator = null;
 	private GameThing moving = null;
@@ -238,19 +240,35 @@ public class BuilderInterface implements IsoInterface {
 		JMenuBar bar = new JMenuBar();
 		JMenu file = new JMenu("File");
 		JMenuItem save = new JMenuItem("Save");
+		JMenuItem savetree = new JMenuItem("Save tree");
 		file.add(save);
+		file.add(savetree);
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				save();
+				save(true);
+			}
+		});
+		savetree.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				save(false);
 			}
 		});
 		JMenuItem load = new JMenuItem("Load");
+		JMenuItem loadtree = new JMenuItem("Load tree");
 		file.add(load);
+		file.add(loadtree);
 		load.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				load();
+				load(true);
+			}
+		});
+		loadtree.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				load(false);
 			}
 		});
 		bar.add(file);
@@ -431,14 +449,15 @@ public class BuilderInterface implements IsoInterface {
 	/**
 	 * Save the world
 	 */
-	public void save() {
-		String file = Database.treeToXML(world.toTree());
+	public void save(boolean xml) {
+		Tree tree = world.toTree();
+		String file = xml? Database.treeToXML(world.toTree()) : tree.toString();
 		
 		JFileChooser chooser = new JFileChooser();
 		if(chooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
 			File save = chooser.getSelectedFile().getAbsoluteFile();
-			if(!save.getAbsolutePath().endsWith("."+EXTENTION)) {
-				save = new File(save.getAbsolutePath() + "." + EXTENTION);
+			if(!save.getAbsolutePath().endsWith("."+(xml? EXTENTION : TREEEXTENSION))) {
+				save = new File(save.getAbsolutePath() + "." + (xml? EXTENTION : TREEEXTENSION));
 			}
 			if(save.exists()) {
 				if(JOptionPane.showConfirmDialog(frame, "This file exists, are you sure you wish to overwrite it?", null, JOptionPane.OK_CANCEL_OPTION, 0) == JOptionPane.CANCEL_OPTION) {
@@ -461,14 +480,14 @@ public class BuilderInterface implements IsoInterface {
 	/**
 	 * Load the world
 	 */
-	public void load() {
+	public void load(final boolean xml) {
 		String loaded = null;
 		
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileFilter(new FileFilter() {
 			@Override
 			public boolean accept(File arg0) {
-				return (arg0.isFile() && arg0.getAbsolutePath().endsWith(EXTENTION)) || arg0.isDirectory();
+				return (arg0.isFile() && arg0.getAbsolutePath().endsWith(xml? EXTENTION : TREEEXTENSION)) || arg0.isDirectory();
 			}
 
 			@Override
@@ -494,7 +513,7 @@ public class BuilderInterface implements IsoInterface {
 		}
 		
 		try {
-			world.fromTree(Database.xmlToTree(loaded));
+			world.fromTree(xml? Database.xmlToTree(loaded) : Tree.fromString(loaded));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(frame, "Error loading file");
