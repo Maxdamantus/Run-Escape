@@ -175,7 +175,7 @@ public final class ServerThread {
 					}
 				}
 			} catch(IOException e) {
-				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
+//				System.err.println("PLAYER " + parent.usrNo +"/" + "usrName" + " DISCONNECTED");
 			}
 			parent.exit = true;
 		}

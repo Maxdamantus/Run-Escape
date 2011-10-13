@@ -76,8 +76,11 @@ public class Potion extends Stackable {
 	public void interact(String name, Player who){
 		if(name.equals("drink")){
 			who.drink(this);
-			location(LocationS.NOWHERE);
-			world().forget(this);
+			subtract(1);
+			if(amount()<=0){
+				location(LocationS.NOWHERE);
+				world().forget(this);
+			}
 		}
 		else
 			super.interact(name, who);

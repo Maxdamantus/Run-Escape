@@ -649,6 +649,50 @@ public class ThingLibrary {
 	}
 	
 	/**
+	 * A class that creates ChattyNPC's
+	 * @author wheelemaxw
+	 *
+	 */
+	
+	public static class ChattyNPCCreator implements ThingCreator {		
+		private String renderer;
+		private String name;
+		private List<String> response;
+
+		/**
+		 * Create a ShopkeeperCreator with a given renderer and name
+		 * @param renderer
+		 * @param name
+		 */
+		public ChattyNPCCreator(String renderer, String name, List<String> resp) {
+			this.renderer = renderer;
+			this.name = name;
+			this.response = resp;
+		}
+		
+		@Override
+		public GameThing createThing(GameWorld w, Location l) {
+			game.things.ChattyNPC shop = new game.things.ChattyNPC(w, renderer, name, response);
+			return shop;
+		}
+
+		@Override
+		public BufferedImage previewImage() {
+			return IsoRendererLibrary.imageForRendererName("npc_"+renderer, Direction.NORTH).image(); // TODO: fix naming
+		}
+		
+		@Override
+		public Set<String> rendererNames() {
+			return new HashSet<String>(){private static final long serialVersionUID = 1L;{add("npc_"+renderer);}};
+		}
+
+		@Override
+		public String description() {
+			return "ChattyNPC: "+name;
+		}
+	}
+	
+	/**
 	 * A class that creates Stairs
 	 * @author melby
 	 *
@@ -966,6 +1010,35 @@ public class ThingLibrary {
 				addCreator(new NPCCreator("dragon", "Dragon", 10, false, 0), NPC);
 				
 				addCreator(new ShopkeeperCreator("shopkeeper", "Shop Keeper"), NPC);
+				
+				ArrayList<String> dave = new ArrayList<String>();
+				dave.add(0,"Hmm, this isnt a very nice place is it");
+				dave.add(1,"You need to get out of here? Try the towers");
+				dave.add(2,"Some doors will need keys");
+				dave.add(3,"Are you going to get an A+ on this dungeon?");
+				dave.add(4,"Do you like Cats as much as I do?");
+				dave.add(5,"I hope you JavaDoc'ed all your code, oh I've said too much!");
+				dave.add(6,"Hi, my name is Dave Pearce, nice to meet you");
+				dave.add(7,"Stop clicking on me you creep");
+				
+				ArrayList<String> stu = new ArrayList<String>();
+				stu.add(0,"When will this demo be over?");
+				stu.add(1,"Have you killed any monsters?");
+				stu.add(2,"Some doors will need keys");
+				stu.add(3,"Need a walkthrough, try TED.com?");
+				stu.add(4,"Dragons are very dangerous!");
+				stu.add(5,"Be careful walking around, floortiles may have fragile base-class problems");
+				stu.add(6,"Hi, my name is Stuart Marshall, nice to meet you");
+				stu.add(7,"Stop clicking on me you creep");
+				
+				ArrayList<String> win = new ArrayList<String>();
+				win.add(0,"You win");
+				win.add(1,"You win");
+				win.add(2,"Quit the game for christs sake");
+				
+				addCreator(new ChattyNPCCreator("blue", "Chatty Dave", dave), NPC);
+				addCreator(new ChattyNPCCreator("blue", "Chatty Stu", stu), NPC);
+				addCreator(new ChattyNPCCreator("blue", "Chatty Waiter", win), NPC);
 				
 				addCreator(new StairCreator("stairs_brown_up_1", 1, Direction.SOUTH), MISC);
 				addCreator(new StairCreator("stairs_brown_down_1", -1, Direction.SOUTH), MISC);

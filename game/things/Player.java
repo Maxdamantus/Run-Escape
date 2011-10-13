@@ -438,7 +438,6 @@ public class Player extends Character {
 			health(1000);
 		update();
 		world().emitSay(potion, this, "You drink the potion, it heals some of your wounds");
-		potion.subtract(1);
 	}
 
 	/**
@@ -453,7 +452,7 @@ public class Player extends Character {
 		// TODO
 		final Player temp = this;
 		if(!(g.location() instanceof Container && (((Container)g.location()) == inventory || ((Container)g.location()) == equipment))){
-			if(!moveTo(g.location(), new Runnable(){
+			if(!moveTo(g.location(), 1,new Runnable(){
 				public void run(){
 					world().emitSay(g, temp, "This is a "+g.name());
 					if(g instanceof EquipmentGameThing){

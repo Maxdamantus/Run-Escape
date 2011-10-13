@@ -95,7 +95,7 @@ public abstract class Character extends AbstractGameThing {
 	 * @return Step dealy if escaping from Battle
 	 */
 	public int escapedelay(){
-		return 250;
+		return 60;
 	}
 
 	public void distract(){}
@@ -224,7 +224,8 @@ public abstract class Character extends AbstractGameThing {
 	 * @param g - GameThing to attack
 	 */
 	public void attack(final GameThing g){
-		if(this.health > 0 && g instanceof Character && ((Character)g).health() > 0){
+		if(this.health > 0 && g instanceof Character && ((Character)g).health() > 0 && (location() instanceof
+				Level.Location && g.location() instanceof Level.Location && ((Level.Location)location()).level()==((Level.Location)g.location()).level())){
 			final Character thischar = this;
 			final Object ident = new Object();
 			attackIdent = ident;

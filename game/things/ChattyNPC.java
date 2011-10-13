@@ -42,7 +42,7 @@ public class ChattyNPC extends Character {
 				Tree out = new Tree();
 				out.add(new Tree.Entry("type", new Tree(in.type())));
 				out.add(new Tree.Entry("name", new Tree(in.name)));
-				out.add(new Tree.Entry("response", Serializers.list(Serializers.Serializer_String).write(response)));
+				out.add(new Tree.Entry("response", Serializers.list(Serializers.Serializer_String).write(in.response)));
 				return out;
 			}
 
@@ -55,8 +55,8 @@ public class ChattyNPC extends Character {
 		});
 	}
 
-	private final String name;
-	private static List<String> response;
+	private String name;
+	private List<String> response;
 	private boolean talked;
 	private int i;
 

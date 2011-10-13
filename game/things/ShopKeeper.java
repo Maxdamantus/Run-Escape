@@ -68,11 +68,24 @@ public class ShopKeeper extends Character implements Containable, Namable {
 		out.addAll(super.interactions());
 		return out;
 	}
+	
+	public void walkAndBuy(final Player p, final Map.Entry<String,Container> kv){
+		Location l = location();
+		final GameThing g = this;
+		if(l instanceof Level.Location)
+			p.moveTo((Level.Location)l, 1, new Runnable(){
+				public void run(){
+					update();
+					p.showContainer(kv.getValue(), "Buying " + kv.getKey());
+				}
+			});
+			p.face(l);
+	}
 
 	public void interact(String name, Player who){
 		for(Map.Entry<String, Container> kv : parts.entrySet())
 			if(name.equals("buy " + kv.getKey()))
-				who.showContainer(kv.getValue(), "Buying " + kv.getKey());
+				walkAndBuy(who,kv);
 		super.interact(name, who);
 	}
 
