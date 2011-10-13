@@ -90,17 +90,12 @@ public class ShopKeeper extends Character implements Containable, Namable {
 				return;
 			}
 		if(name.equals("sell")){
-			ArrayList<GameThing> gts = new ArrayList();
-			for(GameThing gt : who.buffer()){
+			for(GameThing gt : who.buffer().snapshot())
 				if(gt instanceof Valuable){
-					gts.add(gt);
+					who.inventory().put(new Coins(world(), ((Valuable)gt).value()));
+					LocationS.NOWHERE.put(gt);
+					world().forget(gt);
 				}
-			}
-			for(GameThing gt : gts){
-				who.inventory().put(new Coins(world(), ((Valuable)gt).value()));
-				LocationS.NOWHERE.put(gt);
-				world().forget(gt);
-			}
 		}
 		super.interact(name, who);
 	}
