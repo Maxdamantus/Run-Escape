@@ -65,6 +65,7 @@ public class ShopKeeper extends Character implements Containable, Namable {
 		List<String> out = new LinkedList<String>();
 		for(String n : parts.keySet())
 			out.add("buy " + n);
+		out.addAll("sell");
 		out.addAll(super.interactions());
 		return out;
 	}
@@ -84,8 +85,17 @@ public class ShopKeeper extends Character implements Containable, Namable {
 
 	public void interact(String name, Player who){
 		for(Map.Entry<String, Container> kv : parts.entrySet())
-			if(name.equals("buy " + kv.getKey()))
+			if(name.equals("buy " + kv.getKey())){
 				walkAndBuy(who,kv);
+				return;
+			}
+		if(name.equals("sell"))
+			for(GameThing gt : who.buffer())
+				if(gt instanceof Valuable){
+					who.inventory().put(new Coins(world(), ((Valuable)gt).value()));
+					LocationS.NOWHERE.put(gt);
+					world().forget(gt);
+				}
 		super.interact(name, who);
 	}
 
