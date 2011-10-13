@@ -4,8 +4,34 @@ import game.*;
 
 import java.util.*;
 
+import serialization.*;
+
 public class Letters {
+	public static void makeSerializer(SerializerUnion<GameThing> union, GameWorld world){
+		Letter.makeSerializer(union, world);
+		Sequence.makeSerializer(union, world);
+	}
+
 	public static class Letter extends PickupGameThing {
+		public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+			union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+				public String type(GameThing g){
+					return g instanceof Letter? "letter" : null;
+				}
+			});
+
+			union.addSerializer("letter", new Serializer<GameThing>(){
+				public Tree write(GameThing o){
+					Letter in = (Letter)o;
+					return new Tree(String.valueOf(in.which));
+				}
+
+				public GameThing read(Tree in){
+					return new Letter(world, in.value().charAt(0));
+				}
+			});
+		}
+
 		private final char which;
 
 		public Letter(GameWorld w, char c){
@@ -66,6 +92,25 @@ public class Letters {
 	}
 
 	public static class Sequence extends PickupGameThing {
+		public static void makeSerializer(SerializerUnion<GameThing> union, final GameWorld world){
+			union.addIdentifier(new SerializerUnion.Identifier<GameThing>(){
+				public String type(GameThing g){
+					return g instanceof Sequence? "string" : null;
+				}
+			});
+
+			union.addSerializer("string", new Serializer<GameThing>(){
+				public Tree write(GameThing o){
+					Sequence in = (Sequence)o;
+					return new Tree(String.valueOf(in.current));
+				}
+
+				public GameThing read(Tree in){
+					return new Sequence(world, in.value());
+				}
+			});
+		}
+
 		private String current;
 
 		public Sequence(GameWorld w, String c){

@@ -19,29 +19,34 @@ public class Pouch extends PickupGameThing implements Containable {
 				Pouch in = (Pouch)o;
 				Tree out = new Tree();
 				out.add(new Tree.Entry("contents", Container.serializer(union.serializer(), world).write(in.container)));
+				out.add(new Tree.Entry("name", new Tree(in.pname)));
 				return out;
 			}
 
 			public GameThing read(Tree in) throws ParseException {
 				return new Pouch(world,
-					Container.serializer(union.serializer(), world).read(in.find("contents")));
+					Container.serializer(union.serializer(), world).read(in.find("contents")),
+					in.find("name").value());
 			}
 		});
 	}
 
 	private final Container container;
+	private String pname;
 
 	public Pouch(GameWorld w){
-		this(w, new Container(w));
+		this(w, new Container(w), "");
 	}
 
-	private Pouch(GameWorld w, Container c){
+	private Pouch(GameWorld w, Container c, String n){
 		super(w);
 		container = c;
+		pname = n;
+		update();
 	}
 
 	public String name(){
-		return "Pouch";
+		return "Pouch" + (pname.equals("")? "" : " (" + pname + ")");
 	}
 
 	public Location location(Location s){
@@ -56,7 +61,9 @@ public class Pouch extends PickupGameThing implements Containable {
 		if(location() instanceof game.Container && ((Container)location()).owner() != null){
 			out.add("receive");
 			out.add("view contents");
+			out.add("set name");
 		}
+		out.add("get name");
 		out.addAll(super.interactions());
 		return out;
 	}
@@ -67,13 +74,31 @@ public class Pouch extends PickupGameThing implements Containable {
 		else if(name.equals("receive") && ((Container)location()).owner() == who){
 			for(GameThing got : who.buffer().snapshot())
 				container.put(got);
-		}else
+		}
+		else if(name.equals("set name") && ((Container)location()).owner() == who){
+			for(GameThing got : who.buffer().snapshot())
+				if(got instanceof Letters.Sequence){
+					pname = ((Letters.Sequence)got).value();
+					update();
+				}
+		}
+		else if(name.equals("get name"))
+			who.buffer().put(new Letters.Sequence(world(), pname));
+		else
 			super.interact(name, who);
 	}
 
 	public Map<String, Container> getContainers(){
 		Map<String, Container> out = new HashMap<String, Container>();
 		out.put("contents", container);
+		return out;
+	}
+
+	public Map<String, String> info(){
+		if(pname.equals(""))
+			return super.info();
+		Map<String, String> out = new HashMap<String, String>();
+		out.put("stackcount", pname);
 		return out;
 	}
 

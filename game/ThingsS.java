@@ -26,6 +26,7 @@ public class ThingsS {
 		Stairs.makeSerializer(u, w);
 		Potion.makeSerializer(u, w);
 		Light.makeSerializer(u, w);
+		Letters.makeSerializer(u, w);
 		return u.serializer();
 	}	
 }
