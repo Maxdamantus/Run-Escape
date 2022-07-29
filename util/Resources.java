@@ -26,7 +26,7 @@ public class Resources {
 	 * @throws IOException 
 	 */
 	public static String loadTextResource(String resourceName) throws IOException {
-		InputStream inputStream = "".getClass().getResourceAsStream(resourceName);
+		InputStream inputStream = Resources.class.getResourceAsStream(resourceName);
 		
 		if(inputStream != null) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -113,6 +113,6 @@ public class Resources {
 	 * @return
 	 */
 	public static URL getResourceURL(String resourceName) { // TODO: print out if file doesn't exist
-		return "".getClass().getResource(resourceName);
+		return Resources.class.getResource(resourceName);
 	}
 }
