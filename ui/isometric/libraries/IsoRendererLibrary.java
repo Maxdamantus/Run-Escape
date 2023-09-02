@@ -164,25 +164,28 @@ public class IsoRendererLibrary {
 			public ImageType read(Tree in) throws ParseException {
 				String renderer = in.find(NAME).value();
 				if(client.Client.isRunning()) {
-					try {
+					Tree t = in.findNull(CLIENT_NAME);
+					if (t != null)
 						renderer = in.find(CLIENT_NAME).value();
-					}
-					catch(ParseException e) {};
 				}
 				
 				int off = 0;
-				try {
-					String l = in.find(Y_OFFSET).value();
-					off = Integer.parseInt(l);
+				{
+					Tree t = in.findNull(Y_OFFSET);
+					if (t != null) {
+						String l = t.value();
+						off = Integer.parseInt(l);
+					}
 				}
-				catch(ParseException e) {};
 				
 				int frames = 0;
-				try {
-					String f = in.find(FRAME_COUNT).value();
-					frames = Integer.parseInt(f);
+				{
+					Tree t = in.findNull(FRAME_COUNT);
+					if (t != null) {
+						String f = in.find(FRAME_COUNT).value();
+						frames = Integer.parseInt(f);
+					}
 				}
-				catch(ParseException e) {};
 				
 				return new ImageType(renderer, Type.valueOf(in.find(TYPE).value()), off, frames);
 			}
