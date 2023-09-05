@@ -21,7 +21,7 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 	}
 
 	private class QuadTreeIterator implements Iterable<Map.Entry<Position, T>>, Iterator<Map.Entry<Position, T>>{
-		private final Stack<Node> stack = new Stack<Node>();
+		private final ArrayDeque<Node> stack = new ArrayDeque<Node>();
 		private Node offer;
 		private boolean offerReady;
 		private final boolean all;
@@ -74,7 +74,7 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 			offerReady = true;
 			do{
 				offer = null;
-				if(stack.empty())
+				if(stack.isEmpty())
 					break;
 				offer = stack.pop();
 				if(minx < offer.x){
@@ -98,7 +98,7 @@ public class QuadTree<T> implements Iterable<Map.Entry<Position, T>> {
 
 		private void readyNextAll(){
 			offerReady = true;
-			if(stack.empty())
+			if(stack.isEmpty())
 				offer = null;
 			else{
 				offer = stack.pop();
