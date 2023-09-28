@@ -1,0 +1,18 @@
+plugins {
+	id "java"
+	id "eclipse"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation "junit:junit:4.13"
+}
+
+test {
+	filter {
+		includeTestsMatching "*Test*"
+	}
+}

@@ -1,0 +1,4 @@
+rootProject.name = "Run-Escape"
+
+include(":app")
+project(":app").projectDir = file("app")
