@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tree>
+  <i>
+    <k>amy</k>
+    <v>amy</v>
+  </i>
+  <i>
+    <k>bob</k>
+    <v>bob</v>
+  </i>
+  <i>
+    <k>cordi</k>
+    <v>cordi</v>
+  </i>
+    <i>
+    <k>duncan</k>
+    <v>duncan</v>
+  </i>
+  <i>
+    <k>elizabeth</k>
+    <v>elizabeth</v>
+  </i>
+  <i>
+    <k>fred</k>
+    <v>fred</v>
+  </i>
+  <i>
+    <k>gina</k>
+    <v>gina</v>
+  </i>
+  <i>
+    <k>harold</k>
+    <v>harold</v>
+  </i>
+</tree>
