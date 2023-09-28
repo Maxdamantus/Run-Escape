@@ -2,3 +2,6 @@ rootProject.name = "Run-Escape"
 
 include(":app")
 project(":app").projectDir = file("app")
+
+include(":web-app")
+project(":web-app").projectDir = file("web-app")

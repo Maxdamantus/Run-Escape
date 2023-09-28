@@ -1,0 +1,82 @@
+plugins {
+	id "java"
+	id "eclipse"
+	id "org.teavm" version "0.8.1"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	teavm(teavm.libs.metaprogramming)
+	// used by `ResourcesMeta` at compile time to generate list of resources
+	teavm(files(project(":app").file("src/main/resources")))
+}
+
+def DEBUG = false
+def webPatchedSrc = "build/generated/webPatched/java"
+def webTarget = "build/webTarget"
+
+sourceSets {
+	main {
+		java.srcDirs += webPatchedSrc
+	}
+}
+
+task("webPatchedSrc", type: Copy) {
+	def IMPORT_JAVAX = "import javax."
+	def IMPORT_AWT = "import java.awt."
+	def IMPORT_LOCKS = "import java.util.concurrent.locks."
+	into webPatchedSrc
+	from(project(":app").file("src/main/java")) {
+		// alternative source provided
+		exclude("**/util/Resources.java")
+		exclude("**/util/Find.java")
+		// yes, this is extremely evil
+		filter { line ->
+			line.startsWith(IMPORT_JAVAX)? "import shim.javax." + line.substring(IMPORT_JAVAX.length()) :
+			line.startsWith(IMPORT_AWT)? "import shim.awt." + line.substring(IMPORT_AWT.length()) :
+			line.startsWith(IMPORT_LOCKS)? "import shim.locks." + line.substring(IMPORT_LOCKS.length()) :
+			line
+		}
+	}
+}
+
+task("debugSources", type: Copy) {
+	dependsOn("webPatchedSrc")
+	into "$webTarget/js/src"
+	if (DEBUG) {
+		// copy Java sources to location expected by sourcemap, for debugging
+		from webPatchedSrc
+		from "src/main/java"
+		from "src/teavm/java"
+	}
+}
+
+task("webResources", type: Copy) {
+	into "$webTarget"
+	from(file("src/main/resources"))
+	from(project(":app").file("src/main/resources"))
+}
+
+tasks.named("compileJava") {
+	dependsOn("webPatchedSrc")
+	dependsOn("debugSources")
+	dependsOn("webResources")
+}
+
+tasks.named("build") {
+	dependsOn("generateJavaScript")
+}
+
+teavm.js {
+	addedToWebApp = true
+	mainClass = "web.Main"
+	targetFileName = "re.js"
+	if (DEBUG) {
+		sourceMap = true
+		obfuscated = false
+	}
+	outputDir = new File(projectDir, "$webTarget")
+}
