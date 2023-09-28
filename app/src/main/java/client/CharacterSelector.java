@@ -3,9 +3,13 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.*;
 import java.awt.GridLayout;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import ui.isometric.libraries.IsoCharacterImageLibrary;
